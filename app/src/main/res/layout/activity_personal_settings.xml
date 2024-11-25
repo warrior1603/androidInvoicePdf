@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".fragments.PersonalSettingsFragment">
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".fragments.InvoiceGenrationFragment"
+            android:layout_marginStart="15sp"
+            android:layout_marginLeft="15sp"
+            android:layout_marginTop="15sp"
+            android:layout_marginEnd="15sp"
+            android:layout_marginRight="15sp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Informations entreprise"
+                    android:padding="4dp"
+                    android:textStyle="normal"
+                    android:textSize="18sp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="22dp"
+                    android:layout_toRightOf="@id/textView4"
+                    android:background="@android:color/darker_gray"
+                    />
+            </RelativeLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="3dp"
+            app:cardCornerRadius="5dp"
+            style="@style/Widget.Material3.CardView.Outlined"
+            app:cardBackgroundColor="#f3f5f9"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edit_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/user_id_svgrepo_com"
+                app:endIconMode="clear_text"
+                android:textColorHint="#A8A7A7"
+                android:hint="Nom"
+                style="?attr/textInputOutlinedDenseStyle"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxStrokeWidth="1dp"
+                android:padding="4dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edit_street_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/direction_road_sign_icon"
+                app:endIconMode="clear_text"
+                android:textColorHint="#A8A7A7"
+                android:hint="Rue"
+                style="?attr/textInputOutlinedDenseStyle"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxStrokeWidth="1dp"
+                android:padding="4dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/mailed_mail_svgrepo_com"
+                app:endIconMode="clear_text"
+                android:textColorHint="#A8A7A7"
+                android:hint="Code Postale"
+                style="?attr/textInputOutlinedDenseStyle"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxStrokeWidth="1dp"
+                android:padding="4dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_code_postale"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/city_svgrepo_com"
+                app:endIconMode="clear_text"
+                android:textColorHint="#A8A7A7"
+                android:hint="Ville"
+                style="?attr/textInputOutlinedDenseStyle"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxStrokeWidth="1dp"
+                android:padding="4dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_city"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/earth_svgrepo_com"
+                app:endIconMode="clear_text"
+                android:textColorHint="#A8A7A7"
+                android:hint="Pays"
+                style="?attr/textInputOutlinedDenseStyle"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxStrokeWidth="1dp"
+                android:padding="4dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_country"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edit_siren"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/baseline_siren"
+                app:endIconMode="clear_text"
+                android:textColorHint="#A8A7A7"
+                android:hint="N° Siren"
+                style="?attr/textInputOutlinedDenseStyle"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxStrokeWidth="1dp"
+                android:padding="4dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edit_tva"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/tax_icon"
+                app:endIconMode="clear_text"
+                android:textColorHint="#A8A7A7"
+                android:hint="N° TVA"
+                style="?attr/textInputOutlinedDenseStyle"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxStrokeWidth="1dp"
+                android:padding="4dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edit_tel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/baseline_local_phone_24"
+                app:endIconMode="clear_text"
+                android:textColorHint="#A8A7A7"
+                android:hint="N° Tel"
+                style="?attr/textInputOutlinedDenseStyle"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxStrokeWidth="1dp"
+                android:padding="4dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/attherate_icon"
+                app:endIconMode="clear_text"
+                android:textColorHint="#A8A7A7"
+                android:hint="Email"
+                style="?attr/textInputOutlinedDenseStyle"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxStrokeWidth="1dp"
+                android:padding="4dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_email"
+                    android:inputType="textEmailAddress"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+                <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Informations chauffeur"
+                android:padding="4dp"
+                android:textStyle="normal"
+                android:textSize="18sp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="22dp"
+                    android:layout_toRightOf="@id/textView3"
+                    android:background="@android:color/darker_gray"
+                    />
+            </RelativeLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="3dp"
+            app:cardCornerRadius="5dp"
+            style="@style/Widget.Material3.CardView.Outlined"
+            app:cardBackgroundColor="#f3f5f9"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edit_chauffeur"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/driver"
+                app:endIconMode="clear_text"
+                android:textColorHint="#A8A7A7"
+                android:hint="Chauffeur"
+                style="?attr/textInputOutlinedDenseStyle"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxStrokeWidth="1dp"
+                android:padding="4dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edit_plaque"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/plaque"
+                app:endIconMode="clear_text"
+                android:textColorHint="#A8A7A7"
+                android:hint="Plaque"
+                style="?attr/textInputOutlinedDenseStyle"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxStrokeWidth="1dp"
+                android:padding="4dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edit_Evtc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/evtc"
+                app:endIconMode="clear_text"
+                android:textColorHint="#A8A7A7"
+                android:hint="N° EVTC"
+                style="?attr/textInputOutlinedDenseStyle"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxStrokeWidth="1dp"
+                android:padding="4dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+            <!-- BUTTONS -->
+            <Button
+                android:id="@+id/btn_save_info"
+                android:layout_width="match_parent"
+                android:layout_height="50sp"
+                android:layout_marginLeft="60sp"
+                android:layout_marginTop="10sp"
+                android:layout_marginRight="60sp"
+                android:layout_marginBottom="30sp"
+                app:icon="@drawable/save_as_icon"
+                app:iconGravity="textStart"
+                android:text="  Enregister les details"
+                style="?attr/materialIconButtonFilledStyle"/>
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

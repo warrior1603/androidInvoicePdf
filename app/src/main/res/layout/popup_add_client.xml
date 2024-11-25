@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:layout_marginStart="15sp"
+    android:layout_marginLeft="15sp"
+    android:layout_marginTop="15sp"
+    android:layout_marginEnd="15sp"
+    android:layout_marginRight="15sp"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="3dp"
+        app:cardCornerRadius="5dp"
+        style="@style/Widget.Material3.CardView.Outlined"
+        app:cardBackgroundColor="#f3f5f9"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:orientation="vertical">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:startIconDrawable="@drawable/user_id_svgrepo_com"
+        app:endIconMode="clear_text"
+        android:textColorHint="#A8A7A7"
+        android:hint="Nom et Prenom"
+        style="?attr/textInputOutlinedDenseStyle"
+        android:paddingStart="4dp"
+        android:paddingRight="4dp"
+        android:paddingLeft="4dp"
+        android:paddingBottom="4dp"
+        android:paddingTop="8dp"
+        app:boxBackgroundColor="@android:color/white"
+        app:boxStrokeWidthFocused="2dp"
+        app:boxStrokeWidth="1dp"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_user_name_client"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:startIconDrawable="@drawable/direction_road_sign_icon"
+        app:endIconMode="clear_text"
+        android:textColorHint="#A8A7A7"
+        android:hint="Rue"
+        style="?attr/textInputOutlinedDenseStyle"
+        android:padding="4dp"
+        app:boxBackgroundColor="@android:color/white"
+        app:boxStrokeWidthFocused="2dp"
+        app:boxStrokeWidth="1dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_street"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/code_postale_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:startIconDrawable="@drawable/mailed_mail_svgrepo_com"
+        app:endIconMode="clear_text"
+        android:textColorHint="#A8A7A7"
+        android:hint="Code Postale"
+        style="?attr/textInputOutlinedDenseStyle"
+        android:padding="4dp"
+        app:boxBackgroundColor="@android:color/white"
+        app:boxStrokeWidthFocused="2dp"
+        app:boxStrokeWidth="1dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_code_postale"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ville_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:startIconDrawable="@drawable/city_svgrepo_com"
+        app:endIconMode="clear_text"
+        android:textColorHint="#A8A7A7"
+        android:hint="Ville"
+        style="?attr/textInputOutlinedDenseStyle"
+        android:padding="4dp"
+        app:boxBackgroundColor="@android:color/white"
+        app:boxStrokeWidthFocused="2dp"
+        app:boxStrokeWidth="1dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_ville"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/pays_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:startIconDrawable="@drawable/earth_svgrepo_com"
+        app:endIconMode="clear_text"
+        android:textColorHint="#A8A7A7"
+        android:hint="Pays"
+        style="?attr/textInputOutlinedDenseStyle"
+        android:padding="4dp"
+        app:boxBackgroundColor="@android:color/white"
+        app:boxStrokeWidthFocused="2dp"
+        app:boxStrokeWidth="1dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_pays"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:startIconDrawable="@drawable/baseline_siren"
+        app:endIconMode="clear_text"
+        android:textColorHint="#A8A7A7"
+        android:hint="N° Siren"
+        style="?attr/textInputOutlinedDenseStyle"
+        android:padding="4dp"
+        app:boxBackgroundColor="@android:color/white"
+        app:boxStrokeWidthFocused="2dp"
+        app:boxStrokeWidth="1dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_siren"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/tax_icon"
+                app:endIconMode="clear_text"
+                android:textColorHint="#A8A7A7"
+                android:hint="N° TVA"
+                style="?attr/textInputOutlinedDenseStyle"
+                app:boxBackgroundColor="@android:color/white"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxStrokeWidth="1dp"
+                android:padding="4dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tva_client"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/email_client_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:startIconDrawable="@drawable/attherate_icon"
+        app:endIconMode="clear_text"
+        android:textColorHint="#A8A7A7"
+        android:hint="Email"
+        style="?attr/textInputOutlinedDenseStyle"
+        android:paddingRight="4dp"
+        android:paddingLeft="4dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="15dp"
+        app:boxBackgroundColor="@android:color/white"
+        app:boxStrokeWidthFocused="2dp"
+        app:boxStrokeWidth="1dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_email_client"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>

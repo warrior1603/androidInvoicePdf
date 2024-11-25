@@ -1,0 +1,30 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- Switch Preference to toggle between Dark and Light Mode -->
+    <SwitchPreferenceCompat
+        android:key="theme"
+        android:title="Mode Sombre"
+        android:summary="Activer ou desactiver le mode sombre"
+        app:iconSpaceReserved="false"
+        android:defaultValue="false" />
+
+
+    <EditTextPreference
+        android:key="directory"
+        android:title="Dossier Cible"
+        android:summary="Selectionner le dossier pour l'enregistrement des factures"
+        android:dialogTitle="Entrer le chemin de dossier"
+        app:iconSpaceReserved="false"
+        android:defaultValue="/storage/emulated/0/Download" />
+
+    <ListPreference
+         app:iconSpaceReserved="false"
+         android:key="default_currency"
+         android:title="Devise par default"
+         android:summary="Choisir le devise pour les factures"
+         android:entries="@array/currency_options"
+         android:entryValues="@array/currency_values"
+         android:defaultValue="EUR" />
+
+</PreferenceScreen>

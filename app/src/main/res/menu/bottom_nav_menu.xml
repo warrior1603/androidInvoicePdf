@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/factureFragment"
+        android:icon="@drawable/invoice_alternative"
+        android:title="Factures" />
+
+    <item
+        android:id="@+id/bonCommandeFragment"
+        android:icon="@drawable/buy_icon"
+        android:title="Bons" />
+
+    <item
+        android:id="@+id/entrepriseFragment"
+        android:icon="@drawable/workplace_icon"
+        android:title="Entreprise" />
+
+    <item
+        android:id="@+id/clientsFragment"
+        android:icon="@drawable/queue_icon"
+        android:title="Clients" />
+
+    <item
+        android:id="@+id/parametresFragment"
+        android:icon="@drawable/data_scientist_icon"
+        android:title="Rapports" />
+</menu>
