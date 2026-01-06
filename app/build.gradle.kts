@@ -59,7 +59,7 @@ dependencies {
     implementation("np.com.susanthapa:curved_bottom_navigation:0.6.5")
     implementation("com.github.Mindinventory:LiquidNavBar:0.0.3")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.61")
-    implementation(files("/Users/warrior/StudioProjects/Invoice_app/lib/meow-bottom-navigation-java-1.2.0.aar"))
+    //implementation(files("/Users/warrior/StudioProjects/Invoice_app/lib/meow-bottom-navigation-java-1.2.0.aar"))
     implementation("androidx.navigation:navigation-fragment:2.8.3")
     implementation("androidx.navigation:navigation-ui:2.8.3")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
