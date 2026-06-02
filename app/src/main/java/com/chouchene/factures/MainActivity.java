@@ -116,46 +116,42 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.factureFragment:
-                //animateBottomNav(bottomNavigationView, item);
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.flFragment, generateInvoice)
-                        .commit();
-                return true;
-
-            case R.id.bonCommandeFragment:
-                //animateBottomNav(bottomNavigationView, item);
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.flFragment, bonDeCommandeFragment)
-                        .commit();
-                return true;
-
-            case R.id.entrepriseFragment:
-                //animateBottomNav(bottomNavigationView, item);
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.flFragment, personalSettingsFragment)
-                        .commit();
-                return true;
-
-            case R.id.clientsFragment:
-                //animateBottomNav(bottomNavigationView, item);
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.flFragment, listeClientsFragment)
-                        .commit();
-                return true;
-
-            case R.id.parametresFragment:
-                //animateBottomNav(bottomNavigationView, item);
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.flFragment, rapportsFragment, "SettingsFragment")
-                        .commit();
-                return true;
+        int itemId = item.getItemId();
+        if (itemId == R.id.factureFragment) {
+            //animateBottomNav(bottomNavigationView, item);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.flFragment, generateInvoice)
+                    .commit();
+            return true;
+        } else if (itemId == R.id.bonCommandeFragment) {
+            //animateBottomNav(bottomNavigationView, item);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.flFragment, bonDeCommandeFragment)
+                    .commit();
+            return true;
+        } else if (itemId == R.id.entrepriseFragment) {
+            //animateBottomNav(bottomNavigationView, item);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.flFragment, personalSettingsFragment)
+                    .commit();
+            return true;
+        } else if (itemId == R.id.clientsFragment) {
+            //animateBottomNav(bottomNavigationView, item);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.flFragment, listeClientsFragment)
+                    .commit();
+            return true;
+        } else if (itemId == R.id.parametresFragment) {
+            //animateBottomNav(bottomNavigationView, item);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.flFragment, rapportsFragment, "SettingsFragment")
+                    .commit();
+            return true;
         }
         return false;
     }
