@@ -204,6 +204,16 @@ public class InvoiceGenrationFragment extends Fragment{
         txtPrix = myView.findViewById(R.id.edit_prix);
         txtTva = myView.findViewById(R.id.edit_tva);
 
+        editDateFactureForm = myView.findViewById(R.id.edit_date_emission);
+        SimpleDateFormat simpleFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        editDateFactureForm.setText(simpleFormat.format(new Date()));
+        editDateFactureForm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(editDateFactureForm);
+            }
+        });
+
         txtModePayement = myView.findViewById(R.id.dropdown_input);
 
         txtName = myView.findViewById(R.id.edit_user_name_client1);
@@ -287,7 +297,8 @@ public class InvoiceGenrationFragment extends Fragment{
         materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
             @Override
             public void onPositiveButtonClick(Object selection) {
-                editDate.setText(materialDatePicker.getHeaderText());
+                SimpleDateFormat simpleFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+                editDate.setText(simpleFormat.format(new Date((Long) selection)));
             }
         });
     }
@@ -295,8 +306,8 @@ public class InvoiceGenrationFragment extends Fragment{
 
     private void fillFormFields() throws IOException {
         PDFBoxResourceLoader.init(getActivity().getApplicationContext());
-        DateFormat date = new SimpleDateFormat("dd.MM.YYYY");
-        String todayCode = date.format(new Date());
+        DateFormat date = new SimpleDateFormat("dd.MM.yyyy");
+        String todayCode = editDateFactureForm.getText().toString().isEmpty() ? date.format(new Date()) : editDateFactureForm.getText().toString();
         DateFormat df = new SimpleDateFormat("yyyyMMdd");
         String dateCode = df.format(new Date());
         // Récupérer la date actuelle
