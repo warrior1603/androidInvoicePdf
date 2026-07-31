@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fillViewport="true"
     android:scrollbars="vertical">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".fragments.BonDeCommandeFragment"
-        android:layout_marginStart="15sp"
-        android:layout_marginLeft="15sp"
-        android:layout_marginTop="15sp"
-        android:layout_marginEnd="15sp"
-        android:layout_marginRight="15sp"
+        android:layout_margin="16dp"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -39,7 +34,7 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginTop="22dp"
                 android:layout_toRightOf="@id/textView3"
-                android:background="@android:color/darker_gray"
+                android:background="?attr/colorOutline"
                 />
         </RelativeLayout>
 
@@ -50,7 +45,6 @@
         app:cardElevation="3dp"
         app:cardCornerRadius="5dp"
         style="@style/Widget.Material3.CardView.Outlined"
-        app:cardBackgroundColor="#f3f5f9"
         app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="true">
 
@@ -66,10 +60,9 @@
             android:layout_height="wrap_content"
             app:startIconDrawable="@drawable/human_icon"
             app:endIconMode="clear_text"
-            android:textColorHint="#A8A7A7"
+            android:textColorHint="?attr/colorOnSurfaceVariant"
             android:hint="Passager"
-            style="?attr/textInputOutlinedDenseStyle"
-            app:boxBackgroundColor="@android:color/white"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
             app:boxStrokeWidthFocused="2dp"
             app:boxStrokeWidth="1dp"
             android:padding="4dp">
@@ -86,12 +79,11 @@
             android:layout_height="wrap_content"
             app:startIconDrawable="@drawable/baseline_local_phone_24"
             app:endIconMode="clear_text"
-            android:textColorHint="#A8A7A7"
+            android:textColorHint="?attr/colorOnSurfaceVariant"
             android:hint="Tel passager"
-            app:boxBackgroundColor="@android:color/white"
             app:boxStrokeWidthFocused="2dp"
             app:boxStrokeWidth="1dp"
-            style="?attr/textInputOutlinedDenseStyle"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
             android:padding="4dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -105,12 +97,11 @@
             android:layout_height="wrap_content"
             app:startIconDrawable="@drawable/date_icon"
             app:endIconMode="clear_text"
-            android:textColorHint="#A8A7A7"
+            android:textColorHint="?attr/colorOnSurfaceVariant"
             android:hint="Date commande"
-            app:boxBackgroundColor="@android:color/white"
             app:boxStrokeWidthFocused="2dp"
             app:boxStrokeWidth="1dp"
-            style="?attr/textInputOutlinedDenseStyle"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
             android:padding="4dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -126,12 +117,11 @@
             android:layout_height="wrap_content"
             app:startIconDrawable="@drawable/four_o_clock_icon"
             app:endIconMode="clear_text"
-            android:textColorHint="#A8A7A7"
+            android:textColorHint="?attr/colorOnSurfaceVariant"
             android:hint="Heure commande"
-            app:boxBackgroundColor="@android:color/white"
             app:boxStrokeWidthFocused="2dp"
             app:boxStrokeWidth="1dp"
-            style="?attr/textInputOutlinedDenseStyle"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
             android:padding="4dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -148,12 +138,11 @@
             android:layout_height="wrap_content"
             app:startIconDrawable="@drawable/date_icon"
             app:endIconMode="clear_text"
-            android:textColorHint="#A8A7A7"
+            android:textColorHint="?attr/colorOnSurfaceVariant"
             android:hint="Date prise en charge"
-            app:boxBackgroundColor="@android:color/white"
             app:boxStrokeWidthFocused="2dp"
             app:boxStrokeWidth="1dp"
-            style="?attr/textInputOutlinedDenseStyle"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
             android:padding="4dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -169,12 +158,11 @@
             android:layout_height="wrap_content"
             app:startIconDrawable="@drawable/four_o_clock_icon"
             app:endIconMode="clear_text"
-            android:textColorHint="#A8A7A7"
+            android:textColorHint="?attr/colorOnSurfaceVariant"
             android:hint="Heure prise en charge"
-            app:boxBackgroundColor="@android:color/white"
             app:boxStrokeWidthFocused="2dp"
             app:boxStrokeWidth="1dp"
-            style="?attr/textInputOutlinedDenseStyle"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
             android:padding="4dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -191,12 +179,11 @@
             android:layout_height="wrap_content"
             app:startIconDrawable="@drawable/location_pin_icon"
             app:endIconMode="clear_text"
-            android:textColorHint="#A8A7A7"
+            android:textColorHint="?attr/colorOnSurfaceVariant"
             android:hint="Lieu prise en charge"
-            app:boxBackgroundColor="@android:color/white"
             app:boxStrokeWidthFocused="2dp"
             app:boxStrokeWidth="1dp"
-            style="?attr/textInputOutlinedDenseStyle"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
             android:padding="4dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -211,12 +198,11 @@
             android:layout_height="wrap_content"
             app:startIconDrawable="@drawable/address_location_icon"
             app:endIconMode="clear_text"
-            android:textColorHint="#A8A7A7"
+            android:textColorHint="?attr/colorOnSurfaceVariant"
             android:hint="Destination"
-            app:boxBackgroundColor="@android:color/white"
             app:boxStrokeWidthFocused="2dp"
             app:boxStrokeWidth="1dp"
-            style="?attr/textInputOutlinedDenseStyle"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
             android:padding="4dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -231,12 +217,11 @@
             android:layout_height="wrap_content"
             app:startIconDrawable="@drawable/pricing_icon"
             app:endIconMode="clear_text"
-            android:textColorHint="#A8A7A7"
+            android:textColorHint="?attr/colorOnSurfaceVariant"
             android:hint="Tarif"
-            app:boxBackgroundColor="@android:color/white"
             app:boxStrokeWidthFocused="2dp"
             app:boxStrokeWidth="1dp"
-            style="?attr/textInputOutlinedDenseStyle"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
             android:padding="4dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -250,13 +235,13 @@
         <Button
             android:id="@+id/btn_save_info_bon"
             android:layout_width="match_parent"
-            android:layout_height="50sp"
-            android:layout_marginLeft="50sp"
-            android:layout_marginTop="10sp"
-            android:layout_marginRight="50sp"
-            android:layout_marginBottom="30sp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="30dp"
             android:text="Generer bon de commande"
-            style="?attr/materialIconButtonFilledStyle"/>
+            style="@style/Widget.Material3.Button.TonalButton"/>
 
 
     </LinearLayout>

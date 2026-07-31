@@ -45,10 +45,9 @@
         android:layout_margin="16dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:backgroundTint="@color/primary"
-        app:tint="@null"
+        app:backgroundTint="?attr/colorPrimary"
+        app:tint="?attr/colorOnPrimary"
         android:contentDescription="Ajout Client"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialComponents.FloatingActionButton"
         android:src="@drawable/baseline_add_white_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

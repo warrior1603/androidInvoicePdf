@@ -2,6 +2,8 @@ package com.chouchene.factures;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
@@ -23,7 +25,8 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        applyTheme();
+        boolean isDarkMode = sharedPreferences.getBoolean(THEME_KEY, false);
+        setTheme(isDarkMode ? R.style.DarkTheme : R.style.LightTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
 
@@ -55,16 +58,9 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    private void applyTheme() {
-        boolean isDarkMode = sharedPreferences.getBoolean("theme", false);
-        if (isDarkMode) {
-            setTheme(R.style.DarkTheme);
-        } else {
-            setTheme(R.style.LightTheme);
-        }
-    }
 
-    public static class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener{
+
+    public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.settings, rootKey);
@@ -76,45 +72,19 @@ public class SettingsActivity extends AppCompatActivity {
                     @Override
                     public boolean onPreferenceChange(Preference preference, Object newValue) {
                         boolean isDarkMode = (boolean) newValue;
-                        if (isDarkMode) {
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                        } else {
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        }
+                        PreferenceManager.getDefaultSharedPreferences(requireContext())
+                                .edit()
+                                .putBoolean(THEME_KEY, isDarkMode)
+                                .commit();
 
-                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putBoolean(THEME_KEY, isDarkMode);
-                        editor.apply();
-
-                        getActivity().recreate();
-
+                        new Handler(Looper.getMainLooper()).post(() -> {
+                            AppCompatDelegate.setDefaultNightMode(isDarkMode ? 
+                                    AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+                        });
                         return true;
                     }
                 });
             }
         }
-
-        @Override
-        public void onResume() {
-            super.onResume();
-            getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-        }
-
-        @Override
-        public void onPause() {
-            super.onPause();
-            getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
-        }
-
-        @Override
-        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-           // if (key.equals(THEME_KEY)) {
-                getActivity().setResult(RESULT_OK);
-                getActivity().recreate(); // Recreate activity to apply the theme change
-            //}
-        }
-
-
     }
 }

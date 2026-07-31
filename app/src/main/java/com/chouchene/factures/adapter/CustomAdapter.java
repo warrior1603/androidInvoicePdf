@@ -148,7 +148,7 @@ public class CustomAdapter extends ArrayAdapter<Client> {
                         txtTva.setText(selectedClient.getNumeroTVA());
 
                         // Show confirmation dialog
-                        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(view1.getContext(), R.style.AlertDialogTheme)
+                        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(fragmentActivity)
                                 .setTitle("Modifier client")
                                 .setView(view1)
                                 .setPositiveButton("Enregistrer", new DialogInterface.OnClickListener() {
@@ -202,7 +202,7 @@ public class CustomAdapter extends ArrayAdapter<Client> {
             @Override
             public void onClick(View v) {
                 // Show confirmation dialog
-                MaterialAlertDialogBuilder builder =  new MaterialAlertDialogBuilder(v.getContext(), R.style.AlertDialogTheme)
+                MaterialAlertDialogBuilder builder =  new MaterialAlertDialogBuilder(fragmentActivity)
                         .setTitle("Confirmez-vous la suppression ?")
                         .setMessage("Si vous confirmez, votre client sera definitivement effacé de la liste des clients?")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {

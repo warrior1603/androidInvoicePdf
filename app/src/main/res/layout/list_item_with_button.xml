@@ -13,7 +13,6 @@
         app:cardElevation="3dp"
         app:cardCornerRadius="5dp"
         style="@style/Widget.Material3.CardView.Outlined"
-        app:cardBackgroundColor="#f3f5f9"
         app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="true">
 

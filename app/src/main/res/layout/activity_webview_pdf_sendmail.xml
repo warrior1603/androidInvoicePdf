@@ -31,7 +31,7 @@
                 app:icon="@drawable/baseline_send_24"
                 app:iconGravity="textStart"
                 android:text="  Envoyer"
-                style="?attr/materialIconButtonFilledStyle"/>
+                style="@style/Widget.Material3.Button.TonalButton"/>
             <Button
                 android:id="@+id/shareButton"
                 android:layout_width="0dp"
@@ -40,7 +40,7 @@
                 app:icon="@drawable/baseline_share_24"
                 app:iconGravity="textStart"
                 android:text="  Partager"
-                style="?attr/materialIconButtonFilledStyle"
+                style="@style/Widget.Material3.Button.TonalButton"
                />
             <Button
                 android:id="@+id/printButton"
@@ -50,7 +50,7 @@
                 app:icon="@drawable/baseline_print_24"
                 app:iconGravity="textStart"
                 android:text="  Imprimer"
-                style="?attr/materialIconButtonFilledStyle"/>
+                style="@style/Widget.Material3.Button.TonalButton"/>
         </LinearLayout>
 
 

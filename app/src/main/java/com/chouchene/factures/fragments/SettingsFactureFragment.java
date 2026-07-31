@@ -1,7 +1,8 @@
 package com.chouchene.factures.fragments;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -27,20 +28,15 @@ public class SettingsFactureFragment extends PreferenceFragmentCompat {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     boolean isDarkMode = (boolean) newValue;
-                    if (isDarkMode) {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    } else {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    }
+                    PreferenceManager.getDefaultSharedPreferences(requireContext())
+                            .edit()
+                            .putBoolean(THEME_KEY, isDarkMode)
+                            .commit();
 
-                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean(THEME_KEY, isDarkMode);
-                    editor.apply();
-
-
-                    requireActivity().recreate();
-
+                    new Handler(Looper.getMainLooper()).post(() -> {
+                        AppCompatDelegate.setDefaultNightMode(isDarkMode ? 
+                                AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+                    });
                     return true;
                 }
             });

@@ -141,7 +141,7 @@ public class InvoiceGenrationFragment extends Fragment{
 
 
         // Initialize Room database
-        db = Room.databaseBuilder(getContext(), AppDatabase.class, "MyClients").allowMainThreadQueries().fallbackToDestructiveMigration().build();
+        db = Room.databaseBuilder(requireContext(), AppDatabase.class, "MyClients").allowMainThreadQueries().fallbackToDestructiveMigration().build();
         itemDao = db.clientDao();
 
         List<Client> items = itemDao.getAllClients();
@@ -152,10 +152,15 @@ public class InvoiceGenrationFragment extends Fragment{
                 itemNames.add(item.getClientName());
             }
             // Update the UI on the main thread
-            getActivity().runOnUiThread(() -> {
-                ArrayAdapter<String> adapter1 = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, itemNames);
-                autoCompleteTextView.setAdapter(adapter1);
-            });
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    Context ctx = getContext();
+                    if (ctx != null && isAdded()) {
+                        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(ctx, android.R.layout.simple_dropdown_item_1line, itemNames);
+                        autoCompleteTextView.setAdapter(adapter1);
+                    }
+                });
+            }
         }).start();
 
         // Handle selection
@@ -445,7 +450,7 @@ public class InvoiceGenrationFragment extends Fragment{
 
     private void saveInvoiceAmount(float finalCost) {
         // Initialize Room database
-        db = Room.databaseBuilder(getContext(), AppDatabase.class, "MyClients").allowMainThreadQueries().fallbackToDestructiveMigration().build();
+        db = Room.databaseBuilder(requireContext(), AppDatabase.class, "MyClients").allowMainThreadQueries().fallbackToDestructiveMigration().build();
         InvoiceDao invoiceDao = db.invoiceDao();
         invoiceDao.insertInvoice(new Invoice(finalCost, new Date()));
     }

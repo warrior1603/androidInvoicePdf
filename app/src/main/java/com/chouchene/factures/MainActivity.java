@@ -20,6 +20,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.view.View;
 
+import androidx.fragment.app.Fragment;
+
 import com.chouchene.factures.fragments.BonDeCommandeFragment;
 import com.chouchene.factures.fragments.RapportsFragment;
 import com.chouchene.factures.fragments.InvoiceGenrationFragment;
@@ -35,12 +37,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     BottomNavigationView bottomNavigationView;
 
-    InvoiceGenrationFragment generateInvoice = new InvoiceGenrationFragment();
-    PersonalSettingsFragment personalSettingsFragment = new PersonalSettingsFragment();
-    ListeClientsFragment listeClientsFragment = new ListeClientsFragment();
-    RapportsFragment rapportsFragment = new RapportsFragment();
-    BonDeCommandeFragment bonDeCommandeFragment = new BonDeCommandeFragment();
-
     SharedPreferences sharedPreferences;
 
     @Override
@@ -55,7 +51,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     // Displaying the main layout
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        applyTheme();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isDarkMode = sharedPreferences.getBoolean("theme", false);
+        setTheme(isDarkMode ? R.style.DarkTheme : R.style.LightTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -98,15 +96,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void applyTheme() {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isDarkMode = sharedPreferences.getBoolean("theme", false);
-        if (isDarkMode) {
-            setTheme(R.style.DarkTheme);
-        } else {
-            setTheme(R.style.LightTheme);
-        }
-    }
+
 
     // Asking necessary permissions
     private void askPermissions() {
@@ -117,39 +107,30 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
+        Fragment fragment = null;
+        String tag = null;
+
         if (itemId == R.id.factureFragment) {
-            //animateBottomNav(bottomNavigationView, item);
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.flFragment, generateInvoice)
-                    .commit();
-            return true;
+            fragment = new InvoiceGenrationFragment();
+            tag = "InvoiceFragment";
         } else if (itemId == R.id.bonCommandeFragment) {
-            //animateBottomNav(bottomNavigationView, item);
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.flFragment, bonDeCommandeFragment)
-                    .commit();
-            return true;
+            fragment = new BonDeCommandeFragment();
+            tag = "BonCommandeFragment";
         } else if (itemId == R.id.entrepriseFragment) {
-            //animateBottomNav(bottomNavigationView, item);
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.flFragment, personalSettingsFragment)
-                    .commit();
-            return true;
+            fragment = new PersonalSettingsFragment();
+            tag = "EnterpriseFragment";
         } else if (itemId == R.id.clientsFragment) {
-            //animateBottomNav(bottomNavigationView, item);
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.flFragment, listeClientsFragment)
-                    .commit();
-            return true;
+            fragment = new ListeClientsFragment();
+            tag = "ClientsFragment";
         } else if (itemId == R.id.parametresFragment) {
-            //animateBottomNav(bottomNavigationView, item);
+            fragment = new RapportsFragment();
+            tag = "ReportsFragment";
+        }
+
+        if (fragment != null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.flFragment, rapportsFragment, "SettingsFragment")
+                    .replace(R.id.flFragment, fragment, tag)
                     .commit();
             return true;
         }

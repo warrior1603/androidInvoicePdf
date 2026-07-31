@@ -120,7 +120,7 @@ public class ListeClientsFragment extends Fragment {
                 );
 
                 // Show confirmation dialog
-                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(myView.getContext(), R.style.AlertDialogTheme)
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext())
                         .setTitle("Nouveau client")
                         .setView(view1)
                         .setPositiveButton("Enregistrer", new DialogInterface.OnClickListener() {
@@ -143,12 +143,16 @@ public class ListeClientsFragment extends Fragment {
                                     clientRepository.addClientIfNotExists(client);
 
                                     // Update the UI on the main thread
-                                    getActivity().runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            updateListView();
-                                        }
-                                    });
+                                    if (getActivity() != null) {
+                                        getActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if (isAdded()) {
+                                                    updateListView();
+                                                }
+                                            }
+                                        });
+                                    }
                                 });
 
 
