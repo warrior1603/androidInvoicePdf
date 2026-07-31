@@ -43,6 +43,7 @@ import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClic
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.tom_roush.pdfbox.cos.COSName;
 import com.tom_roush.pdfbox.android.PDFBoxResourceLoader;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
 import com.tom_roush.pdfbox.pdmodel.interactive.form.PDAcroForm;
@@ -277,8 +278,9 @@ public class InvoiceGenrationFragment extends Fragment{
                                                     }
 
                                                     fillFormFields();
+                                                    fillFormFields();
                                                 } catch (IOException e) {
-                                                    throw new RuntimeException(e);
+                                                    Toast.makeText(requireContext(), "Erreur lors de la génération du PDF: " + e.getMessage(), Toast.LENGTH_LONG).show();
                                                 }
 
                                             }
@@ -404,8 +406,13 @@ public class InvoiceGenrationFragment extends Fragment{
 
             float qauntity = Float.parseFloat(txtQuantite.getText().toString());
 
-            PDField descriptionField = acroForm.getField("description");
-            descriptionField.setValue(txtDesciption.getText().toString());
+            PDField descriptionField = requireField(acroForm, "description");
+            String descriptionValue = txtDesciption.getText().toString()
+                    .replace("\r\n", "\n")
+                    .replace('\r', '\n');
+            int fieldFlags = descriptionField.getCOSObject().getInt(COSName.FF, 0);
+            descriptionField.getCOSObject().setInt(COSName.FF, fieldFlags | (1 << 12));
+            descriptionField.setValue(descriptionValue);
             PDField quantiteField = acroForm.getField("quantite");
             quantiteField.setValue(txtQuantite.getText().toString());
             PDField prixField = acroForm.getField("prix");
@@ -449,10 +456,18 @@ public class InvoiceGenrationFragment extends Fragment{
 
         } catch (FileNotFoundException e) {
             Log.d("mylog", "Error while writing " + e.toString());
-            throw new RuntimeException(e);
+            throw e;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw e;
         }
+    }
+
+    private PDField requireField(PDAcroForm acroForm, String fieldName) throws IOException {
+        PDField field = acroForm.getField(fieldName);
+        if (field == null) {
+            throw new IOException("PDF field not found: " + fieldName);
+        }
+        return field;
     }
 
     private void saveInvoiceAmount(float finalCost) {

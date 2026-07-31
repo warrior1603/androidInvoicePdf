@@ -30,8 +30,7 @@ tools:context=".fragments.PersonalSettingsFragment">
                     android:layout_height="wrap_content"
                     android:text="Informations entreprise"
                     android:padding="4dp"
-                    android:textStyle="normal"
-                    android:textSize="18sp"/>
+                    style="@style/App.SectionTitle"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -47,9 +46,7 @@ tools:context=".fragments.PersonalSettingsFragment">
             android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardElevation="3dp"
-            app:cardCornerRadius="5dp"
-            style="@style/Widget.Material3.CardView.Outlined"
+            style="@style/App.CardView"
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true">
 
@@ -243,8 +240,7 @@ tools:context=".fragments.PersonalSettingsFragment">
                 android:layout_height="wrap_content"
                 android:text="Informations chauffeur"
                 android:padding="4dp"
-                android:textStyle="normal"
-                android:textSize="18sp"/>
+                style="@style/App.SectionTitle"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -260,9 +256,7 @@ tools:context=".fragments.PersonalSettingsFragment">
             android:id="@+id/cardView1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardElevation="3dp"
-            app:cardCornerRadius="5dp"
-            style="@style/Widget.Material3.CardView.Outlined"
+            style="@style/App.CardView"
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true">
 
@@ -337,9 +331,9 @@ tools:context=".fragments.PersonalSettingsFragment">
                 android:id="@+id/btn_save_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="60dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="60dp"
+                android:layout_marginEnd="24dp"
                 android:layout_marginBottom="30dp"
                 app:icon="@drawable/save_as_icon"
                 app:iconGravity="textStart"
