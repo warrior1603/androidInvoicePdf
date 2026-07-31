@@ -346,14 +346,18 @@ public class InvoiceGenrationFragment extends Fragment{
 
         File templateFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "template-devis-orgapro-output.pdf");
 
-        InputStream inputStream = getContext().getAssets().open("template-devis.pdf");
-        FileUtils.copyToFile(inputStream, templateFile);
+        try (InputStream inputStream = getContext().getAssets().open("template-devis.pdf")) {
+            FileUtils.copyToFile(inputStream, templateFile);
+        }
 
         try {
             // Load the template with form fields
             PDDocument document = PDDocument.load(templateFile);
             // Get the AcroForm from the document
             PDAcroForm acroForm = document.getDocumentCatalog().getAcroForm();
+            if (acroForm == null) {
+                throw new IOException("No AcroForm found in template-devis.pdf");
+            }
             //Information emetteur
             PDField userNameEmetteurField= acroForm.getField("nomEmetteur"); // Assuming field name is 'CustomerName'
             userNameEmetteurField.setValue(userNameEmetteur);
@@ -424,6 +428,9 @@ public class InvoiceGenrationFragment extends Fragment{
 
             PDField totalTtcField = acroForm.getField("totalTtc");
             totalTtcField.setValue(String.format("%.2f", finalCost * qauntity)+" "+currency);
+
+            acroForm.setNeedAppearances(true);
+            acroForm.flatten();
 
             String newDirectory = settingsSharedPreferences.getString(DIRECTORY_KEY, "");
             File downloadDirectoryFromPreference = new File(newDirectory);

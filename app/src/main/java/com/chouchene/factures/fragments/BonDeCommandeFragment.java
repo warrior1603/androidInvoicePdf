@@ -131,14 +131,18 @@ public class BonDeCommandeFragment extends Fragment {
 
         File templateFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "template-bon-commande-output.pdf");
 
-        InputStream inputStream = getContext().getAssets().open("bon-de-commande.pdf");
-        FileUtils.copyToFile(inputStream, templateFile);
+        try (InputStream inputStream = getContext().getAssets().open("bon-de-commande.pdf")) {
+            FileUtils.copyToFile(inputStream, templateFile);
+        }
 
         try {
             // Load the template with form fields
             PDDocument document = PDDocument.load(templateFile);
             // Get the AcroForm from the document
             PDAcroForm acroForm = document.getDocumentCatalog().getAcroForm();
+            if (acroForm == null) {
+                throw new IOException("No AcroForm found in bon-de-commande.pdf");
+            }
 
             PDField nomEmetteurField = acroForm.getField("nomEmetteur");
             nomEmetteurField.setValue(userNameEmetteur);
@@ -172,6 +176,9 @@ public class BonDeCommandeFragment extends Fragment {
             conducteurField.setValue(chauffeur);
             PDField plaqueField = acroForm.getField("plaque");
             plaqueField.setValue(plaque);
+
+            acroForm.setNeedAppearances(true);
+            acroForm.flatten();
 
 
             String newDirectory = settingsSharedPreferences.getString(DIRECTORY_KEY, "");
