@@ -446,7 +446,7 @@
         android:layout_marginBottom="32dp"
         android:onClick="createPDF"
         android:text="Générer Facture"
-        style="@style/Widget.Material3.Button.TonalButton" />
+        style="@style/App.Button" />
 
     </LinearLayout>
 </LinearLayout>

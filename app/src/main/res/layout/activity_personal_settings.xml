@@ -344,7 +344,7 @@ tools:context=".fragments.PersonalSettingsFragment">
                 app:icon="@drawable/save_as_icon"
                 app:iconGravity="textStart"
                 android:text="  Enregister les details"
-                style="@style/Widget.Material3.Button.TonalButton"/>
+                style="@style/App.Button"/>
 
         </LinearLayout>
     </ScrollView>
