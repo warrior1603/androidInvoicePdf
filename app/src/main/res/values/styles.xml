@@ -34,9 +34,9 @@
         <item name="colorOutline">@color/outline_light</item>
         <item name="colorOutlineVariant">@color/outline_variant_light</item>
         <!-- System bars -->
-        <item name="android:statusBarColor">@color/primary_light</item>
+        <item name="android:statusBarColor">?attr/colorSurface</item>
         <item name="android:navigationBarColor">@color/surface_light</item>
-        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightStatusBar">true</item>
         <!-- Component overrides -->
         <item name="toolbarStyle">@style/App.Toolbar</item>
         <item name="bottomNavigationStyle">@style/App.BottomNavigation</item>
@@ -73,7 +73,7 @@
         <item name="colorOnSurfaceVariant">@color/on_surface_variant_dark</item>
         <item name="colorOutline">@color/outline_dark</item>
         <item name="colorOutlineVariant">@color/outline_variant_dark</item>
-        <item name="android:statusBarColor">@color/primary_dark</item>
+        <item name="android:statusBarColor">?attr/colorSurface</item>
         <item name="android:navigationBarColor">@color/surface_dark</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="toolbarStyle">@style/App.Toolbar</item>
@@ -90,10 +90,10 @@
         No custom gradients or rounded corners.
     -->
     <style name="App.Toolbar" parent="Widget.Material3.Toolbar">
-        <item name="android:background">?attr/colorPrimary</item>
-        <item name="titleTextColor">?attr/colorOnPrimary</item>
-        <item name="subtitleTextColor">?attr/colorOnPrimary</item>
-        <item name="navigationIconTint">?attr/colorOnPrimary</item>
+        <item name="android:background">?attr/colorSurface</item>
+        <item name="titleTextColor">?attr/colorPrimary</item>
+        <item name="subtitleTextColor">?attr/colorPrimary</item>
+        <item name="navigationIconTint">?attr/colorPrimary</item>
     </style>
 
     <!--
@@ -101,12 +101,12 @@
         Full-width, surface background; active indicator is automatic.
     -->
     <style name="App.BottomNavigation" parent="Widget.Material3.BottomNavigationView">
-        <item name="android:background">?attr/colorSurface</item>
+        <item name="android:background">?attr/colorSurfaceVariant</item>
         <item name="itemIconTint">@color/bottom_navigation_item_tint</item>
         <item name="itemTextColor">@color/bottom_navigation_item_tint</item>
         <item name="itemRippleColor">?attr/colorPrimaryContainer</item>
         <item name="itemIconSize">24dp</item>
-        <item name="android:elevation">3dp</item>
+        <item name="android:elevation">8dp</item>
     </style>
 
     <!--

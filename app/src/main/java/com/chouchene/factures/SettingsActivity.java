@@ -69,7 +69,7 @@ public class SettingsActivity extends AppCompatActivity {
             if (logo != null) {
                 logo = DrawableCompat.wrap(logo);
                 TypedValue typedValue = new TypedValue();
-                getTheme().resolveAttribute(com.google.android.material.R.attr.colorOnPrimary, typedValue, true);
+                getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true);
                 DrawableCompat.setTint(logo, typedValue.data);
                 actionBar.setLogo(logo);
                 actionBar.setDisplayUseLogoEnabled(true);
