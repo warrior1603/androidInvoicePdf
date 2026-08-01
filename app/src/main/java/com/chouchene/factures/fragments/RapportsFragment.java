@@ -1,15 +1,14 @@
 package com.chouchene.factures.fragments;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.fragment.app.Fragment;
-import androidx.media3.common.util.Util;
 import androidx.room.Room;
 
 import com.chouchene.factures.POJO.DailyIncome;
@@ -27,6 +26,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class RapportsFragment extends Fragment {
     @Override
@@ -38,44 +38,52 @@ public class RapportsFragment extends Fragment {
 
         BarChart barChart = myView.findViewById(R.id.barChart);
 
-        // Example monthly prices
-        List<BarEntry> entries = new ArrayList<>();
-        // Sample data loop for daily income
-        InvoiceDao db = Room.databaseBuilder(getContext(), AppDatabase.class, "MyClients").allowMainThreadQueries().fallbackToDestructiveMigration().build().invoiceDao();
+        InvoiceDao db = Room.databaseBuilder(requireContext(), AppDatabase.class, "MyClients").allowMainThreadQueries().fallbackToDestructiveMigration().build().invoiceDao();
+        
+        // Bar Chart Data
         List<MonthlyIncome> mouthlyIncomeList = db.getMonthlyIncomeTotals();
+        List<BarEntry> entries = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
         int i = 0;
-        float sumMounthly = 0;
         for (MonthlyIncome mouthlyIncome : mouthlyIncomeList) {
             entries.add(new BarEntry(i++, (float) mouthlyIncome.monthlyTotal));
-            sumMounthly += mouthlyIncome.monthlyTotal;
+            labels.add(mouthlyIncome.month);
         }
 
-        float sumDaily = 0;
-        List<DailyIncome> dailyIncomeList = db.getDailyIncomeTotals();
-        for (DailyIncome dailyIncome : dailyIncomeList) {
-            sumDaily += dailyIncome.dailyTotal;
-
-        }
+        // Summary Calculations for TODAY and THIS MONTH
+        Date today = new Date();
+        float sumDaily = db.getDailyIncome(today);
+        float sumMonthly = db.getMonthlyIncome(today);
 
         TextView totalRevenuesDay = myView.findViewById(R.id.todayRevenue);
         TextView totalRevenusMonth = myView.findViewById(R.id.moisRevenue);
 
-        totalRevenuesDay.setText(String.valueOf(sumDaily));
-        totalRevenusMonth.setText(String.valueOf(sumMounthly));
+        totalRevenuesDay.setText(String.format(Locale.getDefault(), "%.2f €", sumDaily));
+        totalRevenusMonth.setText(String.format(Locale.getDefault(), "%.2f €", sumMonthly));
 
-        // Set up the X-axis labels
-        String[] months = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-        IndexAxisValueFormatter xAxisFormatter = new IndexAxisValueFormatter(months);
-        xAxisFormatter.setValues(months);
+        // Get primary color from theme
+        TypedValue typedValue = new TypedValue();
+        requireContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true);
+        @ColorInt int primaryColor = typedValue.data;
 
-// Set up the BarDataSet and BarData
+        // Set up the X-axis labels from data
+        barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+        barChart.getXAxis().setPosition(com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM);
+        barChart.getXAxis().setDrawGridLines(false);
+        barChart.getXAxis().setGranularity(1f);
+
+        // Set up the BarDataSet and BarData
         BarDataSet dataSet = new BarDataSet(entries, "Revenu par mois");
-        dataSet.setColor(new ColorDrawable(Color.parseColor("#3784ff")).getColor());
-        dataSet.setValueTextColor(Color.WHITE);
+        dataSet.setColor(primaryColor);
+        dataSet.setValueTextColor(primaryColor);
+        dataSet.setValueTextSize(12f);
 
         BarData barData = new BarData(dataSet);
         barChart.setData(barData);
-        barChart.invalidate(); // re
+        barChart.getDescription().setEnabled(false);
+        barChart.getLegend().setEnabled(false);
+        barChart.invalidate();
+        
         return myView;
     }
 

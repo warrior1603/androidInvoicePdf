@@ -17,15 +17,15 @@ public interface InvoiceDao {
     @Insert
     void insertInvoice(Invoice invoice);
 
-    @Query("SELECT SUM(amount) FROM invoices WHERE date(date) = date(:date)")
+    @Query("SELECT SUM(amount) FROM invoices WHERE date(date / 1000, 'unixepoch') = date(:date / 1000, 'unixepoch')")
     float getDailyIncome(Date date);
 
-    @Query("SELECT SUM(amount) FROM invoices WHERE strftime('%m-%Y', date) = strftime('%m-%Y', :date)")
+    @Query("SELECT SUM(amount) FROM invoices WHERE strftime('%m-%Y', date / 1000, 'unixepoch') = strftime('%m-%Y', :date / 1000, 'unixepoch')")
     float getMonthlyIncome(Date date);
 
-    @Query("SELECT date, SUM(amount) as dailyTotal FROM invoices GROUP BY date ORDER BY date ASC")
+    @Query("SELECT date, SUM(amount) as dailyTotal FROM invoices GROUP BY date(date / 1000, 'unixepoch') ORDER BY date ASC")
     List<DailyIncome> getDailyIncomeTotals();
 
-    @Query("SELECT strftime('%m-%Y', date) as month, SUM(amount) as monthlyTotal FROM invoices GROUP BY month ORDER BY date ASC")
+    @Query("SELECT strftime('%m-%Y', date / 1000, 'unixepoch') as month, SUM(amount) as monthlyTotal FROM invoices GROUP BY month ORDER BY date ASC")
     List<MonthlyIncome> getMonthlyIncomeTotals();
 }

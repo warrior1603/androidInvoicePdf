@@ -58,17 +58,25 @@
                     <TextView
                         android:id="@+id/view1"
                         android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:text="Revenu aujourd'hui:"
+                        android:layout_height="wrap_content"
+                        android:text="Revenu aujourd'hui"
+                        android:textAppearance="?attr/textAppearanceTitleSmall"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:gravity="center"
+                        android:paddingTop="16dp"
                         />
 
                     <TextView
                         android:id="@+id/todayRevenue"
                         android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:text=""
+                        android:layout_height="wrap_content"
+                        android:text="0.00 €"
+                        android:textAppearance="?attr/textAppearanceHeadlineMedium"
+                        android:textColor="?attr/colorPrimary"
+                        android:textStyle="bold"
                         android:gravity="center"
+                        android:paddingBottom="16dp"
+                        android:paddingTop="8dp"
                         />
 
                 </LinearLayout>
@@ -95,17 +103,25 @@
                     <TextView
                         android:id="@+id/view2"
                         android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:text="Revenu ce mois:"
+                        android:layout_height="wrap_content"
+                        android:text="Revenu ce mois"
+                        android:textAppearance="?attr/textAppearanceTitleSmall"
+                        android:textColor="?attr/colorOnSurfaceVariant"
                         android:gravity="center"
+                        android:paddingTop="16dp"
                         />
 
                     <TextView
                         android:id="@+id/moisRevenue"
                         android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:text=""
+                        android:layout_height="wrap_content"
+                        android:text="0.00 €"
+                        android:textAppearance="?attr/textAppearanceHeadlineMedium"
+                        android:textColor="?attr/colorPrimary"
+                        android:textStyle="bold"
                         android:gravity="center"
+                        android:paddingBottom="16dp"
+                        android:paddingTop="8dp"
                         />
 
                 </LinearLayout>
