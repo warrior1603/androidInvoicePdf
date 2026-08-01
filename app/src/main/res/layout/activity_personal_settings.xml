@@ -17,9 +17,10 @@ tools:context=".fragments.PersonalSettingsFragment">
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".fragments.PersonalSettingsFragment"
-            android:layout_margin="16dp"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="8dp"
+            android:paddingBottom="32dp">
 
             <TextView
                 android:id="@+id/textView4"
@@ -29,6 +30,7 @@ tools:context=".fragments.PersonalSettingsFragment">
                 android:textAppearance="?attr/textAppearanceTitleSmall"
                 android:textColor="?attr/colorPrimary"
                 android:paddingVertical="8dp"
+                android:layout_marginHorizontal="16dp"
                 android:textAllCaps="true"
                 android:letterSpacing="0.1" />
 
@@ -37,8 +39,9 @@ tools:context=".fragments.PersonalSettingsFragment">
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/App.CardView"
-                app:cardPreventCornerOverlap="false"
-                app:cardUseCompatPadding="true">
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginVertical="4dp"
+                app:cardPreventCornerOverlap="false">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -229,6 +232,7 @@ tools:context=".fragments.PersonalSettingsFragment">
                 android:textColor="?attr/colorPrimary"
                 android:paddingVertical="8dp"
                 android:layout_marginTop="12dp"
+                android:layout_marginHorizontal="16dp"
                 android:textAllCaps="true"
                 android:letterSpacing="0.1" />
 
@@ -237,8 +241,9 @@ tools:context=".fragments.PersonalSettingsFragment">
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/App.CardView"
-                app:cardPreventCornerOverlap="false"
-                app:cardUseCompatPadding="true">
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginVertical="4dp"
+                app:cardPreventCornerOverlap="false">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -315,6 +320,7 @@ tools:context=".fragments.PersonalSettingsFragment">
                 android:textColor="?attr/colorPrimary"
                 android:paddingVertical="8dp"
                 android:layout_marginTop="12dp"
+                android:layout_marginHorizontal="16dp"
                 android:textAllCaps="true"
                 android:letterSpacing="0.1" />
 
@@ -323,8 +329,9 @@ tools:context=".fragments.PersonalSettingsFragment">
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/App.CardView"
-                app:cardPreventCornerOverlap="false"
-                app:cardUseCompatPadding="true">
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginVertical="4dp"
+                app:cardPreventCornerOverlap="false">
 
                 <LinearLayout
                     android:layout_width="match_parent"

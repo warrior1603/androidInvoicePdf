@@ -12,9 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".fragments.BonDeCommandeFragment"
-        android:layout_margin="16dp"
         android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="8dp"
+        android:paddingBottom="32dp">
 
         <TextView
             android:id="@+id/textView3"
@@ -24,6 +25,7 @@
             android:textAppearance="?attr/textAppearanceTitleSmall"
             android:textColor="?attr/colorPrimary"
             android:paddingVertical="8dp"
+            android:layout_marginHorizontal="16dp"
             android:textAllCaps="true"
             android:letterSpacing="0.1" />
 
@@ -32,8 +34,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/App.CardView"
-            app:cardPreventCornerOverlap="false"
-            app:cardUseCompatPadding="true">
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginVertical="4dp"
+            app:cardPreventCornerOverlap="false">
 
     <LinearLayout
         android:layout_width="match_parent"
