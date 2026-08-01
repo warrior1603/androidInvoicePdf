@@ -78,19 +78,17 @@ public class CustomAdapter extends ArrayAdapter<Client> {
                         Client selectedClient = getItem(position);
                         TextView txtRue = v.findViewById(R.id.show_rue);
                         TextView txtVille = v.findViewById(R.id.show_ville);
-                        TextView txtCodePostale = v.findViewById(R.id.show_codePostale);
                         TextView txtPays = v.findViewById(R.id.show_pays);
                         TextView txtSiren = v.findViewById(R.id.show_siren);
                         TextView txtEmail = v.findViewById(R.id.show_email);
                         TextView txtTva = v.findViewById(R.id.show_tva);
 
                             txtRue.setText(selectedClient.getStreet());
-                            txtVille.setText(selectedClient.getVille());
-                            txtCodePostale.setText(selectedClient.getCodePostale());
+                            txtVille.setText(selectedClient.getCodePostale() + " " + selectedClient.getVille());
                             txtPays.setText(selectedClient.getPays());
-                            txtSiren.setText(selectedClient.getNumeroSiren());
+                            txtSiren.setText("SIREN: " + selectedClient.getNumeroSiren());
                             txtEmail.setText(selectedClient.getEmail());
-                            txtTva.setText(selectedClient.getNumeroTVA());
+                            txtTva.setText("TVA: " + selectedClient.getNumeroTVA());
 
                         layout.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGE_APPEARING);
                         int visibility = (datailsText.getVisibility() == View.GONE) ? View.VISIBLE : View.GONE;

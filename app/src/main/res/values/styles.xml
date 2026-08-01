@@ -115,8 +115,8 @@
     -->
     <style name="App.Button" parent="Widget.Material3.Button">
         <item name="android:textAllCaps">false</item>
-        <item name="android:minHeight">40dp</item>
-        <item name="cornerRadius">12dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="cornerRadius">28dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
     </style>
@@ -127,8 +127,8 @@
     -->
     <style name="App.Button.Tonal" parent="Widget.Material3.Button.TonalButton">
         <item name="android:textAllCaps">false</item>
-        <item name="android:minHeight">40dp</item>
-        <item name="cornerRadius">12dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="cornerRadius">28dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
     </style>
@@ -137,6 +137,11 @@
     <style name="App.Fab" parent="Widget.Material3.FloatingActionButton.Primary">
         <item name="backgroundTint">?attr/colorPrimaryContainer</item>
         <item name="tint">?attr/colorOnPrimaryContainer</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.App.FAB.Circular" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
     </style>
 
     <!--

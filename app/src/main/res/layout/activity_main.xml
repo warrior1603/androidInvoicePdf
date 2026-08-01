@@ -28,17 +28,13 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
-    <com.ismaeldivita.chipnavigation.ChipNavigationBar
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="?attr/colorSurface"
-        android:paddingTop="8dp"
-        android:paddingBottom="12dp"
-        app:cnb_menuResource="@menu/bottom_nav_menu"
-        app:cnb_orientationMode="horizontal"
-        app:cnb_unselectedColor="@color/chip_nav_unselected"
-        app:cnb_radius="12dp"
+        style="@style/App.BottomNavigation"
+        app:menu="@menu/bottom_nav_menu"
+        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>

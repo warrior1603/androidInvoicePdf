@@ -18,28 +18,18 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Choisir Client"
-            android:padding="4dp"
-            style="@style/App.SectionTitle"/>
+        android:layout_height="wrap_content"
+        android:text="Choisir Client"
+        android:textAppearance="?attr/textAppearanceTitleSmall"
+        android:textColor="?attr/colorPrimary"
+        android:paddingVertical="8dp"
+        android:textAllCaps="true"
+        android:letterSpacing="0.1" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginTop="22dp"
-            android:layout_toRightOf="@id/textView2"
-            android:background="?attr/colorOutline"
-            />
-    </RelativeLayout>
-
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -259,33 +249,22 @@
 
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Données de Facturation"
-            android:padding="4dp"
-            style="@style/App.SectionTitle"/>
+        android:text="Données de Facturation"
+        android:textAppearance="?attr/textAppearanceTitleSmall"
+        android:textColor="?attr/colorPrimary"
+        android:paddingVertical="8dp"
+        android:layout_marginTop="12dp"
+        android:textAllCaps="true"
+        android:letterSpacing="0.1" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginTop="22dp"
-            android:layout_toRightOf="@id/textView3"
-            android:background="?attr/colorOutline"
-            />
-
-    </RelativeLayout>
-
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -427,7 +406,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 
 

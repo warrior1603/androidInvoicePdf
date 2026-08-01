@@ -27,13 +27,13 @@ import com.chouchene.factures.fragments.InvoiceGenrationFragment;
 import com.chouchene.factures.fragments.ListeClientsFragment;
 import com.chouchene.factures.fragments.PersonalSettingsFragment;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.ismaeldivita.chipnavigation.ChipNavigationBar;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     final static int REQUEST_CODE_STORAGE = 1232;
     final static int REQUEST_CODE_INTERNET = 1232;
 
-    ChipNavigationBar bottomNavigationView;
+    BottomNavigationView bottomNavigationView;
 
     SharedPreferences sharedPreferences;
 
@@ -71,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
-        bottomNavigationView.setOnItemSelectedListener(id -> {
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
             Fragment fragment = null;
             String tag = null;
 
@@ -98,15 +99,16 @@ public class MainActivity extends AppCompatActivity {
                         .replace(R.id.flFragment, fragment, tag)
                         .commit();
             }
+            return true;
         });
 
         String lastFragment = sharedPreferences.getString("last_fragment", "MainFragment");
 
         if ("SettingsFragment".equals(lastFragment)) {
-            bottomNavigationView.setItemSelected(R.id.parametresFragment, true);
+            bottomNavigationView.setSelectedItemId(R.id.parametresFragment);
             sharedPreferences.edit().putString("last_fragment", "MainFragment").apply();
         } else {
-            bottomNavigationView.setItemSelected(R.id.factureFragment, true);
+            bottomNavigationView.setSelectedItemId(R.id.factureFragment);
         }
 
         askPermissions();

@@ -21,34 +21,24 @@ tools:context=".fragments.PersonalSettingsFragment">
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <TextView
+                android:id="@+id/textView4"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Informations entreprise"
-                    android:padding="4dp"
-                    style="@style/App.SectionTitle"/>
+                android:layout_height="wrap_content"
+                android:text="Informations entreprise"
+                android:textAppearance="?attr/textAppearanceTitleSmall"
+                android:textColor="?attr/colorPrimary"
+                android:paddingVertical="8dp"
+                android:textAllCaps="true"
+                android:letterSpacing="0.1" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginTop="22dp"
-                    android:layout_toRightOf="@id/textView4"
-                    android:background="?attr/colorOutline"
-                    />
-            </RelativeLayout>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/App.CardView"
-            app:cardPreventCornerOverlap="false"
-            app:cardUseCompatPadding="true">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/App.CardView"
+                app:cardPreventCornerOverlap="false"
+                app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -227,38 +217,28 @@ tools:context=".fragments.PersonalSettingsFragment">
                     />
             </com.google.android.material.textfield.TextInputLayout>
 
-        </LinearLayout>
-        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
-            <RelativeLayout
+            <TextView
+                android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-                <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="Informations chauffeur"
-                android:padding="4dp"
-                style="@style/App.SectionTitle"/>
+                android:textAppearance="?attr/textAppearanceTitleSmall"
+                android:textColor="?attr/colorPrimary"
+                android:paddingVertical="8dp"
+                android:layout_marginTop="12dp"
+                android:textAllCaps="true"
+                android:letterSpacing="0.1" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginTop="22dp"
-                    android:layout_toRightOf="@id/textView3"
-                    android:background="?attr/colorOutline"
-                    />
-            </RelativeLayout>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/App.CardView"
-            app:cardPreventCornerOverlap="false"
-            app:cardUseCompatPadding="true">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/App.CardView"
+                app:cardPreventCornerOverlap="false"
+                app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -323,8 +303,8 @@ tools:context=".fragments.PersonalSettingsFragment">
                     />
             </com.google.android.material.textfield.TextInputLayout>
 
-        </LinearLayout>
-        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
             <!-- BUTTONS -->
             <Button
