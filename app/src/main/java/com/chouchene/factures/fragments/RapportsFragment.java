@@ -34,7 +34,7 @@ public class RapportsFragment extends Fragment {
         getActivity().setTitle("Rapports");
         View myView = inflater.inflate(R.layout.activity_rapports, container, false);
         MaterialToolbar toolbar = requireActivity().findViewById(R.id.my_toolbar);
-        toolbar.setNavigationIcon(R.drawable.graph_svgrepo_com);
+        toolbar.setNavigationIcon(R.drawable.baseline_history_24);
 
         BarChart barChart = myView.findViewById(R.id.barChart);
 

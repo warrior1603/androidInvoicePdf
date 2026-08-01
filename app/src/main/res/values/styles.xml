@@ -34,9 +34,9 @@
         <item name="colorOutline">@color/outline_light</item>
         <item name="colorOutlineVariant">@color/outline_variant_light</item>
         <!-- System bars -->
-        <item name="android:statusBarColor">@color/background_light</item>
+        <item name="android:statusBarColor">@color/primary_light</item>
         <item name="android:navigationBarColor">@color/surface_light</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightStatusBar">false</item>
         <!-- Component overrides -->
         <item name="toolbarStyle">@style/App.Toolbar</item>
         <item name="bottomNavigationStyle">@style/App.BottomNavigation</item>
@@ -73,7 +73,7 @@
         <item name="colorOnSurfaceVariant">@color/on_surface_variant_dark</item>
         <item name="colorOutline">@color/outline_dark</item>
         <item name="colorOutlineVariant">@color/outline_variant_dark</item>
-        <item name="android:statusBarColor">@color/background_dark</item>
+        <item name="android:statusBarColor">@color/primary_dark</item>
         <item name="android:navigationBarColor">@color/surface_dark</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="toolbarStyle">@style/App.Toolbar</item>
@@ -90,9 +90,10 @@
         No custom gradients or rounded corners.
     -->
     <style name="App.Toolbar" parent="Widget.Material3.Toolbar">
-        <item name="android:background">?attr/colorSurface</item>
-        <item name="titleTextColor">?attr/colorOnSurface</item>
-        <item name="subtitleTextColor">?attr/colorOnSurfaceVariant</item>
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="titleTextColor">?attr/colorOnPrimary</item>
+        <item name="subtitleTextColor">?attr/colorOnPrimary</item>
+        <item name="navigationIconTint">?attr/colorOnPrimary</item>
     </style>
 
     <!--

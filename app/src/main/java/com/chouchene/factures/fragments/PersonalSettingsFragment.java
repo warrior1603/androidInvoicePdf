@@ -73,7 +73,7 @@ public class PersonalSettingsFragment extends Fragment implements View.OnClickLi
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
         MaterialToolbar toolbar = requireActivity().findViewById(R.id.my_toolbar);
-        toolbar.setNavigationIcon(R.drawable.building_office_svgrepo_com);
+        toolbar.setNavigationIcon(R.drawable.baseline_dashboard_24);
 
         String retrievedUser = sharedPreferences.getString("User", "");
         txtUserName = myView.findViewById(R.id.edit_user_name);
@@ -217,6 +217,6 @@ public class PersonalSettingsFragment extends Fragment implements View.OnClickLi
 //        actionBar.setDisplayShowHomeEnabled(true);
 //        actionBar.setDisplayUseLogoEnabled(true);
 //        // Change the ActionBar icon
-//        actionBar.setLogo(R.drawable.building_office_svgrepo_com);
+//        actionBar.setLogo(R.drawable.baseline_dashboard_24);
     }
 }

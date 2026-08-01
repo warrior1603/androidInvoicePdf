@@ -58,7 +58,7 @@ public class ListeClientsFragment extends Fragment {
         View myView = inflater.inflate(R.layout.activity_list_clients, container, false);
 
         MaterialToolbar toolbar = requireActivity().findViewById(R.id.my_toolbar);
-        toolbar.setNavigationIcon(R.drawable.customer_svgrepo_com);
+        toolbar.setNavigationIcon(R.drawable.baseline_contacts_24);
 
          clientDao = Room.databaseBuilder(getActivity().getApplicationContext(), AppDatabase.class, "MyClients").allowMainThreadQueries().fallbackToDestructiveMigration().build().clientDao();
 
@@ -199,6 +199,6 @@ public class ListeClientsFragment extends Fragment {
 //        actionBar.setDisplayShowHomeEnabled(true);
 //        actionBar.setDisplayUseLogoEnabled(true);
 //        // Change the ActionBar icon
-//        actionBar.setLogo(R.drawable.customer_svgrepo_com);
+//        actionBar.setLogo(R.drawable.baseline_contacts_24);
     }
 }

@@ -6,7 +6,7 @@
             android:id="@+id/edit"
             android:title="Parametres"
             android:contentDescription="parametres"
-            android:icon="@drawable/baseline_settings_black"
+            android:icon="@drawable/baseline_settings_24"
             app:showAsAction="ifRoom" />
 
 </menu>

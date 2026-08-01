@@ -123,7 +123,7 @@ public class InvoiceGenrationFragment extends Fragment{
         View myView = inflater.inflate(R.layout.activity_invoice, container, false);
 
         MaterialToolbar toolbar = requireActivity().findViewById(R.id.my_toolbar);
-        toolbar.setNavigationIcon(R.drawable.invoice);
+        toolbar.setNavigationIcon(R.drawable.baseline_picture_as_pdf_24);
 
         String[] Payements = new String[] {"Virement", "Carte","Espèce", "Cheque"};
 
@@ -506,7 +506,7 @@ public class InvoiceGenrationFragment extends Fragment{
 //            actionBar.setDisplayShowHomeEnabled(true);
 //            actionBar.setDisplayUseLogoEnabled(true);
 //            // Change the ActionBar icon
-//            actionBar.setLogo(R.drawable.invoice);
+//            actionBar.setLogo(R.drawable.baseline_picture_as_pdf_24);
 //            //actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#1017e8")));
 //        }
     }

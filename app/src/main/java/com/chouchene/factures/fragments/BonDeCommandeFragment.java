@@ -67,7 +67,7 @@ public class BonDeCommandeFragment extends Fragment {
         View myView = inflater.inflate(R.layout.fragment_bon_de_commande, container, false);
 
         MaterialToolbar toolbar = requireActivity().findViewById(R.id.my_toolbar);
-        toolbar.setNavigationIcon(R.drawable.shopping_cart_svgrepo_com);
+        toolbar.setNavigationIcon(R.drawable.baseline_post_add_24);
 
         editDateCommandForm = myView.findViewById(R.id.edit_date_commande);
         editDateCommandForm.setOnClickListener(view -> onEditDateCommandClick(editDateCommandForm));
@@ -282,6 +282,6 @@ public class BonDeCommandeFragment extends Fragment {
 //        actionBar.setDisplayShowHomeEnabled(true);
 //        actionBar.setDisplayUseLogoEnabled(true);
 //        // Change the ActionBar icon
-//        actionBar.setLogo(R.drawable.shopping_cart_svgrepo_com);
+//        actionBar.setLogo(R.drawable.baseline_post_add_24);
     }
 }
