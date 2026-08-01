@@ -25,7 +25,7 @@ public class PdfDocumentAdapter extends PrintDocumentAdapter {
     public void onLayout(PrintAttributes oldAttributes, PrintAttributes newAttributes,
                          CancellationSignal cancellationSignal, LayoutResultCallback callback,
                          Bundle extras) {
-        if (cancellationSignal.isCanceled()) {
+        if (cancellationSignal != null && cancellationSignal.isCanceled()) {
             callback.onLayoutCancelled();
             return;
         }
@@ -46,11 +46,11 @@ public class PdfDocumentAdapter extends PrintDocumentAdapter {
              FileOutputStream output = new FileOutputStream(destination.getFileDescriptor())) {
             byte[] buffer = new byte[1024];
             int size;
-            while ((size = input.read(buffer)) != -1 && !cancellationSignal.isCanceled()) {
+            while ((size = input.read(buffer)) != -1 && (cancellationSignal == null || !cancellationSignal.isCanceled())) {
                 output.write(buffer, 0, size);
             }
 
-            if (cancellationSignal.isCanceled()) {
+            if (cancellationSignal != null && cancellationSignal.isCanceled()) {
                 callback.onWriteCancelled();
             } else {
                 callback.onWriteFinished(new PageRange[]{PageRange.ALL_PAGES});
