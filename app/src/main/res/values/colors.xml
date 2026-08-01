@@ -40,6 +40,11 @@
     <color name="inverse_on_surface_light">#EFF1EF</color>
     <color name="inverse_primary_light">#52DBC8</color>
 
+    <!-- Chip nav bar — light mode aliases -->
+    <color name="chip_nav_selected">@color/primary_light</color>
+    <color name="chip_nav_unselected">@color/on_surface_variant_light</color>
+    <color name="chip_nav_chip_bg">@color/primary_container_light</color>
+
     <!-- ── Dark scheme ───────────────────────────────────────────── -->
     <color name="primary_dark">#52DBC8</color>
     <color name="on_primary_dark">#003730</color>

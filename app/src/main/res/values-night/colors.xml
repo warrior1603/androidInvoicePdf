@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Chip nav bar — dark mode overrides -->
+    <color name="chip_nav_selected">@color/primary_dark</color>
+    <color name="chip_nav_unselected">@color/on_surface_variant_dark</color>
+    <color name="chip_nav_chip_bg">@color/primary_container_dark</color>
+</resources>
