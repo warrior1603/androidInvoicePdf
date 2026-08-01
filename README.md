@@ -23,9 +23,10 @@ A professional Android application designed for small businesses and freelancers
 <p align="center">
   <img src="screenshots/home.png" width="30%" />
   <img src="screenshots/bons.png" width="30%" />
-  <img src="screenshots/rapports.png" width="30%" />
+  <img src="screenshots/history.png" width="30%" />
 </p>
 <p align="center">
+  <img src="screenshots/rapports.png" width="30%" />
   <img src="screenshots/profile.png" width="30%" />
   <img src="screenshots/settings.png" width="30%" />
 </p>

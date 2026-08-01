@@ -11,9 +11,9 @@
         android:title="Bons" />
 
     <item
-        android:id="@+id/entrepriseFragment"
-        android:icon="@drawable/workplace_icon"
-        android:title="Entreprise" />
+        android:id="@+id/historiqueFragment"
+        android:icon="@drawable/ic_history_custom"
+        android:title="Historique" />
 
     <item
         android:id="@+id/clientsFragment"

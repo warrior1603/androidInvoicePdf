@@ -306,6 +306,92 @@ tools:context=".fragments.PersonalSettingsFragment">
     </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
+            <TextView
+                android:id="@+id/textViewBank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Coordonnées bancaires"
+                android:textAppearance="?attr/textAppearanceTitleSmall"
+                android:textColor="?attr/colorPrimary"
+                android:paddingVertical="8dp"
+                android:layout_marginTop="12dp"
+                android:textAllCaps="true"
+                android:letterSpacing="0.1" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardViewBank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/App.CardView"
+                app:cardPreventCornerOverlap="false"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/edit_iban"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:startIconDrawable="@drawable/hand_money_icon"
+                        app:endIconMode="clear_text"
+                        android:textColorHint="?attr/colorOnSurfaceVariant"
+                        android:hint="IBAN"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
+                        app:boxStrokeWidthFocused="2dp"
+                        app:boxStrokeWidth="1dp"
+                        android:padding="4dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/edit_bic"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:startIconDrawable="@drawable/bank_euro_specifications_svgrepo_com"
+                        app:endIconMode="clear_text"
+                        android:textColorHint="?attr/colorOnSurfaceVariant"
+                        android:hint="BIC"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
+                        app:boxStrokeWidthFocused="2dp"
+                        app:boxStrokeWidth="1dp"
+                        android:padding="4dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/edit_bank_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:startIconDrawable="@drawable/location_pin_icon"
+                        app:endIconMode="clear_text"
+                        android:textColorHint="?attr/colorOnSurfaceVariant"
+                        android:hint="Adresse du titulaire"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
+                        app:boxStrokeWidthFocused="2dp"
+                        app:boxStrokeWidth="1dp"
+                        android:padding="4dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             <!-- BUTTONS -->
             <Button
                 android:id="@+id/btn_save_info"

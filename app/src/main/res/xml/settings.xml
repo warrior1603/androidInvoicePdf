@@ -27,4 +27,16 @@
          android:entryValues="@array/currency_values"
          android:defaultValue="EUR" />
 
+    <PreferenceCategory
+        android:title="Entreprise"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            android:key="profile_entreprise"
+            android:title="Profil Entreprise"
+            android:summary="Configurer vos informations (SIREN, TVA, Adresse...)"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

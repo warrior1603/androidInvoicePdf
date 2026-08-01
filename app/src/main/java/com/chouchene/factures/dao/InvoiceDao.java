@@ -28,4 +28,7 @@ public interface InvoiceDao {
 
     @Query("SELECT strftime('%m-%Y', date / 1000, 'unixepoch') as month, SUM(amount) as monthlyTotal FROM invoices GROUP BY month ORDER BY date ASC")
     List<MonthlyIncome> getMonthlyIncomeTotals();
+
+    @Query("SELECT * FROM invoices ORDER BY date DESC")
+    List<Invoice> getAllInvoices();
 }

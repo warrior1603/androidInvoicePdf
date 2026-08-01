@@ -3,6 +3,7 @@ package com.chouchene.factures.fragments;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.LabeledIntent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
@@ -88,13 +89,19 @@ public class WebViewPdfFragment extends Fragment {
                                                    intent.setComponent(new ComponentName(info.activityInfo.packageName, info.activityInfo.name));
                                                    intent.putExtra(Intent.EXTRA_EMAIL, new String[]{mailClient});
                                                    intent.putExtra(Intent.EXTRA_SUBJECT, "Facture");
-                                                    intent.putExtra(Intent.EXTRA_TEXT, "Bonjour.\n\n" +
+
+                                                   SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                                                   String iban = sharedPreferences.getString("iban", "FR7616958000016908274069822");
+                                                   String bic = sharedPreferences.getString("bic", "QNTOFRP1XXX");
+                                                   String bankAddress = sharedPreferences.getString("bankAddress", "CM3-VTC, 5 RUE AMBOURGET, Chez M chouchene moez, 93600, AULNAY-SOUS-BOIS - FR");
+
+                                                   intent.putExtra(Intent.EXTRA_TEXT, "Bonjour.\n\n" +
                                                         "Veuillez trouver ci-joint la facture demandée.\n\n" +
                                                         "Bien cordialement.\n\n" +
                                                         "\n\n"+
-                                                        "IBAN : FR7616958000016908274069822 \n"+
-                                                        "BIC : QNTOFRP1XXX \n"+
-                                                        "Adresse du titulaire : CM3-VTC, 5 RUE AMBOURGET, Chez M chouchene moez, 93600, AULNAY-SOUS-BOIS - FR"
+                                                        "IBAN : " + iban + " \n" +
+                                                        "BIC : " + bic + " \n" +
+                                                        "Adresse du titulaire : " + bankAddress
                                                         );
                                                    intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris); //ArrayList<Uri> of attachment Uri's
                                                    intents.add(new LabeledIntent(intent, info.activityInfo.packageName, info.loadLabel(getActivity().getPackageManager()), info.icon));

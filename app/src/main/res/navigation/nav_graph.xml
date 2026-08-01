@@ -3,26 +3,43 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/factureFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.chouchene.factures.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        android:id="@+id/factureFragment"
+        android:name="com.chouchene.factures.fragments.InvoiceGenrationFragment"
+        android:label="Factures"
+        tools:layout="@layout/activity_invoice" />
 
-        <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
-    </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.chouchene.factures.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        android:id="@+id/bonCommandeFragment"
+        android:name="com.chouchene.factures.fragments.BonDeCommandeFragment"
+        android:label="Bon de commande"
+        tools:layout="@layout/fragment_bon_de_commande" />
 
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
-    </fragment>
+    <fragment
+        android:id="@+id/historiqueFragment"
+        android:name="com.chouchene.factures.fragments.HistoriqueFragment"
+        android:label="Historique"
+        tools:layout="@layout/fragment_historique" />
+
+    <fragment
+        android:id="@+id/clientsFragment"
+        android:name="com.chouchene.factures.fragments.ListeClientsFragment"
+        android:label="Mes Clients"
+        tools:layout="@layout/activity_list_clients" />
+
+    <fragment
+        android:id="@+id/parametresFragment"
+        android:name="com.chouchene.factures.fragments.RapportsFragment"
+        android:label="Rapports"
+        tools:layout="@layout/activity_rapports" />
+
+    <!-- Secondary navigation -->
+    <fragment
+        android:id="@+id/webViewPdfFragment"
+        android:name="com.chouchene.factures.fragments.WebViewPdfFragment"
+        android:label="Aperçu PDF"
+        tools:layout="@layout/activity_webview_pdf_sendmail" />
+
 </navigation>

@@ -50,6 +50,10 @@ public class PersonalSettingsFragment extends Fragment implements View.OnClickLi
     TextInputLayout txtPlaque;
     TextInputLayout txtEvtc;
 
+    TextInputLayout txtIban;
+    TextInputLayout txtBic;
+    TextInputLayout txtBankAddress;
+
     String userName;
     String street;
     String city;
@@ -64,16 +68,17 @@ public class PersonalSettingsFragment extends Fragment implements View.OnClickLi
     String plaque;
     String evtc;
 
+    String iban;
+    String bic;
+    String bankAddress;
+
     Button btnSaveInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        getActivity().setTitle("Entreprise et chauffeur");
+        if (getActivity() != null) getActivity().setTitle("Entreprise et chauffeur");
         View myView = inflater.inflate(R.layout.activity_personal_settings, container, false);
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-
-        MaterialToolbar toolbar = requireActivity().findViewById(R.id.my_toolbar);
-        toolbar.setNavigationIcon(R.drawable.baseline_dashboard_24);
 
         String retrievedUser = sharedPreferences.getString("User", "");
         txtUserName = myView.findViewById(R.id.edit_user_name);
@@ -112,6 +117,16 @@ public class PersonalSettingsFragment extends Fragment implements View.OnClickLi
         String retrievedEvtc = sharedPreferences.getString("evtc", "");
         txtEvtc = myView.findViewById(R.id.edit_Evtc);
         txtEvtc.getEditText().setText(retrievedEvtc);
+
+        String retrievedIban = sharedPreferences.getString("iban", "FR7616958000016908274069822");
+        txtIban = myView.findViewById(R.id.edit_iban);
+        txtIban.getEditText().setText(retrievedIban);
+        String retrievedBic = sharedPreferences.getString("bic", "QNTOFRP1XXX");
+        txtBic = myView.findViewById(R.id.edit_bic);
+        txtBic.getEditText().setText(retrievedBic);
+        String retrievedBankAddress = sharedPreferences.getString("bankAddress", "CM3-VTC, 5 RUE AMBOURGET, Chez M chouchene moez, 93600, AULNAY-SOUS-BOIS - FR");
+        txtBankAddress = myView.findViewById(R.id.edit_bank_address);
+        txtBankAddress.getEditText().setText(retrievedBankAddress);
 
         txtCodePostale.addTextChangedListener(new TextWatcher() {
                                                   @Override
@@ -162,6 +177,10 @@ public class PersonalSettingsFragment extends Fragment implements View.OnClickLi
         plaque = txtPlaque.getEditText().getText().toString();
         evtc = txtEvtc.getEditText().getText().toString();
 
+        iban = txtIban.getEditText().getText().toString();
+        bic = txtBic.getEditText().getText().toString();
+        bankAddress = txtBankAddress.getEditText().getText().toString();
+
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -200,6 +219,15 @@ public class PersonalSettingsFragment extends Fragment implements View.OnClickLi
         }
         if (evtc != null && !evtc.isEmpty()) {
             editor.putString("evtc", evtc);
+        }
+        if (iban != null && !iban.isEmpty()) {
+            editor.putString("iban", iban);
+        }
+        if (bic != null && !bic.isEmpty()) {
+            editor.putString("bic", bic);
+        }
+        if (bankAddress != null && !bankAddress.isEmpty()) {
+            editor.putString("bankAddress", bankAddress);
         }
         editor.apply();
     }

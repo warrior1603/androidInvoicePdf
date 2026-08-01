@@ -20,8 +20,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
 import com.chouchene.factures.fragments.BonDeCommandeFragment;
+import com.chouchene.factures.fragments.HistoriqueFragment;
 import com.chouchene.factures.fragments.RapportsFragment;
 import com.chouchene.factures.fragments.InvoiceGenrationFragment;
 import com.chouchene.factures.fragments.ListeClientsFragment;
@@ -34,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     final static int REQUEST_CODE_INTERNET = 1232;
 
     BottomNavigationView bottomNavigationView;
+    NavController navController;
 
     SharedPreferences sharedPreferences;
 
@@ -71,44 +76,18 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            int id = item.getItemId();
-            Fragment fragment = null;
-            String tag = null;
-
-            if (id == R.id.factureFragment) {
-                fragment = new InvoiceGenrationFragment();
-                tag = "InvoiceFragment";
-            } else if (id == R.id.bonCommandeFragment) {
-                fragment = new BonDeCommandeFragment();
-                tag = "BonCommandeFragment";
-            } else if (id == R.id.entrepriseFragment) {
-                fragment = new PersonalSettingsFragment();
-                tag = "EnterpriseFragment";
-            } else if (id == R.id.clientsFragment) {
-                fragment = new ListeClientsFragment();
-                tag = "ClientsFragment";
-            } else if (id == R.id.parametresFragment) {
-                fragment = new RapportsFragment();
-                tag = "ReportsFragment";
-            }
-
-            if (fragment != null) {
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.flFragment, fragment, tag)
-                        .commit();
-            }
-            return true;
-        });
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        if (navHostFragment != null) {
+            navController = navHostFragment.getNavController();
+            NavigationUI.setupWithNavController(bottomNavigationView, navController);
+            NavigationUI.setupWithNavController(myToolbar, navController);
+        }
 
         String lastFragment = sharedPreferences.getString("last_fragment", "MainFragment");
 
         if ("SettingsFragment".equals(lastFragment)) {
             bottomNavigationView.setSelectedItemId(R.id.parametresFragment);
             sharedPreferences.edit().putString("last_fragment", "MainFragment").apply();
-        } else {
-            bottomNavigationView.setSelectedItemId(R.id.factureFragment);
         }
 
         askPermissions();

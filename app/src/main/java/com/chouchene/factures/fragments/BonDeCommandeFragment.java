@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chouchene.factures.R;
+import com.chouchene.factures.database.AppDatabase;
+import com.chouchene.factures.entity.Invoice;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -24,7 +26,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
+import androidx.room.Room;
 import com.tom_roush.pdfbox.android.PDFBoxResourceLoader;
+import androidx.navigation.Navigation;
 import com.tom_roush.pdfbox.pdmodel.PDDocument;
 import com.tom_roush.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import com.tom_roush.pdfbox.pdmodel.interactive.form.PDField;
@@ -61,7 +65,6 @@ public class BonDeCommandeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        getActivity().setTitle("Bon de commande");
         sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         settingsSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         View myView = inflater.inflate(R.layout.fragment_bon_de_commande, container, false);
@@ -129,7 +132,7 @@ public class BonDeCommandeFragment extends Fragment {
         String destination = editDestination.getEditText().getText().toString();
         String tarif = editTarif.getEditText().getText().toString();
 
-        File templateFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "template-bon-commande-output.pdf");
+        File templateFile = new File(requireContext().getCacheDir(), "template-bon-commande.pdf");
 
         try (InputStream inputStream = getContext().getAssets().open("bon-de-commande.pdf")) {
             FileUtils.copyToFile(inputStream, templateFile);
@@ -144,38 +147,22 @@ public class BonDeCommandeFragment extends Fragment {
                 throw new IOException("No AcroForm found in bon-de-commande.pdf");
             }
 
-            PDField nomEmetteurField = acroForm.getField("nomEmetteur");
-            nomEmetteurField.setValue(userNameEmetteur);
-            PDField rueEmetteurField = acroForm.getField("rueEmetteur");
-            rueEmetteurField.setValue(streetEmetteur);
-            PDField codePostaleEmetteurField = acroForm.getField("codePostaleEmetteur");
-            codePostaleEmetteurField.setValue(codePostaleEmetteur);
-            PDField villeEmetteurField = acroForm.getField("villeEmetteur");
-            villeEmetteurField.setValue(cityEmetteur);
-            PDField evtcField = acroForm.getField("numeroEVTC");
-            evtcField.setValue(evtc);
-            PDField telEmetteurField = acroForm.getField("telEmetteur");
-            telEmetteurField.setValue(telEmetteur);
-            PDField nomConducteurField = acroForm.getField("nomConducteur");
-            nomConducteurField.setValue(chauffeur);
-            PDField nomPassagerField = acroForm.getField("nomPassager");
-            nomPassagerField.setValue(passager);
-            PDField telPassagerField = acroForm.getField("telPassager");
-            telPassagerField.setValue(telPassager);
-            PDField commandeField = acroForm.getField("dateCommande");
-            commandeField.setValue(dateCommande+" "+timeCommande);
-            PDField pecField = acroForm.getField("datePriseEnCharge");
-            pecField.setValue(datePrise+" "+timePrise);
-            PDField LieuPecField = acroForm.getField("lieuPriseEnCharge");
-            LieuPecField.setValue(priseEnCharge);
-            PDField destinationField = acroForm.getField("destination");
-            destinationField.setValue(destination);
-            PDField tarifField = acroForm.getField("tarif");
-            tarifField.setValue(tarif);
-            PDField conducteurField = acroForm.getField("nomChauffeur");
-            conducteurField.setValue(chauffeur);
-            PDField plaqueField = acroForm.getField("plaque");
-            plaqueField.setValue(plaque);
+            setField(acroForm, "nomEmetteur", userNameEmetteur);
+            setField(acroForm, "rueEmetteur", streetEmetteur);
+            setField(acroForm, "codePostaleEmetteur", codePostaleEmetteur);
+            setField(acroForm, "villeEmetteur", cityEmetteur);
+            setField(acroForm, "numeroEVTC", evtc);
+            setField(acroForm, "telEmetteur", telEmetteur);
+            setField(acroForm, "nomConducteur", chauffeur);
+            setField(acroForm, "nomPassager", passager);
+            setField(acroForm, "telPassager", telPassager);
+            setField(acroForm, "dateCommande", dateCommande+" "+timeCommande);
+            setField(acroForm, "datePriseEnCharge", datePrise+" "+timePrise);
+            setField(acroForm, "lieuPriseEnCharge", priseEnCharge);
+            setField(acroForm, "destination", destination);
+            setField(acroForm, "tarif", tarif);
+            setField(acroForm, "nomChauffeur", chauffeur);
+            setField(acroForm, "plaque", plaque);
 
             acroForm.setNeedAppearances(true);
             acroForm.flatten();
@@ -191,6 +178,13 @@ public class BonDeCommandeFragment extends Fragment {
             document.save(invoiceFile);
             // Close the document
             document.close();
+            templateFile.delete();
+
+            // Save to history
+            AppDatabase db = Room.databaseBuilder(requireContext(), AppDatabase.class, "MyClients").allowMainThreadQueries().fallbackToDestructiveMigration().build();
+            double finalTarif = 0;
+            try { finalTarif = Double.parseDouble(tarif); } catch (Exception ignored) {}
+            db.invoiceDao().insertInvoice(new Invoice(finalTarif, new java.util.Date(), passager, invoiceFile.getAbsolutePath(), "Bon"));
 
             navigateToFragmentPreviewPdf(invoiceFile.getAbsolutePath().toString(), emailEmetteur);
 
@@ -201,6 +195,13 @@ public class BonDeCommandeFragment extends Fragment {
             throw new RuntimeException(e);
         }
 
+    }
+
+    private void setField(PDAcroForm form, String fieldName, String value) throws IOException {
+        PDField field = form.getField(fieldName);
+        if (field != null) {
+            field.setValue(value != null ? value : "");
+        }
     }
 
     private void onEditTimeCommandClick(TextInputEditText editTimeCommandForm) {
@@ -253,20 +254,10 @@ public class BonDeCommandeFragment extends Fragment {
     }
 
     private void navigateToFragmentPreviewPdf(String filePath, String recipientEmail) {
-        // Create an instance of FragmentB
-        Fragment fragmentWebView = new WebViewPdfFragment();
-
         Bundle bundle = new Bundle();
-        bundle.putString("file_path", filePath.toString());
-        bundle.putString("mail_client", recipientEmail);// Pass file path as String
-
-        // Set the arguments to the FragmentB
-        fragmentWebView.setArguments(bundle);
-        // Get FragmentManager and start a transaction
-        requireActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.flFragment, fragmentWebView)
-                .addToBackStack(null)
-                .commit();
+        bundle.putString("file_path", filePath);
+        bundle.putString("mail_client", recipientEmail);
+        Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, bundle);
     }
 
 

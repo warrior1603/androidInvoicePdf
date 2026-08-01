@@ -18,6 +18,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreferenceCompat;
 
+import com.chouchene.factures.fragments.PersonalSettingsFragment;
 import com.google.android.material.appbar.MaterialToolbar;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -50,7 +51,11 @@ public class SettingsActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        finish();
+                        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                            getSupportFragmentManager().popBackStack();
+                        } else {
+                            finish();
+                        }
                     }
                 });
 
@@ -97,6 +102,18 @@ public class SettingsActivity extends AppCompatActivity {
                         });
                         return true;
                     }
+                });
+            }
+
+            Preference profilePref = findPreference("profile_entreprise");
+            if (profilePref != null) {
+                profilePref.setOnPreferenceClickListener(preference -> {
+                    getParentFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.settings, new PersonalSettingsFragment())
+                            .addToBackStack(null)
+                            .commit();
+                    return true;
                 });
             }
         }

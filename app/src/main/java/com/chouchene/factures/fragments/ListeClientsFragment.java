@@ -13,7 +13,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.LinearLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.widget.SearchView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -48,13 +50,13 @@ public class ListeClientsFragment extends Fragment {
 
     ClientDao clientDao;
 
-    ListView listView;
+    RecyclerView recyclerView;
+    LinearLayout emptyState;
 
     private ActivityResultLauncher<Intent> activityResultLauncher;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        getActivity().setTitle("Mes Clients");
         View myView = inflater.inflate(R.layout.activity_list_clients, container, false);
 
         MaterialToolbar toolbar = requireActivity().findViewById(R.id.my_toolbar);
@@ -64,10 +66,13 @@ public class ListeClientsFragment extends Fragment {
 
         myClients= (ArrayList<Client>) clientDao.getAllClients();
 
-        listView = myView.findViewById(R.id.listview);
+        recyclerView = myView.findViewById(R.id.recyclerViewClients);
+        emptyState = myView.findViewById(R.id.empty_state);
 
         listAdapter = new CustomAdapter(this.getActivity(), myClients);
-        listView.setAdapter(listAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(listAdapter);
+        checkEmptyState();
 
 
         SearchView searchView=myView.findViewById(R.id.searchView);
@@ -75,12 +80,14 @@ public class ListeClientsFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 listAdapter.filter(query);
+                checkEmptyState();
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 listAdapter.filter(newText);
+                checkEmptyState();
                 return true;
             }
         });
@@ -185,6 +192,17 @@ public class ListeClientsFragment extends Fragment {
         // Refresh or update your list here
         listAdapter.setData((ArrayList<Client>) clientDao.getAllClients());
         listAdapter.notifyDataSetChanged();
+        checkEmptyState();
+    }
+
+    private void checkEmptyState() {
+        if (listAdapter.getItemCount() == 0) {
+            emptyState.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            emptyState.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

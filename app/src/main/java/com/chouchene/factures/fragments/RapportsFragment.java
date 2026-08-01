@@ -31,12 +31,12 @@ import java.util.Locale;
 public class RapportsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        getActivity().setTitle("Rapports");
         View myView = inflater.inflate(R.layout.activity_rapports, container, false);
         MaterialToolbar toolbar = requireActivity().findViewById(R.id.my_toolbar);
-        toolbar.setNavigationIcon(R.drawable.baseline_history_24);
+        toolbar.setNavigationIcon(R.drawable.baseline_dashboard_24);
 
         BarChart barChart = myView.findViewById(R.id.barChart);
+        TextView chartEmptyState = myView.findViewById(R.id.chart_empty_state);
 
         InvoiceDao db = Room.databaseBuilder(requireContext(), AppDatabase.class, "MyClients").allowMainThreadQueries().fallbackToDestructiveMigration().build().invoiceDao();
         
@@ -82,7 +82,15 @@ public class RapportsFragment extends Fragment {
         barChart.setData(barData);
         barChart.getDescription().setEnabled(false);
         barChart.getLegend().setEnabled(false);
-        barChart.invalidate();
+
+        if (entries.isEmpty()) {
+            barChart.setVisibility(View.INVISIBLE);
+            chartEmptyState.setVisibility(View.VISIBLE);
+        } else {
+            barChart.setVisibility(View.VISIBLE);
+            chartEmptyState.setVisibility(View.GONE);
+            barChart.invalidate();
+        }
         
         return myView;
     }
