@@ -18,19 +18,6 @@ A professional Android application designed for small businesses and freelancers
     - **Global Dark Mode** support for a comfortable user experience in any lighting.
 - **Advanced Compatibility**: Optimized for **16 KB memory page sizes**, ensuring future-proof performance on Android 15+ devices.
 
-## 📸 Screenshots
-
-<p align="center">
-  <img src="screenshots/home.png" width="30%" />
-  <img src="screenshots/bons.png" width="30%" />
-  <img src="screenshots/history.png" width="30%" />
-</p>
-<p align="center">
-  <img src="screenshots/rapports.png" width="30%" />
-  <img src="screenshots/profile.png" width="30%" />
-  <img src="screenshots/settings.png" width="30%" />
-</p>
-
 ## 🛠 Technologies Used
 
 - **Language**: Java / Kotlin (DSL)
