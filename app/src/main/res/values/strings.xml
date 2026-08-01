@@ -5,8 +5,7 @@
     <string-array name="currency_options">
         <item>USD</item>
         <item>EUR</item>
-        <item>GBP</item>t
-
+        <item>GBP</item>
     </string-array>
 
     <string-array name="currency_values">

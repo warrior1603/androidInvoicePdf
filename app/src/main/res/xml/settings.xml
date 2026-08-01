@@ -27,6 +27,21 @@
          android:entryValues="@array/currency_values"
          android:defaultValue="EUR" />
 
+    <ListPreference
+        app:iconSpaceReserved="false"
+        android:key="invoice_template"
+        android:title="Modèle de facture"
+        android:summary="Choisir le style visuel des PDF générés"
+        android:entries="@array/template_entries"
+        android:entryValues="@array/template_values"
+        android:defaultValue="invoice_template.html" />
+
+    <Preference
+        android:key="preview_templates"
+        android:title="Aperçu des styles"
+        android:summary="Voir et comparer les modèles de facture"
+        app:iconSpaceReserved="false" />
+
     <PreferenceCategory
         android:title="Entreprise"
         app:iconSpaceReserved="false">

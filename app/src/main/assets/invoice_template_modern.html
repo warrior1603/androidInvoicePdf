@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 30px; color: #2D3436; line-height: 1.6; }
+        .header { border-bottom: 2px solid #00B894; padding-bottom: 20px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .issuer-info { font-size: 14px; }
+        .invoice-brand { color: #00B894; font-size: 32px; font-weight: 800; text-transform: uppercase; margin: 0; }
+
+        .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+        .section-label { color: #636E72; font-size: 11px; font-weight: bold; text-transform: uppercase; margin-bottom: 8px; border-bottom: 1px solid #DFE6E9; padding-bottom: 4px; }
+
+        table { width: 100%; border-collapse: collapse; margin-bottom: 30px; background: #F9FAFB; }
+        th { text-align: left; padding: 15px; background: #2D3436; color: white; font-size: 12px; text-transform: uppercase; }
+        td { padding: 15px; border-bottom: 1px solid #DFE6E9; vertical-align: top; }
+
+        .totals-container { display: flex; justify-content: flex-end; }
+        .totals-card { background: #F9FAFB; padding: 20px; border-radius: 8px; width: 300px; }
+        .total-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; }
+        .grand-total { border-top: 2px solid #00B894; padding-top: 15px; margin-top: 10px; font-weight: bold; font-size: 20px; color: #00B894; }
+
+        .footer { position: fixed; bottom: 30px; left: 30px; right: 30px; text-align: center; font-size: 10px; color: #B2BEC3; border-top: 1px solid #F1F2F6; padding-top: 10px; }
+
+        @media print {
+            .no-break { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <h1 class="invoice-brand">Facture</h1>
+            <div style="margin-top: 5px;">N° {{invoiceNumber}} — {{invoiceDate}}</div>
+        </div>
+        <div class="issuer-info" style="text-align: right;">
+            <div style="font-weight: bold; font-size: 16px;">{{issuerName}}</div>
+            <div>{{issuerTel}}</div>
+            <div>{{issuerEmail}}</div>
+        </div>
+    </div>
+
+    <div class="details-grid">
+        <div>
+            <div class="section-label">Émis par</div>
+            <div>{{issuerStreet}}</div>
+            <div>{{issuerCityZip}}, {{issuerCountry}}</div>
+            <div style="font-size: 12px; margin-top: 5px;">SIREN: {{issuerSiren}} | TVA: {{issuerTva}}</div>
+        </div>
+        <div>
+            <div class="section-label">Facturé à</div>
+            <div style="font-weight: bold; font-size: 16px;">{{clientName}}</div>
+            <div>{{clientStreet}}</div>
+            <div>{{clientCityZip}}, {{clientCountry}}</div>
+            <div style="font-size: 12px; margin-top: 5px;">{{clientTvaSiren}}</div>
+        </div>
+    </div>
+
+    <table>
+        <tbody>
+            <tr>
+                <th width="50%">Description</th>
+                <th>Qté</th>
+                <th>Prix HT</th>
+                <th style="text-align: right;">Total HT</th>
+            </tr>
+            <tr>
+                <td><b>{{description}}</b></td>
+                <td>{{qty}}</td>
+                <td>{{priceHt}}</td>
+                <td style="text-align: right;">{{totalHt}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="totals-container no-break">
+        <div class="totals-card">
+            <div class="total-row">
+                <span>Sous-total HT</span>
+                <span>{{totalHt}}</span>
+            </div>
+            <div class="total-row">
+                <span>TVA ({{tvaPercent}})</span>
+                <span>{{totalTva}}</span>
+            </div>
+            <div class="total-row grand-total">
+                <span>TOTAL TTC</span>
+                <span>{{totalTtc}}</span>
+            </div>
+            <div style="margin-top: 15px; font-size: 12px; color: #636E72;">
+                Mode de paiement: <b>{{payementMode}}</b>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        {{issuerName}} — SIREN: {{issuerSiren}} — TVA: {{issuerTva}}<br>
+        Document généré via l'application Mobile.
+    </div>
+</body>
+</html>

@@ -19,6 +19,7 @@ import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.chouchene.factures.fragments.PersonalSettingsFragment;
+import com.chouchene.factures.fragments.TemplatePreviewFragment;
 import com.google.android.material.appbar.MaterialToolbar;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -111,6 +112,18 @@ public class SettingsActivity extends AppCompatActivity {
                     getParentFragmentManager()
                             .beginTransaction()
                             .replace(R.id.settings, new PersonalSettingsFragment())
+                            .addToBackStack(null)
+                            .commit();
+                    return true;
+                });
+            }
+
+            Preference previewPref = findPreference("preview_templates");
+            if (previewPref != null) {
+                previewPref.setOnPreferenceClickListener(preference -> {
+                    getParentFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.settings, new TemplatePreviewFragment())
                             .addToBackStack(null)
                             .commit();
                     return true;

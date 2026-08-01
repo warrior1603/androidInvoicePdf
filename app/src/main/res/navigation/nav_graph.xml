@@ -42,4 +42,10 @@
         android:label="Aperçu PDF"
         tools:layout="@layout/activity_webview_pdf_sendmail" />
 
+    <fragment
+        android:id="@+id/templatePreviewFragment"
+        android:name="com.chouchene.factures.fragments.TemplatePreviewFragment"
+        android:label="Styles de facture"
+        tools:layout="@layout/fragment_template_preview" />
+
 </navigation>
