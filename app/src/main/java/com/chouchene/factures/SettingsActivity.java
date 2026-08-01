@@ -1,14 +1,18 @@
 package com.chouchene.factures;
 
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.TypedValue;
 import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
@@ -53,8 +57,18 @@ public class SettingsActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("  Parametres");
-            actionBar.setLogo(R.drawable.settings_gear_svgrepo_com);
+            actionBar.setTitle("  Paramètres");
+
+            // Load and tint the Material settings icon
+            Drawable logo = ContextCompat.getDrawable(this, R.drawable.baseline_settings_24);
+            if (logo != null) {
+                logo = DrawableCompat.wrap(logo);
+                TypedValue typedValue = new TypedValue();
+                getTheme().resolveAttribute(com.google.android.material.R.attr.colorOnPrimary, typedValue, true);
+                DrawableCompat.setTint(logo, typedValue.data);
+                actionBar.setLogo(logo);
+                actionBar.setDisplayUseLogoEnabled(true);
+            }
         }
     }
 
