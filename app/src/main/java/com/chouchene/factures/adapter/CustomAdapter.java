@@ -63,8 +63,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         holder.cardview.setOnClickListener(v -> {
             Client currentClient = filteredList.get(holder.getAdapterPosition());
             holder.txtRue.setText(currentClient.getStreet());
-            holder.txtVille.setText(currentClient.getCodePostale() + " " + currentClient.getVille());
-            holder.txtPays.setText(currentClient.getPays());
+            holder.txtVille.setText(currentClient.getCodePostale() + " " + currentClient.getVille() + ", " + currentClient.getPays());
             holder.txtSiren.setText("SIREN: " + currentClient.getNumeroSiren());
             holder.txtEmail.setText(currentClient.getEmail());
             holder.txtTva.setText("TVA: " + currentClient.getNumeroTVA());
@@ -187,7 +186,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         MaterialButton editbutton, deleteButton;
         LinearLayout datailsText, layout;
         View cardview;
-        TextView txtRue, txtVille, txtPays, txtSiren, txtEmail, txtTva;
+        TextView txtRue, txtVille, txtSiren, txtEmail, txtTva;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -199,7 +198,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             layout = itemView.findViewById(R.id.layout1);
             txtRue = itemView.findViewById(R.id.show_rue);
             txtVille = itemView.findViewById(R.id.show_ville);
-            txtPays = itemView.findViewById(R.id.show_pays);
             txtSiren = itemView.findViewById(R.id.show_siren);
             txtEmail = itemView.findViewById(R.id.show_email);
             txtTva = itemView.findViewById(R.id.show_tva);

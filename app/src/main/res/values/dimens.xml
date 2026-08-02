@@ -1,13 +1,13 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_margin">24dp</dimen>
     <dimen name="space_xs">4dp</dimen>
     <dimen name="space_sm">8dp</dimen>
-    <dimen name="space_md">12dp</dimen>
-    <dimen name="space_lg">16dp</dimen>
-    <dimen name="space_xl">24dp</dimen>
-    <dimen name="space_xxl">32dp</dimen>
+    <dimen name="space_md">16dp</dimen>
+    <dimen name="space_lg">24dp</dimen>
+    <dimen name="space_xl">32dp</dimen>
+    <dimen name="space_xxl">48dp</dimen>
 
-    <dimen name="card_corner_radius">12dp</dimen>
-    <dimen name="card_inner_padding">12dp</dimen>
-    <dimen name="form_section_spacing">12dp</dimen>
+    <dimen name="card_corner_radius">32dp</dimen>
+    <dimen name="card_inner_padding">24dp</dimen>
+    <dimen name="form_section_spacing">24dp</dimen>
 </resources>

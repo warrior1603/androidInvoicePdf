@@ -2,33 +2,32 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="8dp">
+        android:paddingTop="16dp">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:layout_marginVertical="4dp"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="2dp"
-            app:strokeWidth="0dp"
-            style="@style/Widget.Material3.CardView.Elevated">
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="8dp"
+            style="@style/App.CardView.Highlight"
+            app:cardCornerRadius="32dp">
 
             <SearchView
                 android:id="@+id/searchView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:queryHint="Recherche Clients"
+                android:layout_height="64dp"
+                android:queryHint="Search Clients..."
                 android:iconifiedByDefault="false"
                 android:queryBackground="@android:color/transparent"
                 android:background="@android:color/transparent"
-                android:paddingHorizontal="8dp"
+                android:paddingHorizontal="16dp"
                 />
 
         </com.google.android.material.card.MaterialCardView>
@@ -52,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Aucun client trouvé"
+                android:text="No clients found"
                 android:textAppearance="?attr/textAppearanceTitleMedium"
                 android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -60,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha="0.7"
-                android:text="Appuyez sur + pour ajouter un client"
+                android:text="Tap + to add a client"
                 android:textAppearance="?attr/textAppearanceBodySmall"
                 android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -71,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingBottom="88dp" />
+            android:paddingBottom="100dp" />
 
     </LinearLayout>
 
@@ -83,10 +82,8 @@
         android:layout_margin="24dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:backgroundTint="?attr/colorPrimary"
-        app:tint="?attr/colorOnPrimary"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.FAB.Circular"
-        android:contentDescription="Ajout Client"
+        style="@style/App.Fab"
+        android:contentDescription="Add Client"
         android:src="@drawable/baseline_add_white_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

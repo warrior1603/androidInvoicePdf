@@ -35,7 +35,7 @@
         <item name="colorOutlineVariant">@color/outline_variant_light</item>
         <!-- System bars -->
         <item name="android:statusBarColor">?attr/colorSurface</item>
-        <item name="android:navigationBarColor">@color/surface_light</item>
+        <item name="android:navigationBarColor">@color/background_light</item>
         <item name="android:windowLightStatusBar">true</item>
         <!-- Component overrides -->
         <item name="toolbarStyle">@style/App.Toolbar</item>
@@ -84,111 +84,100 @@
         <item name="textInputStyle">@style/App.TextInput</item>
     </style>
 
-    <!--
-        Top App Bar — M3 standard.
-        Surface background; tonal elevation handled by Material itself.
-        No custom gradients or rounded corners.
-    -->
     <style name="App.Toolbar" parent="Widget.Material3.Toolbar">
         <item name="android:background">?attr/colorSurface</item>
-        <item name="titleTextColor">?attr/colorPrimary</item>
-        <item name="subtitleTextColor">?attr/colorPrimary</item>
+        <item name="titleTextColor">?attr/colorOnSurface</item>
+        <item name="subtitleTextColor">?attr/colorOnSurfaceVariant</item>
         <item name="navigationIconTint">?attr/colorPrimary</item>
+        <item name="titleTextAppearance">@style/App.TextAppearance.ToolbarTitle</item>
     </style>
 
-    <!--
-        Navigation Bar — M3 standard NavigationBar.
-        Full-width, surface background; active indicator is automatic.
-    -->
+    <style name="App.TextAppearance.ToolbarTitle" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
     <style name="App.BottomNavigation" parent="Widget.Material3.BottomNavigationView">
-        <item name="android:background">?attr/colorSurfaceVariant</item>
+        <item name="android:background">?attr/colorSurface</item>
         <item name="itemIconTint">@color/bottom_navigation_item_tint</item>
         <item name="itemTextColor">@color/bottom_navigation_item_tint</item>
         <item name="itemRippleColor">?attr/colorPrimaryContainer</item>
         <item name="itemIconSize">24dp</item>
-        <item name="android:elevation">8dp</item>
+        <item name="android:elevation">0dp</item>
     </style>
 
-    <!--
-        Primary action button — M3 FilledButton.
-        Highest emphasis; uses colorPrimary fill.
-    -->
     <style name="App.Button" parent="Widget.Material3.Button">
         <item name="android:textAllCaps">false</item>
-        <item name="android:minHeight">48dp</item>
-        <item name="cornerRadius">12dp</item>
+        <item name="android:minHeight">64dp</item>
+        <item name="cornerRadius">32dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:elevation">8dp</item>
     </style>
 
-    <!--
-        Secondary action button — M3 TonalButton.
-        Use for less-prominent actions.
-    -->
     <style name="App.Button.Tonal" parent="Widget.Material3.Button.TonalButton">
         <item name="android:textAllCaps">false</item>
-        <item name="android:minHeight">48dp</item>
-        <item name="cornerRadius">12dp</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="cornerRadius">28dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
-    <!-- FAB -->
     <style name="App.Fab" parent="Widget.Material3.FloatingActionButton.Primary">
-        <item name="backgroundTint">?attr/colorPrimaryContainer</item>
-        <item name="tint">?attr/colorOnPrimaryContainer</item>
+        <item name="backgroundTint">?attr/colorPrimary</item>
+        <item name="tint">?attr/colorOnPrimary</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.App.FAB.Rounded</item>
     </style>
 
-    <style name="ShapeAppearanceOverlay.App.FAB.Circular" parent="">
+    <style name="ShapeAppearanceOverlay.App.FAB.Rounded" parent="">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">50%</item>
+        <item name="cornerSize">20dp</item>
     </style>
 
-    <!--
-        Card — M3 ElevatedCard.
-        Subtle tonal surface with 2dp elevation shadow.
-    -->
     <style name="App.CardView" parent="Widget.Material3.CardView.Elevated">
         <item name="cardBackgroundColor">?attr/colorSurface</item>
-        <item name="cardCornerRadius">@dimen/card_corner_radius</item>
-        <item name="cardElevation">2dp</item>
+        <item name="cardCornerRadius">32dp</item>
+        <item name="cardElevation">4dp</item>
+        <item name="strokeWidth">0dp</item>
     </style>
 
-    <!--
-        Text field — M3 OutlinedBox.
-        Clean outlined style, stroke picks up colorPrimary on focus.
-    -->
+    <style name="App.CardView.Highlight" parent="App.CardView">
+        <item name="strokeWidth">1dp</item>
+        <item name="strokeColor">?attr/colorPrimaryContainer</item>
+    </style>
+
     <style name="App.TextInput" parent="Widget.Material3.TextInputLayout.OutlinedBox.Dense">
         <item name="boxStrokeColor">?attr/colorPrimary</item>
-        <item name="boxStrokeWidth">1dp</item>
-        <item name="boxStrokeWidthFocused">2dp</item>
-        <item name="boxCornerRadiusTopStart">10dp</item>
-        <item name="boxCornerRadiusTopEnd">10dp</item>
-        <item name="boxCornerRadiusBottomStart">10dp</item>
-        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxStrokeWidth">1.5dp</item>
+        <item name="boxStrokeWidthFocused">2.5dp</item>
+        <item name="boxCornerRadiusTopStart">16dp</item>
+        <item name="boxCornerRadiusTopEnd">16dp</item>
+        <item name="boxCornerRadiusBottomStart">16dp</item>
+        <item name="boxCornerRadiusBottomEnd">16dp</item>
         <item name="helperTextTextAppearance">@style/App.TextAppearance.FieldHelper</item>
         <item name="errorTextAppearance">@style/App.TextAppearance.FieldError</item>
-        <item name="placeholderTextAppearance">@style/App.TextAppearance.FieldHelper</item>
     </style>
 
     <style name="App.TextInput.ExposedDropdown" parent="Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
         <item name="boxStrokeColor">?attr/colorPrimary</item>
-        <item name="boxStrokeWidth">1dp</item>
-        <item name="boxStrokeWidthFocused">2dp</item>
-        <item name="boxCornerRadiusTopStart">10dp</item>
-        <item name="boxCornerRadiusTopEnd">10dp</item>
-        <item name="boxCornerRadiusBottomStart">10dp</item>
-        <item name="boxCornerRadiusBottomEnd">10dp</item>
-        <item name="helperTextTextAppearance">@style/App.TextAppearance.FieldHelper</item>
-        <item name="errorTextAppearance">@style/App.TextAppearance.FieldError</item>
+        <item name="boxStrokeWidth">1.5dp</item>
+        <item name="boxStrokeWidthFocused">2.5dp</item>
+        <item name="boxCornerRadiusTopStart">16dp</item>
+        <item name="boxCornerRadiusTopEnd">16dp</item>
+        <item name="boxCornerRadiusBottomStart">16dp</item>
+        <item name="boxCornerRadiusBottomEnd">16dp</item>
     </style>
 
-    <!-- Section title — M3 TitleMedium -->
-    <style name="App.SectionTitle" parent="TextAppearance.Material3.TitleMedium">
+    <style name="App.SectionTitle" parent="TextAppearance.Material3.HeadlineSmall">
         <item name="android:textColor">?attr/colorOnSurface</item>
-        <item name="android:textAllCaps">false</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:letterSpacing">-0.02</item>
     </style>
 
     <style name="App.TextAppearance.FieldHelper" parent="TextAppearance.Material3.BodySmall">
@@ -199,10 +188,10 @@
         <item name="android:textColor">?attr/colorError</item>
     </style>
 
-    <style name="App.FormSectionTitle" parent="TextAppearance.Material3.TitleSmall">
+    <style name="App.FormSectionTitle" parent="TextAppearance.Material3.TitleMedium">
         <item name="android:textColor">?attr/colorOnSurface</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:letterSpacing">0</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
     <style name="App.FormValue" parent="TextAppearance.Material3.BodyLarge">

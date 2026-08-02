@@ -60,7 +60,7 @@ public class RapportsFragment extends Fragment {
         TextView totalRevenuesDay = myView.findViewById(R.id.todayRevenue);
         TextView totalRevenusMonth = myView.findViewById(R.id.moisRevenue);
 
-        totalRevenuesDay.setText(String.format(Locale.getDefault(), "%.2f €", sumDaily));
+        totalRevenuesDay.setText(String.format(Locale.getDefault(), "+%.2f €", sumDaily));
         totalRevenusMonth.setText(String.format(Locale.getDefault(), "%.2f €", sumMonthly));
 
         // Get primary color from theme
@@ -72,35 +72,31 @@ public class RapportsFragment extends Fragment {
         barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
         barChart.getXAxis().setPosition(com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM);
         barChart.getXAxis().setDrawGridLines(false);
+        barChart.getXAxis().setDrawAxisLine(false);
         barChart.getXAxis().setGranularity(1f);
         barChart.getXAxis().setTextColor(resolveColor(com.google.android.material.R.attr.colorOnSurfaceVariant));
 
         // Set up the BarDataSet and BarData
-        BarDataSet dataSet = new BarDataSet(entries, "Revenu");
+        BarDataSet dataSet = new BarDataSet(entries, "Revenue");
         dataSet.setColor(primaryColor);
-        dataSet.setValueTextColor(resolveColor(com.google.android.material.R.attr.colorOnSurfaceVariant));
-        dataSet.setValueTextSize(11f);
-        dataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+        dataSet.setDrawValues(false);
+        dataSet.setHighLightColor(resolveColor(com.google.android.material.R.attr.colorPrimaryContainer));
 
         BarData barData = new BarData(dataSet);
-        barData.setBarWidth(0.58f);
+        barData.setBarWidth(0.6f);
         barChart.setData(barData);
         barChart.getDescription().setEnabled(false);
         barChart.getLegend().setEnabled(false);
         barChart.setDrawGridBackground(false);
         barChart.setFitBars(true);
         barChart.setScaleEnabled(false);
-        barChart.setPinchZoom(false);
-        barChart.setNoDataText("Aucune donnée");
-        barChart.setNoDataTextColor(resolveColor(com.google.android.material.R.attr.colorOnSurfaceVariant));
+        barChart.setTouchEnabled(true);
+        barChart.animateY(800);
 
         YAxis leftAxis = barChart.getAxisLeft();
+        leftAxis.setDrawGridLines(false);
+        leftAxis.setDrawAxisLine(false);
         leftAxis.setTextColor(resolveColor(com.google.android.material.R.attr.colorOnSurfaceVariant));
-        leftAxis.setAxisLineColor(resolveColor(com.google.android.material.R.attr.colorOutline));
-        leftAxis.setGridColor(resolveColor(com.google.android.material.R.attr.colorOutlineVariant));
-        leftAxis.setDrawZeroLine(false);
-        leftAxis.setSpaceTop(20f);
-        leftAxis.setAxisMinimum(0f);
         barChart.getAxisRight().setEnabled(false);
 
         if (entries.isEmpty()) {
