@@ -97,102 +97,11 @@ public class ListeClientsFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                View view1 = LayoutInflater.from(getActivity()).inflate(R.layout.popup_add_client, null);
-                TextInputEditText txtName = view1.findViewById(R.id.edit_user_name_client);
-                TextInputEditText txtRue = view1.findViewById(R.id.edit_street);
-                TextInputEditText txtVille = view1.findViewById(R.id.edit_ville);
-                TextInputEditText txtCodePostale = view1.findViewById(R.id.edit_code_postale);
-                TextInputEditText txtPays = view1.findViewById(R.id.edit_pays);
-                TextInputEditText txtSiren = view1.findViewById(R.id.edit_siren);
-                TextInputEditText txtEmail = view1.findViewById(R.id.edit_email_client);
-                TextInputEditText txtTva = view1.findViewById(R.id.tva_client);
-
-                txtCodePostale.addTextChangedListener(new TextWatcher() {
-                                                          @Override
-                                                          public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                                                          }
-
-                                                          @Override
-                                                          public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                                                          }
-
-                                                          @Override
-                                                          public void afterTextChanged(Editable s) {
-                                                              FetchVilleFromCodePostale.fetchDataFromApiWithParams(txtCodePostale.getText().toString(), txtVille, txtPays);
-                                                          }
-                                                      }
-
-                );
-
-                // Show confirmation dialog
-                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext())
-                        .setTitle("Nouveau client")
-                        .setView(view1)
-                        .setPositiveButton("Enregistrer", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Supplied
-                                String customerName = txtName.getText().toString();
-                                String rueClient = txtRue.getText().toString();
-                                String villeClient = txtVille.getText().toString();
-                                String codePostaleClient = txtCodePostale.getText().toString();
-                                String pays = txtPays.getText().toString();
-                                String siren = txtSiren.getText().toString();
-                                String emailClient = txtEmail.getText().toString();
-                                String tva = txtTva.getText().toString();
-
-                                // Insert item in the background thread
-                                Executors.newSingleThreadExecutor().execute(() -> {
-                                    // Create the client instance
-                                    Client client = new Client(customerName,rueClient,villeClient,codePostaleClient,pays,siren,tva,emailClient);
-                                    clientRepository = new ClientRepository(clientDao);
-                                    clientRepository.addClientIfNotExists(client);
-
-                                    // Update the UI on the main thread
-                                    if (getActivity() != null) {
-                                        getActivity().runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                if (isAdded()) {
-                                                    updateListView();
-                                                }
-                                            }
-                                        });
-                                    }
-                                });
-
-
-                            }
-                        })
-                        .setNegativeButton("Annuler", null);
-
-                        //.setIcon(android.R.drawable.ic_input_add) //ic_dialog_info
-                AlertDialog dialog = builder.create();
-
-                if (dialog.getWindow() != null) {
-                    dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background_square);
-                }
-//                dialog.setOnShowListener(
-//                                dlg -> {
-//                                    if (dialog.getWindow() != null) {
-//                                        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-//                                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//                                    }
-//                                }
-//                        );
-                dialog.show();
+                listAdapter.showClientDialog(null);
             }
         });
 
         return myView;
-    }
-
-    private void updateListView() {
-        // Refresh or update your list here
-        listAdapter.setData((ArrayList<Client>) clientDao.getAllClients());
-        listAdapter.notifyDataSetChanged();
-        checkEmptyState();
     }
 
     private void checkEmptyState() {

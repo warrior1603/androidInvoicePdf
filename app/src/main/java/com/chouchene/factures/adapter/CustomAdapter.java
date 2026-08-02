@@ -1,8 +1,6 @@
 package com.chouchene.factures.adapter;
 
 import android.animation.LayoutTransition;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.transition.AutoTransition;
@@ -14,8 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -37,9 +33,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     private final FragmentActivity fragmentActivity;
     private ClientRepository clientRepository;
-    private ClientDao clientDao;
-    private ArrayList<Client> originalList;
-    private ArrayList<Client> filteredList;
+    private final ClientDao clientDao;
+    private final ArrayList<Client> originalList;
+    private final ArrayList<Client> filteredList;
 
     public CustomAdapter(FragmentActivity context, ArrayList<Client> values) {
         this.fragmentActivity = context;
@@ -77,57 +73,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
         holder.editbutton.setOnClickListener(v -> {
             Client currentClient = filteredList.get(holder.getAdapterPosition());
-            View view1 = LayoutInflater.from(fragmentActivity).inflate(R.layout.popup_add_client, null);
-            TextInputEditText txtName = view1.findViewById(R.id.edit_user_name_client);
-            TextInputEditText txtRue = view1.findViewById(R.id.edit_street);
-            TextInputEditText txtVille = view1.findViewById(R.id.edit_ville);
-            TextInputEditText txtCodePostale = view1.findViewById(R.id.edit_code_postale);
-            TextInputEditText txtPays = view1.findViewById(R.id.edit_pays);
-            TextInputEditText txtSiren = view1.findViewById(R.id.edit_siren);
-            TextInputEditText txtEmail = view1.findViewById(R.id.edit_email_client);
-            TextInputEditText txtTva = view1.findViewById(R.id.tva_client);
-
-            txtCodePostale.addTextChangedListener(new TextWatcher() {
-                @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-                @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
-                @Override public void afterTextChanged(Editable s) {
-                    FetchVilleFromCodePostale.fetchDataFromApiWithParams(s.toString(), txtVille, txtPays);
-                }
-            });
-
-            txtName.setText(currentClient.getClientName());
-            txtRue.setText(currentClient.getStreet());
-            txtVille.setText(currentClient.getVille());
-            txtCodePostale.setText(currentClient.getCodePostale());
-            txtPays.setText(currentClient.getPays());
-            txtSiren.setText(currentClient.getNumeroSiren());
-            txtEmail.setText(currentClient.getEmail());
-            txtTva.setText(currentClient.getNumeroTVA());
-
-            new MaterialAlertDialogBuilder(fragmentActivity)
-                    .setTitle("Modifier client")
-                    .setView(view1)
-                    .setPositiveButton("Enregistrer", (dialog, which) -> {
-                        String customerName = txtName.getText().toString();
-                        String rueClient = txtRue.getText().toString();
-                        String villeClient = txtVille.getText().toString();
-                        String cpClient = txtCodePostale.getText().toString();
-                        String paysClient = txtPays.getText().toString();
-                        String sirenClient = txtSiren.getText().toString();
-                        String emailClient = txtEmail.getText().toString();
-                        String tvaClient = txtTva.getText().toString();
-
-                        Executors.newSingleThreadExecutor().execute(() -> {
-                            Client updatedClient = new Client(customerName, rueClient, villeClient, cpClient, paysClient, sirenClient, tvaClient, emailClient);
-                            updatedClient.setId(currentClient.getId());
-                            clientRepository = new ClientRepository(clientDao);
-                            clientRepository.updateClient(updatedClient);
-
-                            fragmentActivity.runOnUiThread(() -> setData((ArrayList<Client>) clientDao.getAllClients()));
-                        });
-                    })
-                    .setNegativeButton("Annuler", null)
-                    .show();
+            showClientDialog(currentClient);
         });
 
         holder.deleteButton.setOnClickListener(v -> {
@@ -152,6 +98,72 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
         });
+    }
+
+    public void showClientDialog(Client client) {
+        boolean isEdit = client != null;
+        View view = LayoutInflater.from(fragmentActivity).inflate(R.layout.popup_add_client, null);
+        
+        TextInputEditText txtName = view.findViewById(R.id.edit_user_name_client);
+        TextInputEditText txtRue = view.findViewById(R.id.edit_street);
+        TextInputEditText txtVille = view.findViewById(R.id.edit_ville);
+        TextInputEditText txtCodePostale = view.findViewById(R.id.edit_code_postale);
+        TextInputEditText txtPays = view.findViewById(R.id.edit_pays);
+        TextInputEditText txtSiren = view.findViewById(R.id.edit_siren);
+        TextInputEditText txtTva = view.findViewById(R.id.tva_client);
+        TextInputEditText txtEmail = view.findViewById(R.id.edit_email_client);
+
+        txtCodePostale.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override public void afterTextChanged(Editable s) {
+                FetchVilleFromCodePostale.fetchDataFromApiWithParams(s.toString(), txtVille, txtPays);
+            }
+        });
+
+        if (isEdit) {
+            txtName.setText(client.getClientName());
+            txtRue.setText(client.getStreet());
+            txtVille.setText(client.getVille());
+            txtCodePostale.setText(client.getCodePostale());
+            txtPays.setText(client.getPays());
+            txtSiren.setText(client.getNumeroSiren());
+            txtTva.setText(client.getNumeroTVA());
+            
+            String email = client.getEmail();
+            if (email != null) {
+                txtEmail.setText(email);
+            }
+        }
+
+        new MaterialAlertDialogBuilder(fragmentActivity)
+                .setTitle(isEdit ? "Modifier client" : "Nouveau client")
+                .setView(view)
+                .setPositiveButton("Enregistrer", (dialog, which) -> {
+                    String customerName = txtName.getText().toString();
+                    String rueClient = txtRue.getText().toString();
+                    String villeClient = txtVille.getText().toString();
+                    String cpClient = txtCodePostale.getText().toString();
+                    String paysClient = txtPays.getText().toString();
+                    String sirenClient = txtSiren.getText().toString();
+                    String tvaClient = txtTva.getText().toString();
+                    String emailClient = txtEmail.getText().toString();
+
+                    Executors.newSingleThreadExecutor().execute(() -> {
+                        Client c = new Client(customerName, rueClient, villeClient, cpClient, paysClient, sirenClient, tvaClient, emailClient);
+                        clientRepository = new ClientRepository(clientDao);
+                        if (isEdit) {
+                            c.setId(client.getId());
+                            clientRepository.updateClient(c);
+                        } else {
+                            clientRepository.addClientIfNotExists(c);
+                        }
+
+                        fragmentActivity.runOnUiThread(() -> setData((ArrayList<Client>) clientDao.getAllClients()));
+                    });
+                })
+                .setNegativeButton("Annuler", null)
+                .show();
     }
 
     @Override

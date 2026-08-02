@@ -77,18 +77,14 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
+        style="@style/App.Fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="96dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/baseline_add_white_24"
-        app:backgroundTint="?attr/colorPrimary"
-        app:tint="?attr/colorOnPrimary"
-        app:elevation="12dp"
+        android:layout_margin="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/baseline_add_white_24"
+        app:elevation="12dp"
         android:contentDescription="Ajouter Client" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

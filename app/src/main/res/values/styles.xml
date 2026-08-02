@@ -110,12 +110,12 @@
         Full-width, surface background; active indicator is automatic.
     -->
     <style name="App.BottomNavigation" parent="Widget.Material3.BottomNavigationView">
-        <item name="android:background">?attr/colorSurfaceContainer</item>
+        <item name="android:background">?attr/colorSurface</item>
         <item name="itemIconTint">@color/bottom_navigation_item_tint</item>
         <item name="itemTextColor">@color/bottom_navigation_item_tint</item>
         <item name="itemRippleColor">?attr/colorPrimaryContainer</item>
         <item name="itemIconSize">24dp</item>
-        <item name="android:elevation">0dp</item>
+        <item name="android:elevation">16dp</item>
         <item name="itemActiveIndicatorStyle">@style/App.BottomNavigation.ActiveIndicator</item>
     </style>
 
