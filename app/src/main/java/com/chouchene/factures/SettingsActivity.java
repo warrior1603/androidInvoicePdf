@@ -1,18 +1,18 @@
 package com.chouchene.factures;
 
+import com.chouchene.factures.utils.LocaleHelper;
+import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.TypedValue;
-import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
@@ -27,6 +27,11 @@ public class SettingsActivity extends AppCompatActivity {
     private static final String THEME_KEY = "theme";
 
     SharedPreferences sharedPreferences;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase, "fr"));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,34 +52,19 @@ public class SettingsActivity extends AppCompatActivity {
 
         MaterialToolbar myToolbar = findViewById(R.id.my_toolbar1);
         setSupportActionBar(myToolbar);
-
-        myToolbar.setNavigationOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-                            getSupportFragmentManager().popBackStack();
-                        } else {
-                            finish();
-                        }
-                    }
-                });
+        
+        myToolbar.setNavigationOnClickListener(v -> {
+            if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                getSupportFragmentManager().popBackStack();
+            } else {
+                finish();
+            }
+        });
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("  Paramètres");
-
-            // Load and tint the Material settings icon
-            Drawable logo = ContextCompat.getDrawable(this, R.drawable.baseline_settings_24);
-            if (logo != null) {
-                logo = DrawableCompat.wrap(logo);
-                TypedValue typedValue = new TypedValue();
-                getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true);
-                DrawableCompat.setTint(logo, typedValue.data);
-                actionBar.setLogo(logo);
-                actionBar.setDisplayUseLogoEnabled(true);
-            }
+            actionBar.setTitle("Settings");
         }
     }
 
@@ -126,6 +116,16 @@ public class SettingsActivity extends AppCompatActivity {
                             .replace(R.id.settings, new TemplatePreviewFragment())
                             .addToBackStack(null)
                             .commit();
+                    return true;
+                });
+            }
+
+            ListPreference langPref = findPreference("language");
+            if (langPref != null) {
+                langPref.setOnPreferenceChangeListener((preference, newValue) -> {
+                    String language = (String) newValue;
+                    LocaleHelper.setLocale(requireContext(), language);
+                    requireActivity().recreate();
                     return true;
                 });
             }

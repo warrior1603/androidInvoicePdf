@@ -5,7 +5,15 @@ import android.content.SharedPreferences;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceManager;
 
+import com.chouchene.factures.utils.LocaleHelper;
+import android.content.Context;
+
 public class MyApplication extends Application {
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleHelper.onAttach(base, "fr"));
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();

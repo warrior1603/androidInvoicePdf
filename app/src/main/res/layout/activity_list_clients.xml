@@ -24,7 +24,7 @@
                 android:id="@+id/searchView"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:queryHint="Rechercher un client..."
+                android:queryHint="@string/label_search_customer"
                 android:iconifiedByDefault="false"
                 android:queryBackground="@android:color/transparent"
                 android:background="@android:color/transparent"
@@ -45,23 +45,16 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:alpha="0.4"
-                android:src="@drawable/person_profile_image_icon"
-                app:tint="?attr/colorOnSurfaceVariant" />
+                android:src="@drawable/queue_icon"
+                app:tint="?attr/colorOnSurfaceVariant"
+                android:contentDescription="@null" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Aucun client trouvé"
+                android:text="@string/label_no_clients"
                 android:textAppearance="?attr/textAppearanceTitleMedium"
-                android:textColor="?attr/colorOnSurfaceVariant" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.6"
-                android:text="Appuyez sur + pour en ajouter un"
-                android:textAppearance="?attr/textAppearanceBodySmall"
                 android:textColor="?attr/colorOnSurfaceVariant" />
 
         </LinearLayout>
@@ -71,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingBottom="120dp" />
+            android:paddingBottom="88dp" />
 
     </LinearLayout>
 
@@ -84,7 +77,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/baseline_add_white_24"
-        app:elevation="12dp"
-        android:contentDescription="Ajouter Client" />
+        android:contentDescription="@string/title_clients" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

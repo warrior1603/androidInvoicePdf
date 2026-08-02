@@ -4,28 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:fillViewport="true"
-    android:scrollbars="vertical"
     android:background="?android:attr/colorBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context=".fragments.BonDeCommandeFragment"
-        android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:paddingTop="24dp"
-        android:paddingBottom="24dp">
+        android:paddingBottom="88dp">
 
         <TextView
             android:id="@+id/textView3"
-            style="@style/App.SectionTitle"
+            style="@style/App.TextAppearance.TitleLarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="24dp"
             android:layout_marginBottom="16dp"
-            android:text="Informations Commande" />
+            android:text="@string/label_order_info" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardView"
@@ -35,163 +33,164 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="24dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:orientation="vertical">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/edit_passager"
-                style="@style/App.TextInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Nom du Passager"
-                app:startIconDrawable="@drawable/human_icon">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/edit_tel_passager"
-                style="@style/App.TextInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:hint="Téléphone"
-                app:startIconDrawable="@drawable/baseline_local_phone_24">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="phone" />
-            </com.google.android.material.textfield.TextInputLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="horizontal"
-                android:baselineAligned="false">
+                android:padding="16dp"
+                android:orientation="vertical">
+
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/App.TextInput"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Date Commande"
-                    app:startIconDrawable="@drawable/date_icon">
+                    android:hint="@string/label_passenger_name"
+                    app:startIconDrawable="@drawable/human_icon">
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_date_commande"
+                        android:id="@+id/edit_passager"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:clickable="true" />
+                        android:inputType="textPersonName" />
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/App.TextInput"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:hint="Heure Commande"
-                    app:startIconDrawable="@drawable/four_o_clock_icon">
+                    android:layout_marginTop="12dp"
+                    android:hint="@string/label_contact_number"
+                    app:startIconDrawable="@drawable/baseline_local_phone_24">
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_heure_commande"
+                        android:id="@+id/edit_tel_passager"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:clickable="true" />
+                        android:inputType="phone" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal"
+                    android:baselineAligned="false">
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/App.TextInput"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/label_issue_date"
+                        app:startIconDrawable="@drawable/date_icon">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_date_commande"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:clickable="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/App.TextInput"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:hint="@string/label_time"
+                        app:startIconDrawable="@drawable/four_o_clock_icon">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_heure_commande"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:clickable="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal"
+                    android:baselineAligned="false">
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/App.TextInput"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:hint="Pickup Date"
+                        app:startIconDrawable="@drawable/date_icon">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_date_prise"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:clickable="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/App.TextInput"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:hint="Pickup Time"
+                        app:startIconDrawable="@drawable/four_o_clock_icon">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_heure_prise"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:clickable="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/App.TextInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="@string/label_pickup_location"
+                    app:startIconDrawable="@drawable/location_pin_icon">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_pec"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/App.TextInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="@string/label_destination"
+                    app:startIconDrawable="@drawable/address_location_icon">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_destination"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/App.TextInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="@string/label_fare"
+                    app:startIconDrawable="@drawable/pricing_icon">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_tarif"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal" />
+                </com.google.android.material.textfield.TextInputLayout>
+
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="horizontal"
-                android:baselineAligned="false">
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/App.TextInput"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:hint="Date Prise Charge"
-                    app:startIconDrawable="@drawable/date_icon">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_date_prise"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:clickable="true" />
-                </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/App.TextInput"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:hint="Heure Prise Charge"
-                    app:startIconDrawable="@drawable/four_o_clock_icon">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_heure_prise"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:clickable="true" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/edit_pec"
-                style="@style/App.TextInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:hint="Lieu de prise en charge"
-                app:startIconDrawable="@drawable/location_pin_icon">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/edit_destination"
-                style="@style/App.TextInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:hint="Destination"
-                app:startIconDrawable="@drawable/address_location_icon">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/edit_tarif"
-                style="@style/App.TextInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:hint="Tarif TTC"
-                app:startIconDrawable="@drawable/pricing_icon">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_save_info_bon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="8dp"
-            android:text="Générer Bon de Commande"
-            style="@style/App.Button"/>
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="32dp"
+            android:text="@string/action_generate_order"
+            style="@style/App.Button" />
 
     </LinearLayout>
 </ScrollView>

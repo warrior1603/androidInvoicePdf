@@ -4,108 +4,252 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:fillViewport="true"
-    android:scrollbars="vertical"
     android:background="?android:attr/colorBackground">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.InvoiceGenrationFragment"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:paddingTop="24dp"
-    android:paddingBottom="24dp">
-
-    <TextView
-        android:id="@+id/textView2"
-        style="@style/App.SectionTitle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="16dp"
-        android:text="Informations Client" />
+        tools:context=".fragments.InvoiceGenrationFragment"
+        android:orientation="vertical"
+        android:paddingBottom="88dp">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/App.CardView"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="24dp">
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/textView2"
+            style="@style/App.TextAppearance.TitleLarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:orientation="vertical">
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/label_client_details" />
 
-    <RadioGroup
-        android:id="@+id/radio_group"
-        android:checkedButton="@+id/permanant_selected"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="16dp">
-        <RadioButton
-            android:id="@+id/provisoire_selected"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Provisoire"/>
-        <RadioButton
-            android:id="@+id/permanant_selected"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Permanent"/>
-    </RadioGroup>
-
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/App.TextInput.ExposedDropdown"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/client_input"
-        app:startIconDrawable="@drawable/person_profile_image_icon"
-        android:hint="Rechercher un client">
-    <AutoCompleteTextView
-        android:id="@+id/autoCompleteTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:completionThreshold="1" />
-    </com.google.android.material.textfield.TextInputLayout>
+            style="@style/App.CardView"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="24dp">
 
             <LinearLayout
-                android:id="@+id/client_input_provisoire"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:padding="16dp"
+                android:orientation="vertical">
+
+                <RadioGroup
+                    android:id="@+id/radio_group"
+                    android:checkedButton="@+id/permanant_selected"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="16dp">
+                    <RadioButton
+                        android:id="@+id/provisoire_selected"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_guest"/>
+                    <RadioButton
+                        android:id="@+id/permanant_selected"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_saved"/>
+                </RadioGroup>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    style="@style/App.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/client_input"
+                    app:startIconDrawable="@drawable/person_profile_image_icon"
+                    android:hint="@string/label_search_customer">
+                    <AutoCompleteTextView
+                        android:id="@+id/autoCompleteTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:completionThreshold="0" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:id="@+id/client_input_provisoire"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/App.TextInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:hint="@string/label_full_name"
+                        app:startIconDrawable="@drawable/user_id_svgrepo_com">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_user_name_client1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/App.TextInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:hint="@string/label_street"
+                        app:startIconDrawable="@drawable/direction_road_sign_icon">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_street1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal"
+                        android:baselineAligned="false">
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/App.TextInput"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/label_postal_code"
+                            app:startIconDrawable="@drawable/mailed_mail_svgrepo_com">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edit_code_postale1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/App.TextInput"
+                            android:layout_width="0dp"
+                            android:layout_weight="1.5"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:hint="@string/label_city"
+                            app:startIconDrawable="@drawable/city_svgrepo_com">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edit_ville1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/App.TextInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:hint="@string/label_country"
+                        app:startIconDrawable="@drawable/earth_svgrepo_com">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_pays1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/App.TextInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:hint="@string/label_siren"
+                        app:startIconDrawable="@drawable/baseline_siren">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_siren1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/App.TextInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:hint="@string/label_tva"
+                        app:startIconDrawable="@drawable/tax_icon">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_tva_client"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/App.TextInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:hint="@string/label_email"
+                        app:startIconDrawable="@drawable/attherate_icon">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_email_client1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textEmailAddress" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/textView3"
+            style="@style/App.TextAppearance.TitleLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/label_invoice_items" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/App.CardView"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_date"
                     style="@style/App.TextInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nom et Prénom"
-                    app:startIconDrawable="@drawable/user_id_svgrepo_com">
+                    android:hint="@string/label_issue_date"
+                    app:startIconDrawable="@drawable/date_icon">
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_user_name_client1"
+                        android:id="@+id/edit_date_emission"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:clickable="true" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_description"
                     style="@style/App.TextInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:hint="Rue"
-                    app:startIconDrawable="@drawable/direction_road_sign_icon">
+                    android:hint="@string/label_description"
+                    app:startIconDrawable="@drawable/more_info_icon">
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_street1"
+                        android:id="@+id/edit_description"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapSentences|textMultiLine"
+                        android:minLines="3" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
@@ -115,226 +259,62 @@
                     android:orientation="horizontal"
                     android:baselineAligned="false">
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layout_quantite"
                         style="@style/App.TextInput"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:hint="CP"
-                        app:startIconDrawable="@drawable/mailed_mail_svgrepo_com">
+                        android:hint="@string/label_qty"
+                        app:startIconDrawable="@drawable/product_quantity_rules_svgrepo_com">
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edit_code_postale1"
+                            android:id="@+id/edit_quantite"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layout_prix"
                         style="@style/App.TextInput"
                         android:layout_width="0dp"
                         android:layout_weight="1.5"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:hint="Ville"
-                        app:startIconDrawable="@drawable/city_svgrepo_com">
+                        android:hint="@string/label_price"
+                        app:startIconDrawable="@drawable/pricing_icon">
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edit_ville1"
+                            android:id="@+id/edit_prix"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/App.TextInput"
+                    style="@style/App.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:hint="Pays"
-                    app:startIconDrawable="@drawable/earth_svgrepo_com">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_pays1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/App.TextInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:hint="SIREN"
-                    app:startIconDrawable="@drawable/baseline_siren">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_siren1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/App.TextInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:hint="TVA"
-                    app:startIconDrawable="@drawable/tax_icon">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_tva_client"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/App.TextInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:hint="Email"
-                    app:startIconDrawable="@drawable/attherate_icon">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_email_client1"
+                    android:id="@+id/dropdown_input"
+                    android:hint="@string/label_payment_method"
+                    app:startIconDrawable="@drawable/hand_money_icon">
+                    <AutoCompleteTextView
+                        android:id="@+id/filled_exposed_dropdown"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress" />
+                        android:inputType="none" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-        </LinearLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
-
-    <TextView
-        android:id="@+id/textView3"
-        style="@style/App.SectionTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="16dp"
-        android:text="Détails Facturation" />
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/App.CardView"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="24dp">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:orientation="vertical">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layout_date"
-            style="@style/App.TextInput"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCreatePdf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Date d'émission"
-            app:startIconDrawable="@drawable/date_icon">
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/edit_date_emission"
-                android:focusable="false"
-                android:clickable="true" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/layout_description"
-        style="@style/App.TextInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:hint="Description des services"
-        app:startIconDrawable="@drawable/more_info_icon">
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:id="@+id/edit_description"
-            android:gravity="top|start"
-            android:inputType="textCapSentences|textMultiLine"
-            android:scrollbars="vertical" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:orientation="horizontal"
-        android:baselineAligned="false">
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layout_quantite"
-            style="@style/App.TextInput"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:hint="Quantité"
-            app:startIconDrawable="@drawable/product_quantity_rules_svgrepo_com">
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:id="@+id/edit_quantite" />
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layout_prix"
-            style="@style/App.TextInput"
-            android:layout_width="0dp"
-            android:layout_weight="1.5"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:hint="Prix Unit. TTC"
-            app:startIconDrawable="@drawable/pricing_icon">
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:id="@+id/edit_prix" />
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/layout_tva"
-        style="@style/App.TextInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:hint="TVA (%)"
-        app:startIconDrawable="@drawable/tax_icon">
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:id="@+id/edit_tva" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/App.TextInput.ExposedDropdown"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:id="@+id/dropdown_input"
-        android:hint="Mode de paiement"
-        app:startIconDrawable="@drawable/hand_money_icon">
-        <AutoCompleteTextView
-            android:id="@+id/filled_exposed_dropdown"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="none" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="32dp"
+            android:text="@string/action_generate_invoice"
+            style="@style/App.Button" />
 
     </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnCreatePdf"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="8dp"
-        android:text="Générer la Facture"
-        style="@style/App.Button" />
-
-</LinearLayout>
-
 </ScrollView>

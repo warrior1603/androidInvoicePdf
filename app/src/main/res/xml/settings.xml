@@ -1,28 +1,35 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- Switch Preference to toggle between Dark and Light Mode -->
     <SwitchPreferenceCompat
         android:key="theme"
-        android:title="Mode Sombre"
-        android:summary="Activer ou desactiver le mode sombre"
+        android:title="@string/pref_title_dark_mode"
+        android:summary="@string/pref_summary_dark_mode"
         app:iconSpaceReserved="false"
         android:defaultValue="false" />
 
+    <ListPreference
+        app:iconSpaceReserved="false"
+        android:key="language"
+        android:title="@string/pref_title_language"
+        android:summary="@string/pref_summary_language"
+        android:entries="@array/language_options"
+        android:entryValues="@array/language_values"
+        android:defaultValue="fr" />
 
     <EditTextPreference
         android:key="directory"
-        android:title="Dossier Cible"
-        android:summary="Selectionner le dossier pour l'enregistrement des factures"
-        android:dialogTitle="Entrer le chemin de dossier"
+        android:title="@string/pref_title_directory"
+        android:summary="@string/pref_summary_directory"
+        android:dialogTitle="@string/pref_dialog_title_directory"
         app:iconSpaceReserved="false"
         android:defaultValue="/storage/emulated/0/Download" />
 
     <ListPreference
          app:iconSpaceReserved="false"
          android:key="default_currency"
-         android:title="Devise par default"
-         android:summary="Choisir le devise pour les factures"
+         android:title="@string/pref_title_currency"
+         android:summary="@string/pref_summary_currency"
          android:entries="@array/currency_options"
          android:entryValues="@array/currency_values"
          android:defaultValue="EUR" />
@@ -30,26 +37,26 @@
     <ListPreference
         app:iconSpaceReserved="false"
         android:key="invoice_template"
-        android:title="Modèle de facture"
-        android:summary="Choisir le style visuel des PDF générés"
+        android:title="@string/pref_title_template"
+        android:summary="@string/pref_summary_template"
         android:entries="@array/template_entries"
         android:entryValues="@array/template_values"
         android:defaultValue="invoice_template.html" />
 
     <Preference
         android:key="preview_templates"
-        android:title="Aperçu des styles"
-        android:summary="Voir et comparer les modèles de facture"
+        android:title="@string/pref_title_preview"
+        android:summary="@string/pref_summary_preview"
         app:iconSpaceReserved="false" />
 
     <PreferenceCategory
-        android:title="Entreprise"
+        android:title="@string/pref_category_company"
         app:iconSpaceReserved="false">
 
         <Preference
             android:key="profile_entreprise"
-            android:title="Profil Entreprise"
-            android:summary="Configurer vos informations (SIREN, TVA, Adresse...)"
+            android:title="@string/pref_title_profile"
+            android:summary="@string/pref_summary_profile"
             app:iconSpaceReserved="false" />
 
     </PreferenceCategory>

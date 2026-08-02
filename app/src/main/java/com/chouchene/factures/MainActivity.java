@@ -24,6 +24,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import com.chouchene.factures.utils.LocaleHelper;
 import com.chouchene.factures.fragments.BonDeCommandeFragment;
 import com.chouchene.factures.fragments.HistoriqueFragment;
 import com.chouchene.factures.fragments.RapportsFragment;
@@ -41,6 +42,11 @@ public class MainActivity extends AppCompatActivity {
     NavController navController;
 
     SharedPreferences sharedPreferences;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase, "fr"));
+    }
 
     @Override
     public Intent registerReceiver(@Nullable BroadcastReceiver receiver, IntentFilter filter) {

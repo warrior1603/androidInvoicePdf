@@ -1,6 +1,76 @@
 <resources>
     <string name="app_name">Mes Factures</string>
 
+    <!-- General UI -->
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_invoices">Factures</string>
+    <string name="title_orders">Bons</string>
+    <string name="title_history">Historique</string>
+    <string name="title_clients">Clients</string>
+    <string name="title_settings">Paramètres</string>
+
+    <string name="action_generate">Générer</string>
+    <string name="action_save">Enregistrer</string>
+    <string name="action_cancel">Annuler</string>
+    <string name="action_edit">Modifier</string>
+    <string name="action_delete">Supprimer</string>
+
+    <!-- Preferences -->
+    <string name="pref_title_dark_mode">Mode Sombre</string>
+    <string name="pref_summary_dark_mode">Activer ou désactiver le mode sombre</string>
+    <string name="pref_title_language">Langue</string>
+    <string name="pref_summary_language">Changer la langue de l\'application</string>
+    <string name="pref_title_directory">Dossier Cible</string>
+    <string name="pref_summary_directory">Sélectionner le dossier pour l\'enregistrement des factures</string>
+    <string name="pref_dialog_title_directory">Entrer le chemin du dossier</string>
+    <string name="pref_title_currency">Devise par défaut</string>
+    <string name="pref_summary_currency">Choisir la devise pour les factures</string>
+    <string name="pref_title_template">Modèle de facture</string>
+    <string name="pref_summary_template">Choisir le style visuel des PDF générés</string>
+    <string name="pref_title_preview">Aperçu des styles</string>
+    <string name="pref_summary_preview">Voir et comparer les modèles de facture</string>
+    <string name="pref_category_company">Entreprise</string>
+    <string name="pref_title_profile">Profil Entreprise</string>
+    <string name="pref_summary_profile">Configurer vos informations (SIREN, TVA, Adresse…)</string>
+
+    <!-- Labels -->
+    <string name="label_monthly_revenue">Chiffre d\'affaires mensuel</string>
+    <string name="label_today">Aujourd\'hui</string>
+    <string name="label_trend">Tendance</string>
+    <string name="label_revenue_analysis">Analyse des revenus</string>
+    <string name="label_no_data">Aucune donnée disponible</string>
+    <string name="label_no_clients">Aucun client trouvé</string>
+    <string name="label_tap_to_add">Appuyez sur + pour en ajouter un</string>
+    <string name="label_no_history">Aucun historique</string>
+    <string name="label_client_details">Détails du client</string>
+    <string name="label_guest">Invité</string>
+    <string name="label_saved">Enregistré</string>
+    <string name="label_search_customer">Rechercher un client</string>
+    <string name="label_full_name">Nom et Prénom</string>
+    <string name="label_street">Rue</string>
+    <string name="label_postal_code">Code Postal</string>
+    <string name="label_city">Ville</string>
+    <string name="label_country">Pays</string>
+    <string name="label_siren">SIREN</string>
+    <string name="label_tva">TVA</string>
+    <string name="label_email">Email</string>
+    <string name="label_invoice_items">Articles de la facture</string>
+    <string name="label_issue_date">Date d\'émission</string>
+    <string name="label_description">Description</string>
+    <string name="label_qty">Qté</string>
+    <string name="label_price">Prix</string>
+    <string name="label_payment_method">Mode de paiement</string>
+    <string name="action_generate_invoice">Générer la facture</string>
+
+    <string name="label_order_info">Informations Commande</string>
+    <string name="label_passenger_name">Nom du Passager</string>
+    <string name="label_contact_number">Numéro de téléphone</string>
+    <string name="label_pickup_location">Lieu de prise en charge</string>
+    <string name="label_destination">Destination</string>
+    <string name="label_time">Heure</string>
+    <string name="label_fare">Tarif TTC</string>
+    <string name="action_generate_order">Générer le Bon de Commande</string>
+
     <!-- Currency options -->
     <string-array name="currency_options">
         <item>USD</item>
@@ -12,66 +82,7 @@
         <item>$</item>
         <item>€</item>
         <item>£</item>
-
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
-    <string name="lorem_ipsum">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
-        volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
-        dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
-        litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse blandit eleifend
-        diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,
-        ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.\n\n
-        Suspendisse interdum ornare ante. Aliquam nec cursus lorem. Morbi id magna felis. Vivamus
-        egestas, est a condimentum egestas, turpis nisl iaculis ipsum, in dictum tellus dolor sed
-        neque. Morbi tellus erat, dapibus ut sem a, iaculis tincidunt dui. Interdum et malesuada
-        fames ac ante ipsum primis in faucibus. Curabitur et eros porttitor, ultricies urna vitae,
-        molestie nibh. Phasellus at commodo eros, non aliquet metus. Sed maximus nisl nec dolor
-        bibendum, vel congue leo egestas.\n\n
-        Sed interdum tortor nibh, in sagittis risus mollis quis. Curabitur mi odio, condimentum sit
-        amet auctor at, mollis non turpis. Nullam pretium libero vestibulum, finibus orci vel,
-        molestie quam. Fusce blandit tincidunt nulla, quis sollicitudin libero facilisis et. Integer
-        interdum nunc ligula, et fermentum metus hendrerit id. Vestibulum lectus felis, dictum at
-        lacinia sit amet, tristique id quam. Cras eu consequat dui. Suspendisse sodales nunc ligula,
-        in lobortis sem porta sed. Integer id ultrices magna, in luctus elit. Sed a pellentesque
-        est.\n\n
-        Aenean nunc velit, lacinia sed dolor sed, ultrices viverra nulla. Etiam a venenatis nibh.
-        Morbi laoreet, tortor sed facilisis varius, nibh orci rhoncus nulla, id elementum leo dui
-        non lorem. Nam mollis ipsum quis auctor varius. Quisque elementum eu libero sed commodo. In
-        eros nisl, imperdiet vel imperdiet et, scelerisque a mauris. Pellentesque varius ex nunc,
-        quis imperdiet eros placerat ac. Duis finibus orci et est auctor tincidunt. Sed non viverra
-        ipsum. Nunc quis augue egestas, cursus lorem at, molestie sem. Morbi a consectetur ipsum, a
-        placerat diam. Etiam vulputate dignissim convallis. Integer faucibus mauris sit amet finibus
-        convallis.\n\n
-        Phasellus in aliquet mi. Pellentesque habitant morbi tristique senectus et netus et
-        malesuada fames ac turpis egestas. In volutpat arcu ut felis sagittis, in finibus massa
-        gravida. Pellentesque id tellus orci. Integer dictum, lorem sed efficitur ullamcorper,
-        libero justo consectetur ipsum, in mollis nisl ex sed nisl. Donec maximus ullamcorper
-        sodales. Praesent bibendum rhoncus tellus nec feugiat. In a ornare nulla. Donec rhoncus
-        libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
-        vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
-    </string>
-    <string name="title_activity_settings">SettingsActivity</string>
-
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
-
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
-
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="title_activity_settings">Paramètres</string>
 </resources>

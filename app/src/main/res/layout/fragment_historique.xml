@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingTop="16dp"
-        android:paddingBottom="100dp" />
+        android:paddingBottom="88dp" />
 
     <LinearLayout
         android:id="@+id/empty_state"
@@ -30,13 +30,14 @@
             android:layout_height="100dp"
             android:alpha="0.4"
             android:src="@drawable/ic_history_custom"
-            app:tint="?attr/colorOnSurfaceVariant" />
+            app:tint="?attr/colorOnSurfaceVariant"
+            android:contentDescription="@null" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Aucun historique"
+            android:text="@string/label_no_history"
             android:textAppearance="?attr/textAppearanceTitleMedium"
             android:textColor="?attr/colorOnSurfaceVariant" />
 

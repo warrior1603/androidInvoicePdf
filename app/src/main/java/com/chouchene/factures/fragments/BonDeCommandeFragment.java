@@ -53,11 +53,11 @@ public class BonDeCommandeFragment extends Fragment {
     TextInputEditText editDatePriseForm;
     TextInputEditText editTimePriseForm;
 
-    TextInputLayout editPassager;
-    TextInputLayout editPec;
-    TextInputLayout editDestination;
-    TextInputLayout editTarif;
-    TextInputLayout editTelPassager;
+    TextInputEditText editPassager;
+    TextInputEditText editPec;
+    TextInputEditText editDestination;
+    TextInputEditText editTarif;
+    TextInputEditText editTelPassager;
 
     SharedPreferences sharedPreferences;
     SharedPreferences settingsSharedPreferences;
@@ -122,15 +122,15 @@ public class BonDeCommandeFragment extends Fragment {
         String chauffeur = sharedPreferences.getString("chauffeur", "");
         String plaque = sharedPreferences.getString("plaque", "");
 
-        String passager = editPassager.getEditText().getText().toString();
-        String telPassager = editTelPassager.getEditText().getText().toString();
+        String passager = editPassager.getText().toString();
+        String telPassager = editTelPassager.getText().toString();
         String dateCommande = editDateCommandForm.getText().toString();
         String timeCommande = editTimeCommandForm.getText().toString();
         String datePrise = editDatePriseForm.getText().toString();
         String timePrise = editTimePriseForm.getText().toString();
-        String priseEnCharge = editPec.getEditText().getText().toString();
-        String destination = editDestination.getEditText().getText().toString();
-        String tarif = editTarif.getEditText().getText().toString();
+        String priseEnCharge = editPec.getText().toString();
+        String destination = editDestination.getText().toString();
+        String tarif = editTarif.getText().toString();
 
         File templateFile = new File(requireContext().getCacheDir(), "template-bon-commande.pdf");
 

@@ -100,6 +100,7 @@ public class InvoiceGenrationFragment extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.dropdown_menu_popup_item, Payements);
         AutoCompleteTextView dropdown = view.findViewById(R.id.filled_exposed_dropdown);
         dropdown.setAdapter(adapter);
+        dropdown.setOnClickListener(v -> dropdown.showDropDown());
     }
 
     private void setupClientSearch(View view) {
@@ -111,8 +112,10 @@ public class InvoiceGenrationFragment extends Fragment {
         List<String> names = new ArrayList<>();
         for (Client c : clients) names.add(c.getClientName());
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, names);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.dropdown_menu_popup_item, names);
         searchView.setAdapter(adapter);
+        searchView.setThreshold(0);
+        searchView.setOnClickListener(v -> searchView.showDropDown());
         searchView.setOnItemClickListener((parent, v, position, id) -> {
             String name = (String) parent.getItemAtPosition(position);
             for (Client c : clients) if (c.getClientName().equals(name)) selectedClient = c;
