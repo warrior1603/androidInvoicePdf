@@ -26,20 +26,6 @@ A professional Android application designed for small businesses and freelancers
 - **Networking**: [Retrofit](https://square.github.io/retrofit/) for postal code address lookup.
 - **UI Components**: Material Components for Android (M3).
 
-## 📱 Screenshots
-
-| Home | Invoice (Bons) |
-|---|---|
-| ![Home](screenshots/home.png) | ![Bons](screenshots/bons.png) |
-
-| Profile | Reports |
-|---|---|
-| ![Profile](screenshots/profile.png) | ![Reports](screenshots/rapports.png) |
-
-| History | Settings |
-|---|---|
-| ![History](screenshots/history.png) | ![Settings](screenshots/settings.png) |
-
 ## 📥 Installation
 
 1. **Prerequisites**:
