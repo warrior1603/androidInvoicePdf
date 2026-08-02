@@ -4,7 +4,8 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-tools:context=".fragments.PersonalSettingsFragment">
+tools:context=".fragments.PersonalSettingsFragment"
+android:background="?android:attr/colorBackground">
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -19,253 +20,220 @@ tools:context=".fragments.PersonalSettingsFragment">
             tools:context=".fragments.PersonalSettingsFragment"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingTop="@dimen/space_sm"
-            android:paddingBottom="@dimen/space_xxl">
+            android:paddingTop="24dp"
+            android:paddingBottom="100dp">
 
             <TextView
                 android:id="@+id/textView4"
-                style="@style/App.FormSectionTitle"
+                style="@style/App.SectionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/space_lg"
-                android:layout_marginTop="@dimen/space_sm"
-                android:layout_marginBottom="@dimen/space_sm"
-                android:text="Informations entreprise" />
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginBottom="16dp"
+                android:text="Profil Entreprise" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/App.CardView"
-                android:layout_marginHorizontal="@dimen/space_lg"
-                android:layout_marginBottom="@dimen/space_sm"
-                app:cardPreventCornerOverlap="false">
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="24dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/card_inner_padding"
+            android:padding="20dp"
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edit_user_name"
+                style="@style/App.TextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/user_id_svgrepo_com"
-                app:endIconMode="clear_text"
-                android:textColorHint="?attr/colorOnSurfaceVariant"
-                android:hint="Nom"
-                style="@style/App.TextInput">
-
+                android:hint="Nom Commercial"
+                app:startIconDrawable="@drawable/user_id_svgrepo_com">
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edit_street_name"
+                style="@style/App.TextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/direction_road_sign_icon"
-                app:endIconMode="clear_text"
-                android:textColorHint="?attr/colorOnSurfaceVariant"
+                android:layout_marginTop="12dp"
                 android:hint="Rue"
-                style="@style/App.TextInput">
-
+                app:startIconDrawable="@drawable/direction_road_sign_icon">
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/mailed_mail_svgrepo_com"
-                app:endIconMode="clear_text"
-                android:textColorHint="?attr/colorOnSurfaceVariant"
-                android:hint="Code Postale"
-                style="@style/App.TextInput">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                android:baselineAligned="false">
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/App.TextInput"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:id="@+id/edit_code_postale"
-                    />
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/city_svgrepo_com"
-                app:endIconMode="clear_text"
-                android:textColorHint="?attr/colorOnSurfaceVariant"
-                android:hint="Ville"
-                style="@style/App.TextInput">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
+                    android:hint="CP"
+                    app:startIconDrawable="@drawable/mailed_mail_svgrepo_com">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_code_postale"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/App.TextInput"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.5"
                     android:layout_height="wrap_content"
-                    android:id="@+id/edit_city"
-                    />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginStart="8dp"
+                    android:hint="Ville"
+                    app:startIconDrawable="@drawable/city_svgrepo_com">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_city"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/App.TextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/earth_svgrepo_com"
-                app:endIconMode="clear_text"
-                android:textColorHint="?attr/colorOnSurfaceVariant"
+                android:layout_marginTop="12dp"
                 android:hint="Pays"
-                style="@style/App.TextInput">
-
+                app:startIconDrawable="@drawable/earth_svgrepo_com">
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/edit_country"
-                    />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edit_siren"
+                style="@style/App.TextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/baseline_siren"
-                app:endIconMode="clear_text"
-                android:textColorHint="?attr/colorOnSurfaceVariant"
-                android:hint="N° Siren"
-                style="@style/App.TextInput">
-
+                android:layout_marginTop="12dp"
+                android:hint="SIREN"
+                app:startIconDrawable="@drawable/baseline_siren">
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edit_tva"
+                style="@style/App.TextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/tax_icon"
-                app:endIconMode="clear_text"
-                android:textColorHint="?attr/colorOnSurfaceVariant"
-                android:hint="N° TVA"
-                style="@style/App.TextInput">
-
+                android:layout_marginTop="12dp"
+                android:hint="TVA"
+                app:startIconDrawable="@drawable/tax_icon">
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edit_tel"
+                style="@style/App.TextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/baseline_local_phone_24"
-                app:endIconMode="clear_text"
-                android:textColorHint="?attr/colorOnSurfaceVariant"
-                android:hint="N° Tel"
-                style="@style/App.TextInput">
-
+                android:layout_marginTop="12dp"
+                android:hint="Téléphone"
+                app:startIconDrawable="@drawable/baseline_local_phone_24">
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    />
+                    android:inputType="phone" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/App.TextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/attherate_icon"
-                app:endIconMode="clear_text"
-                app:helperText="exemple@domaine.com"
-                android:textColorHint="?attr/colorOnSurfaceVariant"
+                android:layout_marginTop="12dp"
                 android:hint="Email"
-                style="@style/App.TextInput">
-
+                app:startIconDrawable="@drawable/attherate_icon">
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/edit_email"
-                    android:inputType="textEmailAddress"
-                    />
+                    android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
 
-    </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:id="@+id/textView3"
-                style="@style/App.FormSectionTitle"
+                style="@style/App.SectionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/space_lg"
-                android:layout_marginTop="@dimen/form_section_spacing"
-                android:layout_marginBottom="@dimen/space_sm"
-                android:text="Informations chauffeur" />
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginBottom="16dp"
+                android:text="Informations Chauffeur" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardView1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/App.CardView"
-                android:layout_marginHorizontal="@dimen/space_lg"
-                android:layout_marginBottom="@dimen/space_sm"
-                app:cardPreventCornerOverlap="false">
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="24dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/card_inner_padding"
+            android:padding="20dp"
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edit_chauffeur"
+                style="@style/App.TextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/driver"
-                app:endIconMode="clear_text"
-                android:textColorHint="?attr/colorOnSurfaceVariant"
-                android:hint="Chauffeur"
-                style="@style/App.TextInput">
-
+                android:hint="Nom du Chauffeur"
+                app:startIconDrawable="@drawable/driver">
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edit_plaque"
+                style="@style/App.TextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/plaque"
-                app:endIconMode="clear_text"
-                android:textColorHint="?attr/colorOnSurfaceVariant"
-                android:hint="Plaque"
-                style="@style/App.TextInput">
-
+                android:layout_marginTop="12dp"
+                android:hint="Immatriculation"
+                app:startIconDrawable="@drawable/plaque">
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edit_Evtc"
+                style="@style/App.TextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:startIconDrawable="@drawable/evtc"
-                app:endIconMode="clear_text"
-                android:textColorHint="?attr/colorOnSurfaceVariant"
-                android:hint="N° EVTC"
-                style="@style/App.TextInput">
-
+                android:layout_marginTop="12dp"
+                android:hint="Numéro EVTC"
+                app:startIconDrawable="@drawable/evtc">
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
@@ -273,92 +241,77 @@ tools:context=".fragments.PersonalSettingsFragment">
 
             <TextView
                 android:id="@+id/textViewBank"
-                style="@style/App.FormSectionTitle"
+                style="@style/App.SectionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/space_lg"
-                android:layout_marginTop="@dimen/form_section_spacing"
-                android:layout_marginBottom="@dimen/space_sm"
-                android:text="Coordonnées bancaires" />
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginBottom="16dp"
+                android:text="Coordonnées Bancaires" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardViewBank"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/App.CardView"
-                android:layout_marginHorizontal="@dimen/space_lg"
-                android:layout_marginBottom="@dimen/space_sm"
-                app:cardPreventCornerOverlap="false">
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="24dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/card_inner_padding"
+                    android:padding="20dp"
                     android:orientation="vertical">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/edit_iban"
+                        style="@style/App.TextInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:startIconDrawable="@drawable/hand_money_icon"
-                        app:endIconMode="clear_text"
-                        android:textColorHint="?attr/colorOnSurfaceVariant"
                         android:hint="IBAN"
-                        style="@style/App.TextInput">
-
+                        app:startIconDrawable="@drawable/hand_money_icon">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            />
+                            android:layout_height="wrap_content" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/edit_bic"
+                        style="@style/App.TextInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:startIconDrawable="@drawable/bank_euro_specifications_svgrepo_com"
-                        app:endIconMode="clear_text"
-                        android:textColorHint="?attr/colorOnSurfaceVariant"
+                        android:layout_marginTop="12dp"
                         android:hint="BIC"
-                        style="@style/App.TextInput">
-
+                        app:startIconDrawable="@drawable/bank_euro_specifications_svgrepo_com">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            />
+                            android:layout_height="wrap_content" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/edit_bank_address"
+                        style="@style/App.TextInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:startIconDrawable="@drawable/location_pin_icon"
-                        app:endIconMode="clear_text"
-                        android:textColorHint="?attr/colorOnSurfaceVariant"
-                        android:hint="Adresse du titulaire"
-                        style="@style/App.TextInput">
-
+                        android:layout_marginTop="12dp"
+                        android:hint="Adresse de la Banque"
+                        app:startIconDrawable="@drawable/location_pin_icon">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            />
+                            android:layout_height="wrap_content" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- BUTTONS -->
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_save_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/space_xl"
-                android:layout_marginTop="@dimen/space_md"
-                android:layout_marginEnd="@dimen/space_xl"
-                android:layout_marginBottom="@dimen/space_xxl"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="8dp"
                 app:icon="@drawable/save_as_icon"
                 app:iconGravity="textStart"
-                android:text="  Enregister les details"
+                android:text="Sauvegarder le Profil"
                 style="@style/App.Button"/>
 
         </LinearLayout>

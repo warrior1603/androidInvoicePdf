@@ -8,7 +8,7 @@
     <color name="white">#FFFFFF</color>
 
     <!-- ── Light scheme (professional SaaS blue) ─────────────────── -->
-    <color name="primary_light">#2F6FE4</color>
+    <color name="primary_light">#2A66D9</color>
     <color name="on_primary_light">#FFFFFF</color>
     <color name="primary_container_light">#E7EEFF</color>
     <color name="on_primary_container_light">#153B84</color>
@@ -76,5 +76,5 @@
     <color name="outline_variant_dark">#3D4A5F</color>
     <color name="inverse_surface_dark">#E6ECF7</color>
     <color name="inverse_on_surface_dark">#1A2230</color>
-    <color name="inverse_primary_dark">#2F6FE4</color>
+    <color name="inverse_primary_dark">#2A66D9</color>
 </resources>

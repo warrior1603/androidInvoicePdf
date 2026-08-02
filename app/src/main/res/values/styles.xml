@@ -31,6 +31,7 @@
         <item name="colorOnSurface">@color/on_surface_light</item>
         <item name="colorSurfaceVariant">@color/surface_variant_light</item>
         <item name="colorOnSurfaceVariant">@color/on_surface_variant_light</item>
+        <item name="colorSurfaceContainer">@color/surface_variant_light</item>
         <item name="colorOutline">@color/outline_light</item>
         <item name="colorOutlineVariant">@color/outline_variant_light</item>
         <!-- System bars -->
@@ -71,6 +72,7 @@
         <item name="colorOnSurface">@color/on_surface_dark</item>
         <item name="colorSurfaceVariant">@color/surface_variant_dark</item>
         <item name="colorOnSurfaceVariant">@color/on_surface_variant_dark</item>
+        <item name="colorSurfaceContainer">@color/surface_variant_dark</item>
         <item name="colorOutline">@color/outline_dark</item>
         <item name="colorOutlineVariant">@color/outline_variant_dark</item>
         <item name="android:statusBarColor">?attr/colorSurface</item>
@@ -101,12 +103,19 @@
         Full-width, surface background; active indicator is automatic.
     -->
     <style name="App.BottomNavigation" parent="Widget.Material3.BottomNavigationView">
-        <item name="android:background">?attr/colorSurfaceVariant</item>
+        <item name="android:background">?attr/colorSurfaceContainer</item>
         <item name="itemIconTint">@color/bottom_navigation_item_tint</item>
         <item name="itemTextColor">@color/bottom_navigation_item_tint</item>
         <item name="itemRippleColor">?attr/colorPrimaryContainer</item>
         <item name="itemIconSize">24dp</item>
-        <item name="android:elevation">8dp</item>
+        <item name="android:elevation">0dp</item>
+        <item name="itemActiveIndicatorStyle">@style/App.BottomNavigation.ActiveIndicator</item>
+    </style>
+
+    <style name="App.BottomNavigation.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">?attr/colorPrimaryContainer</item>
+        <item name="android:width">48dp</item>
+        <item name="android:height">32dp</item>
     </style>
 
     <!--
@@ -136,8 +145,9 @@
 
     <!-- FAB -->
     <style name="App.Fab" parent="Widget.Material3.FloatingActionButton.Primary">
-        <item name="backgroundTint">?attr/colorPrimaryContainer</item>
-        <item name="tint">?attr/colorOnPrimaryContainer</item>
+        <item name="backgroundTint">?attr/colorPrimary</item>
+        <item name="android:tint">?attr/colorOnPrimary</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.App.FAB.Circular</item>
     </style>
 
     <style name="ShapeAppearanceOverlay.App.FAB.Circular" parent="">
