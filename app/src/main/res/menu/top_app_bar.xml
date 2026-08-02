@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <item
-            android:id="@+id/edit"
-            android:title="Parametres"
-            android:contentDescription="parametres"
+            android:id="@+id/settingsActivity"
+            android:title="@string/title_settings"
+            android:contentDescription="settings"
             android:icon="@drawable/baseline_settings_24"
             app:showAsAction="ifRoom" />
 

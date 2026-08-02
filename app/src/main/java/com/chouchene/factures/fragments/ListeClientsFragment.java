@@ -30,7 +30,6 @@ import com.chouchene.factures.dao.ClientDao;
 import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.entity.Client;
 import com.chouchene.factures.repository.ClientRepository;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -58,9 +57,6 @@ public class ListeClientsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View myView = inflater.inflate(R.layout.activity_list_clients, container, false);
-
-        MaterialToolbar toolbar = requireActivity().findViewById(R.id.my_toolbar);
-        toolbar.setNavigationIcon(R.drawable.baseline_contacts_24);
 
          clientDao = Room.databaseBuilder(getActivity().getApplicationContext(), AppDatabase.class, "MyClients").allowMainThreadQueries().fallbackToDestructiveMigration().build().clientDao();
 

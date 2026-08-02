@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import com.chouchene.factures.R;
 import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.entity.Invoice;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
@@ -68,9 +67,6 @@ public class BonDeCommandeFragment extends Fragment {
         sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         settingsSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         View myView = inflater.inflate(R.layout.fragment_bon_de_commande, container, false);
-
-        MaterialToolbar toolbar = requireActivity().findViewById(R.id.my_toolbar);
-        toolbar.setNavigationIcon(R.drawable.baseline_post_add_24);
 
         editDateCommandForm = myView.findViewById(R.id.edit_date_commande);
         editDateCommandForm.setOnClickListener(view -> onEditDateCommandClick(editDateCommandForm));

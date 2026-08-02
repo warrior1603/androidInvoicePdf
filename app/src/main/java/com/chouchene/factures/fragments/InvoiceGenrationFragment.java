@@ -36,7 +36,6 @@ import com.chouchene.factures.dao.ClientDao;
 import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.entity.Client;
 import com.chouchene.factures.entity.Invoice;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
@@ -79,10 +78,6 @@ public class InvoiceGenrationFragment extends Fragment {
         mumeroFacture = sharedPreferences.getInt("last-invoice-number", 0);
 
         View myView = inflater.inflate(R.layout.activity_invoice, container, false);
-
-        MaterialToolbar toolbar = requireActivity().findViewById(R.id.my_toolbar);
-        if (toolbar == null) toolbar = requireActivity().findViewById(R.id.my_toolbar1);
-        if (toolbar != null) toolbar.setNavigationIcon(R.drawable.baseline_picture_as_pdf_24);
 
         setupPayementDropdown(myView);
         setupClientSearch(myView);

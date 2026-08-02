@@ -70,6 +70,16 @@ dependencies {
     implementation("androidx.navigation:navigation-ui:2.8.3")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation("androidx.media3:media3-common:1.4.1")
+
+    // Google Sign-In & Credential Manager
+    implementation("androidx.credentials:credentials:1.6.0")
+    implementation("androidx.credentials:credentials-play-services-auth:1.6.0")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.2.0")
+
+    // Image Loading
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
+
     annotationProcessor("androidx.room:room-compiler:2.8.4")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

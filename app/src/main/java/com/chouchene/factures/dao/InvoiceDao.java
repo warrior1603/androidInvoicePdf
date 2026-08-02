@@ -31,4 +31,7 @@ public interface InvoiceDao {
 
     @Query("SELECT * FROM invoices ORDER BY date DESC")
     List<Invoice> getAllInvoices();
+
+    @Query("SELECT * FROM invoices WHERE client_name LIKE '%' || :query || '%' ORDER BY date DESC")
+    List<Invoice> searchInvoices(String query);
 }

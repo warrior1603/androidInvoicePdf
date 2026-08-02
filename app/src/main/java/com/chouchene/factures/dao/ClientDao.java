@@ -31,4 +31,7 @@ public interface ClientDao {
 
     @Query("SELECT * FROM Client WHERE clientName = :clientName LIMIT 1")
     Client getClientByClientName(String clientName);
+
+    @Query("SELECT * FROM Client WHERE clientName LIKE '%' || :query || '%'")
+    List<Client> searchClients(String query);
 }

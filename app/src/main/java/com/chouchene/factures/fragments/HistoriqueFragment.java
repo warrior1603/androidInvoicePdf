@@ -18,7 +18,6 @@ import androidx.navigation.Navigation;
 import com.chouchene.factures.R;
 import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.entity.Invoice;
-import com.google.android.material.appbar.MaterialToolbar;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -33,10 +32,6 @@ public class HistoriqueFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_historique, container, false);
-
-        MaterialToolbar toolbar = requireActivity().findViewById(R.id.my_toolbar);
-        if (toolbar == null) toolbar = requireActivity().findViewById(R.id.my_toolbar1);
-        if (toolbar != null) toolbar.setNavigationIcon(R.drawable.ic_history_custom);
 
         recyclerView = view.findViewById(R.id.recyclerView);
         emptyState = view.findViewById(R.id.empty_state);

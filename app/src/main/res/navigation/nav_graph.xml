@@ -48,4 +48,21 @@
         android:label="@string/pref_title_preview"
         tools:layout="@layout/fragment_template_preview" />
 
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.chouchene.factures.fragments.AboutFragment"
+        android:label="@string/title_about"
+        tools:layout="@layout/fragment_about" />
+
+    <fragment
+        android:id="@+id/helpFragment"
+        android:name="com.chouchene.factures.fragments.HelpFragment"
+        android:label="@string/title_help"
+        tools:layout="@layout/fragment_help" />
+
+    <activity
+        android:id="@+id/settingsActivity"
+        android:name="com.chouchene.factures.SettingsActivity"
+        android:label="@string/title_settings" />
+
 </navigation>

@@ -4,63 +4,63 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
 
-    <!-- ── Light Mode (Professional SaaS Blue) ────────────────────── -->
-    <color name="primary_light">#005AC1</color>
+    <!-- ── Light Mode (Google Drive Style) ──────────────────────── -->
+    <color name="primary_light">#1A73E8</color> <!-- Google Blue -->
     <color name="on_primary_light">#FFFFFF</color>
-    <color name="primary_container_light">#D8E2FF</color>
-    <color name="on_primary_container_light">#001A41</color>
+    <color name="primary_container_light">#E8F0FE</color> <!-- Exact Drive Pill Blue -->
+    <color name="on_primary_container_light">#174EA6</color>
 
-    <color name="secondary_light">#575E71</color>
+    <color name="secondary_light">#5F6368</color> <!-- Google Gray -->
     <color name="on_secondary_light">#FFFFFF</color>
-    <color name="secondary_container_light">#DBE2F9</color>
-    <color name="on_secondary_container_light">#141B2C</color>
+    <color name="secondary_container_light">#F1F3F4</color>
+    <color name="on_secondary_container_light">#3C4043</color>
 
-    <color name="tertiary_light">#715573</color>
+    <color name="tertiary_light">#188038</color> <!-- Google Green -->
     <color name="on_tertiary_light">#FFFFFF</color>
-    <color name="tertiary_container_light">#FBD7FC</color>
-    <color name="on_tertiary_container_light">#29132D</color>
+    <color name="tertiary_container_light">#E6F4EA</color>
+    <color name="on_tertiary_container_light">#137333</color>
 
-    <color name="error_light">#BA1A1A</color>
+    <color name="error_light">#D93025</color> <!-- Google Red -->
     <color name="on_error_light">#FFFFFF</color>
-    <color name="error_container_light">#FFDAD6</color>
-    <color name="on_error_container_light">#410002</color>
+    <color name="error_container_light">#FCE8E6</color>
+    <color name="on_error_container_light">#A50E0E</color>
 
-    <color name="background_light">#FEFBFF</color>
-    <color name="on_background_light">#1B1B1F</color>
-    <color name="surface_light">#FEFBFF</color>
-    <color name="on_surface_light">#1B1B1F</color>
-    <color name="surface_variant_light">#E1E2EC</color>
-    <color name="on_surface_variant_light">#44474E</color>
-    <color name="outline_light">#74777F</color>
-    <color name="outline_variant_light">#C4C6D0</color>
+    <color name="background_light">#FFFFFF</color>
+    <color name="on_background_light">#202124</color>
+    <color name="surface_light">#FFFFFF</color>
+    <color name="on_surface_light">#202124</color>
+    <color name="surface_variant_light">#F8F9FA</color> <!-- Slightly lighter for better contrast -->
+    <color name="on_surface_variant_light">#5F6368</color>
+    <color name="outline_light">#DADCE0</color>
+    <color name="outline_variant_light">#F1F3F4</color>
 
-    <!-- ── Dark Mode ────────────────────────────────────────────── -->
-    <color name="primary_dark">#ADC6FF</color>
-    <color name="on_primary_dark">#002E69</color>
-    <color name="primary_container_dark">#004494</color>
-    <color name="on_primary_container_dark">#D8E2FF</color>
+    <!-- ── Dark Mode (Google Drive Style) ───────────────────────── -->
+    <color name="primary_dark">#8AB4F8</color>
+    <color name="on_primary_dark">#174EA6</color>
+    <color name="primary_container_dark">#185ABC</color>
+    <color name="on_primary_container_dark">#E8F0FE</color>
 
-    <color name="secondary_dark">#BFC6DC</color>
-    <color name="on_secondary_dark">#293041</color>
-    <color name="secondary_container_dark">#3F4759</color>
-    <color name="on_secondary_container_dark">#DBE2F9</color>
+    <color name="secondary_dark">#BDC1C6</color>
+    <color name="on_secondary_dark">#3C4043</color>
+    <color name="secondary_container_dark">#3C4043</color>
+    <color name="on_secondary_container_dark">#F1F3F4</color>
 
-    <color name="tertiary_dark">#DEBCDF</color>
-    <color name="on_tertiary_dark">#402843</color>
-    <color name="tertiary_container_dark">#583E5A</color>
-    <color name="on_tertiary_container_dark">#FBD7FC</color>
+    <color name="tertiary_dark">#81C995</color>
+    <color name="on_tertiary_dark">#0D652D</color>
+    <color name="tertiary_container_dark">#137333</color>
+    <color name="on_tertiary_container_dark">#E6F4EA</color>
 
-    <color name="error_dark">#FFB4AB</color>
-    <color name="on_error_dark">#690005</color>
-    <color name="error_container_dark">#93000A</color>
-    <color name="on_error_container_dark">#FFDAD6</color>
+    <color name="error_dark">#F28B82</color>
+    <color name="on_error_dark">#A50E0E</color>
+    <color name="error_container_dark">#C5221F</color>
+    <color name="on_error_container_dark">#FCE8E6</color>
 
-    <color name="background_dark">#1B1B1F</color>
-    <color name="on_background_dark">#E3E2E6</color>
-    <color name="surface_dark">#1B1B1F</color>
-    <color name="on_surface_dark">#E3E2E6</color>
-    <color name="surface_variant_dark">#44474E</color>
-    <color name="on_surface_variant_dark">#C4C6D0</color>
-    <color name="outline_dark">#8E9099</color>
-    <color name="outline_variant_dark">#44474E</color>
+    <color name="background_dark">#202124</color>
+    <color name="on_background_dark">#E8EAED</color>
+    <color name="surface_dark">#202124</color>
+    <color name="on_surface_dark">#E8EAED</color>
+    <color name="surface_variant_dark">#3C4043</color>
+    <color name="on_surface_variant_dark">#BDC1C6</color>
+    <color name="outline_dark">#5F6368</color>
+    <color name="outline_variant_dark">#3C4043</color>
 </resources>

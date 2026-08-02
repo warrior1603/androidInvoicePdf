@@ -22,7 +22,6 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.Date;
 import java.util.ArrayList;
@@ -33,8 +32,6 @@ public class RapportsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View myView = inflater.inflate(R.layout.activity_rapports, container, false);
-        MaterialToolbar toolbar = requireActivity().findViewById(R.id.my_toolbar);
-        toolbar.setNavigationIcon(R.drawable.baseline_dashboard_24);
 
         BarChart barChart = myView.findViewById(R.id.barChart);
         TextView chartEmptyState = myView.findViewById(R.id.chart_empty_state);
