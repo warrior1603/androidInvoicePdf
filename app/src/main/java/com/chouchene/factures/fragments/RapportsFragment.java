@@ -17,6 +17,7 @@ import com.chouchene.factures.R;
 import com.chouchene.factures.dao.InvoiceDao;
 import com.chouchene.factures.database.AppDatabase;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -32,6 +33,7 @@ public class RapportsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View myView = inflater.inflate(R.layout.activity_rapports, container, false);
+        requireActivity().setTitle("Rapports");
         MaterialToolbar toolbar = requireActivity().findViewById(R.id.my_toolbar);
         toolbar.setNavigationIcon(R.drawable.baseline_dashboard_24);
 
@@ -71,17 +73,35 @@ public class RapportsFragment extends Fragment {
         barChart.getXAxis().setPosition(com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM);
         barChart.getXAxis().setDrawGridLines(false);
         barChart.getXAxis().setGranularity(1f);
+        barChart.getXAxis().setTextColor(resolveColor(com.google.android.material.R.attr.colorOnSurfaceVariant));
 
         // Set up the BarDataSet and BarData
-        BarDataSet dataSet = new BarDataSet(entries, "Revenu par mois");
+        BarDataSet dataSet = new BarDataSet(entries, "Revenu");
         dataSet.setColor(primaryColor);
-        dataSet.setValueTextColor(primaryColor);
-        dataSet.setValueTextSize(12f);
+        dataSet.setValueTextColor(resolveColor(com.google.android.material.R.attr.colorOnSurfaceVariant));
+        dataSet.setValueTextSize(11f);
+        dataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
 
         BarData barData = new BarData(dataSet);
+        barData.setBarWidth(0.58f);
         barChart.setData(barData);
         barChart.getDescription().setEnabled(false);
         barChart.getLegend().setEnabled(false);
+        barChart.setDrawGridBackground(false);
+        barChart.setFitBars(true);
+        barChart.setScaleEnabled(false);
+        barChart.setPinchZoom(false);
+        barChart.setNoDataText("Aucune donnée");
+        barChart.setNoDataTextColor(resolveColor(com.google.android.material.R.attr.colorOnSurfaceVariant));
+
+        YAxis leftAxis = barChart.getAxisLeft();
+        leftAxis.setTextColor(resolveColor(com.google.android.material.R.attr.colorOnSurfaceVariant));
+        leftAxis.setAxisLineColor(resolveColor(com.google.android.material.R.attr.colorOutline));
+        leftAxis.setGridColor(resolveColor(com.google.android.material.R.attr.colorOutlineVariant));
+        leftAxis.setDrawZeroLine(false);
+        leftAxis.setSpaceTop(20f);
+        leftAxis.setAxisMinimum(0f);
+        barChart.getAxisRight().setEnabled(false);
 
         if (entries.isEmpty()) {
             barChart.setVisibility(View.INVISIBLE);
@@ -93,6 +113,13 @@ public class RapportsFragment extends Fragment {
         }
         
         return myView;
+    }
+
+    @ColorInt
+    private int resolveColor(int attr) {
+        TypedValue typedValue = new TypedValue();
+        requireContext().getTheme().resolveAttribute(attr, typedValue, true);
+        return typedValue.data;
     }
 
     @Override

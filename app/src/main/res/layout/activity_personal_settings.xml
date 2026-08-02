@@ -19,34 +19,32 @@ tools:context=".fragments.PersonalSettingsFragment">
             tools:context=".fragments.PersonalSettingsFragment"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingTop="8dp"
-            android:paddingBottom="32dp">
+            android:paddingTop="@dimen/space_sm"
+            android:paddingBottom="@dimen/space_xxl">
 
             <TextView
                 android:id="@+id/textView4"
+                style="@style/App.FormSectionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Informations entreprise"
-                android:textAppearance="?attr/textAppearanceTitleSmall"
-                android:textColor="?attr/colorPrimary"
-                android:paddingVertical="8dp"
-                android:layout_marginHorizontal="16dp"
-                android:textAllCaps="true"
-                android:letterSpacing="0.1" />
+                android:layout_marginHorizontal="@dimen/space_lg"
+                android:layout_marginTop="@dimen/space_sm"
+                android:layout_marginBottom="@dimen/space_sm"
+                android:text="Informations entreprise" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/App.CardView"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginVertical="4dp"
+                android:layout_marginHorizontal="@dimen/space_lg"
+                android:layout_marginBottom="@dimen/space_sm"
                 app:cardPreventCornerOverlap="false">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="6dp"
+            android:padding="@dimen/card_inner_padding"
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
@@ -57,10 +55,7 @@ tools:context=".fragments.PersonalSettingsFragment">
                 app:endIconMode="clear_text"
                 android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:hint="Nom"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-                app:boxStrokeWidthFocused="2dp"
-                app:boxStrokeWidth="1dp"
-                android:padding="4dp">
+                style="@style/App.TextInput">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -76,10 +71,7 @@ tools:context=".fragments.PersonalSettingsFragment">
                 app:endIconMode="clear_text"
                 android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:hint="Rue"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-                app:boxStrokeWidthFocused="2dp"
-                app:boxStrokeWidth="1dp"
-                android:padding="4dp">
+                style="@style/App.TextInput">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -94,10 +86,7 @@ tools:context=".fragments.PersonalSettingsFragment">
                 app:endIconMode="clear_text"
                 android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:hint="Code Postale"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-                app:boxStrokeWidthFocused="2dp"
-                app:boxStrokeWidth="1dp"
-                android:padding="4dp">
+                style="@style/App.TextInput">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -112,10 +101,7 @@ tools:context=".fragments.PersonalSettingsFragment">
                 app:endIconMode="clear_text"
                 android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:hint="Ville"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-                app:boxStrokeWidthFocused="2dp"
-                app:boxStrokeWidth="1dp"
-                android:padding="4dp">
+                style="@style/App.TextInput">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -131,10 +117,7 @@ tools:context=".fragments.PersonalSettingsFragment">
                 app:endIconMode="clear_text"
                 android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:hint="Pays"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-                app:boxStrokeWidthFocused="2dp"
-                app:boxStrokeWidth="1dp"
-                android:padding="4dp">
+                style="@style/App.TextInput">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -151,10 +134,7 @@ tools:context=".fragments.PersonalSettingsFragment">
                 app:endIconMode="clear_text"
                 android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:hint="N° Siren"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-                app:boxStrokeWidthFocused="2dp"
-                app:boxStrokeWidth="1dp"
-                android:padding="4dp">
+                style="@style/App.TextInput">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -170,10 +150,7 @@ tools:context=".fragments.PersonalSettingsFragment">
                 app:endIconMode="clear_text"
                 android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:hint="N° TVA"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-                app:boxStrokeWidthFocused="2dp"
-                app:boxStrokeWidth="1dp"
-                android:padding="4dp">
+                style="@style/App.TextInput">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -189,10 +166,7 @@ tools:context=".fragments.PersonalSettingsFragment">
                 app:endIconMode="clear_text"
                 android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:hint="N° Tel"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-                app:boxStrokeWidthFocused="2dp"
-                app:boxStrokeWidth="1dp"
-                android:padding="4dp">
+                style="@style/App.TextInput">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -205,12 +179,10 @@ tools:context=".fragments.PersonalSettingsFragment">
                 android:layout_height="wrap_content"
                 app:startIconDrawable="@drawable/attherate_icon"
                 app:endIconMode="clear_text"
+                app:helperText="exemple@domaine.com"
                 android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:hint="Email"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-                app:boxStrokeWidthFocused="2dp"
-                app:boxStrokeWidth="1dp"
-                android:padding="4dp">
+                style="@style/App.TextInput">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -225,30 +197,27 @@ tools:context=".fragments.PersonalSettingsFragment">
 
             <TextView
                 android:id="@+id/textView3"
+                style="@style/App.FormSectionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Informations chauffeur"
-                android:textAppearance="?attr/textAppearanceTitleSmall"
-                android:textColor="?attr/colorPrimary"
-                android:paddingVertical="8dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginHorizontal="16dp"
-                android:textAllCaps="true"
-                android:letterSpacing="0.1" />
+                android:layout_marginHorizontal="@dimen/space_lg"
+                android:layout_marginTop="@dimen/form_section_spacing"
+                android:layout_marginBottom="@dimen/space_sm"
+                android:text="Informations chauffeur" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardView1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/App.CardView"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginVertical="4dp"
+                android:layout_marginHorizontal="@dimen/space_lg"
+                android:layout_marginBottom="@dimen/space_sm"
                 app:cardPreventCornerOverlap="false">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="6dp"
+            android:padding="@dimen/card_inner_padding"
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
@@ -259,10 +228,7 @@ tools:context=".fragments.PersonalSettingsFragment">
                 app:endIconMode="clear_text"
                 android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:hint="Chauffeur"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-                app:boxStrokeWidthFocused="2dp"
-                app:boxStrokeWidth="1dp"
-                android:padding="4dp">
+                style="@style/App.TextInput">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -278,10 +244,7 @@ tools:context=".fragments.PersonalSettingsFragment">
                 app:endIconMode="clear_text"
                 android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:hint="Plaque"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-                app:boxStrokeWidthFocused="2dp"
-                app:boxStrokeWidth="1dp"
-                android:padding="4dp">
+                style="@style/App.TextInput">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -297,10 +260,7 @@ tools:context=".fragments.PersonalSettingsFragment">
                 app:endIconMode="clear_text"
                 android:textColorHint="?attr/colorOnSurfaceVariant"
                 android:hint="N° EVTC"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-                app:boxStrokeWidthFocused="2dp"
-                app:boxStrokeWidth="1dp"
-                android:padding="4dp">
+                style="@style/App.TextInput">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -313,30 +273,27 @@ tools:context=".fragments.PersonalSettingsFragment">
 
             <TextView
                 android:id="@+id/textViewBank"
+                style="@style/App.FormSectionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Coordonnées bancaires"
-                android:textAppearance="?attr/textAppearanceTitleSmall"
-                android:textColor="?attr/colorPrimary"
-                android:paddingVertical="8dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginHorizontal="16dp"
-                android:textAllCaps="true"
-                android:letterSpacing="0.1" />
+                android:layout_marginHorizontal="@dimen/space_lg"
+                android:layout_marginTop="@dimen/form_section_spacing"
+                android:layout_marginBottom="@dimen/space_sm"
+                android:text="Coordonnées bancaires" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardViewBank"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/App.CardView"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginVertical="4dp"
+                android:layout_marginHorizontal="@dimen/space_lg"
+                android:layout_marginBottom="@dimen/space_sm"
                 app:cardPreventCornerOverlap="false">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="6dp"
+                    android:padding="@dimen/card_inner_padding"
                     android:orientation="vertical">
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -347,10 +304,7 @@ tools:context=".fragments.PersonalSettingsFragment">
                         app:endIconMode="clear_text"
                         android:textColorHint="?attr/colorOnSurfaceVariant"
                         android:hint="IBAN"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-                        app:boxStrokeWidthFocused="2dp"
-                        app:boxStrokeWidth="1dp"
-                        android:padding="4dp">
+                        style="@style/App.TextInput">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
@@ -366,10 +320,7 @@ tools:context=".fragments.PersonalSettingsFragment">
                         app:endIconMode="clear_text"
                         android:textColorHint="?attr/colorOnSurfaceVariant"
                         android:hint="BIC"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-                        app:boxStrokeWidthFocused="2dp"
-                        app:boxStrokeWidth="1dp"
-                        android:padding="4dp">
+                        style="@style/App.TextInput">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
@@ -385,10 +336,7 @@ tools:context=".fragments.PersonalSettingsFragment">
                         app:endIconMode="clear_text"
                         android:textColorHint="?attr/colorOnSurfaceVariant"
                         android:hint="Adresse du titulaire"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-                        app:boxStrokeWidthFocused="2dp"
-                        app:boxStrokeWidth="1dp"
-                        android:padding="4dp">
+                        style="@style/App.TextInput">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
@@ -404,10 +352,10 @@ tools:context=".fragments.PersonalSettingsFragment">
                 android:id="@+id/btn_save_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginBottom="30dp"
+                android:layout_marginStart="@dimen/space_xl"
+                android:layout_marginTop="@dimen/space_md"
+                android:layout_marginEnd="@dimen/space_xl"
+                android:layout_marginBottom="@dimen/space_xxl"
                 app:icon="@drawable/save_as_icon"
                 app:iconGravity="textStart"
                 android:text="  Enregister les details"

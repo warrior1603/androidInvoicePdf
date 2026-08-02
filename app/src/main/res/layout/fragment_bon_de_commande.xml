@@ -14,34 +14,32 @@
         tools:context=".fragments.BonDeCommandeFragment"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:paddingTop="8dp"
-        android:paddingBottom="32dp">
+        android:paddingTop="@dimen/space_sm"
+        android:paddingBottom="@dimen/space_xxl">
 
         <TextView
             android:id="@+id/textView3"
+            style="@style/App.FormSectionTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Informations bon de commande"
-            android:textAppearance="?attr/textAppearanceTitleSmall"
-            android:textColor="?attr/colorPrimary"
-            android:paddingVertical="8dp"
-            android:layout_marginHorizontal="16dp"
-            android:textAllCaps="true"
-            android:letterSpacing="0.1" />
+            android:layout_marginHorizontal="@dimen/space_lg"
+            android:layout_marginTop="@dimen/space_sm"
+            android:layout_marginBottom="@dimen/space_sm"
+            android:text="Informations bon de commande" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/App.CardView"
-            android:layout_marginHorizontal="8dp"
-            android:layout_marginVertical="4dp"
+            android:layout_marginHorizontal="@dimen/space_lg"
+            android:layout_marginBottom="@dimen/space_sm"
             app:cardPreventCornerOverlap="false">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="6dp"
+        android:padding="@dimen/card_inner_padding"
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -52,10 +50,7 @@
             app:endIconMode="clear_text"
             android:textColorHint="?attr/colorOnSurfaceVariant"
             android:hint="Passager"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-            app:boxStrokeWidthFocused="2dp"
-            app:boxStrokeWidth="1dp"
-            android:padding="4dp">
+            style="@style/App.TextInput">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -71,10 +66,7 @@
             app:endIconMode="clear_text"
             android:textColorHint="?attr/colorOnSurfaceVariant"
             android:hint="Tel passager"
-            app:boxStrokeWidthFocused="2dp"
-            app:boxStrokeWidth="1dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-            android:padding="4dp">
+            style="@style/App.TextInput">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -85,14 +77,12 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:helperText="JJ.MM.AAAA"
             app:startIconDrawable="@drawable/date_icon"
             app:endIconMode="clear_text"
             android:textColorHint="?attr/colorOnSurfaceVariant"
             android:hint="Date commande"
-            app:boxStrokeWidthFocused="2dp"
-            app:boxStrokeWidth="1dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-            android:padding="4dp">
+            style="@style/App.TextInput">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -105,14 +95,12 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:helperText="HH:MM"
             app:startIconDrawable="@drawable/four_o_clock_icon"
             app:endIconMode="clear_text"
             android:textColorHint="?attr/colorOnSurfaceVariant"
             android:hint="Heure commande"
-            app:boxStrokeWidthFocused="2dp"
-            app:boxStrokeWidth="1dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-            android:padding="4dp">
+            style="@style/App.TextInput">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_heure_commande"
@@ -126,14 +114,12 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:helperText="JJ.MM.AAAA"
             app:startIconDrawable="@drawable/date_icon"
             app:endIconMode="clear_text"
             android:textColorHint="?attr/colorOnSurfaceVariant"
             android:hint="Date prise en charge"
-            app:boxStrokeWidthFocused="2dp"
-            app:boxStrokeWidth="1dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-            android:padding="4dp">
+            style="@style/App.TextInput">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_date_prise"
@@ -146,14 +132,12 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:helperText="HH:MM"
             app:startIconDrawable="@drawable/four_o_clock_icon"
             app:endIconMode="clear_text"
             android:textColorHint="?attr/colorOnSurfaceVariant"
             android:hint="Heure prise en charge"
-            app:boxStrokeWidthFocused="2dp"
-            app:boxStrokeWidth="1dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-            android:padding="4dp">
+            style="@style/App.TextInput">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_heure_prise"
@@ -171,10 +155,7 @@
             app:endIconMode="clear_text"
             android:textColorHint="?attr/colorOnSurfaceVariant"
             android:hint="Lieu prise en charge"
-            app:boxStrokeWidthFocused="2dp"
-            app:boxStrokeWidth="1dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-            android:padding="4dp">
+            style="@style/App.TextInput">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -190,10 +171,7 @@
             app:endIconMode="clear_text"
             android:textColorHint="?attr/colorOnSurfaceVariant"
             android:hint="Destination"
-            app:boxStrokeWidthFocused="2dp"
-            app:boxStrokeWidth="1dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-            android:padding="4dp">
+            style="@style/App.TextInput">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -209,10 +187,7 @@
             app:endIconMode="clear_text"
             android:textColorHint="?attr/colorOnSurfaceVariant"
             android:hint="Tarif"
-            app:boxStrokeWidthFocused="2dp"
-            app:boxStrokeWidth="1dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
-            android:padding="4dp">
+            style="@style/App.TextInput">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -226,10 +201,10 @@
             android:id="@+id/btn_save_info_bon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginStart="@dimen/space_xl"
+            android:layout_marginTop="@dimen/space_md"
+            android:layout_marginEnd="@dimen/space_xl"
+            android:layout_marginBottom="@dimen/space_xxl"
             android:text="Generer bon de commande"
             style="@style/App.Button"/>
 
