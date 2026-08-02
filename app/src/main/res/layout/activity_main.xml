@@ -18,7 +18,7 @@
             android:id="@+id/my_toolbar"
             style="@style/App.Toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="72dp"
             app:menu="@menu/top_app_bar"
             app:titleCentered="true" />
 
