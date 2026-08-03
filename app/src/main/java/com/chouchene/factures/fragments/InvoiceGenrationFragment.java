@@ -77,9 +77,12 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
     public void onItemClick(Invoice invoice) {
         Bundle b = new Bundle();
         b.putString("file_path", invoice.filePath);
-        // We don't have the client email in the invoice entity directly, 
-        // but for previewing we can pass null or try to find it.
-        // For now, follow existing pattern.
+        
+        com.chouchene.factures.entity.Client client = db.clientDao().getClientByName(invoice.clientName);
+        if (client != null) {
+            b.putString("mail_client", client.getEmail());
+        }
+        
         Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, b);
     }
 

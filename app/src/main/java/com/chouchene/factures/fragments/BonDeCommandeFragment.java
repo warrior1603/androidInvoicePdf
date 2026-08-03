@@ -77,6 +77,12 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
     public void onItemClick(Invoice invoice) {
         Bundle b = new Bundle();
         b.putString("file_path", invoice.filePath);
+        
+        com.chouchene.factures.entity.Client client = db.clientDao().getClientByName(invoice.clientName);
+        if (client != null) {
+            b.putString("mail_client", client.getEmail());
+        }
+        
         Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, b);
     }
 

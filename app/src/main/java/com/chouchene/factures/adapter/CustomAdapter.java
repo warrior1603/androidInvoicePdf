@@ -33,6 +33,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     private final ClientDao clientDao;
     private final ArrayList<Client> originalList;
     private final ArrayList<Client> filteredList;
+    private int highlightClientId = -1;
     private OnDataChangedListener onDataChangedListener;
 
     public interface OnDataChangedListener {
@@ -43,10 +44,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         this.onDataChangedListener = listener;
     }
 
-    public CustomAdapter(FragmentActivity context, ArrayList<Client> values) {
+    public CustomAdapter(FragmentActivity context, ArrayList<Client> values, int highlightClientId) {
         this.fragmentActivity = context;
         this.originalList = new ArrayList<>(values);
         this.filteredList = new ArrayList<>(values);
+        this.highlightClientId = highlightClientId;
         this.clientDao = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "MyClients").allowMainThreadQueries().fallbackToDestructiveMigration().build().clientDao();
     }
 
@@ -62,14 +64,16 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         Client client = filteredList.get(holder.getAdapterPosition());
         holder.textView.setText(client.getClientName());
 
+        if (client.getId() == highlightClientId) {
+            bindDetails(holder, client);
+            holder.datailsText.setVisibility(View.VISIBLE);
+        } else {
+            holder.datailsText.setVisibility(View.GONE);
+        }
+
         holder.cardview.setOnClickListener(v -> {
             Client currentClient = filteredList.get(holder.getAdapterPosition());
-            holder.txtRue.setText(currentClient.getStreet());
-            holder.txtVille.setText(currentClient.getCodePostale() + " " + currentClient.getVille());
-            holder.txtPays.setText(currentClient.getPays());
-            holder.txtSiren.setText("SIREN: " + currentClient.getNumeroSiren());
-            holder.txtEmail.setText(currentClient.getEmail());
-            holder.txtTva.setText("TVA: " + currentClient.getNumeroTVA());
+            bindDetails(holder, currentClient);
 
             holder.layout.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGE_APPEARING);
             int visibility = (holder.datailsText.getVisibility() == View.GONE) ? View.VISIBLE : View.GONE;
@@ -111,6 +115,15 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
         });
+    }
+
+    private void bindDetails(ViewHolder holder, Client client) {
+        holder.txtRue.setText(client.getStreet());
+        holder.txtVille.setText(client.getCodePostale() + " " + client.getVille());
+        holder.txtPays.setText(client.getPays());
+        holder.txtSiren.setText("SIREN: " + client.getNumeroSiren());
+        holder.txtEmail.setText(client.getEmail());
+        holder.txtTva.setText("TVA: " + client.getNumeroTVA());
     }
 
     @Override

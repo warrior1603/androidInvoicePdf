@@ -90,4 +90,5 @@
     <string name="title_about">À propos</string>
     <string name="title_help">Aide</string>
     <string name="hint_search_app">Rechercher...</string>
+    <string name="nav_header_subtitle">Gestion de facturation &amp; PDF</string>
 </resources>

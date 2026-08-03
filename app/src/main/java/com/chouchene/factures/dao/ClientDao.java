@@ -26,6 +26,9 @@ public interface ClientDao {
     @Query("SELECT * FROM Client")
     List<Client> getAllClients();
 
+    @Query("SELECT * FROM Client WHERE clientName = :name LIMIT 1")
+    Client getClientByName(String name);
+
     @Query("SELECT * FROM Client WHERE id = :id LIMIT 1")
     Client getClientById(int id);
 

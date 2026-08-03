@@ -1,5 +1,7 @@
 package com.chouchene.factures.fragments;
 
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +13,6 @@ import android.os.Bundle;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
-import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
 import android.view.LayoutInflater;
@@ -42,9 +43,9 @@ public class WebViewPdfFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_webview_pdf_sendmail, container, false);
-        Bundle bundle = this.getArguments();
-        String filePath = bundle.getString("file_path");
-        String mailClient = bundle.getString("mail_client");
+        Bundle bundle = getArguments();
+        final String filePath = (bundle != null) ? bundle.getString("file_path", "") : "";
+        final String mailClient = (bundle != null) ? bundle.getString("mail_client", "") : "";
 
         pdfWebView = view.findViewById(R.id.pdfView);
         emailButton = view.findViewById(R.id.emailButton);
@@ -61,15 +62,50 @@ public class WebViewPdfFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        PrintManager printManager = (PrintManager) getActivity().getSystemService(Context.PRINT_SERVICE);
-
-                        try {
-                            PrintDocumentAdapter printAdapter = new PdfDocumentAdapter(getContext(), filePath);
-                            printManager.print("Document Print Job", printAdapter, new PrintAttributes.Builder().build());
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        if (filePath == null || filePath.isEmpty()) {
+                            android.widget.Toast.makeText(getContext(), "Fichier non trouvé", android.widget.Toast.LENGTH_SHORT).show();
+                            return;
                         }
 
+                        if (!isAdded()) {
+                            android.widget.Toast.makeText(v.getContext(), "Écran non prêt pour l'impression", android.widget.Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        Activity activity;
+                        try {
+                            activity = requireActivity();
+                        } catch (IllegalStateException e) {
+                            android.util.Log.e("WebViewPdfFragment", "Print host activity unavailable", e);
+                            android.widget.Toast.makeText(v.getContext(), "Impossible d'imprimer depuis cet écran", android.widget.Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        if (activity.isFinishing() || activity.isDestroyed()) {
+                            android.widget.Toast.makeText(activity, "Fenêtre fermée, impression annulée", android.widget.Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        PrintManager printManager = (PrintManager) activity.getSystemService(Context.PRINT_SERVICE);
+                        if (printManager == null) {
+                            android.widget.Toast.makeText(activity, "Service d'impression non disponible", android.widget.Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        try {
+                            // Use a clean job name
+                            String fileName = new File(filePath).getName();
+                            String jobName = getString(R.string.app_name) + "_" + fileName;
+
+                            PrintDocumentAdapter printAdapter = new PdfDocumentAdapter(activity, filePath);
+                            printManager.print(jobName, printAdapter, null);
+                        } catch (IllegalStateException e) {
+                            android.util.Log.w("WebViewPdfFragment", "Direct print unavailable, opening PDF viewer instead");
+                            openPdfForPrinting(activity, fileUri);
+                        } catch (Exception e) {
+                            android.util.Log.e("WebViewPdfFragment", "Print error", e);
+                            android.widget.Toast.makeText(activity, "Erreur lors de l'impression: " + e.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
         );
@@ -119,10 +155,11 @@ public class WebViewPdfFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                        shareIntent.setType("text/plain"); // Adjust type if sharing different content
-                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Partage de fichier");
+                        shareIntent.setType("application/pdf");
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Partage de facture");
                         shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
-                        startActivity(Intent.createChooser(shareIntent, "Partager sur"));
+                        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        startActivity(Intent.createChooser(shareIntent, "Partager avec"));
                     }
                 }
         );
@@ -147,5 +184,17 @@ public class WebViewPdfFragment extends Fragment {
                 .load();
 
         return view;
+    }
+
+    private void openPdfForPrinting(Activity activity, Uri fileUri) {
+        Intent viewPdfIntent = new Intent(Intent.ACTION_VIEW);
+        viewPdfIntent.setDataAndType(fileUri, "application/pdf");
+        viewPdfIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        try {
+            startActivity(Intent.createChooser(viewPdfIntent, "Ouvrir pour imprimer"));
+        } catch (ActivityNotFoundException e) {
+            android.widget.Toast.makeText(activity, "Aucune application PDF disponible", android.widget.Toast.LENGTH_SHORT).show();
+        }
     }
 }

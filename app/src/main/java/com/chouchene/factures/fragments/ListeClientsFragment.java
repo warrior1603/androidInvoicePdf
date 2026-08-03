@@ -65,11 +65,26 @@ public class ListeClientsFragment extends Fragment {
         recyclerView = myView.findViewById(R.id.recyclerViewClients);
         emptyState = myView.findViewById(R.id.empty_state);
 
-        listAdapter = new CustomAdapter(this.getActivity(), myClients);
+        Bundle args = getArguments();
+        int highlightId = (args != null) ? args.getInt("highlight_client_id", -1) : -1;
+
+        listAdapter = new CustomAdapter(this.getActivity(), myClients, highlightId);
         listAdapter.setOnDataChangedListener(this::checkEmptyState);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(listAdapter);
         checkEmptyState();
+
+        if (highlightId != -1) {
+            for (int i = 0; i < myClients.size(); i++) {
+                if (myClients.get(i).getId() == highlightId) {
+                    final int pos = i;
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                        recyclerView.scrollToPosition(pos);
+                    }, 100);
+                    break;
+                }
+            }
+        }
 
         ExtendedFloatingActionButton fab = myView.findViewById(R.id.fab);
 

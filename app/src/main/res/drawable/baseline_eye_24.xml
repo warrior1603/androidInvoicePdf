@@ -1,5 +1,9 @@
-<vector xmlns:android="http://schemas.android.com/apk/res/android" android:height="24dp" android:tint="#000000" android:viewportHeight="24" android:viewportWidth="24" android:width="24dp">
-      
-    <path android:fillColor="@android:color/white" android:pathData="M12,4.5C7,4.5 2.73,7.61 1,12c1.73,4.39 6,7.5 11,7.5s9.27,-3.11 11,-7.5c-1.73,-4.39 -6,-7.5 -11,-7.5zM12,17c-2.76,0 -5,-2.24 -5,-5s2.24,-5 5,-5 5,2.24 5,5 -2.24,5 -5,5zM12,9c-1.66,0 -3,1.34 -3,3s1.34,3 3,3 3,-1.34 3,-3 -1.34,-3 -3,-3z"/>
-    
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <path
+      android:fillColor="#FF000000"
+      android:pathData="M12 17q1.65 0 2.825-1.175Q16 14.65 16 13q0-1.65-1.175-2.825Q13.65 9 12 9q-1.65 0-2.825 1.175Q8 11.35 8 13q0 1.65 1.175 2.825Q10.35 17 12 17Zm0-2q-.825 0-1.413-.587Q10 13.825 10 13t.587-1.413Q11.175 11 12 11t1.413.587Q14 11.825 14 13t-.587 1.413Q12.825 15 12 15Zm0 5q-4.65 0-8.212-2.587Q.225 14.825 0 13q.225-1.825 3.788-4.413Q7.35 6 12 6t8.212 2.587Q23.775 11.175 24 13q-.225 1.825-3.788 4.413Q16.65 20 12 20Z"/>
 </vector>

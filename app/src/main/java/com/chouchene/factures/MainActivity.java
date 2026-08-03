@@ -23,6 +23,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 
 import com.chouchene.factures.utils.LocaleHelper;
+import com.chouchene.factures.fragments.AddClientBottomSheet;
 import com.chouchene.factures.fragments.BonDeCommandeFragment;
 import com.chouchene.factures.fragments.RapportsFragment;
 import com.chouchene.factures.fragments.InvoiceGenrationFragment;
@@ -365,10 +366,18 @@ public class MainActivity extends AppCompatActivity {
             holder.itemView.setOnClickListener(v -> {
                 searchView.hide();
                 if ("Client".equals(result.type)) {
-                    bottomNavigationView.setSelectedItemId(R.id.clientsFragment);
+                    Bundle args = new Bundle();
+                    args.putInt("highlight_client_id", result.id);
+                    navController.navigate(R.id.clientsFragment, args);
                 } else {
                     Bundle args = new Bundle();
                     args.putString("file_path", result.filePath);
+                    
+                    com.chouchene.factures.entity.Client client = db.clientDao().getClientByName(result.title);
+                    if (client != null) {
+                        args.putString("mail_client", client.getEmail());
+                    }
+                    
                     navController.navigate(R.id.webViewPdfFragment, args);
                 }
             });
