@@ -9,19 +9,13 @@
         android:id="@+id/factureFragment"
         android:name="com.chouchene.factures.fragments.InvoiceGenrationFragment"
         android:label="@string/title_invoices"
-        tools:layout="@layout/activity_invoice" />
+        tools:layout="@layout/fragment_history_list" />
 
     <fragment
         android:id="@+id/bonCommandeFragment"
         android:name="com.chouchene.factures.fragments.BonDeCommandeFragment"
         android:label="@string/title_orders"
-        tools:layout="@layout/fragment_bon_de_commande" />
-
-    <fragment
-        android:id="@+id/historiqueFragment"
-        android:name="com.chouchene.factures.fragments.HistoriqueFragment"
-        android:label="@string/title_history"
-        tools:layout="@layout/fragment_historique" />
+        tools:layout="@layout/fragment_history_list" />
 
     <fragment
         android:id="@+id/clientsFragment"
@@ -64,5 +58,20 @@
         android:id="@+id/settingsActivity"
         android:name="com.chouchene.factures.SettingsActivity"
         android:label="@string/title_settings" />
+
+    <dialog
+        android:id="@+id/addClientBottomSheet"
+        android:name="com.chouchene.factures.fragments.AddClientBottomSheet"
+        tools:layout="@layout/bottom_sheet_add_client" />
+
+    <dialog
+        android:id="@+id/createInvoiceBottomSheet"
+        android:name="com.chouchene.factures.fragments.CreateInvoiceBottomSheet"
+        tools:layout="@layout/bottom_sheet_create_invoice" />
+
+    <dialog
+        android:id="@+id/createBonBottomSheet"
+        android:name="com.chouchene.factures.fragments.CreateBonBottomSheet"
+        tools:layout="@layout/bottom_sheet_create_bon" />
 
 </navigation>

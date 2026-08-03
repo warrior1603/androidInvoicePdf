@@ -50,7 +50,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/label_full_name"
-                        app:startIconDrawable="@drawable/user_id_svgrepo_com">
+                        app:startIconDrawable="@drawable/baseline_badge_24">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -63,7 +63,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:hint="@string/label_street"
-                        app:startIconDrawable="@drawable/direction_road_sign_icon">
+                        app:startIconDrawable="@drawable/baseline_directions_24">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -81,7 +81,7 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:hint="@string/label_postal_code"
-                            app:startIconDrawable="@drawable/mailed_mail_svgrepo_com">
+                            app:startIconDrawable="@drawable/baseline_email_24">
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edit_code_postale"
                                 android:layout_width="match_parent"
@@ -95,7 +95,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:hint="@string/label_city"
-                            app:startIconDrawable="@drawable/city_svgrepo_com">
+                            app:startIconDrawable="@drawable/baseline_location_city_24">
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edit_city"
                                 android:layout_width="match_parent"
@@ -109,7 +109,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:hint="@string/label_country"
-                        app:startIconDrawable="@drawable/earth_svgrepo_com">
+                        app:startIconDrawable="@drawable/baseline_public_24">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edit_country"
                             android:layout_width="match_parent"
@@ -137,7 +137,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:hint="@string/label_tva"
-                        app:startIconDrawable="@drawable/tax_icon">
+                        app:startIconDrawable="@drawable/baseline_percent_24">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -163,7 +163,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:hint="@string/label_email"
-                        app:startIconDrawable="@drawable/attherate_icon">
+                        app:startIconDrawable="@drawable/baseline_alternate_email_24">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edit_email"
                             android:layout_width="match_parent"
@@ -203,7 +203,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Driver Name"
-                        app:startIconDrawable="@drawable/driver">
+                        app:startIconDrawable="@drawable/baseline_person_24">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -216,7 +216,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:hint="Plate Number"
-                        app:startIconDrawable="@drawable/plaque">
+                        app:startIconDrawable="@drawable/baseline_directions_car_24">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -229,7 +229,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:hint="EVTC Number"
-                        app:startIconDrawable="@drawable/evtc">
+                        app:startIconDrawable="@drawable/baseline_receipt_long_24">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -267,7 +267,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="IBAN"
-                        app:startIconDrawable="@drawable/hand_money_icon">
+                        app:startIconDrawable="@drawable/baseline_payments_24">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -280,7 +280,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:hint="BIC"
-                        app:startIconDrawable="@drawable/bank_euro_specifications_svgrepo_com">
+                        app:startIconDrawable="@drawable/baseline_account_balance_24">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/clear_bic"
                             android:layout_width="match_parent"
@@ -294,7 +294,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:hint="Bank Address"
-                        app:startIconDrawable="@drawable/location_pin_icon">
+                        app:startIconDrawable="@drawable/baseline_location_on_24">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -310,7 +310,7 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="32dp"
-                app:icon="@drawable/save_as_icon"
+                app:icon="@drawable/baseline_save_24"
                 app:iconGravity="textStart"
                 android:text="@string/action_save"
                 style="@style/App.Button"/>

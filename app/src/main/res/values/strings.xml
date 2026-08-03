@@ -58,7 +58,9 @@
     <string name="label_issue_date">Date d\'émission</string>
     <string name="label_description">Description</string>
     <string name="label_qty">Qté</string>
-    <string name="label_price">Prix</string>
+    <string name="label_price">Prix HT</string>
+    <string name="label_price_ttc">Prix TTC</string>
+    <string name="label_tva_percent">TVA (%)</string>
     <string name="label_payment_method">Mode de paiement</string>
     <string name="action_generate_invoice">Générer la facture</string>
 

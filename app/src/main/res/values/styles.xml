@@ -46,6 +46,7 @@
         <item name="floatingActionButtonStyle">@style/App.Fab</item>
         <item name="cardViewStyle">@style/App.CardView</item>
         <item name="textInputStyle">@style/App.TextInput</item>
+        <item name="materialSwitchStyle">@style/Widget.Material3.CompoundButton.MaterialSwitch</item>
     </style>
 
     <style name="DarkTheme" parent="Theme.Material3.Dark.NoActionBar">
@@ -85,6 +86,7 @@
         <item name="floatingActionButtonStyle">@style/App.Fab</item>
         <item name="cardViewStyle">@style/App.CardView</item>
         <item name="textInputStyle">@style/App.TextInput</item>
+        <item name="materialSwitchStyle">@style/Widget.Material3.CompoundButton.MaterialSwitch</item>
     </style>
 
     <!-- Toolbar — Standard M3 with center alignment option -->
@@ -169,6 +171,15 @@
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="App.TextAppearance.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="App.TextAppearance.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
     </style>
 
     <style name="App.TextAppearance.LabelLarge" parent="TextAppearance.Material3.LabelLarge">

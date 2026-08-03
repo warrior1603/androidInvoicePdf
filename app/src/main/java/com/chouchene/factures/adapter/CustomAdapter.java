@@ -1,8 +1,6 @@
 package com.chouchene.factures.adapter;
 
 import android.animation.LayoutTransition;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
@@ -17,14 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import com.chouchene.factures.R;
-import com.chouchene.factures.api.FetchVilleFromCodePostale;
 import com.chouchene.factures.dao.ClientDao;
 import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.entity.Client;
+import com.chouchene.factures.fragments.AddClientBottomSheet;
 import com.chouchene.factures.repository.ClientRepository;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
@@ -36,6 +33,15 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     private final ClientDao clientDao;
     private final ArrayList<Client> originalList;
     private final ArrayList<Client> filteredList;
+    private OnDataChangedListener onDataChangedListener;
+
+    public interface OnDataChangedListener {
+        void onDataChanged();
+    }
+
+    public void setOnDataChangedListener(OnDataChangedListener listener) {
+        this.onDataChangedListener = listener;
+    }
 
     public CustomAdapter(FragmentActivity context, ArrayList<Client> values) {
         this.fragmentActivity = context;
@@ -73,7 +79,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
         holder.editbutton.setOnClickListener(v -> {
             Client currentClient = filteredList.get(holder.getAdapterPosition());
-            showClientDialog(currentClient);
+            AddClientBottomSheet bottomSheet = AddClientBottomSheet.newInstance(currentClient);
+            bottomSheet.setOnClientSavedListener(() -> {
+                setData((ArrayList<Client>) clientDao.getAllClients());
+            });
+            bottomSheet.show(fragmentActivity.getSupportFragmentManager(), "EDIT_CLIENT");
         });
 
         holder.deleteButton.setOnClickListener(v -> {
@@ -91,6 +101,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                                 filteredList.remove(currentPos);
                                 notifyItemRemoved(currentPos);
                                 notifyItemRangeChanged(currentPos, filteredList.size());
+                                if (onDataChangedListener != null) {
+                                    onDataChangedListener.onDataChanged();
+                                }
                             });
                         });
                     })
@@ -98,72 +111,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
         });
-    }
-
-    public void showClientDialog(Client client) {
-        boolean isEdit = client != null;
-        View view = LayoutInflater.from(fragmentActivity).inflate(R.layout.popup_add_client, null);
-        
-        TextInputEditText txtName = view.findViewById(R.id.edit_user_name_client);
-        TextInputEditText txtRue = view.findViewById(R.id.edit_street);
-        TextInputEditText txtVille = view.findViewById(R.id.edit_ville);
-        TextInputEditText txtCodePostale = view.findViewById(R.id.edit_code_postale);
-        TextInputEditText txtPays = view.findViewById(R.id.edit_pays);
-        TextInputEditText txtSiren = view.findViewById(R.id.edit_siren);
-        TextInputEditText txtTva = view.findViewById(R.id.tva_client);
-        TextInputEditText txtEmail = view.findViewById(R.id.edit_email_client);
-
-        txtCodePostale.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
-            @Override public void afterTextChanged(Editable s) {
-                FetchVilleFromCodePostale.fetchDataFromApiWithParams(s.toString(), txtVille, txtPays);
-            }
-        });
-
-        if (isEdit) {
-            txtName.setText(client.getClientName());
-            txtRue.setText(client.getStreet());
-            txtVille.setText(client.getVille());
-            txtCodePostale.setText(client.getCodePostale());
-            txtPays.setText(client.getPays());
-            txtSiren.setText(client.getNumeroSiren());
-            txtTva.setText(client.getNumeroTVA());
-            
-            String email = client.getEmail();
-            if (email != null) {
-                txtEmail.setText(email);
-            }
-        }
-
-        new MaterialAlertDialogBuilder(fragmentActivity)
-                .setTitle(isEdit ? "Modifier client" : "Nouveau client")
-                .setView(view)
-                .setPositiveButton("Enregistrer", (dialog, which) -> {
-                    String customerName = txtName.getText().toString();
-                    String rueClient = txtRue.getText().toString();
-                    String villeClient = txtVille.getText().toString();
-                    String cpClient = txtCodePostale.getText().toString();
-                    String paysClient = txtPays.getText().toString();
-                    String sirenClient = txtSiren.getText().toString();
-                    String tvaClient = txtTva.getText().toString();
-                    String emailClient = txtEmail.getText().toString();
-
-                    Executors.newSingleThreadExecutor().execute(() -> {
-                        Client c = new Client(customerName, rueClient, villeClient, cpClient, paysClient, sirenClient, tvaClient, emailClient);
-                        clientRepository = new ClientRepository(clientDao);
-                        if (isEdit) {
-                            c.setId(client.getId());
-                            clientRepository.updateClient(c);
-                        } else {
-                            clientRepository.addClientIfNotExists(c);
-                        }
-
-                        fragmentActivity.runOnUiThread(() -> setData((ArrayList<Client>) clientDao.getAllClients()));
-                    });
-                })
-                .setNegativeButton("Annuler", null)
-                .show();
     }
 
     @Override
@@ -177,6 +124,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         filteredList.clear();
         filteredList.addAll(clients);
         notifyDataSetChanged();
+        if (onDataChangedListener != null) {
+            onDataChangedListener.onDataChanged();
+        }
     }
 
     public void filter(String query) {

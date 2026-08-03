@@ -66,34 +66,22 @@ public class ListeClientsFragment extends Fragment {
         emptyState = myView.findViewById(R.id.empty_state);
 
         listAdapter = new CustomAdapter(this.getActivity(), myClients);
+        listAdapter.setOnDataChangedListener(this::checkEmptyState);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(listAdapter);
         checkEmptyState();
-
-
-        SearchView searchView=myView.findViewById(R.id.searchView);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                listAdapter.filter(query);
-                checkEmptyState();
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                listAdapter.filter(newText);
-                checkEmptyState();
-                return true;
-            }
-        });
 
         FloatingActionButton fab = myView.findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listAdapter.showClientDialog(null);
+                AddClientBottomSheet bottomSheet = AddClientBottomSheet.newInstance(null);
+                bottomSheet.setOnClientSavedListener(() -> {
+                    myClients = (ArrayList<Client>) clientDao.getAllClients();
+                    listAdapter.setData(myClients);
+                });
+                bottomSheet.show(getChildFragmentManager(), "ADD_CLIENT");
             }
         });
 

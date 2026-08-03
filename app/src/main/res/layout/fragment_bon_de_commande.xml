@@ -44,7 +44,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/label_passenger_name"
-                    app:startIconDrawable="@drawable/human_icon">
+                    app:startIconDrawable="@drawable/baseline_person_24">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_passager"
                         android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:hint="@string/label_issue_date"
-                        app:startIconDrawable="@drawable/date_icon">
+                        app:startIconDrawable="@drawable/baseline_calendar_today_24">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edit_date_commande"
                             android:layout_width="match_parent"
@@ -93,7 +93,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:hint="@string/label_time"
-                        app:startIconDrawable="@drawable/four_o_clock_icon">
+                        app:startIconDrawable="@drawable/baseline_access_time_24">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edit_heure_commande"
                             android:layout_width="match_parent"
@@ -115,7 +115,7 @@
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:hint="Pickup Date"
-                        app:startIconDrawable="@drawable/date_icon">
+                        app:startIconDrawable="@drawable/baseline_calendar_today_24">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edit_date_prise"
                             android:layout_width="match_parent"
@@ -130,7 +130,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:hint="Pickup Time"
-                        app:startIconDrawable="@drawable/four_o_clock_icon">
+                        app:startIconDrawable="@drawable/baseline_access_time_24">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edit_heure_prise"
                             android:layout_width="match_parent"
@@ -146,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:hint="@string/label_pickup_location"
-                    app:startIconDrawable="@drawable/location_pin_icon">
+                    app:startIconDrawable="@drawable/baseline_location_on_24">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_pec"
                         android:layout_width="match_parent"
@@ -159,7 +159,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:hint="@string/label_destination"
-                    app:startIconDrawable="@drawable/address_location_icon">
+                    app:startIconDrawable="@drawable/baseline_home_24">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_destination"
                         android:layout_width="match_parent"
@@ -172,7 +172,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:hint="@string/label_fare"
-                    app:startIconDrawable="@drawable/pricing_icon">
+                    app:startIconDrawable="@drawable/baseline_payments_24">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_tarif"
                         android:layout_width="match_parent"

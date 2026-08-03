@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="Se connecter avec Google"
-        app:icon="@drawable/customer_svgrepo_com"
+        app:icon="@drawable/baseline_person_24"
         app:iconGravity="textStart"
         android:textAllCaps="false"
         android:insetTop="0dp"

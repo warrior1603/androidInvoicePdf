@@ -6,7 +6,7 @@
         android:title="@string/title_settings" />
     <item
         android:id="@+id/aboutFragment"
-        android:icon="@drawable/info_alt_svgrepo_com"
+        android:icon="@drawable/baseline_info_24"
         android:title="@string/title_about" />
     <item
         android:id="@+id/helpFragment"

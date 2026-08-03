@@ -17,6 +17,9 @@ public interface InvoiceDao {
     @Insert
     void insertInvoice(Invoice invoice);
 
+    @androidx.room.Delete
+    void deleteInvoice(Invoice invoice);
+
     @Query("SELECT SUM(amount) FROM invoices WHERE date(date / 1000, 'unixepoch') = date(:date / 1000, 'unixepoch')")
     float getDailyIncome(Date date);
 
@@ -31,6 +34,12 @@ public interface InvoiceDao {
 
     @Query("SELECT * FROM invoices ORDER BY date DESC")
     List<Invoice> getAllInvoices();
+
+    @Query("SELECT * FROM invoices WHERE type = 'Facture' ORDER BY date DESC")
+    List<Invoice> getInvoicesOnly();
+
+    @Query("SELECT * FROM invoices WHERE type = 'Bon' ORDER BY date DESC")
+    List<Invoice> getBonsOnly();
 
     @Query("SELECT * FROM invoices WHERE client_name LIKE '%' || :query || '%' ORDER BY date DESC")
     List<Invoice> searchInvoices(String query);

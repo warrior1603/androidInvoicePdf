@@ -4,14 +4,10 @@ import com.chouchene.factures.utils.LocaleHelper;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -53,18 +49,24 @@ public class SettingsActivity extends AppCompatActivity {
         MaterialToolbar myToolbar = findViewById(R.id.my_toolbar1);
         setSupportActionBar(myToolbar);
         
+        getSupportFragmentManager().addOnBackStackChangedListener(this::updateToolbar);
+
         myToolbar.setNavigationOnClickListener(v -> {
             if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
                 getSupportFragmentManager().popBackStack();
             } else {
-                finish();
+                getOnBackPressedDispatcher().onBackPressed();
             }
         });
 
+        updateToolbar();
+    }
+
+    private void updateToolbar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("Settings");
+            actionBar.setTitle(R.string.title_settings);
         }
     }
 
@@ -78,21 +80,12 @@ public class SettingsActivity extends AppCompatActivity {
             // Find the SwitchPreferenceCompat
             SwitchPreferenceCompat darkModeSwitch = findPreference(THEME_KEY);
             if (darkModeSwitch != null) {
-                darkModeSwitch.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                    @Override
-                    public boolean onPreferenceChange(Preference preference, Object newValue) {
-                        boolean isDarkMode = (boolean) newValue;
-                        PreferenceManager.getDefaultSharedPreferences(requireContext())
-                                .edit()
-                                .putBoolean(THEME_KEY, isDarkMode)
-                                .commit();
-
-                        new Handler(Looper.getMainLooper()).post(() -> {
-                            AppCompatDelegate.setDefaultNightMode(isDarkMode ? 
-                                    AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
-                        });
-                        return true;
-                    }
+                darkModeSwitch.setOnPreferenceChangeListener((preference, newValue) -> {
+                    boolean isDarkMode = (boolean) newValue;
+                    AppCompatDelegate.setDefaultNightMode(
+                            isDarkMode ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO
+                    );
+                    return true;
                 });
             }
 

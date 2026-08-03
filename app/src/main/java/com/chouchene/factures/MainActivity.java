@@ -24,7 +24,6 @@ import com.google.android.material.navigation.NavigationView;
 
 import com.chouchene.factures.utils.LocaleHelper;
 import com.chouchene.factures.fragments.BonDeCommandeFragment;
-import com.chouchene.factures.fragments.HistoriqueFragment;
 import com.chouchene.factures.fragments.RapportsFragment;
 import com.chouchene.factures.fragments.InvoiceGenrationFragment;
 import com.chouchene.factures.fragments.ListeClientsFragment;
@@ -125,6 +124,8 @@ public class MainActivity extends AppCompatActivity {
         searchView = findViewById(R.id.search_view);
         searchRecyclerView = findViewById(R.id.search_results_recycler);
 
+        searchView.setupWithSearchBar(searchBar);
+
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigationView);
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
             navController = navHostFragment.getNavController();
 
             appBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.factureFragment, R.id.bonCommandeFragment, R.id.historiqueFragment,
+                    R.id.factureFragment, R.id.bonCommandeFragment,
                     R.id.clientsFragment, R.id.parametresFragment)
                     .setOpenableLayout(drawerLayout)
                     .build();
@@ -188,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
                     .asBitmap()
                     .load(profilePicUrl)
                     .circleCrop()
-                    .placeholder(R.drawable.person_profile_image_icon)
+                    .placeholder(R.drawable.baseline_person_24)
                     .into(new CustomTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
@@ -201,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
         } else {
-            profileItem.setIcon(R.drawable.person_profile_image_icon);
+            profileItem.setIcon(R.drawable.baseline_person_24);
         }
     }
 
@@ -362,11 +363,11 @@ public class MainActivity extends AppCompatActivity {
             holder.type.setText(result.type);
 
             if ("Client".equals(result.type)) {
-                holder.icon.setImageResource(R.drawable.person_profile_image_icon);
+                holder.icon.setImageResource(R.drawable.baseline_person_24);
             } else if ("Bon".equals(result.type)) {
-                holder.icon.setImageResource(R.drawable.buy_icon);
+                holder.icon.setImageResource(R.drawable.baseline_shopping_cart_24);
             } else {
-                holder.icon.setImageResource(R.drawable.invoice_alternative);
+                holder.icon.setImageResource(R.drawable.baseline_receipt_long_24);
             }
 
             holder.itemView.setOnClickListener(v -> {

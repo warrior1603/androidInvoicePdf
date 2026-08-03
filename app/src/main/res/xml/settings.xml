@@ -1,63 +1,73 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <SwitchPreferenceCompat
-        android:key="theme"
-        android:title="@string/pref_title_dark_mode"
-        android:summary="@string/pref_summary_dark_mode"
-        app:iconSpaceReserved="false"
-        android:defaultValue="false" />
+    <PreferenceCategory
+        android:title="Général">
 
-    <ListPreference
-        app:iconSpaceReserved="false"
-        android:key="language"
-        android:title="@string/pref_title_language"
-        android:summary="@string/pref_summary_language"
-        android:entries="@array/language_options"
-        android:entryValues="@array/language_values"
-        android:defaultValue="fr" />
+        <SwitchPreferenceCompat
+            android:key="theme"
+            android:title="@string/pref_title_dark_mode"
+            android:summary="@string/pref_summary_dark_mode"
+            android:icon="@drawable/baseline_dark_mode_24"
+            app:widgetLayout="@layout/m3_switch_widget"
+            android:defaultValue="false" />
 
-    <EditTextPreference
-        android:key="directory"
-        android:title="@string/pref_title_directory"
-        android:summary="@string/pref_summary_directory"
-        android:dialogTitle="@string/pref_dialog_title_directory"
-        app:iconSpaceReserved="false"
-        android:defaultValue="/storage/emulated/0/Download" />
+        <ListPreference
+            android:key="language"
+            android:title="@string/pref_title_language"
+            android:summary="@string/pref_summary_language"
+            android:entries="@array/language_options"
+            android:entryValues="@array/language_values"
+            android:icon="@drawable/baseline_language_24"
+            android:defaultValue="fr" />
 
-    <ListPreference
-         app:iconSpaceReserved="false"
-         android:key="default_currency"
-         android:title="@string/pref_title_currency"
-         android:summary="@string/pref_summary_currency"
-         android:entries="@array/currency_options"
-         android:entryValues="@array/currency_values"
-         android:defaultValue="EUR" />
+        <ListPreference
+             android:key="default_currency"
+             android:title="@string/pref_title_currency"
+             android:summary="@string/pref_summary_currency"
+             android:entries="@array/currency_options"
+             android:entryValues="@array/currency_values"
+             android:icon="@drawable/baseline_payments_24"
+             android:defaultValue="EUR" />
 
-    <ListPreference
-        app:iconSpaceReserved="false"
-        android:key="invoice_template"
-        android:title="@string/pref_title_template"
-        android:summary="@string/pref_summary_template"
-        android:entries="@array/template_entries"
-        android:entryValues="@array/template_values"
-        android:defaultValue="invoice_template.html" />
-
-    <Preference
-        android:key="preview_templates"
-        android:title="@string/pref_title_preview"
-        android:summary="@string/pref_summary_preview"
-        app:iconSpaceReserved="false" />
+    </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/pref_category_company"
-        app:iconSpaceReserved="false">
+        android:title="Stockage et Modèles">
+
+        <EditTextPreference
+            android:key="directory"
+            android:title="@string/pref_title_directory"
+            android:summary="@string/pref_summary_directory"
+            android:dialogTitle="@string/pref_dialog_title_directory"
+            android:icon="@drawable/baseline_folder_24"
+            android:defaultValue="/storage/emulated/0/Download" />
+
+        <ListPreference
+            android:key="invoice_template"
+            android:title="@string/pref_title_template"
+            android:summary="@string/pref_summary_template"
+            android:entries="@array/template_entries"
+            android:entryValues="@array/template_values"
+            android:icon="@drawable/baseline_description_24"
+            android:defaultValue="invoice_template.html" />
+
+        <Preference
+            android:key="preview_templates"
+            android:title="@string/pref_title_preview"
+            android:summary="@string/pref_summary_preview"
+            android:icon="@drawable/baseline_preview_24" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_category_company">
 
         <Preference
             android:key="profile_entreprise"
             android:title="@string/pref_title_profile"
             android:summary="@string/pref_summary_profile"
-            app:iconSpaceReserved="false" />
+            android:icon="@drawable/baseline_business_24" />
 
     </PreferenceCategory>
 

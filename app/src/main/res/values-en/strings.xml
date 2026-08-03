@@ -58,7 +58,9 @@
     <string name="label_issue_date">Issue Date</string>
     <string name="label_description">Description</string>
     <string name="label_qty">Qty</string>
-    <string name="label_price">Price</string>
+    <string name="label_price">Price HT</string>
+    <string name="label_price_ttc">Price (incl. Tax)</string>
+    <string name="label_tva_percent">TVA (%)</string>
     <string name="label_payment_method">Payment Method</string>
     <string name="action_generate_invoice">Generate Invoice</string>
 

@@ -65,7 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/client_input"
-                    app:startIconDrawable="@drawable/person_profile_image_icon"
+                    app:startIconDrawable="@drawable/baseline_person_24"
                     android:hint="@string/label_search_customer">
                     <AutoCompleteTextView
                         android:id="@+id/autoCompleteTextView"
@@ -88,7 +88,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:hint="@string/label_full_name"
-                        app:startIconDrawable="@drawable/user_id_svgrepo_com">
+                        app:startIconDrawable="@drawable/baseline_badge_24">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edit_user_name_client1"
                             android:layout_width="match_parent"
@@ -101,7 +101,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:hint="@string/label_street"
-                        app:startIconDrawable="@drawable/direction_road_sign_icon">
+                        app:startIconDrawable="@drawable/baseline_directions_24">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edit_street1"
                             android:layout_width="match_parent"
@@ -120,7 +120,7 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:hint="@string/label_postal_code"
-                            app:startIconDrawable="@drawable/mailed_mail_svgrepo_com">
+                            app:startIconDrawable="@drawable/baseline_email_24">
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edit_code_postale1"
                                 android:layout_width="match_parent"
@@ -133,7 +133,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:hint="@string/label_city"
-                            app:startIconDrawable="@drawable/city_svgrepo_com">
+                            app:startIconDrawable="@drawable/baseline_location_city_24">
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edit_ville1"
                                 android:layout_width="match_parent"
@@ -147,7 +147,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:hint="@string/label_country"
-                        app:startIconDrawable="@drawable/earth_svgrepo_com">
+                        app:startIconDrawable="@drawable/baseline_public_24">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edit_pays1"
                             android:layout_width="match_parent"
@@ -173,7 +173,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:hint="@string/label_tva"
-                        app:startIconDrawable="@drawable/tax_icon">
+                        app:startIconDrawable="@drawable/baseline_percent_24">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edit_tva_client"
                             android:layout_width="match_parent"
@@ -186,7 +186,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:hint="@string/label_email"
-                        app:startIconDrawable="@drawable/attherate_icon">
+                        app:startIconDrawable="@drawable/baseline_alternate_email_24">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edit_email_client1"
                             android:layout_width="match_parent"
@@ -227,7 +227,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/label_issue_date"
-                    app:startIconDrawable="@drawable/date_icon">
+                    app:startIconDrawable="@drawable/baseline_calendar_today_24">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_date_emission"
                         android:layout_width="match_parent"
@@ -243,7 +243,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:hint="@string/label_description"
-                    app:startIconDrawable="@drawable/more_info_icon">
+                    app:startIconDrawable="@drawable/baseline_description_24">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_description"
                         android:layout_width="match_parent"
@@ -252,42 +252,50 @@
                         android:minLines="3" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_quantite"
+                    style="@style/App.TextInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:orientation="horizontal"
-                    android:baselineAligned="false">
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/layout_quantite"
-                        style="@style/App.TextInput"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                    android:hint="@string/label_qty"
+                    app:startIconDrawable="@drawable/baseline_numbers_24">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_quantite"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/label_qty"
-                        app:startIconDrawable="@drawable/product_quantity_rules_svgrepo_com">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edit_quantite"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="numberDecimal" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/layout_prix"
-                        style="@style/App.TextInput"
-                        android:layout_width="0dp"
-                        android:layout_weight="1.5"
+                        android:inputType="numberDecimal" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_prix"
+                    style="@style/App.TextInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="@string/label_price_ttc"
+                    app:startIconDrawable="@drawable/baseline_payments_24">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_prix"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:hint="@string/label_price"
-                        app:startIconDrawable="@drawable/pricing_icon">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edit_prix"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="numberDecimal" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
+                        android:inputType="numberDecimal" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_tva"
+                    style="@style/App.TextInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="@string/label_tva_percent"
+                    app:startIconDrawable="@drawable/baseline_percent_24">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_tva"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/App.ExposedDropdownMenu"
@@ -296,7 +304,7 @@
                     android:layout_marginTop="12dp"
                     android:id="@+id/dropdown_input"
                     android:hint="@string/label_payment_method"
-                    app:startIconDrawable="@drawable/hand_money_icon">
+                    app:startIconDrawable="@drawable/baseline_payments_24">
                     <AutoCompleteTextView
                         android:id="@+id/filled_exposed_dropdown"
                         android:layout_width="match_parent"
