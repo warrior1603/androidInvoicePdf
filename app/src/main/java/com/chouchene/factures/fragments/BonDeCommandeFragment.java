@@ -19,7 +19,7 @@ import com.chouchene.factures.adapter.HistoryAdapter;
 import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.entity.Invoice;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.List;
 
@@ -45,7 +45,8 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
 
         recyclerView = view.findViewById(R.id.recyclerView);
         emptyState = view.findViewById(R.id.empty_state);
-        FloatingActionButton fab = view.findViewById(R.id.fab);
+        ExtendedFloatingActionButton fab = view.findViewById(R.id.fab);
+        fab.setText("Ajouter Bon de Commande");
 
         adapter = new HistoryAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));

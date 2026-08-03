@@ -31,7 +31,7 @@ import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.entity.Client;
 import com.chouchene.factures.repository.ClientRepository;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
@@ -71,7 +71,7 @@ public class ListeClientsFragment extends Fragment {
         recyclerView.setAdapter(listAdapter);
         checkEmptyState();
 
-        FloatingActionButton fab = myView.findViewById(R.id.fab);
+        ExtendedFloatingActionButton fab = myView.findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

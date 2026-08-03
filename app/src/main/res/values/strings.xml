@@ -89,5 +89,5 @@
     <string name="title_activity_settings">Paramètres</string>
     <string name="title_about">À propos</string>
     <string name="title_help">Aide</string>
-    <string name="hint_search_app">Rechercher dans l\'app</string>
+    <string name="hint_search_app">Rechercher...</string>
 </resources>

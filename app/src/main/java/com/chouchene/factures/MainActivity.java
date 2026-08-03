@@ -47,6 +47,7 @@ import com.google.android.libraries.identity.googleid.GetGoogleIdOption;
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
@@ -55,9 +56,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.activity.EdgeToEdge;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import android.view.View;
 
@@ -92,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
     SearchResultAdapter searchAdapter;
     AppDatabase db;
 
+    ShapeableImageView imgProfileTop;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(LocaleHelper.onAttach(newBase, "fr"));
@@ -112,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isDarkMode = sharedPreferences.getBoolean("theme", false);
         setTheme(isDarkMode ? R.style.DarkTheme : R.style.LightTheme);
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -123,12 +130,16 @@ public class MainActivity extends AppCompatActivity {
         searchBar = findViewById(R.id.search_bar);
         searchView = findViewById(R.id.search_view);
         searchRecyclerView = findViewById(R.id.search_results_recycler);
+        imgProfileTop = findViewById(R.id.img_profile_top);
 
         searchView.setupWithSearchBar(searchBar);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigationView);
+
+        findViewById(R.id.btn_menu).setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
+        imgProfileTop.setOnClickListener(v -> showLoginBottomSheet());
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         if (navHostFragment != null) {
@@ -143,15 +154,6 @@ public class MainActivity extends AppCompatActivity {
             NavigationUI.setupWithNavController(bottomNavigationView, navController);
             NavigationUI.setupWithNavController(navigationView, navController);
         }
-
-        searchBar.setNavigationOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
-        searchBar.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.search_profile) {
-                showLoginBottomSheet();
-                return true;
-            }
-            return false;
-        });
 
         searchAdapter = new SearchResultAdapter();
         searchRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -181,28 +183,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadUserProfile() {
         String profilePicUrl = sharedPreferences.getString("profile_pic_url", null);
-        MenuItem profileItem = searchBar.getMenu().findItem(R.id.search_profile);
-        if (profileItem == null) return;
 
         if (profilePicUrl != null) {
+            imgProfileTop.setPadding(0, 0, 0, 0);
             Glide.with(this)
-                    .asBitmap()
                     .load(profilePicUrl)
                     .circleCrop()
-                    .placeholder(R.drawable.baseline_person_24)
-                    .into(new CustomTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                            profileItem.setIcon(new BitmapDrawable(getResources(), resource));
-                        }
-
-                        @Override
-                        public void onLoadCleared(@Nullable Drawable placeholder) {
-                            profileItem.setIcon(placeholder);
-                        }
-                    });
+                    .into(imgProfileTop);
         } else {
-            profileItem.setIcon(R.drawable.baseline_person_24);
+            int p = (int) (8 * getResources().getDisplayMetrics().density);
+            imgProfileTop.setPadding(p, p, p, p);
+            imgProfileTop.setImageResource(R.drawable.baseline_person_24);
+            imgProfileTop.setImageTintList(ContextCompat.getColorStateList(this, R.color.white));
         }
     }
 
