@@ -61,7 +61,7 @@ public class RapportsFragment extends Fragment {
 
         // Get primary color from theme
         TypedValue typedValue = new TypedValue();
-        requireContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true);
+        requireContext().getTheme().resolveAttribute(androidx.appcompat.R.attr.colorPrimary, typedValue, true);
         @ColorInt int primaryColor = typedValue.data;
 
         // Set up the X-axis labels from data
