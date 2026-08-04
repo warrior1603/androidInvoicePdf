@@ -55,16 +55,7 @@
             android:layout_height="wrap_content"
             android:text="100.00 €"
             android:textAppearance="?attr/textAppearanceTitleMedium"
-            android:textColor="?attr/colorPrimary"
-            android:layout_marginEnd="8dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnDelete"
-            style="?attr/materialIconButtonStyle"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            app:icon="@drawable/baseline_delete_24"
-            app:iconTint="?attr/colorError" />
+            android:textColor="?attr/colorPrimary" />
 
     </LinearLayout>
 

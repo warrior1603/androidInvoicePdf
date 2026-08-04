@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chouchene.factures.R;
 import com.chouchene.factures.entity.Invoice;
-import com.google.android.material.button.MaterialButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -60,7 +59,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         }
 
         holder.itemView.setOnClickListener(v -> listener.onItemClick(invoice));
-        holder.btnDelete.setOnClickListener(v -> listener.onDeleteClick(invoice));
     }
 
     @Override
@@ -68,10 +66,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         return invoices.size();
     }
 
+    public Invoice getInvoiceAt(int position) {
+        return invoices.get(position);
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtClientName, txtDate, txtAmount;
         ImageView icon;
-        MaterialButton btnDelete;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -79,7 +80,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             txtDate = itemView.findViewById(R.id.txtDate);
             txtAmount = itemView.findViewById(R.id.txtAmount);
             icon = itemView.findViewById(R.id.icon);
-            btnDelete = itemView.findViewById(R.id.btnDelete);
         }
     }
 }

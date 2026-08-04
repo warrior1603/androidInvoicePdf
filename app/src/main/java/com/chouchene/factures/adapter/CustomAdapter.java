@@ -1,6 +1,5 @@
 package com.chouchene.factures.adapter;
 
-import android.animation.LayoutTransition;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
@@ -21,15 +20,12 @@ import com.chouchene.factures.entity.Client;
 import com.chouchene.factures.fragments.AddClientBottomSheet;
 import com.chouchene.factures.repository.ClientRepository;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
-import java.util.concurrent.Executors;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
 
     private final FragmentActivity fragmentActivity;
-    private ClientRepository clientRepository;
     private final ClientDao clientDao;
     private final ArrayList<Client> originalList;
     private final ArrayList<Client> filteredList;
@@ -102,34 +98,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             });
             bottomSheet.show(fragmentActivity.getSupportFragmentManager(), "EDIT_CLIENT");
         });
-
-        holder.deleteButton.setOnClickListener(v -> {
-            int currentPos = holder.getBindingAdapterPosition();
-            if (currentPos == RecyclerView.NO_POSITION) return;
-            
-            Client clientToDelete = filteredList.get(currentPos);
-            new MaterialAlertDialogBuilder(fragmentActivity)
-                    .setTitle("Confirmez-vous la suppression ?")
-                    .setMessage("Si vous confirmez, votre client sera definitivement effacé de la liste des clients?")
-                    .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                        Executors.newSingleThreadExecutor().execute(() -> {
-                            clientRepository = new ClientRepository(clientDao);
-                            clientRepository.deleteClient(clientToDelete);
-                            fragmentActivity.runOnUiThread(() -> {
-                                originalList.remove(clientToDelete);
-                                filteredList.remove(currentPos);
-                                notifyItemRemoved(currentPos);
-                                notifyItemRangeChanged(currentPos, filteredList.size());
-                                if (onDataChangedListener != null) {
-                                    onDataChangedListener.onDataChanged();
-                                }
-                            });
-                        });
-                    })
-                    .setNegativeButton(android.R.string.no, null)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
-        });
     }
 
     private void bindDetails(ViewHolder holder, Client client) {
@@ -177,9 +145,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
+    public Client getClientAt(int position) {
+        return filteredList.get(position);
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView textView;
-        MaterialButton editbutton, deleteButton;
+        MaterialButton editbutton;
         LinearLayout datailsText, layout;
         View cardview;
         TextView txtRue, txtVille, txtPays, txtSiren, txtEmail, txtTva;
@@ -188,7 +160,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             super(itemView);
             textView = itemView.findViewById(R.id.textViewItem);
             editbutton = itemView.findViewById(R.id.buttonEdit);
-            deleteButton = itemView.findViewById(R.id.imageDelete);
             datailsText = itemView.findViewById(R.id.details);
             cardview = itemView.findViewById(R.id.cardView);
             layout = itemView.findViewById(R.id.layout1);

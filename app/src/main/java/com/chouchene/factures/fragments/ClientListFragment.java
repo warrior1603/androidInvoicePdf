@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -20,9 +21,12 @@ import com.chouchene.factures.adapter.CustomAdapter;
 import com.chouchene.factures.dao.ClientDao;
 import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.entity.Client;
+import com.chouchene.factures.utils.SwipeToDeleteCallback;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
 
 public class ClientListFragment extends Fragment {
     
@@ -85,6 +89,15 @@ public class ClientListFragment extends Fragment {
         listAdapter.setOnDataChangedListener(this::checkEmptyState);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(listAdapter);
+
+        new ItemTouchHelper(new SwipeToDeleteCallback(requireContext()) {
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getBindingAdapterPosition();
+                onDeleteClick(listAdapter.getClientAt(position));
+            }
+        }).attachToRecyclerView(recyclerView);
+
         checkEmptyState();
 
         if (viewModel != null && mode == Mode.ALL) {
@@ -104,6 +117,26 @@ public class ClientListFragment extends Fragment {
             });
             bottomSheet.show(getChildFragmentManager(), "ADD_CLIENT");
         });
+    }
+
+    private void onDeleteClick(Client client) {
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Confirmez-vous la suppression ?")
+                .setMessage("Si vous confirmez, votre client sera definitivement effacé de la liste des clients?")
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                    Executors.newSingleThreadExecutor().execute(() -> {
+                        clientDao.deleteClient(client);
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(() -> {
+                                loadData();
+                                listAdapter.setData(myClients);
+                            });
+                        }
+                    });
+                })
+                .setNegativeButton(android.R.string.no, (dialog, which) -> listAdapter.notifyDataSetChanged())
+                .setOnCancelListener(dialog -> listAdapter.notifyDataSetChanged())
+                .show();
     }
 
     private void performHighlight(int id) {

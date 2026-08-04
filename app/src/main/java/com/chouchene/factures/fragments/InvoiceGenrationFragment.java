@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -18,6 +19,7 @@ import com.chouchene.factures.R;
 import com.chouchene.factures.adapter.HistoryAdapter;
 import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.entity.Invoice;
+import com.chouchene.factures.utils.SwipeToDeleteCallback;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
@@ -51,6 +53,14 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
         adapter = new HistoryAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerView.setAdapter(adapter);
+
+        new ItemTouchHelper(new SwipeToDeleteCallback(requireContext()) {
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getBindingAdapterPosition();
+                onDeleteClick(adapter.getInvoiceAt(position));
+            }
+        }).attachToRecyclerView(recyclerView);
 
         fab.setOnClickListener(v -> {
             CreateInvoiceBottomSheet bottomSheet = new CreateInvoiceBottomSheet();
@@ -95,7 +105,8 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
                     db.invoiceDao().deleteInvoice(invoice);
                     loadInvoices();
                 })
-                .setNegativeButton("Annuler", null)
+                .setNegativeButton("Annuler", (dialog, which) -> adapter.notifyDataSetChanged())
+                .setOnCancelListener(dialog -> adapter.notifyDataSetChanged())
                 .show();
     }
 }
