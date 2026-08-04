@@ -1,5 +1,6 @@
 package com.chouchene.factures.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,12 +21,11 @@ import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.Navigation;
 import androidx.preference.PreferenceManager;
 
 import com.chouchene.factures.R;
@@ -38,14 +38,6 @@ import com.chouchene.factures.entity.Invoice;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
-import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -157,7 +149,6 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
     private void setupClientSearch(View view) {
         AutoCompleteTextView searchView = view.findViewById(R.id.autoCompleteTextView);
         TextInputLayout clientInput = view.findViewById(R.id.client_input);
-        // db and itemDao are now initialized in onViewCreated
 
         List<Client> clients = itemDao.getAllClients();
         List<String> names = new ArrayList<>();
@@ -385,18 +376,25 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
                                 public void onWriteFinished(PageRange[] pages) {
                                     try {
                                         pfd.close();
-                                        if (getActivity() != null) {
-                                            getActivity().runOnUiThread(() -> {
+                                        final Activity activity = getActivity();
+                                        if (activity != null) {
+                                            activity.runOnUiThread(() -> {
                                                 db.invoiceDao().insertInvoice(new Invoice(amount, new Date(), customerName, outputFile.getAbsolutePath(), "Facture"));
                                                 if (listener != null) listener.onInvoiceGenerated();
                                                 
                                                 String filePath = outputFile.getAbsolutePath();
                                                 String clientEmail = email;
                                                 
-                                                View rootView = getActivity().findViewById(android.R.id.content);
+                                                View rootView = activity.findViewById(android.R.id.content);
                                                 if (rootView != null) {
                                                     Snackbar.make(rootView, "Facture créée avec succès", Snackbar.LENGTH_LONG)
-                                                        .setAction("OUVRIR", v -> navigateToFragmentPreviewPdf(filePath, clientEmail))
+                                                        .setAction("OUVRIR", v -> {
+                                                            Bundle b = new Bundle();
+                                                            b.putString("file_path", filePath);
+                                                            b.putString("mail_client", clientEmail);
+                                                            Navigation.findNavController(activity, R.id.nav_host_fragment)
+                                                                    .navigate(R.id.webViewPdfFragment, b);
+                                                        })
                                                         .show();
                                                 }
                                                 
@@ -427,12 +425,5 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
                 }
             }
         });
-    }
-
-    private void navigateToFragmentPreviewPdf(String path, String mail) {
-        Bundle b = new Bundle();
-        b.putString("file_path", path);
-        b.putString("mail_client", mail);
-        NavHostFragment.findNavController(this).navigate(R.id.webViewPdfFragment, b);
     }
 }

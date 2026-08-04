@@ -1,5 +1,6 @@
 package com.chouchene.factures.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,9 +12,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.Navigation;
 import androidx.preference.PreferenceManager;
-import androidx.room.Room;
 
 import com.chouchene.factures.R;
 import com.chouchene.factures.database.AppDatabase;
@@ -22,6 +22,7 @@ import com.chouchene.factures.entity.Invoice;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
@@ -33,9 +34,9 @@ import com.tom_roush.pdfbox.pdmodel.interactive.form.PDField;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -90,6 +91,7 @@ public class CreateBonBottomSheet extends BottomSheetDialogFragment {
 
         MaterialButton btnCreatePDF = view.findViewById(R.id.btn_save_info_bon);
         btnCreatePDF.setOnClickListener(v -> {
+            v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
             try {
                 generateBonDeCommande();
             } catch (IOException e) {
@@ -153,7 +155,7 @@ public class CreateBonBottomSheet extends BottomSheetDialogFragment {
 
             String newDirectory = settingsSharedPreferences.getString(DIRECTORY_KEY, "");
             File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-            String fileName = "Bon-de-commande_" + passager.trim().replace(" ", "_") + ".pdf";
+            String fileName = "Bon-de-commande_" + passager.trim().replace(" ", "_") + "_" + System.currentTimeMillis() + ".pdf";
             File invoiceFile = new File(!newDirectory.isEmpty() ? new File(newDirectory) : downloadsDir, fileName);
 
             document.save(invoiceFile);
@@ -166,7 +168,26 @@ public class CreateBonBottomSheet extends BottomSheetDialogFragment {
             db.invoiceDao().insertInvoice(new Invoice(finalTarif, new Date(), passager, invoiceFile.getAbsolutePath(), "Bon"));
 
             if (listener != null) listener.onBonGenerated();
-            navigateToFragmentPreviewPdf(invoiceFile.getAbsolutePath(), emailEmetteur);
+            
+            final String filePath = invoiceFile.getAbsolutePath();
+            final String mailClient = emailEmetteur;
+            final Activity activity = getActivity();
+            
+            if (activity != null) {
+                View rootView = activity.findViewById(android.R.id.content);
+                if (rootView != null) {
+                    Snackbar.make(rootView, "Bon de commande créé avec succès", Snackbar.LENGTH_LONG)
+                        .setAction("OUVRIR", v -> {
+                            Bundle b = new Bundle();
+                            b.putString("file_path", filePath);
+                            b.putString("mail_client", mailClient);
+                            Navigation.findNavController(activity, R.id.nav_host_fragment)
+                                    .navigate(R.id.webViewPdfFragment, b);
+                        })
+                        .show();
+                }
+            }
+            
             dismiss();
 
         } catch (IOException e) {
@@ -194,13 +215,9 @@ public class CreateBonBottomSheet extends BottomSheetDialogFragment {
     private void showDatePickerDialog(TextInputEditText editDate) {
         MaterialDatePicker<Long> picker = MaterialDatePicker.Builder.datePicker().setTitleText("Sélectionner la date").setSelection(MaterialDatePicker.todayInUtcMilliseconds()).build();
         picker.show(requireActivity().getSupportFragmentManager(), "DATE_PICKER");
-        picker.addOnPositiveButtonClickListener(sel -> editDate.setText(picker.getHeaderText()));
-    }
-
-    private void navigateToFragmentPreviewPdf(String path, String mail) {
-        Bundle b = new Bundle();
-        b.putString("file_path", path);
-        b.putString("mail_client", mail);
-        NavHostFragment.findNavController(this).navigate(R.id.webViewPdfFragment, b);
+        picker.addOnPositiveButtonClickListener(sel -> {
+             SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+             editDate.setText(sdf.format(new Date(sel)));
+        });
     }
 }
