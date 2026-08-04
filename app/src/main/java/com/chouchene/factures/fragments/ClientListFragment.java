@@ -122,6 +122,7 @@ public class ClientListFragment extends Fragment {
             bottomSheet.setOnClientSavedListener(() -> {
                 loadData();
                 listAdapter.setData(myClients);
+                com.google.android.material.snackbar.Snackbar.make(view, "Client ajouté avec succès", com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
             });
             bottomSheet.show(getChildFragmentManager(), "ADD_CLIENT");
         });

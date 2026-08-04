@@ -14,7 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -197,8 +198,9 @@ public class PersonalSettingsFragment extends Fragment implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
+        v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
         saveUserInfo();
-        Toast.makeText(getActivity().getApplicationContext(), "Informations enregistrés avec succés.", Toast.LENGTH_LONG).show();
+        Snackbar.make(v, "Informations enregistrées avec succès.", Snackbar.LENGTH_LONG).show();
     }
 
     // Saving user personal information
@@ -300,10 +302,10 @@ public class PersonalSettingsFragment extends Fragment implements View.OnClickLi
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
             sharedPreferences.edit().putString("logo_uri", logoUri).apply();
             
-            Toast.makeText(requireContext(), "Logo mis à jour", Toast.LENGTH_SHORT).show();
+            Snackbar.make(getView(), "Logo mis à jour", Snackbar.LENGTH_SHORT).show();
         } catch (IOException e) {
             Log.e("LOGO_SAVE", "Error saving logo", e);
-            Toast.makeText(requireContext(), "Erreur lors de l'enregistrement du logo", Toast.LENGTH_SHORT).show();
+            Snackbar.make(getView(), "Erreur lors de l'enregistrement du logo", Snackbar.LENGTH_SHORT).show();
         }
     }
 }

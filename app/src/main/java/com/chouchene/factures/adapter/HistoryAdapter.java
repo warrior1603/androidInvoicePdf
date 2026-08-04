@@ -1,5 +1,6 @@
 package com.chouchene.factures.adapter;
 
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +60,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             holder.icon.setImageResource(R.drawable.baseline_shopping_cart_24);
         }
 
-        holder.itemView.setOnClickListener(v -> listener.onItemClick(invoice));
+        holder.itemView.setOnClickListener(v -> {
+            v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+            listener.onItemClick(invoice);
+        });
         
         holder.txtStatus.setText(invoice.status != null ? invoice.status : "En attente");
         if ("Payée".equals(invoice.status)) {
@@ -70,7 +74,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             holder.txtStatus.setBackgroundResource(R.drawable.bg_status_pending);
         }
 
-        holder.txtStatus.setOnClickListener(v -> listener.onStatusClick(invoice));
+        holder.txtStatus.setOnClickListener(v -> {
+            v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+            listener.onStatusClick(invoice);
+        });
     }
 
     @Override

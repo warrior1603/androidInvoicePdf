@@ -17,7 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chouchene.factures.R;
 import com.chouchene.factures.entity.Client;
+import com.chouchene.factures.utils.AvatarHelper;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 
@@ -54,6 +56,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         Client client = filteredList.get(position);
         holder.textView.setText(client.getClientName());
         holder.textViewCity.setText(client.getVille());
+
+        holder.textViewInitials.setText(AvatarHelper.getInitials(client.getClientName()));
+        holder.avatarContainer.setCardBackgroundColor(AvatarHelper.getColorForName(client.getClientName()));
 
         holder.cardview.setTransitionName("client_card_" + client.getId());
 
@@ -116,16 +121,19 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textView, textViewCity;
+        TextView textView, textViewCity, textViewInitials;
         MaterialButton buttonCall;
         View cardview;
+        MaterialCardView avatarContainer;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.textViewItem);
             textViewCity = itemView.findViewById(R.id.textViewCity);
+            textViewInitials = itemView.findViewById(R.id.textViewInitials);
             buttonCall = itemView.findViewById(R.id.buttonCall);
             cardview = itemView.findViewById(R.id.cardView);
+            avatarContainer = itemView.findViewById(R.id.avatarContainer);
         }
     }
 }

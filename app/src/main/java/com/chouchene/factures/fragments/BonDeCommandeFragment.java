@@ -126,16 +126,27 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
 
     @Override
     public void onStatusClick(Invoice invoice) {
-        String[] statuses = {"En attente", "Payée", "Annulée"};
-        new MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Modifier le statut")
-                .setItems(statuses, (dialog, which) -> {
-                    Executors.newSingleThreadExecutor().execute(() -> {
-                        invoice.status = statuses[which];
-                        db.invoiceDao().updateInvoice(invoice);
-                        loadBons();
-                    });
-                })
-                .show();
+        com.google.android.material.bottomsheet.BottomSheetDialog dialog = new com.google.android.material.bottomsheet.BottomSheetDialog(requireContext());
+        View view = getLayoutInflater().inflate(R.layout.layout_status_selector, null);
+
+        view.findViewById(R.id.status_pending).setOnClickListener(v -> updateStatus(invoice, "En attente", dialog));
+        view.findViewById(R.id.status_paid).setOnClickListener(v -> updateStatus(invoice, "Payée", dialog));
+        view.findViewById(R.id.status_cancelled).setOnClickListener(v -> updateStatus(invoice, "Annulée", dialog));
+
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
+    private void updateStatus(Invoice invoice, String status, com.google.android.material.bottomsheet.BottomSheetDialog dialog) {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            invoice.status = status;
+            db.invoiceDao().updateInvoice(invoice);
+            if (getActivity() != null) {
+                requireActivity().runOnUiThread(() -> {
+                    dialog.dismiss();
+                    loadBons();
+                });
+            }
+        });
     }
 }

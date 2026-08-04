@@ -26,17 +26,20 @@ public abstract class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallba
     private final int intrinsicWidth;
     private final int intrinsicHeight;
     private final Paint clearPaint;
+    private final Paint bgPaint;
 
     public SwipeToDeleteCallback(Context context) {
         super(0, ItemTouchHelper.LEFT);
         this.context = context;
-        this.backgroundColor = Color.parseColor("#f44336"); // Material Red
+        this.backgroundColor = Color.parseColor("#EF5350"); // Modern Material Red
         this.background = new ColorDrawable();
         this.deleteIcon = ContextCompat.getDrawable(context, R.drawable.baseline_delete_24);
         this.intrinsicWidth = deleteIcon.getIntrinsicWidth();
         this.intrinsicHeight = deleteIcon.getIntrinsicHeight();
         this.clearPaint = new Paint();
         this.clearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        this.bgPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        this.bgPaint.setColor(backgroundColor);
     }
 
     @Override
@@ -56,22 +59,34 @@ public abstract class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallba
             return;
         }
 
-        // Draw the red delete background
-        background.setColor(backgroundColor);
-        background.setBounds(itemView.getRight() + (int) dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
-        background.draw(c);
+        // Draw modern rounded background
+        float cornerRadius = 12 * context.getResources().getDisplayMetrics().density;
+        int margin = (int) (8 * context.getResources().getDisplayMetrics().density);
 
-        // Calculate position of delete icon
-        int deleteIconTop = itemView.getTop() + (itemHeight - intrinsicHeight) / 2;
-        int deleteIconMargin = (itemHeight - intrinsicHeight) / 2;
-        int deleteIconLeft = itemView.getRight() - deleteIconMargin - intrinsicWidth;
-        int deleteIconRight = itemView.getRight() - deleteIconMargin;
-        int deleteIconBottom = deleteIconTop + intrinsicHeight;
+        if (dX < 0) {
+            c.drawRoundRect(
+                    itemView.getRight() + dX + margin,
+                    itemView.getTop() + margin,
+                    itemView.getRight() - margin,
+                    itemView.getBottom() - margin,
+                    cornerRadius, cornerRadius,
+                    bgPaint
+            );
 
-        // Draw the delete icon
-        deleteIcon.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom);
-        deleteIcon.setTint(Color.WHITE);
-        deleteIcon.draw(c);
+            // Calculate position of delete icon
+            int deleteIconTop = itemView.getTop() + (itemHeight - intrinsicHeight) / 2;
+            int iconMargin = (int) (16 * context.getResources().getDisplayMetrics().density);
+            int deleteIconLeft = itemView.getRight() - iconMargin - intrinsicWidth - margin;
+            int deleteIconRight = itemView.getRight() - iconMargin - margin;
+            int deleteIconBottom = deleteIconTop + intrinsicHeight;
+
+            // Only draw icon if there is enough space
+            if (Math.abs(dX) > (iconMargin + intrinsicWidth + margin * 2)) {
+                deleteIcon.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom);
+                deleteIcon.setTint(Color.WHITE);
+                deleteIcon.draw(c);
+            }
+        }
 
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
     }

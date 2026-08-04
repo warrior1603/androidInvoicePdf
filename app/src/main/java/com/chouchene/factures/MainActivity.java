@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     SearchBar searchBar;
     SearchView searchView;
     RecyclerView searchRecyclerView;
-    View searchEmptyState;
+    View searchEmptyState, quickSearchContainer;
     SearchResultAdapter searchAdapter;
     AppDatabase db;
     com.chouchene.factures.fragments.ClientsViewModel clientsViewModel;
@@ -156,12 +156,16 @@ public class MainActivity extends AppCompatActivity {
         searchView = findViewById(R.id.search_view);
         searchRecyclerView = findViewById(R.id.search_results_recycler);
         searchEmptyState = findViewById(R.id.search_empty_state);
+        quickSearchContainer = findViewById(R.id.quick_search_container);
         ImageView imgProfile = findViewById(R.id.img_profile_top);
 
         searchView.setupWithSearchBar(searchBar);
         clientsViewModel = new ViewModelProvider(this).get(com.chouchene.factures.fragments.ClientsViewModel.class);
 
         searchView.addTransitionListener((searchView1, previousState, newState) -> {
+            if (newState == SearchView.TransitionState.SHOWN) {
+                quickSearchContainer.setVisibility(View.VISIBLE);
+            }
             if (newState == SearchView.TransitionState.HIDDEN || newState == SearchView.TransitionState.HIDING) {
                 searchView.getEditText().setText("");
                 if (searchAdapter != null) {
@@ -172,6 +176,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        findViewById(R.id.chip_paid).setOnClickListener(v -> searchView.getEditText().setText("Payée"));
+        findViewById(R.id.chip_pending).setOnClickListener(v -> searchView.getEditText().setText("En attente"));
+        findViewById(R.id.chip_recent).setOnClickListener(v -> searchView.getEditText().setText("Facture"));
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
@@ -211,7 +219,11 @@ public class MainActivity extends AppCompatActivity {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
             @Override public void afterTextChanged(Editable s) {
-                performSearch(s.toString());
+                String q = s.toString();
+                if (quickSearchContainer != null) {
+                    quickSearchContainer.setVisibility(q.isEmpty() ? View.VISIBLE : View.GONE);
+                }
+                performSearch(q);
             }
         });
 

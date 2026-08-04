@@ -96,6 +96,7 @@ public class AddClientBottomSheet extends BottomSheetDialogFragment {
         });
 
         btnSave.setOnClickListener(v -> {
+            v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
             String customerName = txtName.getText().toString();
             String rueClient = txtRue.getText().toString();
             String villeClient = txtVille.getText().toString();

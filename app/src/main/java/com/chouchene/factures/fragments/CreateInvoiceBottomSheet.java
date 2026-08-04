@@ -22,13 +22,11 @@ import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.preference.PreferenceManager;
-import androidx.room.Room;
 
 import com.chouchene.factures.R;
 import com.chouchene.factures.api.FetchVilleFromCodePostale;
@@ -37,7 +35,14 @@ import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Client;
 import com.chouchene.factures.entity.Invoice;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -134,7 +139,10 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
         }
 
         MaterialButton btnCreatePDF = view.findViewById(R.id.btnCreatePdf);
-        btnCreatePDF.setOnClickListener(v -> handleGenerateInvoice());
+        btnCreatePDF.setOnClickListener(v -> {
+            v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
+            handleGenerateInvoice();
+        });
     }
 
     private void setupPaymentMode(View view) {
@@ -261,7 +269,7 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
             email = selectedClient.getEmail();
             tva = selectedClient.getNumeroTVA();
         } else {
-            Toast.makeText(requireContext(), "Veuillez choisir un client", Toast.LENGTH_SHORT).show();
+            Snackbar.make(requireView(), "Veuillez choisir un client", Snackbar.LENGTH_SHORT).show();
             return;
         }
 
@@ -381,7 +389,17 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
                                             getActivity().runOnUiThread(() -> {
                                                 db.invoiceDao().insertInvoice(new Invoice(amount, new Date(), customerName, outputFile.getAbsolutePath(), "Facture"));
                                                 if (listener != null) listener.onInvoiceGenerated();
-                                                navigateToFragmentPreviewPdf(outputFile.getAbsolutePath(), email);
+                                                
+                                                String filePath = outputFile.getAbsolutePath();
+                                                String clientEmail = email;
+                                                
+                                                View rootView = getActivity().findViewById(android.R.id.content);
+                                                if (rootView != null) {
+                                                    Snackbar.make(rootView, "Facture créée avec succès", Snackbar.LENGTH_LONG)
+                                                        .setAction("OUVRIR", v -> navigateToFragmentPreviewPdf(filePath, clientEmail))
+                                                        .show();
+                                                }
+                                                
                                                 dismiss();
                                             });
                                         }
