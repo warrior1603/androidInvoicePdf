@@ -4,63 +4,65 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
 
-    <!-- ── Light Mode (Material 3 Purple Palette) ───────────────── -->
-    <color name="primary_light">#6750A4</color>
+    <!-- ── Light Mode (Material 3 Blue Palette) ───────────────── -->
+    <color name="primary_light">#0061A4</color>
     <color name="on_primary_light">#FFFFFF</color>
-    <color name="primary_container_light">#EADDFF</color>
-    <color name="on_primary_container_light">#21005D</color>
+    <color name="primary_container_light">#D1E4FF</color>
+    <color name="on_primary_container_light">#001D36</color>
 
-    <color name="secondary_light">#625B71</color>
+    <color name="secondary_light">#535F70</color>
     <color name="on_secondary_light">#FFFFFF</color>
-    <color name="secondary_container_light">#E8DEF8</color>
-    <color name="on_secondary_container_light">#1D192B</color>
+    <color name="secondary_container_light">#D7E3F7</color>
+    <color name="on_secondary_container_light">#101C2B</color>
 
-    <color name="tertiary_light">#7D5260</color>
+    <color name="tertiary_light">#6B5778</color>
     <color name="on_tertiary_light">#FFFFFF</color>
-    <color name="tertiary_container_light">#FFD8E4</color>
-    <color name="on_tertiary_container_light">#31111D</color>
+    <color name="tertiary_container_light">#F2DAFF</color>
+    <color name="on_tertiary_container_light">#251431</color>
 
-    <color name="error_light">#B3261E</color>
+    <color name="error_light">#BA1A1A</color>
     <color name="on_error_light">#FFFFFF</color>
-    <color name="error_container_light">#F9DEDC</color>
-    <color name="on_error_container_light">#410E0B</color>
+    <color name="error_container_light">#FFDAD6</color>
+    <color name="on_error_container_light">#410002</color>
 
-    <color name="background_light">#FFFBFE</color>
-    <color name="on_background_light">#1C1B1F</color>
-    <color name="surface_light">#FFFBFE</color>
-    <color name="on_surface_light">#1C1B1F</color>
-    <color name="surface_variant_light">#E7E0EB</color>
-    <color name="on_surface_variant_light">#49454F</color>
-    <color name="outline_light">#79747E</color>
-    <color name="outline_variant_light">#CAC4D0</color>
+    <color name="background_light">#FDFCFF</color>
+    <color name="on_background_light">#1A1C1E</color>
+    <color name="surface_light">#FDFCFF</color>
+    <color name="on_surface_light">#1A1C1E</color>
+    <color name="surface_variant_light">#DFE2EB</color>
+    <color name="on_surface_variant_light">#43474E</color>
+    <color name="outline_light">#73777F</color>
+    <color name="outline_variant_light">#C3C7CF</color>
 
-    <!-- ── Dark Mode (Material 3 Purple Palette) ────────────────── -->
-    <color name="primary_dark">#D0BCFF</color>
-    <color name="on_primary_dark">#381E72</color>
-    <color name="primary_container_dark">#4F378B</color>
-    <color name="on_primary_container_dark">#EADDFF</color>
+    <!-- ── Dark Mode (Material 3 Blue Palette) ────────────────── -->
+    <color name="primary_dark">#9ECAFF</color>
+    <color name="on_primary_dark">#003258</color>
+    <color name="primary_container_dark">#00497D</color>
+    <color name="on_primary_container_dark">#D1E4FF</color>
 
-    <color name="secondary_dark">#CCC2DC</color>
-    <color name="on_secondary_dark">#332D41</color>
-    <color name="secondary_container_dark">#4A4458</color>
-    <color name="on_secondary_container_dark">#E8DEF8</color>
+    <color name="secondary_dark">#BBC7DB</color>
+    <color name="on_secondary_dark">#253140</color>
+    <color name="secondary_container_dark">#3B4758</color>
+    <color name="on_secondary_container_dark">#D7E3F7</color>
 
-    <color name="tertiary_dark">#EFB8C8</color>
-    <color name="on_tertiary_dark">#492532</color>
-    <color name="tertiary_container_dark">#633B48</color>
-    <color name="on_tertiary_container_dark">#FFD8E4</color>
+    <color name="tertiary_dark">#D6BEE4</color>
+    <color name="on_tertiary_dark">#3B2948</color>
+    <color name="tertiary_container_dark">#523F5F</color>
+    <color name="on_tertiary_container_dark">#F2DAFF</color>
 
-    <color name="error_dark">#F2B8B5</color>
-    <color name="on_error_dark">#601410</color>
-    <color name="error_container_dark">#8C1D18</color>
-    <color name="on_error_container_dark">#F9DEDC</color>
+    <color name="error_dark">#FFB4AB</color>
+    <color name="on_error_dark">#690005</color>
+    <color name="error_container_dark">#93000A</color>
+    <color name="on_error_container_dark">#FFDAD6</color>
 
-    <color name="background_dark">#1C1B1F</color>
-    <color name="on_background_dark">#E6E1E5</color>
-    <color name="surface_dark">#1C1B1F</color>
-    <color name="on_surface_dark">#E6E1E5</color>
-    <color name="surface_variant_dark">#49454F</color>
-    <color name="on_surface_variant_dark">#CAC4D0</color>
-    <color name="outline_dark">#938F99</color>
-    <color name="outline_variant_dark">#49454F</color>
+    <color name="background_dark">#1A1C1E</color>
+    <color name="on_background_dark">#E2E2E6</color>
+    <color name="surface_dark">#1A1C1E</color>
+    <color name="on_surface_dark">#E2E2E6</color>
+    <color name="surface_variant_dark">#43474E</color>
+    <color name="on_surface_variant_dark">#C3C7CF</color>
+    <color name="outline_dark">#8D9199</color>
+    <color name="outline_variant_dark">#43474E</color>
+    <color name="ic_launcher_background">#0061A4</color>
+    <color name="android_icon_background">#0061A4</color>
 </resources>

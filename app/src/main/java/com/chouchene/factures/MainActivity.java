@@ -63,6 +63,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.core.splashscreen.SplashScreen;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import android.view.View;
 
@@ -116,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
     // Displaying the main layout
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        SplashScreen.installSplashScreen(this);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isDarkMode = sharedPreferences.getBoolean("theme", false);
         setTheme(isDarkMode ? R.style.DarkTheme : R.style.LightTheme);
