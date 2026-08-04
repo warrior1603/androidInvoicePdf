@@ -293,50 +293,22 @@
                             android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <TextView
-                        style="@style/App.TextAppearance.LabelLarge"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layout_payment_mode"
+                        style="@style/App.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:layout_marginBottom="8dp"
-                        android:text="@string/label_payment_method" />
-
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/chip_group_payment"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:singleSelection="true"
-                        app:selectionRequired="true">
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_virement"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="wrap_content"
+                        android:hint="@string/label_payment_method"
+                        app:startIconDrawable="@drawable/baseline_payments_24">
+                        <AutoCompleteTextView
+                            android:id="@+id/autoCompletePaymentMode"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Virement" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_carte"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Carte" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_espece"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Espèce" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_cheque"
-                            style="@style/Widget.Material3.Chip.Filter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Cheque" />
-
-                    </com.google.android.material.chip.ChipGroup>
+                            android:inputType="none"
+                            android:focusable="false"
+                            android:clickable="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

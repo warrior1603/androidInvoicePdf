@@ -66,8 +66,8 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
     private String customerName, rueClient, villeClient, codePostaleClient, pays, siren, tva, email;
     private TextInputEditText txtName, txtRue, txtVille, txtCodePostale, txtPays, txtSiren, txtEmail, txtTvaClient;
     private TextInputEditText txtDesciption, txtQuantite, txtPrix, txtTva, editDateFactureForm;
-    private TextInputLayout inputClient, layoutDescription, layoutQuantite, layoutPrix, layoutTva;
-    private ChipGroup chipGroupPayment;
+    private TextInputLayout inputClient, layoutDescription, layoutQuantite, layoutPrix, layoutTva, layoutPaymentMode;
+    private AutoCompleteTextView autoCompletePaymentMode;
     private LinearLayout inputClientProvisoire;
 
     private Integer mumeroFacture = 0;
@@ -99,13 +99,22 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        chipGroupPayment = view.findViewById(R.id.chip_group_payment);
         setupClientSearch(view);
         setupRadioGroup(view);
         setupInputs(view);
+        setupPaymentMode(view);
 
         MaterialButton btnCreatePDF = view.findViewById(R.id.btnCreatePdf);
         btnCreatePDF.setOnClickListener(v -> handleGenerateInvoice());
+    }
+
+    private void setupPaymentMode(View view) {
+        autoCompletePaymentMode = view.findViewById(R.id.autoCompletePaymentMode);
+        layoutPaymentMode = view.findViewById(R.id.layout_payment_mode);
+        String[] paymentModes = {"Virement", "Carte", "Espèce", "Chèque"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.dropdown_menu_popup_item, paymentModes);
+        autoCompletePaymentMode.setAdapter(adapter);
+        autoCompletePaymentMode.setText(paymentModes[0], false);
     }
 
     private void setupClientSearch(View view) {
@@ -197,8 +206,8 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
         if (txtPrix.getText().toString().trim().isEmpty()) { layoutPrix.setError("Le prix est obligatoire"); isValid = false; }
         if (txtTva.getText().toString().trim().isEmpty()) { layoutTva.setError("La TVA est obligatoire"); isValid = false; }
 
-        if (chipGroupPayment.getCheckedChipId() == View.NO_ID) {
-            Toast.makeText(requireContext(), "Veuillez choisir un mode de paiement", Toast.LENGTH_SHORT).show();
+        if (autoCompletePaymentMode.getText().toString().trim().isEmpty()) {
+            layoutPaymentMode.setError("Veuillez choisir un mode de paiement");
             isValid = false;
         }
 
@@ -255,9 +264,7 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
         String currency = settingsSharedPreferences.getString(CURRENCY_KEY, "EUR");
         String dateCode = new SimpleDateFormat("yyyyMMdd", Locale.US).format(new Date());
 
-        int checkedChipId = chipGroupPayment.getCheckedChipId();
-        Chip selectedChip = chipGroupPayment.findViewById(checkedChipId);
-        String paymentMode = selectedChip != null ? selectedChip.getText().toString() : "";
+        String paymentMode = autoCompletePaymentMode.getText().toString();
 
         String logoBase64 = "";
         String logoPath = sharedPreferences.getString("logo_uri", null);
