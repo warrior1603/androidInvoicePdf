@@ -15,6 +15,7 @@ import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
@@ -97,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView searchRecyclerView;
     SearchResultAdapter searchAdapter;
     AppDatabase db;
+    com.chouchene.factures.fragments.ClientsViewModel clientsViewModel;
 
     ShapeableImageView imgProfileTop;
 
@@ -136,6 +138,16 @@ public class MainActivity extends AppCompatActivity {
         imgProfileTop = findViewById(R.id.img_profile_top);
 
         searchView.setupWithSearchBar(searchBar);
+        clientsViewModel = new ViewModelProvider(this).get(com.chouchene.factures.fragments.ClientsViewModel.class);
+
+        searchView.addTransitionListener((searchView1, previousState, newState) -> {
+            if (newState == SearchView.TransitionState.HIDDEN || newState == SearchView.TransitionState.HIDING) {
+                searchView.getEditText().setText("");
+                if (searchAdapter != null) {
+                    searchAdapter.setResults(new ArrayList<>());
+                }
+            }
+        });
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -167,6 +179,11 @@ public class MainActivity extends AppCompatActivity {
             @Override public void afterTextChanged(Editable s) {
                 performSearch(s.toString());
             }
+        });
+
+        searchView.getEditText().setOnEditorActionListener((v, actionId, event) -> {
+            performSearch(v.getText().toString());
+            return false;
         });
 
         credentialManager = CredentialManager.create(this);
@@ -289,26 +306,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void performSearch(String query) {
-        if (query.isEmpty()) {
-            searchAdapter.setResults(new ArrayList<>());
+        if (query == null || query.trim().isEmpty()) {
+            if (searchAdapter != null) {
+                searchAdapter.setResults(new ArrayList<>());
+            }
             return;
         }
 
+        String finalQuery = query.trim();
         List<SearchResult> combinedResults = new ArrayList<>();
 
+        if (db == null) return;
+
         // Search Clients
-        List<Client> clients = db.clientDao().searchClients(query);
+        List<Client> clients = db.clientDao().searchClients(finalQuery);
         for (Client c : clients) {
             combinedResults.add(new SearchResult(c.getClientName(), c.getEmail(), "Client", null, c.getId()));
         }
 
         // Search Invoices
-        List<Invoice> invoices = db.invoiceDao().searchInvoices(query);
+        List<Invoice> invoices = db.invoiceDao().searchInvoices(finalQuery);
         for (Invoice i : invoices) {
             combinedResults.add(new SearchResult(i.clientName, String.format(Locale.getDefault(), "%.2f €", i.amount), i.type, i.filePath, i.id));
         }
 
-        searchAdapter.setResults(combinedResults);
+        if (searchAdapter != null) {
+            searchAdapter.setResults(combinedResults);
+        }
     }
 
     public static class SearchResult {
@@ -333,6 +357,9 @@ public class MainActivity extends AppCompatActivity {
         public void setResults(List<SearchResult> results) {
             this.results = results;
             notifyDataSetChanged();
+            if (searchRecyclerView != null) {
+                searchRecyclerView.scrollToPosition(0);
+            }
         }
 
         @NonNull
@@ -360,15 +387,14 @@ public class MainActivity extends AppCompatActivity {
             holder.itemView.setOnClickListener(v -> {
                 searchView.hide();
                 if ("Client".equals(result.type)) {
-                    Bundle args = new Bundle();
-                    args.putInt("highlight_client_id", result.id);
+                    clientsViewModel.setHighlightClientId(result.id);
                     
                     NavOptions options = new NavOptions.Builder()
                             .setLaunchSingleTop(true)
                             .setRestoreState(true)
                             .setPopUpTo(navController.getGraph().getStartDestinationId(), false, true)
                             .build();
-                    navController.navigate(R.id.clientsFragment, args, options);
+                    navController.navigate(R.id.clientsFragment, null, options);
                 } else {
                     Bundle args = new Bundle();
                     args.putString("file_path", result.filePath);

@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -28,16 +29,20 @@ public class ClientListFragment extends Fragment {
     public enum Mode { ALL, RECENT }
     private Mode mode = Mode.ALL;
 
+    private ClientsViewModel viewModel;
     private CustomAdapter listAdapter;
     private ArrayList<Client> myClients = new ArrayList<>();
     private ClientDao clientDao;
     private RecyclerView recyclerView;
     private LinearLayout emptyState;
 
-    public static ClientListFragment newInstance(Mode mode) {
+    public static ClientListFragment newInstance(Mode mode, int highlightId) {
         ClientListFragment fragment = new ClientListFragment();
         Bundle args = new Bundle();
         args.putSerializable("mode", mode);
+        if (highlightId != -1) {
+            args.putInt("highlight_client_id", highlightId);
+        }
         fragment.setArguments(args);
         return fragment;
     }
@@ -48,47 +53,50 @@ public class ClientListFragment extends Fragment {
         if (getArguments() != null) {
             mode = (Mode) getArguments().getSerializable("mode");
         }
+        if (getActivity() != null) {
+            viewModel = new ViewModelProvider(getActivity()).get(ClientsViewModel.class);
+        }
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_list_clients, container, false);
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View myView = inflater.inflate(R.layout.activity_list_clients, container, false);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         clientDao = Room.databaseBuilder(requireContext().getApplicationContext(), AppDatabase.class, "MyClients").allowMainThreadQueries().fallbackToDestructiveMigration().build().clientDao();
 
-        recyclerView = myView.findViewById(R.id.recyclerViewClients);
-        emptyState = myView.findViewById(R.id.empty_state);
-        ExtendedFloatingActionButton fab = myView.findViewById(R.id.fab);
+        recyclerView = view.findViewById(R.id.recyclerViewClients);
+        emptyState = view.findViewById(R.id.empty_state);
+        ExtendedFloatingActionButton fab = view.findViewById(R.id.fab);
 
         // Hide FAB in recent mode to keep it clean
         if (mode == Mode.RECENT) {
             fab.setVisibility(View.GONE);
         }
 
-        Bundle args = getArguments();
-        int highlightId = (args != null) ? args.getInt("highlight_client_id", -1) : -1;
-
         loadData();
 
-        listAdapter = new CustomAdapter(this.getActivity(), myClients, highlightId);
+        listAdapter = new CustomAdapter(this.getActivity(), myClients, -1);
         listAdapter.setOnDataChangedListener(this::checkEmptyState);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(listAdapter);
         checkEmptyState();
 
-        if (highlightId != -1) {
-            for (int i = 0; i < myClients.size(); i++) {
-                if (myClients.get(i).getId() == highlightId) {
-                    final int pos = i;
-                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                        recyclerView.scrollToPosition(pos);
-                    }, 100);
-                    break;
+        if (viewModel != null && mode == Mode.ALL) {
+            viewModel.getHighlightClientId().observe(getViewLifecycleOwner(), id -> {
+                if (id != -1) {
+                    performHighlight(id);
+                    viewModel.consumeHighlight();
                 }
-            }
+            });
         }
 
-        fab.setOnClickListener(view -> {
+        fab.setOnClickListener(v -> {
             AddClientBottomSheet bottomSheet = AddClientBottomSheet.newInstance(null);
             bottomSheet.setOnClientSavedListener(() -> {
                 loadData();
@@ -96,8 +104,24 @@ public class ClientListFragment extends Fragment {
             });
             bottomSheet.show(getChildFragmentManager(), "ADD_CLIENT");
         });
+    }
 
-        return myView;
+    private void performHighlight(int id) {
+        for (int i = 0; i < myClients.size(); i++) {
+            if (myClients.get(i).getId() == id) {
+                final int pos = i;
+                recyclerView.post(() -> {
+                    recyclerView.scrollToPosition(pos);
+                    listAdapter.setHighlightId(id);
+                });
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     private void loadData() {

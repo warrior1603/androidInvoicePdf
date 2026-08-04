@@ -61,7 +61,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Client client = filteredList.get(holder.getAdapterPosition());
+        Client client = filteredList.get(position);
         holder.textView.setText(client.getClientName());
 
         if (client.getId() == highlightClientId) {
@@ -72,17 +72,30 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         }
 
         holder.cardview.setOnClickListener(v -> {
-            Client currentClient = filteredList.get(holder.getAdapterPosition());
-            bindDetails(holder, currentClient);
-
-            holder.layout.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGE_APPEARING);
-            int visibility = (holder.datailsText.getVisibility() == View.GONE) ? View.VISIBLE : View.GONE;
-            TransitionManager.beginDelayedTransition(holder.layout, new AutoTransition());
-            holder.datailsText.setVisibility(visibility);
+            int currentPos = holder.getBindingAdapterPosition();
+            if (currentPos == RecyclerView.NO_POSITION) return;
+            
+            Client clickedClient = filteredList.get(currentPos);
+            int previousHighlightId = highlightClientId;
+            
+            if (clickedClient.getId() == previousHighlightId) {
+                // Clicking the same one closes it
+                highlightClientId = -1;
+            } else {
+                // Open the new one, this will automatically close the previous one 
+                // because of the logic in onBindViewHolder
+                highlightClientId = clickedClient.getId();
+            }
+            
+            // Using notifyDataSetChanged to ensure only one is open at a time
+            notifyDataSetChanged();
         });
 
         holder.editbutton.setOnClickListener(v -> {
-            Client currentClient = filteredList.get(holder.getAdapterPosition());
+            int currentPos = holder.getBindingAdapterPosition();
+            if (currentPos == RecyclerView.NO_POSITION) return;
+            
+            Client currentClient = filteredList.get(currentPos);
             AddClientBottomSheet bottomSheet = AddClientBottomSheet.newInstance(currentClient);
             bottomSheet.setOnClientSavedListener(() -> {
                 setData((ArrayList<Client>) clientDao.getAllClients());
@@ -91,7 +104,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         });
 
         holder.deleteButton.setOnClickListener(v -> {
-            int currentPos = holder.getAdapterPosition();
+            int currentPos = holder.getBindingAdapterPosition();
+            if (currentPos == RecyclerView.NO_POSITION) return;
+            
             Client clientToDelete = filteredList.get(currentPos);
             new MaterialAlertDialogBuilder(fragmentActivity)
                     .setTitle("Confirmez-vous la suppression ?")
@@ -154,6 +169,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                 }
             }
         }
+        notifyDataSetChanged();
+    }
+
+    public void setHighlightId(int id) {
+        this.highlightClientId = id;
         notifyDataSetChanged();
     }
 

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -17,15 +18,24 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 public class ClientsHubFragment extends Fragment {
 
+    private ClientsViewModel viewModel;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_clients_hub, container, false);
+        viewModel = new ViewModelProvider(requireActivity()).get(ClientsViewModel.class);
+        return inflater.inflate(R.layout.fragment_clients_hub, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         TabLayout tabLayout = view.findViewById(R.id.clientsTabLayout);
         ViewPager2 viewPager = view.findViewById(R.id.clientsViewPager);
 
-        viewPager.setAdapter(new ClientsPagerAdapter(this));
+        ClientsPagerAdapter adapter = new ClientsPagerAdapter(this);
+        viewPager.setAdapter(adapter);
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             if (position == 0) {
@@ -35,27 +45,47 @@ public class ClientsHubFragment extends Fragment {
             }
         }).attach();
 
-        // If we are navigating here to highlight a specific client, switch to "All Clients" tab
-        if (getArguments() != null && getArguments().containsKey("highlight_client_id")) {
-            viewPager.setCurrentItem(0, false);
-        }
+        handleNewArguments(viewPager);
+    }
 
-        return view;
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getView() != null) {
+            ViewPager2 viewPager = getView().findViewById(R.id.clientsViewPager);
+            if (viewPager != null) {
+                handleNewArguments(viewPager);
+            }
+        }
+    }
+
+    private void handleNewArguments(ViewPager2 viewPager) {
+        if (getArguments() != null && getArguments().containsKey("highlight_client_id")) {
+            int id = getArguments().getInt("highlight_client_id", -1);
+            if (id != -1) {
+                viewPager.setCurrentItem(0, false);
+                viewModel.setHighlightClientId(id);
+                getArguments().remove("highlight_client_id");
+            }
+        }
     }
 
     private static class ClientsPagerAdapter extends FragmentStateAdapter {
+        private final Bundle arguments;
 
         public ClientsPagerAdapter(@NonNull Fragment fragment) {
             super(fragment);
+            this.arguments = fragment.getArguments();
         }
 
         @NonNull
         @Override
         public Fragment createFragment(int position) {
+            int highlightId = (arguments != null) ? arguments.getInt("highlight_client_id", -1) : -1;
             if (position == 0) {
-                return ClientListFragment.newInstance(ClientListFragment.Mode.ALL);
+                return ClientListFragment.newInstance(ClientListFragment.Mode.ALL, highlightId);
             } else {
-                return ClientListFragment.newInstance(ClientListFragment.Mode.RECENT);
+                return ClientListFragment.newInstance(ClientListFragment.Mode.RECENT, -1);
             }
         }
 
