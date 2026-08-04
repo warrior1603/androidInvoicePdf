@@ -6,6 +6,7 @@
     <string name="title_invoices">Factures</string>
     <string name="title_orders">Bons</string>
     <string name="title_history">Historique</string>
+    <string name="title_documents">Documents</string>
     <string name="title_clients">Clients</string>
     <string name="title_settings">Paramètres</string>
 
@@ -37,9 +38,13 @@
     <string name="label_monthly_revenue">Chiffre d\'affaires mensuel</string>
     <string name="label_today">Aujourd\'hui</string>
     <string name="label_trend">Tendance</string>
+    <string name="label_this_year">Cette Année</string>
+    <item name="label_this_month" type="string">Ce Mois</item>
     <string name="label_revenue_analysis">Analyse des revenus</string>
     <string name="label_no_data">Aucune donnée disponible</string>
     <string name="label_no_clients">Aucun client trouvé</string>
+    <string name="label_all_clients">Tous les Clients</string>
+    <string name="label_recent_clients">Récents</string>
     <string name="label_tap_to_add">Appuyez sur + pour en ajouter un</string>
     <string name="label_no_history">Aucun historique</string>
     <string name="label_client_details">Détails du client</string>

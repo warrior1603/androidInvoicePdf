@@ -37,4 +37,7 @@ public interface ClientDao {
 
     @Query("SELECT * FROM Client WHERE clientName LIKE '%' || :query || '%'")
     List<Client> searchClients(String query);
+
+    @Query("SELECT DISTINCT Client.* FROM Client JOIN invoices ON Client.clientName = invoices.client_name ORDER BY invoices.date DESC LIMIT 10")
+    List<Client> getRecentClients();
 }

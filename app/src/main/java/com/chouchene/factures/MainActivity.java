@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -27,7 +28,6 @@ import com.chouchene.factures.fragments.AddClientBottomSheet;
 import com.chouchene.factures.fragments.BonDeCommandeFragment;
 import com.chouchene.factures.fragments.RapportsFragment;
 import com.chouchene.factures.fragments.InvoiceGenrationFragment;
-import com.chouchene.factures.fragments.ListeClientsFragment;
 import com.chouchene.factures.fragments.PersonalSettingsFragment;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -149,8 +149,7 @@ public class MainActivity extends AppCompatActivity {
             navController = navHostFragment.getNavController();
 
             appBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.factureFragment, R.id.bonCommandeFragment,
-                    R.id.clientsFragment, R.id.parametresFragment)
+                    R.id.documentsHubFragment, R.id.clientsFragment, R.id.parametresFragment)
                     .setOpenableLayout(drawerLayout)
                     .build();
 
@@ -173,13 +172,6 @@ public class MainActivity extends AppCompatActivity {
         credentialManager = CredentialManager.create(this);
 
         loadUserProfile();
-
-        String lastFragment = sharedPreferences.getString("last_fragment", "MainFragment");
-
-        if ("SettingsFragment".equals(lastFragment)) {
-            bottomNavigationView.setSelectedItemId(R.id.parametresFragment);
-            sharedPreferences.edit().putString("last_fragment", "MainFragment").apply();
-        }
 
         askPermissions();
     }
@@ -370,7 +362,13 @@ public class MainActivity extends AppCompatActivity {
                 if ("Client".equals(result.type)) {
                     Bundle args = new Bundle();
                     args.putInt("highlight_client_id", result.id);
-                    navController.navigate(R.id.clientsFragment, args);
+                    
+                    NavOptions options = new NavOptions.Builder()
+                            .setLaunchSingleTop(true)
+                            .setRestoreState(true)
+                            .setPopUpTo(navController.getGraph().getStartDestinationId(), false, true)
+                            .build();
+                    navController.navigate(R.id.clientsFragment, args, options);
                 } else {
                     Bundle args = new Bundle();
                     args.putString("file_path", result.filePath);

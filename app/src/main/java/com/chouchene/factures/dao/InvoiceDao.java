@@ -26,6 +26,18 @@ public interface InvoiceDao {
     @Query("SELECT SUM(amount) FROM invoices WHERE strftime('%m-%Y', date / 1000, 'unixepoch') = strftime('%m-%Y', :date / 1000, 'unixepoch')")
     float getMonthlyIncome(Date date);
 
+    @Query("SELECT SUM(amount) FROM invoices WHERE strftime('%Y', date / 1000, 'unixepoch') = strftime('%Y', :date / 1000, 'unixepoch')")
+    float getYearlyIncome(Date date);
+
+    @Query("SELECT COUNT(*) FROM invoices WHERE date(date / 1000, 'unixepoch') = date(:date / 1000, 'unixepoch')")
+    int getDailyCount(Date date);
+
+    @Query("SELECT COUNT(*) FROM invoices WHERE strftime('%m-%Y', date / 1000, 'unixepoch') = strftime('%m-%Y', :date / 1000, 'unixepoch')")
+    int getMonthlyCount(Date date);
+
+    @Query("SELECT COUNT(*) FROM invoices WHERE strftime('%Y', date / 1000, 'unixepoch') = strftime('%Y', :date / 1000, 'unixepoch')")
+    int getYearlyCount(Date date);
+
     @Query("SELECT date, SUM(amount) as dailyTotal FROM invoices GROUP BY date(date / 1000, 'unixepoch') ORDER BY date ASC")
     List<DailyIncome> getDailyIncomeTotals();
 
