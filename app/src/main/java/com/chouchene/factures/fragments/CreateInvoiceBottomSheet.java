@@ -10,6 +10,7 @@ import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,13 +34,18 @@ import com.chouchene.factures.R;
 import com.chouchene.factures.api.FetchVilleFromCodePostale;
 import com.chouchene.factures.dao.ClientDao;
 import com.chouchene.factures.database.AppDatabase;
+import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Client;
 import com.chouchene.factures.entity.Invoice;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import org.apache.commons.io.FileUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -53,13 +59,15 @@ import java.util.Locale;
 
 public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
 
+
     private static final String CURRENCY_KEY = "default_currency";
     private static final String TEMPLATE_KEY = "invoice_template";
 
     private String customerName, rueClient, villeClient, codePostaleClient, pays, siren, tva, email;
     private TextInputEditText txtName, txtRue, txtVille, txtCodePostale, txtPays, txtSiren, txtEmail, txtTvaClient;
     private TextInputEditText txtDesciption, txtQuantite, txtPrix, txtTva, editDateFactureForm;
-    private TextInputLayout txtModePayement, inputClient, layoutDescription, layoutQuantite, layoutPrix, layoutTva;
+    private TextInputLayout inputClient, layoutDescription, layoutQuantite, layoutPrix, layoutTva;
+    private ChipGroup chipGroupPayment;
     private LinearLayout inputClientProvisoire;
 
     private Integer mumeroFacture = 0;
@@ -91,7 +99,7 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setupPayementDropdown(view);
+        chipGroupPayment = view.findViewById(R.id.chip_group_payment);
         setupClientSearch(view);
         setupRadioGroup(view);
         setupInputs(view);
@@ -100,18 +108,10 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
         btnCreatePDF.setOnClickListener(v -> handleGenerateInvoice());
     }
 
-    private void setupPayementDropdown(View view) {
-        String[] Payements = {"Virement", "Carte", "Espèce", "Cheque"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.dropdown_menu_popup_item, Payements);
-        AutoCompleteTextView dropdown = view.findViewById(R.id.filled_exposed_dropdown);
-        dropdown.setAdapter(adapter);
-        dropdown.setOnClickListener(v -> dropdown.showDropDown());
-    }
-
     private void setupClientSearch(View view) {
         AutoCompleteTextView searchView = view.findViewById(R.id.autoCompleteTextView);
         TextInputLayout clientInput = view.findViewById(R.id.client_input);
-        db = Room.databaseBuilder(requireContext(), AppDatabase.class, "MyClients").allowMainThreadQueries().fallbackToDestructiveMigration().build();
+        db = DatabaseClient.getInstance(requireContext().getApplicationContext()).getAppDatabase();
         itemDao = db.clientDao();
 
         List<Client> clients = itemDao.getAllClients();
@@ -156,7 +156,6 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
         txtTva = view.findViewById(R.id.edit_tva);
         txtTva.setText("10");
         editDateFactureForm = view.findViewById(R.id.edit_date_emission);
-        txtModePayement = view.findViewById(R.id.dropdown_input);
 
         txtName = view.findViewById(R.id.edit_user_name_client1);
         txtRue = view.findViewById(R.id.edit_street1);
@@ -192,13 +191,16 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
         layoutQuantite.setError(null);
         layoutPrix.setError(null);
         layoutTva.setError(null);
-        txtModePayement.setError(null);
 
         if (txtDesciption.getText().toString().trim().isEmpty()) { layoutDescription.setError("La description est obligatoire"); isValid = false; }
         if (txtQuantite.getText().toString().trim().isEmpty()) { layoutQuantite.setError("La quantité est obligatoire"); isValid = false; }
         if (txtPrix.getText().toString().trim().isEmpty()) { layoutPrix.setError("Le prix est obligatoire"); isValid = false; }
         if (txtTva.getText().toString().trim().isEmpty()) { layoutTva.setError("La TVA est obligatoire"); isValid = false; }
-        if (txtModePayement.getEditText().getText().toString().trim().isEmpty()) { txtModePayement.setError("Veuillez choisir un mode de paiement"); isValid = false; }
+
+        if (chipGroupPayment.getCheckedChipId() == View.NO_ID) {
+            Toast.makeText(requireContext(), "Veuillez choisir un mode de paiement", Toast.LENGTH_SHORT).show();
+            isValid = false;
+        }
 
         if (!isValid) return;
 
@@ -253,10 +255,27 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
         String currency = settingsSharedPreferences.getString(CURRENCY_KEY, "EUR");
         String dateCode = new SimpleDateFormat("yyyyMMdd", Locale.US).format(new Date());
 
+        int checkedChipId = chipGroupPayment.getCheckedChipId();
+        Chip selectedChip = chipGroupPayment.findViewById(checkedChipId);
+        String paymentMode = selectedChip != null ? selectedChip.getText().toString() : "";
+
+        String logoBase64 = "";
+        String logoPath = sharedPreferences.getString("logo_uri", null);
+        if (logoPath != null) {
+            try {
+                byte[] bytes = FileUtils.readFileToByteArray(new File(logoPath));
+                logoBase64 = "data:image/png;base64," + Base64.encodeToString(bytes, Base64.NO_WRAP);
+            } catch (IOException e) {
+                Log.e("PDF_GEN", "Logo error", e);
+            }
+        }
+        String logoHtml = logoBase64.isEmpty() ? "" : "<img src=\"" + logoBase64 + "\" style=\"max-height: 80px; margin-bottom: 10px;\">";
+
         mumeroFacture++;
         sharedPreferences.edit().putInt("last-invoice-number", mumeroFacture).apply();
 
         template = template
+                .replace("{{companyLogo}}", logoHtml)
                 .replace("{{issuerName}}", sharedPreferences.getString("User", ""))
                 .replace("{{issuerStreet}}", sharedPreferences.getString("Street", ""))
                 .replace("{{issuerCityZip}}", sharedPreferences.getString("codePostale", "") + " " + sharedPreferences.getString("City", ""))
@@ -267,7 +286,7 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
                 .replace("{{issuerEmail}}", sharedPreferences.getString("email", ""))
                 .replace("{{invoiceNumber}}", dateCode + String.format(Locale.US, "%02d", mumeroFacture))
                 .replace("{{invoiceDate}}", editDateFactureForm.getText().toString())
-                .replace("{{payementMode}}", txtModePayement.getEditText().getText().toString())
+                .replace("{{payementMode}}", paymentMode)
                 .replace("{{clientName}}", customerName)
                 .replace("{{clientStreet}}", rueClient)
                 .replace("{{clientCityZip}}", codePostaleClient + " " + villeClient)

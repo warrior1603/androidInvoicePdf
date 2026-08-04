@@ -13,17 +13,18 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import com.chouchene.factures.R;
 import com.chouchene.factures.adapter.HistoryAdapter;
 import com.chouchene.factures.database.AppDatabase;
+import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Invoice;
 import com.chouchene.factures.utils.SwipeToDeleteCallback;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.List;
+import java.util.concurrent.Executors;
 
 public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter.OnHistoryActionListener {
 
@@ -43,7 +44,7 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        db = Room.databaseBuilder(requireContext(), AppDatabase.class, "MyClients").allowMainThreadQueries().fallbackToDestructiveMigration().build();
+        db = DatabaseClient.getInstance(requireContext()).getAppDatabase();
 
         recyclerView = view.findViewById(R.id.recyclerView);
         emptyState = view.findViewById(R.id.empty_state);
@@ -72,9 +73,15 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
     }
 
     private void loadInvoices() {
-        List<Invoice> invoices = db.invoiceDao().getInvoicesOnly();
-        adapter.setData(invoices);
-        checkEmptyState();
+        Executors.newSingleThreadExecutor().execute(() -> {
+            List<Invoice> invoices = db.invoiceDao().getInvoicesOnly();
+            if (getActivity() != null) {
+                requireActivity().runOnUiThread(() -> {
+                    adapter.setData(invoices);
+                    checkEmptyState();
+                });
+            }
+        });
     }
 
     private void checkEmptyState() {
@@ -88,12 +95,17 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
         Bundle b = new Bundle();
         b.putString("file_path", invoice.filePath);
         
-        com.chouchene.factures.entity.Client client = db.clientDao().getClientByName(invoice.clientName);
-        if (client != null) {
-            b.putString("mail_client", client.getEmail());
-        }
-        
-        Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, b);
+        Executors.newSingleThreadExecutor().execute(() -> {
+            com.chouchene.factures.entity.Client client = db.clientDao().getClientByName(invoice.clientName);
+            if (getActivity() != null) {
+                requireActivity().runOnUiThread(() -> {
+                    if (client != null) {
+                        b.putString("mail_client", client.getEmail());
+                    }
+                    Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, b);
+                });
+            }
+        });
     }
 
     @Override
@@ -102,11 +114,28 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
                 .setTitle("Supprimer")
                 .setMessage("Voulez-vous supprimer cette facture ?")
                 .setPositiveButton("Supprimer", (dialog, which) -> {
-                    db.invoiceDao().deleteInvoice(invoice);
-                    loadInvoices();
+                    Executors.newSingleThreadExecutor().execute(() -> {
+                        db.invoiceDao().deleteInvoice(invoice);
+                        loadInvoices();
+                    });
                 })
                 .setNegativeButton("Annuler", (dialog, which) -> adapter.notifyDataSetChanged())
                 .setOnCancelListener(dialog -> adapter.notifyDataSetChanged())
+                .show();
+    }
+
+    @Override
+    public void onStatusClick(Invoice invoice) {
+        String[] statuses = {"En attente", "Payée", "Annulée"};
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Modifier le statut")
+                .setItems(statuses, (dialog, which) -> {
+                    Executors.newSingleThreadExecutor().execute(() -> {
+                        invoice.status = statuses[which];
+                        db.invoiceDao().updateInvoice(invoice);
+                        loadInvoices();
+                    });
+                })
                 .show();
     }
 }

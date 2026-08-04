@@ -2,6 +2,7 @@
     <string name="app_name">Mes Factures</string>
 
     <!-- General UI -->
+    <string name="title_home">Accueil</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_invoices">Factures</string>
     <string name="title_orders">Bons</string>
@@ -45,6 +46,11 @@
     <string name="label_no_clients">Aucun client trouvé</string>
     <string name="label_all_clients">Tous les Clients</string>
     <string name="label_recent_clients">Récents</string>
+    <string name="label_quick_access">Accès Rapide</string>
+    <string name="label_documents_desc">Gérer vos factures et bons</string>
+    <string name="label_clients_desc">Liste de vos clients enregistrés</string>
+    <string name="label_reports_desc">Statistiques et revenus</string>
+    <string name="label_welcome_back">Bonjour !</string>
     <string name="label_tap_to_add">Appuyez sur + pour en ajouter un</string>
     <string name="label_no_history">Aucun historique</string>
     <string name="label_client_details">Détails du client</string>
@@ -96,4 +102,7 @@
     <string name="title_help">Aide</string>
     <string name="hint_search_app">Rechercher...</string>
     <string name="nav_header_subtitle">Gestion de facturation &amp; PDF</string>
+    <string name="label_profile">Profil utilisateur</string>
+    <string name="title_account">Compte</string>
+    <string name="action_logout">Se déconnecter</string>
 </resources>

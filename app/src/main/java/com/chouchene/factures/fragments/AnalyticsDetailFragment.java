@@ -17,7 +17,7 @@ import com.chouchene.factures.POJO.DailyIncome;
 import com.chouchene.factures.POJO.MonthlyIncome;
 import com.chouchene.factures.R;
 import com.chouchene.factures.dao.InvoiceDao;
-import com.chouchene.factures.database.AppDatabase;
+import com.chouchene.factures.database.DatabaseClient;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -51,7 +51,7 @@ public class AnalyticsDetailFragment extends Fragment {
         if (getArguments() != null) {
             timeframe = (Timeframe) getArguments().getSerializable("timeframe");
         }
-        db = Room.databaseBuilder(requireContext(), AppDatabase.class, "MyClients").allowMainThreadQueries().fallbackToDestructiveMigration().build().invoiceDao();
+        db = DatabaseClient.getInstance(requireContext().getApplicationContext()).getAppDatabase().invoiceDao();
     }
 
     @Nullable
@@ -62,7 +62,7 @@ public class AnalyticsDetailFragment extends Fragment {
         TextView totalRevenueTxt = view.findViewById(R.id.totalRevenue);
         TextView documentCountTxt = view.findViewById(R.id.documentCount);
         BarChart barChart = view.findViewById(R.id.barChart);
-        TextView chartEmptyState = view.findViewById(R.id.chart_empty_state);
+        View chartEmptyState = view.findViewById(R.id.chart_empty_state);
 
         Date today = new Date();
         float revenue = 0;

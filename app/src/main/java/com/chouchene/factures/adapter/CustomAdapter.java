@@ -1,5 +1,7 @@
 package com.chouchene.factures.adapter;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
@@ -7,18 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import com.chouchene.factures.R;
 import com.chouchene.factures.dao.ClientDao;
-import com.chouchene.factures.database.AppDatabase;
+import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Client;
 import com.chouchene.factures.fragments.AddClientBottomSheet;
-import com.chouchene.factures.repository.ClientRepository;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         this.originalList = new ArrayList<>(values);
         this.filteredList = new ArrayList<>(values);
         this.highlightClientId = highlightClientId;
-        this.clientDao = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "MyClients").allowMainThreadQueries().fallbackToDestructiveMigration().build().clientDao();
+        this.clientDao = DatabaseClient.getInstance(context.getApplicationContext()).getAppDatabase().clientDao();
     }
 
     @NonNull
@@ -75,16 +76,33 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             int previousHighlightId = highlightClientId;
             
             if (clickedClient.getId() == previousHighlightId) {
-                // Clicking the same one closes it
                 highlightClientId = -1;
             } else {
-                // Open the new one, this will automatically close the previous one 
-                // because of the logic in onBindViewHolder
                 highlightClientId = clickedClient.getId();
             }
-            
-            // Using notifyDataSetChanged to ensure only one is open at a time
             notifyDataSetChanged();
+        });
+
+        holder.buttonCall.setOnClickListener(v -> {
+            String phone = client.phone;
+            if (phone != null && !phone.isEmpty()) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + phone));
+                fragmentActivity.startActivity(intent);
+            } else {
+                Toast.makeText(fragmentActivity, "Numéro de téléphone non disponible", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        holder.buttonEmail.setOnClickListener(v -> {
+            String email = client.getEmail();
+            if (email != null && !email.isEmpty()) {
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:" + email));
+                fragmentActivity.startActivity(intent);
+            } else {
+                Toast.makeText(fragmentActivity, "Email non disponible", Toast.LENGTH_SHORT).show();
+            }
         });
 
         holder.editbutton.setOnClickListener(v -> {
@@ -151,7 +169,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView textView;
-        MaterialButton editbutton;
+        MaterialButton editbutton, buttonCall, buttonEmail;
         LinearLayout datailsText, layout;
         View cardview;
         TextView txtRue, txtVille, txtPays, txtSiren, txtEmail, txtTva;
@@ -160,6 +178,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             super(itemView);
             textView = itemView.findViewById(R.id.textViewItem);
             editbutton = itemView.findViewById(R.id.buttonEdit);
+            buttonCall = itemView.findViewById(R.id.buttonCall);
+            buttonEmail = itemView.findViewById(R.id.buttonEmail);
             datailsText = itemView.findViewById(R.id.details);
             cardview = itemView.findViewById(R.id.cardView);
             layout = itemView.findViewById(R.id.layout1);

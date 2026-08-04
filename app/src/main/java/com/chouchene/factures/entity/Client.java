@@ -16,8 +16,9 @@ public class Client {
     public String numeroSiren;
     public String numeroTVA;
     public String email;
+    public String phone;
 
-    public Client(String clientName, String street, String ville, String codePostale, String pays, String numeroSiren,String numeroTVA, String email) {
+    public Client(String clientName, String street, String ville, String codePostale, String pays, String numeroSiren,String numeroTVA, String email, String phone) {
         this.clientName = clientName;
         this.street = street;
         this.ville = ville;
@@ -26,6 +27,7 @@ public class Client {
         this.numeroSiren = numeroSiren;
         this.email = email;
         this.numeroTVA = numeroTVA;
+        this.phone = phone;
     }
 
     public String getNumeroTVA() {

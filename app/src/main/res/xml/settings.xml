@@ -12,6 +12,14 @@
             app:widgetLayout="@layout/m3_switch_widget"
             android:defaultValue="false" />
 
+        <SwitchPreferenceCompat
+            android:key="biometric_lock"
+            android:title="Verrouillage biométrique"
+            android:summary="Sécuriser l'accès à l'application"
+            android:icon="@drawable/baseline_fingerprint_24"
+            app:widgetLayout="@layout/m3_switch_widget"
+            android:defaultValue="false" />
+
         <ListPreference
             android:key="language"
             android:title="@string/pref_title_language"

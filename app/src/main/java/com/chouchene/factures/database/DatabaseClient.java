@@ -13,9 +13,11 @@ public class DatabaseClient {
 
     private DatabaseClient(Context context) {
         this.context = context;
-        // Creating the app database with Room database builder
-        // MyToDos is the name of the database
-        appDatabase = Room.databaseBuilder(context, AppDatabase.class, "MyClients").allowMainThreadQueries().fallbackToDestructiveMigration().build();
+        // Using a new name "MyClientsV8" to force a fresh schema match and avoid integrity crashes
+        appDatabase = Room.databaseBuilder(context, AppDatabase.class, "MyClientsV8")
+                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build();
     }
 
     public static synchronized DatabaseClient getInstance(Context context) {

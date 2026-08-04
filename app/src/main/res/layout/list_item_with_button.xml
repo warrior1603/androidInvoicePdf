@@ -45,6 +45,22 @@
                 android:textColor="?attr/colorOnSurface" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonCall"
+                style="?attr/materialIconButtonStyle"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:icon="@drawable/baseline_local_phone_24"
+                app:iconTint="?attr/colorOnSurfaceVariant" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonEmail"
+                style="?attr/materialIconButtonStyle"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:icon="@drawable/baseline_alternate_email_24"
+                app:iconTint="?attr/colorOnSurfaceVariant" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonEdit"
                 style="?attr/materialIconButtonStyle"
                 android:layout_width="48dp"

@@ -9,7 +9,7 @@ import com.chouchene.factures.dao.InvoiceDao;
 import com.chouchene.factures.entity.Client;
 import com.chouchene.factures.entity.Invoice;
 
-@Database(entities = {Client.class, Invoice.class} ,version = 4,exportSchema = false)
+@Database(entities = {Client.class, Invoice.class} ,version = 8,exportSchema = false)
 @TypeConverters({DateConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract ClientDao clientDao();

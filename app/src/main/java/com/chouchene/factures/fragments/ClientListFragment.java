@@ -20,6 +20,7 @@ import com.chouchene.factures.R;
 import com.chouchene.factures.adapter.CustomAdapter;
 import com.chouchene.factures.dao.ClientDao;
 import com.chouchene.factures.database.AppDatabase;
+import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Client;
 import com.chouchene.factures.utils.SwipeToDeleteCallback;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -72,7 +73,7 @@ public class ClientListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        clientDao = Room.databaseBuilder(requireContext().getApplicationContext(), AppDatabase.class, "MyClients").allowMainThreadQueries().fallbackToDestructiveMigration().build().clientDao();
+        clientDao = DatabaseClient.getInstance(requireContext().getApplicationContext()).getAppDatabase().clientDao();
 
         recyclerView = view.findViewById(R.id.recyclerViewClients);
         emptyState = view.findViewById(R.id.empty_state);

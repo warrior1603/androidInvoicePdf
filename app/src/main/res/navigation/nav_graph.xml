@@ -3,7 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/documentsHubFragment">
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.chouchene.factures.fragments.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/documentsHubFragment"
@@ -59,6 +65,12 @@
         android:name="com.chouchene.factures.fragments.HelpFragment"
         android:label="@string/title_help"
         tools:layout="@layout/fragment_help" />
+
+    <fragment
+        android:id="@+id/personalSettingsFragment"
+        android:name="com.chouchene.factures.fragments.PersonalSettingsFragment"
+        android:label="@string/pref_title_profile"
+        tools:layout="@layout/activity_personal_settings" />
 
     <activity
         android:id="@+id/settingsActivity"

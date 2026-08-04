@@ -1,8 +1,12 @@
 package com.chouchene.factures.fragments;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -12,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -21,9 +27,14 @@ import com.chouchene.factures.api.ApiService;
 import com.chouchene.factures.api.FetchVilleFromCodePostale;
 import com.chouchene.factures.api.VilleDataModel;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import retrofit2.Call;
@@ -54,6 +65,10 @@ public class PersonalSettingsFragment extends Fragment implements View.OnClickLi
     TextInputLayout txtBic;
     TextInputLayout txtBankAddress;
 
+    ShapeableImageView imgLogo;
+    Button btnPickLogo;
+
+    String logoUri;
     String userName;
     String street;
     String city;
@@ -74,11 +89,36 @@ public class PersonalSettingsFragment extends Fragment implements View.OnClickLi
 
     Button btnSaveInfo;
 
+    private final ActivityResultLauncher<Intent> pickImageLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                    Uri selectedImageUri = result.getData().getData();
+                    if (selectedImageUri != null) {
+                        saveLogoLocally(selectedImageUri);
+                    }
+                }
+            }
+    );
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (getActivity() != null) getActivity().setTitle("Entreprise et chauffeur");
         View myView = inflater.inflate(R.layout.activity_personal_settings, container, false);
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
+        imgLogo = myView.findViewById(R.id.img_logo);
+        btnPickLogo = myView.findViewById(R.id.btn_pick_logo);
+        btnPickLogo.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            pickImageLauncher.launch(intent);
+        });
+
+        logoUri = sharedPreferences.getString("logo_uri", null);
+        if (logoUri != null) {
+            imgLogo.setImageURI(Uri.parse(logoUri));
+            imgLogo.setPadding(0, 0, 0, 0);
+        }
 
         String retrievedUser = sharedPreferences.getString("User", "");
         txtUserName = myView.findViewById(R.id.edit_user_name);
@@ -235,16 +275,35 @@ public class PersonalSettingsFragment extends Fragment implements View.OnClickLi
     @Override
     public void onResume() {
         super.onResume();
-//        // Check if the activity has a default ActionBar
-//        if (getActivity() != null) {
-//            getActivity().setTitle("   Entreprise et chauffeur");  // Set the ActionBar title
-//        }
-//
-//        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-//        // Enable the display of the home icon
-//        actionBar.setDisplayShowHomeEnabled(true);
-//        actionBar.setDisplayUseLogoEnabled(true);
-//        // Change the ActionBar icon
-//        actionBar.setLogo(R.drawable.baseline_dashboard_24);
+    }
+
+    private void saveLogoLocally(Uri uri) {
+        try {
+            InputStream inputStream = requireContext().getContentResolver().openInputStream(uri);
+            if (inputStream == null) return;
+            
+            File file = new File(requireContext().getFilesDir(), "company_logo.png");
+            FileOutputStream outputStream = new FileOutputStream(file);
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            outputStream.flush();
+            outputStream.close();
+            inputStream.close();
+
+            logoUri = file.getAbsolutePath();
+            imgLogo.setImageURI(Uri.fromFile(file));
+            imgLogo.setPadding(0, 0, 0, 0);
+
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            sharedPreferences.edit().putString("logo_uri", logoUri).apply();
+            
+            Toast.makeText(requireContext(), "Logo mis à jour", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            Log.e("LOGO_SAVE", "Error saving logo", e);
+            Toast.makeText(requireContext(), "Erreur lors de l'enregistrement du logo", Toast.LENGTH_SHORT).show();
+        }
     }
 }

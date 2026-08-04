@@ -21,19 +21,12 @@
         android:orientation="vertical"
         android:visibility="gone">
 
-        <FrameLayout
+        <ImageView
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:background="@drawable/profile_background"
-            android:backgroundTint="?attr/colorPrimaryContainer">
-
-            <ImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_gravity="center"
-                android:src="@drawable/baseline_receipt_long_24"
-                app:tint="?attr/colorOnPrimaryContainer" />
-        </FrameLayout>
+            android:src="@drawable/baseline_receipt_long_24"
+            app:tint="?attr/colorOutline"
+            android:alpha="0.4" />
 
         <TextView
             style="@style/App.TextAppearance.TitleMedium"

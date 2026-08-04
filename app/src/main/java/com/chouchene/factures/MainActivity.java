@@ -1,36 +1,13 @@
 package com.chouchene.factures;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.preference.PreferenceManager;
-
-import android.content.BroadcastReceiver;
-import android.content.Intent;
-import android.content.IntentFilter;
-
-import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import com.google.android.material.navigation.NavigationView;
-import androidx.core.view.GravityCompat;
-
-import com.chouchene.factures.utils.LocaleHelper;
-import com.chouchene.factures.database.AppDatabase;
-import com.chouchene.factures.entity.Invoice;
-import com.chouchene.factures.entity.Client;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.core.splashscreen.SplashScreen;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -38,17 +15,42 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.splashscreen.SplashScreen;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+import androidx.preference.PreferenceManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.chouchene.factures.database.AppDatabase;
+import com.chouchene.factures.database.DatabaseClient;
+import com.chouchene.factures.entity.Client;
+import com.chouchene.factures.entity.Invoice;
+import com.chouchene.factures.utils.LocaleHelper;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.search.SearchBar;
 import com.google.android.material.search.SearchView;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.room.Room;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
     final static int REQUEST_CODE_STORAGE = 1232;
@@ -56,8 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     NavController navController;
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
     AppBarConfiguration appBarConfiguration;
 
     SharedPreferences sharedPreferences;
@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
     SearchBar searchBar;
     SearchView searchView;
     RecyclerView searchRecyclerView;
+    View searchEmptyState;
     SearchResultAdapter searchAdapter;
     AppDatabase db;
     com.chouchene.factures.fragments.ClientsViewModel clientsViewModel;
@@ -91,16 +92,72 @@ public class MainActivity extends AppCompatActivity {
         setTheme(isDarkMode ? R.style.DarkTheme : R.style.LightTheme);
         EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
+        
+        try {
+            if (sharedPreferences.getBoolean("biometric_lock", false) && isBiometricAvailable()) {
+                showBiometricPrompt();
+            } else {
+                initApp();
+            }
+        } catch (Exception e) {
+            initApp();
+        }
+    }
+
+    private boolean isBiometricAvailable() {
+        androidx.biometric.BiometricManager biometricManager = androidx.biometric.BiometricManager.from(this);
+        int result = biometricManager.canAuthenticate(androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG | androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL);
+        return result == androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS;
+    }
+
+    private void showBiometricPrompt() {
+        Executor executor = ContextCompat.getMainExecutor(this);
+        BiometricPrompt biometricPrompt = new BiometricPrompt(this,
+                executor, new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+                if (errorCode == BiometricPrompt.ERROR_HW_NOT_PRESENT || 
+                    errorCode == BiometricPrompt.ERROR_NO_BIOMETRICS) {
+                    initApp();
+                } else {
+                    Toast.makeText(MainActivity.this, "Authentification requise", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                initApp();
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+                Toast.makeText(getApplicationContext(), "Authentification échouée", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Authentification requise")
+                .setSubtitle("Veuillez vous authentifier pour accéder à vos factures")
+                .setNegativeButtonText("Annuler")
+                .build();
+
+        biometricPrompt.authenticate(promptInfo);
+    }
+
+    private void initApp() {
         setContentView(R.layout.activity_main);
 
-        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "MyClients")
-                .allowMainThreadQueries()
-                .fallbackToDestructiveMigration()
-                .build();
+        db = DatabaseClient.getInstance(getApplicationContext()).getAppDatabase();
 
         searchBar = findViewById(R.id.search_bar);
         searchView = findViewById(R.id.search_view);
         searchRecyclerView = findViewById(R.id.search_results_recycler);
+        searchEmptyState = findViewById(R.id.search_empty_state);
+        ImageView imgProfile = findViewById(R.id.img_profile_top);
 
         searchView.setupWithSearchBar(searchBar);
         clientsViewModel = new ViewModelProvider(this).get(com.chouchene.factures.fragments.ClientsViewModel.class);
@@ -111,26 +168,40 @@ public class MainActivity extends AppCompatActivity {
                 if (searchAdapter != null) {
                     searchAdapter.setResults(new ArrayList<>());
                 }
+                if (searchEmptyState != null) {
+                    searchEmptyState.setVisibility(View.GONE);
+                }
             }
         });
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.navigationView);
 
-        findViewById(R.id.btn_menu).setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
+        imgProfile.setOnClickListener(v -> showProfileMenu());
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         if (navHostFragment != null) {
             navController = navHostFragment.getNavController();
 
             appBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.documentsHubFragment, R.id.clientsFragment, R.id.parametresFragment)
-                    .setOpenableLayout(drawerLayout)
+                    R.id.homeFragment, R.id.documentsHubFragment,
+                    R.id.clientsFragment, R.id.parametresFragment)
                     .build();
 
             NavigationUI.setupWithNavController(bottomNavigationView, navController);
-            NavigationUI.setupWithNavController(navigationView, navController);
+
+            getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+                @Override
+                public void handleOnBackPressed() {
+                    if (navController.getCurrentDestination() != null &&
+                            navController.getCurrentDestination().getId() != R.id.homeFragment &&
+                            appBarConfiguration.getTopLevelDestinations().contains(navController.getCurrentDestination().getId())) {
+                        bottomNavigationView.setSelectedItemId(R.id.homeFragment);
+                    } else {
+                        setEnabled(false);
+                        getOnBackPressedDispatcher().onBackPressed();
+                    }
+                }
+            });
         }
 
         searchAdapter = new SearchResultAdapter();
@@ -153,6 +224,46 @@ public class MainActivity extends AppCompatActivity {
         askPermissions();
     }
 
+    private void showProfileMenu() {
+        BottomSheetDialog dialog = new BottomSheetDialog(this);
+        View view = getLayoutInflater().inflate(R.layout.layout_profile_menu, null);
+        
+        SharedPreferences userPrefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        TextView txtName = view.findViewById(R.id.menu_user_name);
+        TextView txtEmail = view.findViewById(R.id.menu_user_email);
+        
+        txtName.setText(userPrefs.getString("User", "Utilisateur"));
+        txtEmail.setText(userPrefs.getString("email", "email@exemple.com"));
+
+        view.findViewById(R.id.menu_item_profile).setOnClickListener(v -> {
+            dialog.dismiss();
+            navController.navigate(R.id.personalSettingsFragment);
+        });
+
+        view.findViewById(R.id.menu_item_settings).setOnClickListener(v -> {
+            dialog.dismiss();
+            navController.navigate(R.id.settingsActivity);
+        });
+
+        view.findViewById(R.id.menu_item_help).setOnClickListener(v -> {
+            dialog.dismiss();
+            navController.navigate(R.id.helpFragment);
+        });
+
+        view.findViewById(R.id.menu_item_about).setOnClickListener(v -> {
+            dialog.dismiss();
+            navController.navigate(R.id.aboutFragment);
+        });
+
+        view.findViewById(R.id.menu_item_logout).setOnClickListener(v -> {
+            dialog.dismiss();
+            Toast.makeText(this, "Déconnexion...", Toast.LENGTH_SHORT).show();
+        });
+
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
     @Override
     public boolean onSupportNavigateUp() {
         return NavigationUI.navigateUp(navController, appBarConfiguration)
@@ -168,25 +279,30 @@ public class MainActivity extends AppCompatActivity {
         }
 
         String finalQuery = query.trim();
-        List<SearchResult> combinedResults = new ArrayList<>();
+        Executors.newSingleThreadExecutor().execute(() -> {
+            List<SearchResult> combinedResults = new ArrayList<>();
 
-        if (db == null) return;
+            // Search Clients
+            List<Client> clients = db.clientDao().searchClients(finalQuery);
+            for (Client c : clients) {
+                combinedResults.add(new SearchResult(c.getClientName(), c.getEmail(), "Client", null, c.getId()));
+            }
 
-        // Search Clients
-        List<Client> clients = db.clientDao().searchClients(finalQuery);
-        for (Client c : clients) {
-            combinedResults.add(new SearchResult(c.getClientName(), c.getEmail(), "Client", null, c.getId()));
-        }
+            // Search Invoices
+            List<Invoice> invoices = db.invoiceDao().searchInvoices(finalQuery);
+            for (Invoice i : invoices) {
+                combinedResults.add(new SearchResult(i.clientName, String.format(Locale.getDefault(), "%.2f €", i.amount), i.type, i.filePath, i.id));
+            }
 
-        // Search Invoices
-        List<Invoice> invoices = db.invoiceDao().searchInvoices(finalQuery);
-        for (Invoice i : invoices) {
-            combinedResults.add(new SearchResult(i.clientName, String.format(Locale.getDefault(), "%.2f €", i.amount), i.type, i.filePath, i.id));
-        }
-
-        if (searchAdapter != null) {
-            searchAdapter.setResults(combinedResults);
-        }
+            runOnUiThread(() -> {
+                if (searchAdapter != null) {
+                    searchAdapter.setResults(combinedResults);
+                    if (searchEmptyState != null) {
+                        searchEmptyState.setVisibility(combinedResults.isEmpty() ? View.VISIBLE : View.GONE);
+                    }
+                }
+            });
+        });
     }
 
     public static class SearchResult {
@@ -253,12 +369,15 @@ public class MainActivity extends AppCompatActivity {
                     Bundle args = new Bundle();
                     args.putString("file_path", result.filePath);
                     
-                    com.chouchene.factures.entity.Client client = db.clientDao().getClientByName(result.title);
-                    if (client != null) {
-                        args.putString("mail_client", client.getEmail());
-                    }
-                    
-                    navController.navigate(R.id.webViewPdfFragment, args);
+                    Executors.newSingleThreadExecutor().execute(() -> {
+                        com.chouchene.factures.entity.Client client = db.clientDao().getClientByName(result.title);
+                        runOnUiThread(() -> {
+                            if (client != null) {
+                                args.putString("mail_client", client.getEmail());
+                            }
+                            navController.navigate(R.id.webViewPdfFragment, args);
+                        });
+                    });
                 }
             });
         }

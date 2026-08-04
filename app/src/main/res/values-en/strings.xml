@@ -2,6 +2,7 @@
     <string name="app_name">My Invoices</string>
 
     <!-- General UI -->
+    <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_invoices">Invoices</string>
     <string name="title_orders">Orders</string>
@@ -45,6 +46,11 @@
     <string name="label_no_clients">No clients found</string>
     <string name="label_all_clients">All Clients</string>
     <string name="label_recent_clients">Recent</string>
+    <string name="label_quick_access">Quick Access</string>
+    <string name="label_documents_desc">Manage invoices and orders</string>
+    <string name="label_clients_desc">List of your saved clients</string>
+    <string name="label_reports_desc">Statistics and revenue</string>
+    <string name="label_welcome_back">Welcome Back!</string>
     <string name="label_tap_to_add">Tap + to add a client</string>
     <string name="label_no_history">No history</string>
     <string name="label_client_details">Client Details</string>
@@ -83,4 +89,7 @@
     <string name="title_help">Help</string>
     <string name="hint_search_app">Search...</string>
     <string name="nav_header_subtitle">Invoice &amp; PDF Management</string>
+    <string name="label_profile">User profile</string>
+    <string name="title_account">Account</string>
+    <string name="action_logout">Log out</string>
 </resources>

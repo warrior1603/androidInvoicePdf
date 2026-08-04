@@ -16,6 +16,7 @@ import com.chouchene.factures.R;
 import com.chouchene.factures.api.FetchVilleFromCodePostale;
 import com.chouchene.factures.dao.ClientDao;
 import com.chouchene.factures.database.AppDatabase;
+import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Client;
 import com.chouchene.factures.repository.ClientRepository;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -56,7 +57,7 @@ public class AddClientBottomSheet extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        clientDao = Room.databaseBuilder(requireContext().getApplicationContext(), AppDatabase.class, "MyClients").allowMainThreadQueries().fallbackToDestructiveMigration().build().clientDao();
+        clientDao = DatabaseClient.getInstance(requireContext().getApplicationContext()).getAppDatabase().clientDao();
         clientRepository = new ClientRepository(clientDao);
 
         TextView title = view.findViewById(R.id.title);
@@ -68,6 +69,7 @@ public class AddClientBottomSheet extends BottomSheetDialogFragment {
         TextInputEditText txtSiren = view.findViewById(R.id.edit_siren);
         TextInputEditText txtTva = view.findViewById(R.id.tva_client);
         TextInputEditText txtEmail = view.findViewById(R.id.edit_email_client);
+        TextInputEditText txtPhone = view.findViewById(R.id.edit_phone_client);
         MaterialButton btnSave = view.findViewById(R.id.btn_save);
 
         boolean isEdit = client != null;
@@ -82,6 +84,7 @@ public class AddClientBottomSheet extends BottomSheetDialogFragment {
             txtSiren.setText(client.getNumeroSiren());
             txtTva.setText(client.getNumeroTVA());
             txtEmail.setText(client.getEmail());
+            txtPhone.setText(client.phone);
         }
 
         txtCodePostale.addTextChangedListener(new TextWatcher() {
@@ -101,6 +104,7 @@ public class AddClientBottomSheet extends BottomSheetDialogFragment {
             String sirenClient = txtSiren.getText().toString();
             String tvaClient = txtTva.getText().toString();
             String emailClient = txtEmail.getText().toString();
+            String phoneClient = txtPhone.getText().toString();
 
             if (customerName.trim().isEmpty()) {
                 txtName.setError("Le nom est obligatoire");
@@ -108,7 +112,7 @@ public class AddClientBottomSheet extends BottomSheetDialogFragment {
             }
 
             Executors.newSingleThreadExecutor().execute(() -> {
-                Client c = new Client(customerName, rueClient, villeClient, cpClient, paysClient, sirenClient, tvaClient, emailClient);
+                Client c = new Client(customerName, rueClient, villeClient, cpClient, paysClient, sirenClient, tvaClient, emailClient, phoneClient);
                 if (isEdit) {
                     c.setId(client.getId());
                     clientRepository.updateClient(c);

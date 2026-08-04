@@ -27,11 +27,15 @@ public class Invoice {
     @ColumnInfo(name = "type")
     public String type; // "Facture" or "Bon"
 
+    @ColumnInfo(name = "status", defaultValue = "En attente")
+    public String status; // "En attente", "Payée", "Annulée"
+
     public Invoice(double amount, Date date, String clientName, String filePath, String type) {
         this.amount = amount;
         this.date = date;
         this.clientName = clientName;
         this.filePath = filePath;
         this.type = type;
+        this.status = "En attente";
     }
 }

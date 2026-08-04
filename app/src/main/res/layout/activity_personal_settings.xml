@@ -21,6 +21,51 @@
             android:paddingBottom="48dp">
 
             <TextView
+                android:id="@+id/textViewLogo"
+                style="@style/App.TextAppearance.TitleLarge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="16dp"
+                android:text="Logo de l'entreprise" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/App.CardView"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="24dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/img_logo"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/baseline_business_24"
+                        android:padding="16dp"
+                        android:background="?attr/colorSurfaceContainerHigh"
+                        app:shapeAppearanceOverlay="@style/App.ShapeAppearance.Circle" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_pick_logo"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Modifier le logo"
+                        app:icon="@drawable/baseline_edit_24" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
                 android:id="@+id/textView4"
                 style="@style/App.TextAppearance.TitleLarge"
                 android:layout_width="match_parent"

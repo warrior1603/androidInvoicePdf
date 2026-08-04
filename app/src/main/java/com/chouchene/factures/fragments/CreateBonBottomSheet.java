@@ -17,6 +17,7 @@ import androidx.room.Room;
 
 import com.chouchene.factures.R;
 import com.chouchene.factures.database.AppDatabase;
+import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Invoice;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
@@ -159,7 +160,7 @@ public class CreateBonBottomSheet extends BottomSheetDialogFragment {
             document.close();
             templateFile.delete();
 
-            AppDatabase db = Room.databaseBuilder(requireContext(), AppDatabase.class, "MyClients").allowMainThreadQueries().fallbackToDestructiveMigration().build();
+            AppDatabase db = DatabaseClient.getInstance(requireContext().getApplicationContext()).getAppDatabase();
             double finalTarif = 0;
             try { finalTarif = Double.parseDouble(tarif); } catch (Exception ignored) {}
             db.invoiceDao().insertInvoice(new Invoice(finalTarif, new Date(), passager, invoiceFile.getAbsolutePath(), "Bon"));

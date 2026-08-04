@@ -3,6 +3,7 @@ package com.chouchene.factures.dao;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.chouchene.factures.POJO.DailyIncome;
 import com.chouchene.factures.POJO.MonthlyIncome;
@@ -16,6 +17,9 @@ public interface InvoiceDao {
 
     @Insert
     void insertInvoice(Invoice invoice);
+
+    @Update
+    void updateInvoice(Invoice invoice);
 
     @androidx.room.Delete
     void deleteInvoice(Invoice invoice);

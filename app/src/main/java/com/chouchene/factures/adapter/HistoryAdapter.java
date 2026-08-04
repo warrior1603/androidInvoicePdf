@@ -25,6 +25,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     public interface OnHistoryActionListener {
         void onItemClick(Invoice invoice);
         void onDeleteClick(Invoice invoice);
+        void onStatusClick(Invoice invoice);
     }
 
     public HistoryAdapter(OnHistoryActionListener listener) {
@@ -59,6 +60,17 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         }
 
         holder.itemView.setOnClickListener(v -> listener.onItemClick(invoice));
+        
+        holder.txtStatus.setText(invoice.status != null ? invoice.status : "En attente");
+        if ("Payée".equals(invoice.status)) {
+            holder.txtStatus.setBackgroundResource(R.drawable.bg_status_paid);
+        } else if ("Annulée".equals(invoice.status)) {
+            holder.txtStatus.setBackgroundResource(R.drawable.bg_status_cancelled);
+        } else {
+            holder.txtStatus.setBackgroundResource(R.drawable.bg_status_pending);
+        }
+
+        holder.txtStatus.setOnClickListener(v -> listener.onStatusClick(invoice));
     }
 
     @Override
@@ -71,7 +83,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txtClientName, txtDate, txtAmount;
+        TextView txtClientName, txtDate, txtAmount, txtStatus;
         ImageView icon;
 
         public ViewHolder(@NonNull View itemView) {
@@ -79,6 +91,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             txtClientName = itemView.findViewById(R.id.txtClientName);
             txtDate = itemView.findViewById(R.id.txtDate);
             txtAmount = itemView.findViewById(R.id.txtAmount);
+            txtStatus = itemView.findViewById(R.id.txtStatus);
             icon = itemView.findViewById(R.id.icon);
         }
     }
