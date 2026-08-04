@@ -56,6 +56,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Executors;
 
 public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
 
@@ -87,6 +88,16 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
         this.listener = listener;
     }
 
+    public static CreateInvoiceBottomSheet newInstance(Integer clientId) {
+        CreateInvoiceBottomSheet fragment = new CreateInvoiceBottomSheet();
+        if (clientId != null) {
+            Bundle args = new Bundle();
+            args.putInt("preselected_client_id", clientId);
+            fragment.setArguments(args);
+        }
+        return fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -99,10 +110,28 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        db = DatabaseClient.getInstance(requireContext().getApplicationContext()).getAppDatabase();
+        itemDao = db.clientDao();
+        
         setupClientSearch(view);
         setupRadioGroup(view);
         setupInputs(view);
         setupPaymentMode(view);
+
+        // Handle pre-selected client
+        if (getArguments() != null && getArguments().containsKey("preselected_client_id")) {
+            int clientId = getArguments().getInt("preselected_client_id");
+            Executors.newSingleThreadExecutor().execute(() -> {
+                selectedClient = itemDao.getClientById(clientId);
+                if (selectedClient != null && getActivity() != null) {
+                    requireActivity().runOnUiThread(() -> {
+                        AutoCompleteTextView searchView = view.findViewById(R.id.autoCompleteTextView);
+                        searchView.setText(selectedClient.getClientName(), false);
+                        txtDesciption.requestFocus();
+                    });
+                }
+            });
+        }
 
         MaterialButton btnCreatePDF = view.findViewById(R.id.btnCreatePdf);
         btnCreatePDF.setOnClickListener(v -> handleGenerateInvoice());
@@ -120,8 +149,7 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
     private void setupClientSearch(View view) {
         AutoCompleteTextView searchView = view.findViewById(R.id.autoCompleteTextView);
         TextInputLayout clientInput = view.findViewById(R.id.client_input);
-        db = DatabaseClient.getInstance(requireContext().getApplicationContext()).getAppDatabase();
-        itemDao = db.clientDao();
+        // db and itemDao are now initialized in onViewCreated
 
         List<Client> clients = itemDao.getAllClients();
         List<String> names = new ArrayList<>();

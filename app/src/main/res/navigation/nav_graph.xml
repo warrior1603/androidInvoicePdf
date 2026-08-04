@@ -72,6 +72,16 @@
         android:label="@string/pref_title_profile"
         tools:layout="@layout/activity_personal_settings" />
 
+    <fragment
+        android:id="@+id/clientDetailFragment"
+        android:name="com.chouchene.factures.fragments.ClientDetailFragment"
+        android:label="Détails Client"
+        tools:layout="@layout/fragment_client_detail">
+        <argument
+            android:name="client_id"
+            app:argType="integer" />
+    </fragment>
+
     <activity
         android:id="@+id/settingsActivity"
         android:name="com.chouchene.factures.SettingsActivity"

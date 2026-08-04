@@ -28,7 +28,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.splashscreen.SplashScreen;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -357,14 +356,9 @@ public class MainActivity extends AppCompatActivity {
             holder.itemView.setOnClickListener(v -> {
                 searchView.hide();
                 if ("Client".equals(result.type)) {
-                    clientsViewModel.setHighlightClientId(result.id);
-                    
-                    NavOptions options = new NavOptions.Builder()
-                            .setLaunchSingleTop(true)
-                            .setRestoreState(true)
-                            .setPopUpTo(navController.getGraph().getStartDestinationId(), false, true)
-                            .build();
-                    navController.navigate(R.id.clientsFragment, null, options);
+                    Bundle args = new Bundle();
+                    args.putInt("client_id", result.id);
+                    navController.navigate(R.id.clientDetailFragment, args);
                 } else {
                     Bundle args = new Bundle();
                     args.putString("file_path", result.filePath);

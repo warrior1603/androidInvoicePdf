@@ -1,8 +1,6 @@
 package com.chouchene.factures.fragments;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +12,16 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import com.chouchene.factures.R;
 import com.chouchene.factures.adapter.CustomAdapter;
 import com.chouchene.factures.dao.ClientDao;
-import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Client;
 import com.chouchene.factures.utils.SwipeToDeleteCallback;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.transition.Hold;
 
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
@@ -61,6 +58,8 @@ public class ClientListFragment extends Fragment {
         if (getActivity() != null) {
             viewModel = new ViewModelProvider(getActivity()).get(ClientsViewModel.class);
         }
+        
+        setExitTransition(new Hold());
     }
 
     @Nullable
@@ -73,13 +72,15 @@ public class ClientListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Required for Shared Element Transition in RecyclerView
+        postponeEnterTransition();
+
         clientDao = DatabaseClient.getInstance(requireContext().getApplicationContext()).getAppDatabase().clientDao();
 
         recyclerView = view.findViewById(R.id.recyclerViewClients);
         emptyState = view.findViewById(R.id.empty_state);
         ExtendedFloatingActionButton fab = view.findViewById(R.id.fab);
 
-        // Hide FAB in recent mode to keep it clean
         if (mode == Mode.RECENT) {
             fab.setVisibility(View.GONE);
         }
@@ -90,6 +91,12 @@ public class ClientListFragment extends Fragment {
         listAdapter.setOnDataChangedListener(this::checkEmptyState);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(listAdapter);
+
+        // Start transition once data is loaded and laid out
+        recyclerView.getViewTreeObserver().addOnPreDrawListener(() -> {
+            startPostponedEnterTransition();
+            return true;
+        });
 
         new ItemTouchHelper(new SwipeToDeleteCallback(requireContext()) {
             @Override
@@ -151,11 +158,6 @@ public class ClientListFragment extends Fragment {
                 break;
             }
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     private void loadData() {
