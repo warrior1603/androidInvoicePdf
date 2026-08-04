@@ -77,17 +77,6 @@
                     app:strokeWidth="0dp"
                     app:elevation="2dp" />
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/img_profile_top"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/baseline_person_24"
-                    android:background="@drawable/profile_background"
-                    app:shapeAppearanceOverlay="@style/App.ShapeAppearance.Circle"
-                    android:scaleType="centerCrop"
-                    android:clickable="true"
-                    android:focusable="true" />
-
             </LinearLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
