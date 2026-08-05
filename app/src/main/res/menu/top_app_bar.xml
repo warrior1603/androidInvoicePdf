@@ -6,7 +6,7 @@
             android:id="@+id/settingsActivity"
             android:title="@string/title_settings"
             android:contentDescription="settings"
-            android:icon="@drawable/baseline_settings_24"
+            android:icon="@drawable/rounded_settings_24"
             app:showAsAction="ifRoom" />
 
 </menu>

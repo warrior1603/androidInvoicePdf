@@ -55,9 +55,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         holder.txtDate.setText(fmt.format(invoice.date));
 
         if ("Facture".equals(invoice.type)) {
-            holder.icon.setImageResource(R.drawable.baseline_receipt_long_24);
+            holder.icon.setImageResource(R.drawable.rounded_receipt_long_24);
         } else {
-            holder.icon.setImageResource(R.drawable.baseline_shopping_cart_24);
+            holder.icon.setImageResource(R.drawable.rounded_shopping_cart_24);
         }
 
         holder.itemView.setOnClickListener(v -> {

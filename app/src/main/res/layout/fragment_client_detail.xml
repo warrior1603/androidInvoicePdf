@@ -103,7 +103,7 @@
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:src="@drawable/baseline_location_on_24"
+                            android:src="@drawable/rounded_location_on_24"
                             app:tint="?attr/colorOnSurfaceVariant" />
                         <TextView
                             android:id="@+id/detail_address"
@@ -126,7 +126,7 @@
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:src="@drawable/baseline_local_phone_24"
+                            android:src="@drawable/rounded_local_phone_24"
                             app:tint="?attr/colorOnSurfaceVariant" />
                         <TextView
                             android:id="@+id/detail_phone"
@@ -148,7 +148,7 @@
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:src="@drawable/baseline_alternate_email_24"
+                            android:src="@drawable/rounded_alternate_email_24"
                             app:tint="?attr/colorOnSurfaceVariant" />
                         <TextView
                             android:id="@+id/detail_email"
@@ -206,7 +206,7 @@
                 android:layout_marginTop="16dp"
                 android:text="Créer une facture"
                 android:textAllCaps="false"
-                app:icon="@drawable/baseline_receipt_long_24" />
+                app:icon="@drawable/rounded_receipt_long_24" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
@@ -218,7 +218,7 @@
         android:layout_margin="16dp"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
-        android:src="@drawable/baseline_edit_24"
+        android:src="@drawable/rounded_edit_24"
         app:tint="?attr/colorOnPrimary"
         android:backgroundTint="?attr/colorPrimary" />
 

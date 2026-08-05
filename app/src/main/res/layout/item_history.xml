@@ -22,7 +22,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="8dp"
-            android:src="@drawable/baseline_description_24"
+            android:src="@drawable/rounded_description_24"
             app:tint="?attr/colorPrimary" />
 
         <LinearLayout

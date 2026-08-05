@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/settingsActivity"
-        android:icon="@drawable/baseline_settings_24"
+        android:icon="@drawable/rounded_settings_24"
         android:title="@string/title_settings" />
     <item
         android:id="@+id/aboutFragment"
-        android:icon="@drawable/baseline_info_24"
+        android:icon="@drawable/rounded_info_24"
         android:title="@string/title_about" />
     <item
         android:id="@+id/helpFragment"

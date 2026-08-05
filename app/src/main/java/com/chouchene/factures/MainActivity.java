@@ -388,11 +388,11 @@ public class MainActivity extends AppCompatActivity {
             holder.type.setText(result.type);
 
             if ("Client".equals(result.type)) {
-                holder.icon.setImageResource(R.drawable.baseline_person_24);
+                holder.icon.setImageResource(R.drawable.rounded_person_24);
             } else if ("Bon".equals(result.type)) {
-                holder.icon.setImageResource(R.drawable.baseline_shopping_cart_24);
+                holder.icon.setImageResource(R.drawable.rounded_shopping_cart_24);
             } else {
-                holder.icon.setImageResource(R.drawable.baseline_receipt_long_24);
+                holder.icon.setImageResource(R.drawable.rounded_receipt_long_24);
             }
 
             holder.itemView.setOnClickListener(v -> {

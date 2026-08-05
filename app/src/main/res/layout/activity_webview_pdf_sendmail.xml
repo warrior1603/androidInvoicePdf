@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/colorSurface">
 
 
     <com.github.barteksc.pdfviewer.PDFView
@@ -20,72 +21,76 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="?attr/colorSurface"
-        android:elevation="8dp"
+        android:elevation="12dp"
         android:orientation="horizontal"
-        android:padding="8dp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/emailButton"
-            style="@style/Widget.Material3.Button.TonalButton"
+            style="@style/App.Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_weight="1"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
             android:text="Envoyer"
             android:textSize="11sp"
-            android:maxLines="1"
-            android:ellipsize="end"
-            app:icon="@drawable/baseline_send_24"
+            android:insetLeft="0dp"
+            android:insetRight="0dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            app:icon="@drawable/rounded_send_24"
             app:iconGravity="textStart"
             app:iconPadding="4dp"
-            app:iconSize="18dp" />
+            app:iconSize="18dp"
+            app:backgroundTint="?attr/colorPrimaryContainer"
+            android:textColor="?attr/colorOnPrimaryContainer"
+            app:iconTint="?attr/colorOnPrimaryContainer" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/shareButton"
-            style="@style/Widget.Material3.Button.TonalButton"
+            style="@style/App.Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_weight="1"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
             android:text="Partager"
             android:textSize="11sp"
-            android:maxLines="1"
-            android:ellipsize="end"
-            app:icon="@drawable/baseline_share_24"
+            android:insetLeft="0dp"
+            android:insetRight="0dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            app:icon="@drawable/rounded_share_24"
             app:iconGravity="textStart"
             app:iconPadding="4dp"
-            app:iconSize="18dp" />
+            app:iconSize="18dp"
+            app:backgroundTint="?attr/colorSecondaryContainer"
+            android:textColor="?attr/colorOnSecondaryContainer"
+            app:iconTint="?attr/colorOnSecondaryContainer" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/printButton"
-            style="@style/Widget.Material3.Button.TonalButton"
+            style="@style/App.Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_weight="1"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
             android:text="Imprimer"
             android:textSize="11sp"
-            android:maxLines="1"
-            android:ellipsize="end"
-            app:icon="@drawable/baseline_print_24"
+            android:insetLeft="0dp"
+            android:insetRight="0dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            app:icon="@drawable/rounded_print_24"
             app:iconGravity="textStart"
             app:iconPadding="4dp"
-            app:iconSize="18dp" />
+            app:iconSize="18dp"
+            app:backgroundTint="?attr/colorTertiaryContainer"
+            android:textColor="?attr/colorOnTertiaryContainer"
+            app:iconTint="?attr/colorOnTertiaryContainer" />
     </LinearLayout>
 
 

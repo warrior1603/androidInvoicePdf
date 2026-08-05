@@ -35,7 +35,7 @@
              android:summary="@string/pref_summary_currency"
              android:entries="@array/currency_options"
              android:entryValues="@array/currency_values"
-             android:icon="@drawable/baseline_payments_24"
+             android:icon="@drawable/rounded_payments_24"
              android:defaultValue="EUR" />
 
     </PreferenceCategory>
@@ -57,7 +57,7 @@
             android:summary="@string/pref_summary_template"
             android:entries="@array/template_entries"
             android:entryValues="@array/template_values"
-            android:icon="@drawable/baseline_description_24"
+            android:icon="@drawable/rounded_description_24"
             android:defaultValue="invoice_template.html" />
 
         <Preference
@@ -75,7 +75,7 @@
             android:key="profile_entreprise"
             android:title="@string/pref_title_profile"
             android:summary="@string/pref_summary_profile"
-            android:icon="@drawable/baseline_business_24" />
+            android:icon="@drawable/rounded_business_24" />
 
     </PreferenceCategory>
 

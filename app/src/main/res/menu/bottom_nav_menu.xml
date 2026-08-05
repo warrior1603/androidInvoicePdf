@@ -2,21 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/homeFragment"
-        android:icon="@drawable/baseline_home_24"
+        android:icon="@drawable/rounded_home_24"
         android:title="@string/title_home" />
 
     <item
         android:id="@+id/documentsHubFragment"
-        android:icon="@drawable/baseline_description_24"
+        android:icon="@drawable/rounded_description_24"
         android:title="@string/title_documents" />
 
     <item
         android:id="@+id/clientsFragment"
-        android:icon="@drawable/baseline_people_24"
+        android:icon="@drawable/rounded_people_24"
         android:title="@string/title_clients" />
 
     <item
         android:id="@+id/parametresFragment"
-        android:icon="@drawable/baseline_dashboard_24"
+        android:icon="@drawable/rounded_dashboard_24"
         android:title="@string/title_dashboard" />
 </menu>

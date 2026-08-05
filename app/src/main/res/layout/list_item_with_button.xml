@@ -67,13 +67,13 @@
             style="?attr/materialIconButtonStyle"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            app:icon="@drawable/baseline_local_phone_24"
+            app:icon="@drawable/rounded_local_phone_24"
             app:iconTint="?attr/colorOnSurfaceVariant" />
 
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/baseline_chevron_right_24"
+            android:src="@drawable/rounded_chevron_right_24"
             app:tint="?attr/colorOutline"
             android:layout_marginStart="4dp" />
 

@@ -24,13 +24,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.card.MaterialCardView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executors;
 
 public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryActionListener {
 
-    private TextView txtGreeting, txtRevenue, txtDocCount;
+    private TextView txtGreeting, txtRevenue, txtDocCount, txtCurrentDate;
     private RecyclerView rvRecent;
     private HistoryAdapter adapter;
     private AppDatabase db;
@@ -49,9 +50,14 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         db = DatabaseClient.getInstance(requireContext().getApplicationContext()).getAppDatabase();
 
         txtGreeting = view.findViewById(R.id.txt_greeting);
+        txtCurrentDate = view.findViewById(R.id.txt_current_date);
         txtRevenue = view.findViewById(R.id.txt_home_revenue);
         txtDocCount = view.findViewById(R.id.txt_home_doc_count);
         rvRecent = view.findViewById(R.id.rv_home_recent);
+        
+        // Set dynamic date
+        String dateStr = new SimpleDateFormat("EEEE d MMMM", Locale.getDefault()).format(new java.util.Date());
+        txtCurrentDate.setText(dateStr);
 
         MaterialCardView cardDocuments = view.findViewById(R.id.card_documents);
         MaterialCardView cardClients = view.findViewById(R.id.card_clients);
@@ -64,6 +70,8 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         cardClients.setOnClickListener(v -> navView.setSelectedItemId(R.id.clientsFragment));
         cardDashboard.setOnClickListener(v -> navView.setSelectedItemId(R.id.parametresFragment));
         cardProfile.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.personalSettingsFragment));
+
+        view.findViewById(R.id.btn_view_all_recent).setOnClickListener(v -> navView.setSelectedItemId(R.id.documentsHubFragment));
 
         setupRecyclerView();
         loadHomeData();

@@ -30,12 +30,11 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/status_pending"
-        style="@style/Widget.Material3.CardView.Elevated"
+        style="@style/App.CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="12dp"
-        app:cardBackgroundColor="?attr/colorSurface">
+        android:layout_marginBottom="12dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -47,7 +46,7 @@
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/baseline_access_time_24"
+                android:src="@drawable/rounded_access_time_24"
                 app:tint="#FFA000" />
 
             <TextView
@@ -61,12 +60,11 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/status_paid"
-        style="@style/Widget.Material3.CardView.Elevated"
+        style="@style/App.CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="12dp"
-        app:cardBackgroundColor="?attr/colorSurface">
+        android:layout_marginBottom="12dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -78,7 +76,7 @@
             <ImageView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/baseline_check_24"
+                android:src="@drawable/rounded_check_24"
                 app:tint="#4CAF50" />
 
             <TextView
@@ -92,11 +90,10 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/status_cancelled"
-        style="@style/Widget.Material3.CardView.Elevated"
+        style="@style/App.CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        app:cardBackgroundColor="?attr/colorSurface">
+        android:layout_marginHorizontal="24dp">
 
         <LinearLayout
             android:layout_width="match_parent"
