@@ -13,6 +13,11 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -85,7 +90,32 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        SplashScreen.installSplashScreen(this);
+        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
+        
+        // Custom exit animation
+        splashScreen.setOnExitAnimationListener(splashScreenViewProvider -> {
+            final View splashScreenView = splashScreenViewProvider.getView();
+            final View iconView = splashScreenViewProvider.getIconView();
+
+            ObjectAnimator scaleX = ObjectAnimator.ofFloat(iconView, View.SCALE_X, 1f, 5f);
+            ObjectAnimator scaleY = ObjectAnimator.ofFloat(iconView, View.SCALE_Y, 1f, 5f);
+            ObjectAnimator alpha = ObjectAnimator.ofFloat(splashScreenView, View.ALPHA, 1f, 0f);
+
+            AnimatorSet animatorSet = new AnimatorSet();
+            animatorSet.setDuration(500L);
+            animatorSet.setInterpolator(new AccelerateInterpolator());
+            animatorSet.playTogether(scaleX, scaleY, alpha);
+
+            animatorSet.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    splashScreenViewProvider.remove();
+                }
+            });
+
+            animatorSet.start();
+        });
+
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isDarkMode = sharedPreferences.getBoolean("theme", false);
         setTheme(isDarkMode ? R.style.DarkTheme : R.style.LightTheme);
