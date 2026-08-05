@@ -9,6 +9,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
+
+import com.chouchene.factures.utils.LottieUtils;
+
 import java.util.List;
 
 public class OnboardingAdapter extends RecyclerView.Adapter<OnboardingAdapter.OnboardingViewHolder> {
@@ -41,7 +45,7 @@ public class OnboardingAdapter extends RecyclerView.Adapter<OnboardingAdapter.On
 
     static class OnboardingViewHolder extends RecyclerView.ViewHolder {
 
-        private final ImageView imageOnboarding;
+        private final LottieAnimationView imageOnboarding;
         private final TextView textTitle;
         private final TextView textDescription;
 
@@ -55,12 +59,18 @@ public class OnboardingAdapter extends RecyclerView.Adapter<OnboardingAdapter.On
         void setOnboardingData(OnboardingItem onboardingItem) {
             textTitle.setText(onboardingItem.getTitle());
             textDescription.setText(onboardingItem.getDescription());
-            imageOnboarding.setImageResource(onboardingItem.getImage());
+            
+            ImageView imgFallback = itemView.findViewById(R.id.img_fallback);
+            if (imgFallback != null && onboardingItem.getImage() != 0) {
+                imgFallback.setImageResource(onboardingItem.getImage());
+            }
+            LottieUtils.loadLottieWithFallback(imageOnboarding, imgFallback, onboardingItem.getLottieRes());
         }
     }
 
     public static class OnboardingItem {
         private final int image;
+        private String lottieRes;
         private final String title;
         private final String description;
 
@@ -70,7 +80,15 @@ public class OnboardingAdapter extends RecyclerView.Adapter<OnboardingAdapter.On
             this.description = description;
         }
 
+        public OnboardingItem(String lottieRes, int fallbackImage, String title, String description) {
+            this.image = fallbackImage;
+            this.lottieRes = lottieRes;
+            this.title = title;
+            this.description = description;
+        }
+
         public int getImage() { return image; }
+        public String getLottieRes() { return lottieRes; }
         public String getTitle() { return title; }
         public String getDescription() { return description; }
     }

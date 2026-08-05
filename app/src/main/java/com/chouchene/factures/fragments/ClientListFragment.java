@@ -33,6 +33,7 @@ import com.chouchene.factures.dao.ClientDao;
 import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Client;
+import com.chouchene.factures.utils.LottieUtils;
 import com.chouchene.factures.utils.SwipeToDeleteCallback;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -52,6 +53,7 @@ public class ClientListFragment extends Fragment {
     private ClientDao clientDao;
     private RecyclerView recyclerView;
     private LinearLayout emptyState;
+    private com.facebook.shimmer.ShimmerFrameLayout shimmerContainer;
     private FloatingActionButton fab;
     private View speedDialLayout;
 
@@ -112,6 +114,7 @@ public class ClientListFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recyclerViewClients);
         emptyState = view.findViewById(R.id.empty_state);
+        shimmerContainer = view.findViewById(R.id.shimmer_view_container);
         fab = view.findViewById(R.id.fab);
 
         if (mode == Mode.RECENT) {
@@ -292,17 +295,48 @@ public class ClientListFragment extends Fragment {
     }
 
     private void loadData() {
-        if (mode == Mode.RECENT) {
-            myClients = (ArrayList<Client>) clientDao.getRecentClients();
-        } else {
-            myClients = (ArrayList<Client>) clientDao.getAllClients();
+        if (shimmerContainer != null) {
+            shimmerContainer.setVisibility(View.VISIBLE);
+            shimmerContainer.startShimmer();
+            recyclerView.setVisibility(View.GONE);
+            emptyState.setVisibility(View.GONE);
         }
+
+        Executors.newSingleThreadExecutor().execute(() -> {
+            try {
+                // Simulate delay to show off shimmer
+                Thread.sleep(1200);
+            } catch (InterruptedException ignored) {}
+
+            ArrayList<Client> data;
+            if (mode == Mode.RECENT) {
+                data = (ArrayList<Client>) clientDao.getRecentClients();
+            } else {
+                data = (ArrayList<Client>) clientDao.getAllClients();
+            }
+
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    myClients = data;
+                    listAdapter.setData(myClients);
+                    if (shimmerContainer != null) {
+                        shimmerContainer.stopShimmer();
+                        shimmerContainer.setVisibility(View.GONE);
+                    }
+                    checkEmptyState();
+                });
+            }
+        });
     }
 
     private void checkEmptyState() {
         if (listAdapter.getItemCount() == 0) {
             emptyState.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
+
+            com.airbnb.lottie.LottieAnimationView lottie = emptyState.findViewById(R.id.lottie_empty_state);
+            android.widget.ImageView staticImg = emptyState.findViewById(R.id.img_empty_state);
+            LottieUtils.loadLottieWithFallback(lottie, staticImg, "anim_empty_clients.json");
         } else {
             emptyState.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);

@@ -8,12 +8,21 @@
     android:padding="32dp">
 
     <ImageView
-        android:id="@+id/img_onboarding"
+        android:id="@+id/img_fallback"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginBottom="48dp"
-        android:contentDescription="@null"
-        app:tint="?attr/colorPrimary" />
+        android:visibility="gone"
+        android:contentDescription="onboarding icon" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/img_onboarding"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:layout_marginBottom="48dp"
+        android:saveEnabled="false"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true" />
 
     <TextView
         android:id="@+id/txt_title"

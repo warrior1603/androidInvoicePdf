@@ -18,6 +18,8 @@ import androidx.navigation.Navigation;
 import com.chouchene.factures.R;
 import com.chouchene.factures.dao.InvoiceDao;
 import com.chouchene.factures.database.DatabaseClient;
+import com.chouchene.factures.entity.Invoice;
+import com.chouchene.factures.adapter.HistoryAdapter;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -29,6 +31,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,7 +41,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executors;
 
-public class AnalyticsDetailFragment extends Fragment {
+import androidx.recyclerview.widget.RecyclerView;
+
+public class AnalyticsDetailFragment extends Fragment implements com.chouchene.factures.adapter.HistoryAdapter.OnHistoryActionListener {
 
     public enum Timeframe { DAILY, MONTHLY, YEARLY }
 
@@ -237,16 +242,7 @@ public class AnalyticsDetailFragment extends Fragment {
             public void onValueSelected(Entry e, Highlight h) {
                 if (e.getData() instanceof DocumentsViewModel.Filter && getActivity() != null) {
                     DocumentsViewModel.Filter filter = (DocumentsViewModel.Filter) e.getData();
-                    
-                    // Set the filter in the shared ViewModel
-                    DocumentsViewModel hubViewModel = new ViewModelProvider(requireActivity()).get(DocumentsViewModel.class);
-                    hubViewModel.setFilter(filter);
-                    
-                    // Switch the BottomNavigationView tab
-                    BottomNavigationView bottomNav = getActivity().findViewById(R.id.bottomNavigationView);
-                    if (bottomNav != null) {
-                        bottomNav.setSelectedItemId(R.id.documentsHubFragment);
-                    }
+                    showInvoicesBottomSheet(filter);
                 }
             }
 
@@ -256,6 +252,54 @@ public class AnalyticsDetailFragment extends Fragment {
 
         barChart.invalidate();
     }
+
+    private void showInvoicesBottomSheet(DocumentsViewModel.Filter filter) {
+        BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
+        View view = getLayoutInflater().inflate(R.layout.layout_analytics_invoices_bottom_sheet, null);
+        
+        TextView title = view.findViewById(R.id.txt_bottom_sheet_title);
+        title.setText("Documents pour " + (filter.label != null ? filter.label : ""));
+        
+        RecyclerView rv = view.findViewById(R.id.rv_analytics_invoices);
+        HistoryAdapter adapter = new HistoryAdapter(this);
+        rv.setAdapter(adapter);
+
+        Executors.newSingleThreadExecutor().execute(() -> {
+            List<Invoice> invoices;
+            if ("MONTH".equals(filter.type)) {
+                invoices = db.getInvoicesByMonth(filter.value);
+            } else {
+                invoices = db.getLatestInvoices(); // Fallback
+            }
+            
+            if (getActivity() != null) {
+                requireActivity().runOnUiThread(() -> {
+                    adapter.setData(invoices);
+                    dialog.setContentView(view);
+                    dialog.show();
+                });
+            }
+        });
+    }
+
+    @Override
+    public void onItemClick(Invoice invoice) {
+        Bundle b = new Bundle();
+        b.putString("file_path", invoice.filePath);
+        Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, b);
+    }
+
+    @Override
+    public void onDeleteClick(Invoice invoice) {}
+
+    @Override
+    public void onStatusClick(Invoice invoice) {}
+
+    @Override
+    public void onShareClick(Invoice invoice) {}
+
+    @Override
+    public void onStatusChange(Invoice invoice, String newStatus) {}
 
     @ColorInt
     private int resolveColor(int attr) {

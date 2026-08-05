@@ -78,6 +78,9 @@ public interface InvoiceDao {
     @Query("SELECT * FROM invoices WHERE type = :type AND status = :status AND strftime('%Y', date / 1000, 'unixepoch', 'localtime') = :year ORDER BY date DESC")
     List<Invoice> getDocumentsByYearAndStatus(String type, String year, String status);
 
+    @Query("SELECT * FROM invoices WHERE strftime('%m-%Y', date / 1000, 'unixepoch', 'localtime') = :monthYear ORDER BY date DESC")
+    List<Invoice> getInvoicesByMonth(String monthYear);
+
     @Query("SELECT * FROM invoices ORDER BY date DESC LIMIT 3")
     List<Invoice> getLatestInvoices();
 

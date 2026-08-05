@@ -23,12 +23,17 @@ import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Client;
 import com.chouchene.factures.entity.Invoice;
 import com.chouchene.factures.utils.AvatarHelper;
+import com.chouchene.factures.utils.SwipeHistoryCallback;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.transition.MaterialContainerTransform;
 
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.Executors;
+
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.core.content.FileProvider;
 
 public class ClientDetailFragment extends Fragment implements HistoryAdapter.OnHistoryActionListener {
 
@@ -66,6 +71,7 @@ public class ClientDetailFragment extends Fragment implements HistoryAdapter.OnH
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        postponeEnterTransition();
 
         if (client == null) {
             Navigation.findNavController(view).popBackStack();
@@ -130,12 +136,47 @@ public class ClientDetailFragment extends Fragment implements HistoryAdapter.OnH
         rvHistory = view.findViewById(R.id.rv_client_history);
         setupRecyclerView();
         loadHistory();
+        
+        view.post(this::startPostponedEnterTransition);
     }
 
     private void setupRecyclerView() {
         adapter = new HistoryAdapter(this);
         rvHistory.setLayoutManager(new LinearLayoutManager(requireContext()));
         rvHistory.setAdapter(adapter);
+
+        new ItemTouchHelper(new SwipeHistoryCallback(requireContext()) {
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getBindingAdapterPosition();
+                Invoice invoice = adapter.getInvoiceAt(position);
+                if (direction == ItemTouchHelper.RIGHT) {
+                    onStatusChange(invoice, "Payée");
+                } else if (direction == ItemTouchHelper.LEFT) {
+                    onShareClick(invoice);
+                }
+            }
+        }).attachToRecyclerView(rvHistory);
+    }
+
+    @Override
+    public void onShareClick(Invoice invoice) {
+        if (invoice.filePath == null) return;
+        File file = new File(invoice.filePath);
+        if (!file.exists()) return;
+
+        Uri uri = FileProvider.getUriForFile(requireContext(), requireContext().getPackageName() + ".provider", file);
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("application/pdf");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivity(Intent.createChooser(intent, "Partager la facture"));
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onStatusChange(Invoice invoice, String newStatus) {
+        updateStatus(invoice, newStatus, null);
     }
 
     private void loadHistory() {
@@ -187,7 +228,7 @@ public class ClientDetailFragment extends Fragment implements HistoryAdapter.OnH
             db.invoiceDao().updateInvoice(invoice);
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
-                    dialog.dismiss();
+                    if (dialog != null) dialog.dismiss();
                     loadHistory();
                 });
             }

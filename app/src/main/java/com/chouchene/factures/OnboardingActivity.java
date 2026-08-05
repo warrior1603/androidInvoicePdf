@@ -74,18 +74,21 @@ public class OnboardingActivity extends AppCompatActivity {
         List<OnboardingAdapter.OnboardingItem> items = new ArrayList<>();
 
         items.add(new OnboardingAdapter.OnboardingItem(
+                "anim_onboarding_1.json",
                 R.drawable.invoice,
                 getString(R.string.onboarding_title_1),
                 getString(R.string.onboarding_desc_1)
         ));
 
         items.add(new OnboardingAdapter.OnboardingItem(
+                "anim_onboarding_2.json",
                 R.drawable.graph_svgrepo_com,
                 getString(R.string.onboarding_title_2),
                 getString(R.string.onboarding_desc_2)
         ));
 
         items.add(new OnboardingAdapter.OnboardingItem(
+                "anim_onboarding_3.json",
                 R.drawable.rounded_people_24,
                 getString(R.string.onboarding_title_3),
                 getString(R.string.onboarding_desc_3)

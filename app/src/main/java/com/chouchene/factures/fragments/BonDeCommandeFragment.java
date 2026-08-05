@@ -20,10 +20,12 @@ import com.chouchene.factures.adapter.HistoryAdapter;
 import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Invoice;
-import com.chouchene.factures.utils.SwipeToDeleteCallback;
+import com.chouchene.factures.utils.LottieUtils;
+import com.chouchene.factures.utils.SwipeHistoryCallback;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.Executors;
 
@@ -63,11 +65,17 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerView.setAdapter(adapter);
 
-        new ItemTouchHelper(new SwipeToDeleteCallback(requireContext()) {
+        new ItemTouchHelper(new SwipeHistoryCallback(requireContext()) {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getBindingAdapterPosition();
-                onDeleteClick(adapter.getInvoiceAt(position));
+                Invoice invoice = adapter.getInvoiceAt(position);
+                if (direction == ItemTouchHelper.RIGHT) {
+                    onStatusChange(invoice, "Payée");
+                } else if (direction == ItemTouchHelper.LEFT) {
+                    onShareClick(invoice);
+                    adapter.notifyItemChanged(position);
+                }
             }
         }).attachToRecyclerView(recyclerView);
 
@@ -129,6 +137,12 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
         boolean isEmpty = adapter.getItemCount() == 0;
         emptyState.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
         recyclerView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+
+        if (isEmpty) {
+            com.airbnb.lottie.LottieAnimationView lottie = emptyState.findViewById(R.id.lottie_empty_state);
+            android.widget.ImageView staticImg = emptyState.findViewById(R.id.img_empty_state);
+            LottieUtils.loadLottieWithFallback(lottie, staticImg, "anim_empty_invoices.json");
+        }
     }
 
     @Override
@@ -176,6 +190,36 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
 
         dialog.setContentView(view);
         dialog.show();
+    }
+
+    @Override
+    public void onShareClick(Invoice invoice) {
+        if (invoice.filePath == null) return;
+        File file = new File(invoice.filePath);
+        if (!file.exists()) return;
+
+        android.net.Uri uri = androidx.core.content.FileProvider.getUriForFile(requireContext(), 
+                requireContext().getPackageName() + ".provider", file);
+        
+        android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_SEND);
+        intent.setType("application/pdf");
+        intent.putExtra(android.content.Intent.EXTRA_STREAM, uri);
+        intent.addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivity(android.content.Intent.createChooser(intent, "Partager le bon"));
+    }
+
+    @Override
+    public void onStatusChange(Invoice invoice, String newStatus) {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            invoice.status = newStatus;
+            db.invoiceDao().updateInvoice(invoice);
+            if (getActivity() != null) {
+                requireActivity().runOnUiThread(() -> {
+                    loadBons();
+                    android.widget.Toast.makeText(requireContext(), "Statut mis à jour: " + newStatus, android.widget.Toast.LENGTH_SHORT).show();
+                });
+            }
+        });
     }
 
     private void updateStatus(Invoice invoice, String status, com.google.android.material.bottomsheet.BottomSheetDialog dialog) {

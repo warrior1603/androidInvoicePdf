@@ -27,6 +27,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         void onItemClick(Invoice invoice);
         void onDeleteClick(Invoice invoice);
         void onStatusClick(Invoice invoice);
+        void onShareClick(Invoice invoice);
+        void onStatusChange(Invoice invoice, String newStatus);
     }
 
     public HistoryAdapter(OnHistoryActionListener listener) {
