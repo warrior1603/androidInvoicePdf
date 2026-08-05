@@ -51,10 +51,21 @@ import com.google.android.material.search.SearchBar;
 import com.google.android.material.search.SearchView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+import nl.dionsegijn.konfetti.core.Party;
+import nl.dionsegijn.konfetti.core.PartyFactory;
+import nl.dionsegijn.konfetti.core.emitter.Emitter;
+import nl.dionsegijn.konfetti.core.emitter.EmitterConfig;
+import nl.dionsegijn.konfetti.core.models.Shape;
+import nl.dionsegijn.konfetti.core.models.Size;
+import nl.dionsegijn.konfetti.xml.KonfettiView;
 
 public class MainActivity extends AppCompatActivity {
     final static int REQUEST_CODE_STORAGE = 1232;
@@ -73,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     SearchResultAdapter searchAdapter;
     AppDatabase db;
     com.chouchene.factures.fragments.ClientsViewModel clientsViewModel;
+    private KonfettiView konfettiView;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -186,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
     private void initApp() {
         setContentView(R.layout.activity_main);
 
+        konfettiView = findViewById(R.id.konfettiView);
         db = DatabaseClient.getInstance(getApplicationContext()).getAppDatabase();
 
         searchBar = findViewById(R.id.search_bar);
@@ -445,6 +458,24 @@ public class MainActivity extends AppCompatActivity {
                 icon = itemView.findViewById(R.id.result_icon);
             }
         }
+    }
+
+    public void triggerConfetti() {
+        if (konfettiView == null) return;
+        
+        konfettiView.postDelayed(() -> {
+            EmitterConfig emitterConfig = new Emitter(2, TimeUnit.SECONDS).perSecond(50);
+            konfettiView.start(
+                    new PartyFactory(emitterConfig)
+                            .angle(nl.dionsegijn.konfetti.core.Angle.BOTTOM)
+                            .spread(nl.dionsegijn.konfetti.core.Spread.ROUND)
+                            .shapes(Shape.Circle.INSTANCE, Shape.Square.INSTANCE)
+                            .position(0.0, 0.0, 1.0, 0.0)
+                            .sizes(new Size(8, 50, 10))
+                            .colors(Arrays.asList(0xfce18a, 0xff726d, 0xb48def, 0xf4306d))
+                            .build()
+            );
+        }, 400L);
     }
 
     private void showTooltip(View anchor) {

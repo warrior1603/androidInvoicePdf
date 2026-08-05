@@ -157,8 +157,6 @@ public class ClientListFragment extends Fragment {
             }
         }).attachToRecyclerView(recyclerView);
 
-        checkEmptyState();
-
         if (viewModel != null && mode == Mode.ALL) {
             viewModel.getHighlightClientId().observe(getViewLifecycleOwner(), id -> {
                 if (id != -1) {
@@ -318,12 +316,17 @@ public class ClientListFragment extends Fragment {
             if (getActivity() != null) {
                 getActivity().runOnUiThread(() -> {
                     myClients = data;
-                    listAdapter.setData(myClients);
                     if (shimmerContainer != null) {
                         shimmerContainer.stopShimmer();
                         shimmerContainer.setVisibility(View.GONE);
                     }
-                    checkEmptyState();
+                    // Update data and show list OR empty state
+                    listAdapter.setData(myClients);
+                    // checkEmptyState is called inside setData via the listener, 
+                    // but we ensure list/empty state visibility here for safety
+                    boolean isEmpty = myClients.isEmpty();
+                    emptyState.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+                    recyclerView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
                 });
             }
         });

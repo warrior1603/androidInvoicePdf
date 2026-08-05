@@ -73,6 +73,7 @@ dependencies {
     implementation("androidx.media3:media3-common:1.4.1")
     implementation("androidx.biometric:biometric:1.1.0")
     implementation("com.airbnb.android:lottie:6.4.0")
+    implementation("nl.dionsegijn:konfetti-xml:2.0.4")
 
     annotationProcessor("androidx.room:room-compiler:2.8.4")
     testImplementation("junit:junit:4.13.2")

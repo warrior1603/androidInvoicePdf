@@ -35,6 +35,7 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
     private HistoryAdapter adapter;
     private RecyclerView recyclerView;
     private LinearLayout emptyState;
+    private com.facebook.shimmer.ShimmerFrameLayout shimmerContainer;
     private DocumentsViewModel viewModel;
 
     public InvoiceGenrationFragment() {}
@@ -58,6 +59,7 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
 
         recyclerView = view.findViewById(R.id.recyclerView);
         emptyState = view.findViewById(R.id.empty_state);
+        shimmerContainer = view.findViewById(R.id.shimmer_view_container);
         ExtendedFloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setText("Ajouter Facture");
 
@@ -88,6 +90,9 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
         fab.setOnClickListener(v -> {
             CreateInvoiceBottomSheet bottomSheet = new CreateInvoiceBottomSheet();
             bottomSheet.setOnInvoiceGeneratedListener(() -> {
+                if (getActivity() instanceof com.chouchene.factures.MainActivity) {
+                    ((com.chouchene.factures.MainActivity) getActivity()).triggerConfetti();
+                }
                 if (viewModel != null) loadInvoices(viewModel.getCurrentFilter().getValue());
                 else loadInvoices(null);
             });
@@ -96,7 +101,18 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
     }
 
     private void loadInvoices(DocumentsViewModel.Filter filter) {
+        if (shimmerContainer != null) {
+            shimmerContainer.setVisibility(View.VISIBLE);
+            shimmerContainer.startShimmer();
+            recyclerView.setVisibility(View.GONE);
+            emptyState.setVisibility(View.GONE);
+        }
+
         Executors.newSingleThreadExecutor().execute(() -> {
+            try {
+                Thread.sleep(800);
+            } catch (InterruptedException ignored) {}
+
             List<Invoice> invoices;
             if (filter == null) {
                 invoices = db.invoiceDao().getInvoicesOnly();
@@ -121,6 +137,10 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
             }
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
+                    if (shimmerContainer != null) {
+                        shimmerContainer.stopShimmer();
+                        shimmerContainer.setVisibility(View.GONE);
+                    }
                     adapter.setData(invoices);
                     checkEmptyState();
                 });
@@ -216,6 +236,9 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
                     loadInvoices();
+                    if ("Payée".equals(newStatus) && getActivity() instanceof com.chouchene.factures.MainActivity) {
+                        ((com.chouchene.factures.MainActivity) getActivity()).triggerConfetti();
+                    }
                     android.widget.Toast.makeText(requireContext(), "Statut mis à jour: " + newStatus, android.widget.Toast.LENGTH_SHORT).show();
                 });
             }
@@ -230,6 +253,9 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
                 requireActivity().runOnUiThread(() -> {
                     dialog.dismiss();
                     loadInvoices();
+                    if ("Payée".equals(status) && getActivity() instanceof com.chouchene.factures.MainActivity) {
+                        ((com.chouchene.factures.MainActivity) getActivity()).triggerConfetti();
+                    }
                 });
             }
         });

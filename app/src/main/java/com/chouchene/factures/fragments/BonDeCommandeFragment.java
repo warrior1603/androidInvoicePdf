@@ -35,6 +35,7 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
     private HistoryAdapter adapter;
     private RecyclerView recyclerView;
     private LinearLayout emptyState;
+    private com.facebook.shimmer.ShimmerFrameLayout shimmerContainer;
     private DocumentsViewModel viewModel;
 
     public BonDeCommandeFragment() {}
@@ -58,6 +59,7 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
 
         recyclerView = view.findViewById(R.id.recyclerView);
         emptyState = view.findViewById(R.id.empty_state);
+        shimmerContainer = view.findViewById(R.id.shimmer_view_container);
         ExtendedFloatingActionButton fab = view.findViewById(R.id.fab);
         fab.setText("Ajouter Bon de Commande");
 
@@ -88,6 +90,9 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
         fab.setOnClickListener(v -> {
             CreateBonBottomSheet bottomSheet = new CreateBonBottomSheet();
             bottomSheet.setOnBonGeneratedListener(() -> {
+                if (getActivity() instanceof com.chouchene.factures.MainActivity) {
+                    ((com.chouchene.factures.MainActivity) getActivity()).triggerConfetti();
+                }
                 if (viewModel != null) loadBons(viewModel.getCurrentFilter().getValue());
                 else loadBons(null);
             });
@@ -96,7 +101,18 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
     }
 
     private void loadBons(DocumentsViewModel.Filter filter) {
+        if (shimmerContainer != null) {
+            shimmerContainer.setVisibility(View.VISIBLE);
+            shimmerContainer.startShimmer();
+            recyclerView.setVisibility(View.GONE);
+            emptyState.setVisibility(View.GONE);
+        }
+
         Executors.newSingleThreadExecutor().execute(() -> {
+            try {
+                Thread.sleep(800);
+            } catch (InterruptedException ignored) {}
+
             List<Invoice> bons;
             if (filter == null) {
                 bons = db.invoiceDao().getBonsOnly();
@@ -121,6 +137,10 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
             }
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
+                    if (shimmerContainer != null) {
+                        shimmerContainer.stopShimmer();
+                        shimmerContainer.setVisibility(View.GONE);
+                    }
                     adapter.setData(bons);
                     checkEmptyState();
                 });
@@ -216,6 +236,9 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
                     loadBons();
+                    if ("Payée".equals(newStatus) && getActivity() instanceof com.chouchene.factures.MainActivity) {
+                        ((com.chouchene.factures.MainActivity) getActivity()).triggerConfetti();
+                    }
                     android.widget.Toast.makeText(requireContext(), "Statut mis à jour: " + newStatus, android.widget.Toast.LENGTH_SHORT).show();
                 });
             }
@@ -230,6 +253,9 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
                 requireActivity().runOnUiThread(() -> {
                     dialog.dismiss();
                     loadBons();
+                    if ("Payée".equals(status) && getActivity() instanceof com.chouchene.factures.MainActivity) {
+                        ((com.chouchene.factures.MainActivity) getActivity()).triggerConfetti();
+                    }
                 });
             }
         });
