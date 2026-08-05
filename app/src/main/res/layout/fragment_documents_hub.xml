@@ -15,6 +15,18 @@
         app:tabMode="fixed"
         app:tabGravity="fill"/>
 
+    <com.google.android.material.chip.Chip
+        android:id="@+id/filterChip"
+        style="@style/Widget.Material3.Chip.Assist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="8dp"
+        android:visibility="gone"
+        app:chipIcon="@drawable/baseline_history_24"
+        app:closeIconVisible="true"
+        android:text="Filtré par: Juin 2024" />
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"

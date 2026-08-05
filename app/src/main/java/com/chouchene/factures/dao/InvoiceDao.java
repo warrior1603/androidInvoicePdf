@@ -60,6 +60,15 @@ public interface InvoiceDao {
     @Query("SELECT * FROM invoices WHERE client_name LIKE '%' || :query || '%' ORDER BY date DESC")
     List<Invoice> searchInvoices(String query);
 
+    @Query("SELECT * FROM invoices WHERE type = :type AND date(date / 1000, 'unixepoch', 'localtime') = date(:date / 1000, 'unixepoch', 'localtime') ORDER BY date DESC")
+    List<Invoice> getDocumentsByDay(String type, Date date);
+
+    @Query("SELECT * FROM invoices WHERE type = :type AND strftime('%m-%Y', date / 1000, 'unixepoch', 'localtime') = :monthYear ORDER BY date DESC")
+    List<Invoice> getDocumentsByMonth(String type, String monthYear);
+
+    @Query("SELECT * FROM invoices WHERE type = :type AND strftime('%Y', date / 1000, 'unixepoch', 'localtime') = :year ORDER BY date DESC")
+    List<Invoice> getDocumentsByYear(String type, String year);
+
     @Query("SELECT * FROM invoices ORDER BY date DESC LIMIT 3")
     List<Invoice> getLatestInvoices();
 

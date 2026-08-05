@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,8 +33,15 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
     private HistoryAdapter adapter;
     private RecyclerView recyclerView;
     private LinearLayout emptyState;
+    private DocumentsViewModel viewModel;
 
     public InvoiceGenrationFragment() {}
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        viewModel = new ViewModelProvider(requireActivity()).get(DocumentsViewModel.class);
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -63,18 +71,40 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
             }
         }).attachToRecyclerView(recyclerView);
 
+        if (viewModel != null) {
+            viewModel.getCurrentFilter().observe(getViewLifecycleOwner(), this::loadInvoices);
+        } else {
+            loadInvoices(null);
+        }
+
         fab.setOnClickListener(v -> {
             CreateInvoiceBottomSheet bottomSheet = new CreateInvoiceBottomSheet();
-            bottomSheet.setOnInvoiceGeneratedListener(this::loadInvoices);
+            bottomSheet.setOnInvoiceGeneratedListener(() -> {
+                if (viewModel != null) loadInvoices(viewModel.getCurrentFilter().getValue());
+                else loadInvoices(null);
+            });
             bottomSheet.show(getChildFragmentManager(), "CREATE_INVOICE");
         });
-
-        loadInvoices();
     }
 
-    private void loadInvoices() {
+    private void loadInvoices(DocumentsViewModel.Filter filter) {
         Executors.newSingleThreadExecutor().execute(() -> {
-            List<Invoice> invoices = db.invoiceDao().getInvoicesOnly();
+            List<Invoice> invoices;
+            if (filter == null) {
+                invoices = db.invoiceDao().getInvoicesOnly();
+            } else {
+                switch (filter.type) {
+                    case "MONTH":
+                        invoices = db.invoiceDao().getDocumentsByMonth("Facture", filter.value);
+                        break;
+                    case "YEAR":
+                        invoices = db.invoiceDao().getDocumentsByYear("Facture", filter.value);
+                        break;
+                    default:
+                        invoices = db.invoiceDao().getInvoicesOnly();
+                        break;
+                }
+            }
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
                     adapter.setData(invoices);
@@ -82,6 +112,11 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
                 });
             }
         });
+    }
+
+    private void loadInvoices() {
+        if (viewModel != null) loadInvoices(viewModel.getCurrentFilter().getValue());
+        else loadInvoices(null);
     }
 
     private void checkEmptyState() {

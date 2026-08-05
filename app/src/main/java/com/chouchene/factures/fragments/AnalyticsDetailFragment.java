@@ -12,6 +12,8 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.chouchene.factures.R;
 import com.chouchene.factures.dao.InvoiceDao;
@@ -22,7 +24,11 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -91,7 +97,12 @@ public class AnalyticsDetailFragment extends Fragment {
                         cal.add(Calendar.DAY_OF_YEAR, -i);
                         Date d = cal.getTime();
                         float dayTotal = db.getDailyIncome(d);
-                        chartEntries.add(new BarEntry(6 - i, dayTotal));
+                        BarEntry entry = new BarEntry(6 - i, dayTotal);
+                        // We don't have a DAY filter in the hub yet, but let's use MONTH for now as it's more common to filter by month
+                        entry.setData(new DocumentsViewModel.Filter("MONTH", 
+                            new SimpleDateFormat("MM-yyyy", Locale.getDefault()).format(d),
+                            new SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(d)));
+                        chartEntries.add(entry);
                         labels.add(new SimpleDateFormat("dd/MM", Locale.getDefault()).format(d));
                     }
                     break;
@@ -107,7 +118,11 @@ public class AnalyticsDetailFragment extends Fragment {
                         cal.add(Calendar.MONTH, -i);
                         Date d = cal.getTime();
                         float monthTotal = db.getMonthlyIncome(d);
-                        chartEntries.add(new BarEntry(5 - i, monthTotal));
+                        BarEntry entry = new BarEntry(5 - i, monthTotal);
+                        entry.setData(new DocumentsViewModel.Filter("MONTH", 
+                            new SimpleDateFormat("MM-yyyy", Locale.getDefault()).format(d),
+                            new SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(d)));
+                        chartEntries.add(entry);
                         labels.add(new SimpleDateFormat("MM/yy", Locale.getDefault()).format(d));
                     }
                     break;
@@ -125,7 +140,11 @@ public class AnalyticsDetailFragment extends Fragment {
                         cal.set(Calendar.MONTH, i);
                         Date d = cal.getTime();
                         float monthTotal = db.getMonthlyIncome(d);
-                        chartEntries.add(new BarEntry(i, monthTotal));
+                        BarEntry entry = new BarEntry(i, monthTotal);
+                        entry.setData(new DocumentsViewModel.Filter("MONTH", 
+                            new SimpleDateFormat("MM-yyyy", Locale.getDefault()).format(d),
+                            new SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(d)));
+                        chartEntries.add(entry);
                         labels.add(new SimpleDateFormat("MMM", Locale.getDefault()).format(d));
                     }
                     break;
@@ -212,6 +231,28 @@ public class AnalyticsDetailFragment extends Fragment {
         barData.setBarWidth(0.5f);
         barChart.setData(barData);
         barChart.animateY(1000);
+
+        barChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, Highlight h) {
+                if (e.getData() instanceof DocumentsViewModel.Filter && getActivity() != null) {
+                    DocumentsViewModel.Filter filter = (DocumentsViewModel.Filter) e.getData();
+                    
+                    // Set the filter in the shared ViewModel
+                    DocumentsViewModel hubViewModel = new ViewModelProvider(requireActivity()).get(DocumentsViewModel.class);
+                    hubViewModel.setFilter(filter);
+                    
+                    // Switch the BottomNavigationView tab
+                    BottomNavigationView bottomNav = getActivity().findViewById(R.id.bottomNavigationView);
+                    if (bottomNav != null) {
+                        bottomNav.setSelectedItemId(R.id.documentsHubFragment);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected() {}
+        });
 
         barChart.invalidate();
     }

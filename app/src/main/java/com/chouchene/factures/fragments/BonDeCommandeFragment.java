@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,8 +33,15 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
     private HistoryAdapter adapter;
     private RecyclerView recyclerView;
     private LinearLayout emptyState;
+    private DocumentsViewModel viewModel;
 
     public BonDeCommandeFragment() {}
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        viewModel = new ViewModelProvider(requireActivity()).get(DocumentsViewModel.class);
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -63,18 +71,40 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
             }
         }).attachToRecyclerView(recyclerView);
 
+        if (viewModel != null) {
+            viewModel.getCurrentFilter().observe(getViewLifecycleOwner(), this::loadBons);
+        } else {
+            loadBons(null);
+        }
+
         fab.setOnClickListener(v -> {
             CreateBonBottomSheet bottomSheet = new CreateBonBottomSheet();
-            bottomSheet.setOnBonGeneratedListener(this::loadBons);
+            bottomSheet.setOnBonGeneratedListener(() -> {
+                if (viewModel != null) loadBons(viewModel.getCurrentFilter().getValue());
+                else loadBons(null);
+            });
             bottomSheet.show(getChildFragmentManager(), "CREATE_BON");
         });
-
-        loadBons();
     }
 
-    private void loadBons() {
+    private void loadBons(DocumentsViewModel.Filter filter) {
         Executors.newSingleThreadExecutor().execute(() -> {
-            List<Invoice> bons = db.invoiceDao().getBonsOnly();
+            List<Invoice> bons;
+            if (filter == null) {
+                bons = db.invoiceDao().getBonsOnly();
+            } else {
+                switch (filter.type) {
+                    case "MONTH":
+                        bons = db.invoiceDao().getDocumentsByMonth("Bon", filter.value);
+                        break;
+                    case "YEAR":
+                        bons = db.invoiceDao().getDocumentsByYear("Bon", filter.value);
+                        break;
+                    default:
+                        bons = db.invoiceDao().getBonsOnly();
+                        break;
+                }
+            }
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
                     adapter.setData(bons);
@@ -82,6 +112,11 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
                 });
             }
         });
+    }
+
+    private void loadBons() {
+        if (viewModel != null) loadBons(viewModel.getCurrentFilter().getValue());
+        else loadBons(null);
     }
 
     private void checkEmptyState() {

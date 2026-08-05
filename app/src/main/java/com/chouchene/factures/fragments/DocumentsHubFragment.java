@@ -8,10 +8,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.chouchene.factures.R;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -19,12 +21,15 @@ public class DocumentsHubFragment extends Fragment {
 
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
+    private Chip filterChip;
+    private DocumentsViewModel viewModel;
 
     public DocumentsHubFragment() {}
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        viewModel = new ViewModelProvider(requireActivity()).get(DocumentsViewModel.class);
         return inflater.inflate(R.layout.fragment_documents_hub, container, false);
     }
 
@@ -34,9 +39,9 @@ public class DocumentsHubFragment extends Fragment {
 
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
+        filterChip = view.findViewById(R.id.filterChip);
 
-        DocumentsPagerAdapter adapter = new DocumentsPagerAdapter(this);
-        viewPager.setAdapter(adapter);
+        viewPager.setAdapter(new DocumentsPagerAdapter(this));
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             switch (position) {
@@ -50,6 +55,22 @@ public class DocumentsHubFragment extends Fragment {
                     break;
             }
         }).attach();
+
+        viewModel.getCurrentFilter().observe(getViewLifecycleOwner(), filter -> {
+            if (filter != null) {
+                filterChip.setVisibility(View.VISIBLE);
+                filterChip.setText("Filtré par: " + filter.label);
+            } else {
+                filterChip.setVisibility(View.GONE);
+            }
+        });
+
+        filterChip.setOnCloseIconClickListener(v -> viewModel.clearFilter());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     private static class DocumentsPagerAdapter extends FragmentStateAdapter {
