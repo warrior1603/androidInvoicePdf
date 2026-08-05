@@ -68,6 +68,7 @@ dependencies {
     //implementation(files("/Users/warrior/StudioProjects/Invoice_app/lib/meow-bottom-navigation-java-1.2.0.aar"))
     implementation("androidx.navigation:navigation-fragment:2.8.3")
     implementation("androidx.navigation:navigation-ui:2.8.3")
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation("androidx.media3:media3-common:1.4.1")
     implementation("androidx.biometric:biometric:1.1.0")

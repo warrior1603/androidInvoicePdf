@@ -68,4 +68,10 @@ public interface InvoiceDao {
 
     @Query("SELECT COUNT(*) FROM invoices")
     int getTotalCount();
+
+    @Query("SELECT * FROM invoices WHERE client_name = :clientName ORDER BY date DESC")
+    List<Invoice> getInvoicesByClient(String clientName);
+
+    @Query("SELECT COUNT(*) FROM invoices WHERE status = 'En attente' AND (date / 1000) < (strftime('%s', 'now') - 30*24*60*60)")
+    int getOverdueInvoicesCount();
 }

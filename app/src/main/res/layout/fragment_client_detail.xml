@@ -208,6 +208,27 @@
                 android:textAllCaps="false"
                 app:icon="@drawable/rounded_receipt_long_24" />
 
+            <!-- Historique Section -->
+            <TextView
+                style="@style/App.TextAppearance.TitleMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="Historique des documents"
+                android:textColor="?attr/colorOnSurface"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_client_history"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="32dp"
+                android:layout_marginLeft="-24dp"
+                android:layout_marginRight="-24dp"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/revenue_gradient"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/widget_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Revenu du mois"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:alpha="0.8" />
+
+    <TextView
+        android:id="@+id/widget_revenue"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="0.00 €"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center_vertical" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/widget_docs"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="7 documents"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:alpha="0.7" />
+
+        <ImageView
+            android:id="@+id/widget_btn_add"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/rounded_add_24"
+            android:background="@drawable/profile_background"
+            android:padding="6dp"
+            android:contentDescription="Ajouter" />
+    </LinearLayout>
+
+</LinearLayout>

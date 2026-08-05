@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
         
-        // Custom exit animation
         splashScreen.setOnExitAnimationListener(splashScreenViewProvider -> {
             final View splashScreenView = splashScreenViewProvider.getView();
             final View iconView = splashScreenViewProvider.getIconView();

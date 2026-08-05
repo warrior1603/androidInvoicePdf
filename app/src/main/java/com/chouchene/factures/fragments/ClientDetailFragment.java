@@ -13,17 +13,29 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.chouchene.factures.R;
+import com.chouchene.factures.adapter.HistoryAdapter;
+import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Client;
+import com.chouchene.factures.entity.Invoice;
 import com.chouchene.factures.utils.AvatarHelper;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.transition.MaterialContainerTransform;
 
-public class ClientDetailFragment extends Fragment {
+import java.util.List;
+import java.util.concurrent.Executors;
+
+public class ClientDetailFragment extends Fragment implements HistoryAdapter.OnHistoryActionListener {
 
     private Client client;
+    private AppDatabase db;
+    private HistoryAdapter adapter;
+    private RecyclerView rvHistory;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,11 +47,12 @@ public class ClientDetailFragment extends Fragment {
         transform.setScrimColor(Color.TRANSPARENT);
         setSharedElementEnterTransition(transform);
         
+        db = DatabaseClient.getInstance(requireContext().getApplicationContext()).getAppDatabase();
+
         if (getArguments() != null) {
             int clientId = getArguments().getInt("client_id", -1);
             if (clientId != -1) {
-                client = DatabaseClient.getInstance(requireContext().getApplicationContext())
-                        .getAppDatabase().clientDao().getClientById(clientId);
+                client = db.clientDao().getClientById(clientId);
             }
         }
     }
@@ -102,8 +115,7 @@ public class ClientDetailFragment extends Fragment {
         view.findViewById(R.id.fab_edit_client).setOnClickListener(v -> {
             AddClientBottomSheet bottomSheet = AddClientBottomSheet.newInstance(client);
             bottomSheet.setOnClientSavedListener(() -> {
-                client = DatabaseClient.getInstance(requireContext().getApplicationContext())
-                        .getAppDatabase().clientDao().getClientById(client.getId());
+                client = db.clientDao().getClientById(client.getId());
                 onViewCreated(view, null); // Refresh
             });
             bottomSheet.show(getChildFragmentManager(), "EDIT_CLIENT");
@@ -111,7 +123,68 @@ public class ClientDetailFragment extends Fragment {
 
         view.findViewById(R.id.btn_create_invoice_for_client).setOnClickListener(v -> {
             CreateInvoiceBottomSheet bottomSheet = CreateInvoiceBottomSheet.newInstance(client.getId());
+            bottomSheet.setOnInvoiceGeneratedListener(this::loadHistory);
             bottomSheet.show(getChildFragmentManager(), "CREATE_INVOICE_FOR_CLIENT");
+        });
+
+        rvHistory = view.findViewById(R.id.rv_client_history);
+        setupRecyclerView();
+        loadHistory();
+    }
+
+    private void setupRecyclerView() {
+        adapter = new HistoryAdapter(this);
+        rvHistory.setLayoutManager(new LinearLayoutManager(requireContext()));
+        rvHistory.setAdapter(adapter);
+    }
+
+    private void loadHistory() {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            List<Invoice> history = db.invoiceDao().getInvoicesByClient(client.getClientName());
+            if (getActivity() != null) {
+                requireActivity().runOnUiThread(() -> {
+                    adapter.setData(history);
+                });
+            }
+        });
+    }
+
+    @Override
+    public void onItemClick(Invoice invoice) {
+        Bundle b = new Bundle();
+        b.putString("file_path", invoice.filePath);
+        b.putString("mail_client", client.getEmail());
+        Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, b);
+    }
+
+    @Override
+    public void onDeleteClick(Invoice invoice) {
+        // Implementation can be added if deletion from here is desired
+    }
+
+    @Override
+    public void onStatusClick(Invoice invoice) {
+        BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
+        View view = getLayoutInflater().inflate(R.layout.layout_status_selector, null);
+
+        view.findViewById(R.id.status_pending).setOnClickListener(v -> updateStatus(invoice, "En attente", dialog));
+        view.findViewById(R.id.status_paid).setOnClickListener(v -> updateStatus(invoice, "Payée", dialog));
+        view.findViewById(R.id.status_cancelled).setOnClickListener(v -> updateStatus(invoice, "Annulée", dialog));
+
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
+    private void updateStatus(Invoice invoice, String status, BottomSheetDialog dialog) {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            invoice.status = status;
+            db.invoiceDao().updateInvoice(invoice);
+            if (getActivity() != null) {
+                requireActivity().runOnUiThread(() -> {
+                    dialog.dismiss();
+                    loadHistory();
+                });
+            }
         });
     }
 }

@@ -32,6 +32,8 @@ import java.util.concurrent.Executors;
 public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryActionListener {
 
     private TextView txtGreeting, txtRevenue, txtDocCount, txtCurrentDate;
+    private View badgeOverdue;
+    private com.facebook.shimmer.ShimmerFrameLayout shimmerContainer;
     private RecyclerView rvRecent;
     private HistoryAdapter adapter;
     private AppDatabase db;
@@ -54,6 +56,8 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         txtRevenue = view.findViewById(R.id.txt_home_revenue);
         txtDocCount = view.findViewById(R.id.txt_home_doc_count);
         rvRecent = view.findViewById(R.id.rv_home_recent);
+        badgeOverdue = view.findViewById(R.id.badge_overdue);
+        shimmerContainer = view.findViewById(R.id.shimmer_view_container);
         
         // Set dynamic date
         String dateStr = new SimpleDateFormat("EEEE d MMMM", Locale.getDefault()).format(new java.util.Date());
@@ -84,6 +88,12 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
     }
 
     private void loadHomeData() {
+        if (shimmerContainer != null) {
+            shimmerContainer.setVisibility(View.VISIBLE);
+            shimmerContainer.startShimmer();
+            rvRecent.setVisibility(View.GONE);
+        }
+
         SharedPreferences userPrefs = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String name = userPrefs.getString("User", "");
         if (!name.isEmpty()) {
@@ -94,12 +104,23 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
             float revenue = db.invoiceDao().getMonthlyIncome(new java.util.Date());
             int count = db.invoiceDao().getMonthlyCount(new java.util.Date());
             List<Invoice> latest = db.invoiceDao().getLatestInvoices();
+            int overdueCount = db.invoiceDao().getOverdueInvoicesCount();
 
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
                     txtRevenue.setText(String.format(Locale.getDefault(), "%.2f €", revenue));
                     txtDocCount.setText(String.valueOf(count));
                     adapter.setData(latest);
+                    
+                    if (badgeOverdue != null) {
+                        badgeOverdue.setVisibility(overdueCount > 0 ? View.VISIBLE : View.GONE);
+                    }
+
+                    if (shimmerContainer != null) {
+                        shimmerContainer.stopShimmer();
+                        shimmerContainer.setVisibility(View.GONE);
+                        rvRecent.setVisibility(View.VISIBLE);
+                    }
                 });
             }
         });
