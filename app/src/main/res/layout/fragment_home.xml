@@ -295,21 +295,15 @@
             android:text="Activité Récente"
             android:textColor="?attr/colorPrimary" />
 
-        <com.google.android.material.card.MaterialCardView
-            style="@style/App.CardView"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_home_recent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="32dp">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_home_recent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:clipToPadding="false" />
-
-        </com.google.android.material.card.MaterialCardView>
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="32dp"
+            android:layout_marginLeft="-16dp"
+            android:layout_marginRight="-16dp"
+            android:clipToPadding="false" />
 
     </LinearLayout>
 
