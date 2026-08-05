@@ -53,7 +53,6 @@
     <string name="label_welcome_back">Welcome Back!</string>
     <string name="label_tap_to_add">Tap + to add a client</string>
     <string name="msg_contact_permission_required">Contact permission required</string>
-    <string name="msg_import_error">Import error</string>
     <string name="label_import_contacts">Import from contacts</string>
     <string name="label_no_history">No history</string>
     <string name="label_client_details">Client Details</string>
@@ -103,6 +102,18 @@
     <string name="label_plate_number">Plate Number</string>
     <string name="label_evtc_number">EVTC Number</string>
     <string name="label_driver_and_vehicle">Driver and Vehicle</string>
+
+    <!-- Backup & Restore -->
+    <string name="pref_category_backup">Backup &amp; Restoration</string>
+    <string name="pref_title_export">Export Data</string>
+    <string name="pref_summary_export">Backup database and generated documents</string>
+    <string name="pref_title_import">Import Data</string>
+    <string name="pref_summary_import">Restore from a previous backup (ZIP)</string>
+    <string name="msg_export_success">Data exported successfully</string>
+    <string name="msg_export_error">Error during export</string>
+    <string name="msg_import_success">Data imported. App will restart.</string>
+    <string name="msg_import_error">Error during import. Check file.</string>
+    <string name="msg_import_confirm">Do you really want to import this data? This will replace your current data.</string>
 
     <!-- Onboarding -->
     <string name="onboarding_title_1">Bienvenue sur Mes Factures</string>

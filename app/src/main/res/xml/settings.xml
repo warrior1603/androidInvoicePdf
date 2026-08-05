@@ -79,4 +79,21 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/pref_category_backup">
+
+        <Preference
+            android:key="export_data"
+            android:title="@string/pref_title_export"
+            android:summary="@string/pref_summary_export"
+            android:icon="@drawable/rounded_save_24" />
+
+        <Preference
+            android:key="import_data"
+            android:title="@string/pref_title_import"
+            android:summary="@string/pref_summary_import"
+            android:icon="@drawable/baseline_downloading_24" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

@@ -53,7 +53,6 @@
     <string name="label_welcome_back">Bonjour !</string>
     <string name="label_tap_to_add">Appuyez sur + pour en ajouter un</string>
     <string name="msg_contact_permission_required">Permission contacts requise</string>
-    <string name="msg_import_error">Erreur lors de l\'import</string>
     <string name="label_import_contacts">Importer des contacts</string>
     <string name="label_no_history">Aucun historique</string>
     <string name="label_client_details">Détails du client</string>
@@ -116,6 +115,18 @@
     <string name="label_plate_number">Numéro d\'Immatriculation</string>
     <string name="label_evtc_number">Numéro EVTC</string>
     <string name="label_driver_and_vehicle">Chauffeur et Véhicule</string>
+
+    <!-- Backup & Restore -->
+    <string name="pref_category_backup">Sauvegarde et Restauration</string>
+    <string name="pref_title_export">Exporter les données</string>
+    <string name="pref_summary_export">Sauvegarder la base de données et les documents générés</string>
+    <string name="pref_title_import">Importer les données</string>
+    <string name="pref_summary_import">Restaurer à partir d\'une sauvegarde précédente (ZIP)</string>
+    <string name="msg_export_success">Données exportées avec succès</string>
+    <string name="msg_export_error">Erreur lors de l\'exportation</string>
+    <string name="msg_import_success">Données importées. L\'application va redémarrer.</string>
+    <string name="msg_import_error">Erreur lors de l\'importation. Vérifiez le fichier.</string>
+    <string name="msg_import_confirm">Voulez-vous vraiment importer ces données ? Cela remplacera vos données actuelles.</string>
 
     <!-- Onboarding -->
     <string name="onboarding_title_1">Bienvenue sur Mes Factures</string>
