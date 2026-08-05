@@ -8,17 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.chouchene.factures.R;
 import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Client;
+import com.chouchene.factures.utils.AvatarHelper;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.transition.MaterialContainerTransform;
 
 public class ClientDetailFragment extends Fragment {
@@ -59,11 +59,18 @@ public class ClientDetailFragment extends Fragment {
             return;
         }
 
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(view).popBackStack());
-
         com.google.android.material.appbar.CollapsingToolbarLayout collapsingToolbarLayout = view.findViewById(R.id.toolbar_layout);
         collapsingToolbarLayout.setTitle(client.getClientName());
+
+        TextView txtInitials = view.findViewById(R.id.detail_initials);
+        MaterialCardView avatarContainer = view.findViewById(R.id.avatar_container);
+        
+        if (txtInitials != null) {
+            txtInitials.setText(AvatarHelper.getInitials(client.getClientName()));
+        }
+        if (avatarContainer != null) {
+            avatarContainer.setCardBackgroundColor(AvatarHelper.getColorForName(client.getClientName()));
+        }
 
         TextView txtAddress = view.findViewById(R.id.detail_address);
         TextView txtPhone = view.findViewById(R.id.detail_phone);

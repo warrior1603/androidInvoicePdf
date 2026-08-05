@@ -28,7 +28,7 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="16dp"
-                android:text="Logo de l'entreprise" />
+                android:text="@string/label_company_logo" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -60,7 +60,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="Modifier le logo"
+                        android:text="@string/action_edit_logo"
                         app:icon="@drawable/baseline_edit_24" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -226,7 +226,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginBottom="16dp"
-                android:text="@string/pref_category_company" />
+                android:text="@string/label_driver_and_vehicle" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardView1"
@@ -247,7 +247,7 @@
                         style="@style/App.TextInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Driver Name"
+                        android:hint="@string/label_driver_name"
                         app:startIconDrawable="@drawable/baseline_person_24">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
@@ -260,7 +260,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:hint="Plate Number"
+                        android:hint="@string/label_plate_number"
                         app:startIconDrawable="@drawable/baseline_directions_car_24">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
@@ -273,7 +273,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:hint="EVTC Number"
+                        android:hint="@string/label_evtc_number"
                         app:startIconDrawable="@drawable/baseline_receipt_long_24">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
@@ -290,7 +290,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginBottom="16dp"
-                android:text="Bank Details" />
+                android:text="@string/label_bank_details" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardViewBank"
@@ -327,7 +327,6 @@
                         android:hint="BIC"
                         app:startIconDrawable="@drawable/baseline_account_balance_24">
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/clear_bic"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -338,7 +337,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:hint="Bank Address"
+                        android:hint="@string/label_bank_address"
                         app:startIconDrawable="@drawable/baseline_location_on_24">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"

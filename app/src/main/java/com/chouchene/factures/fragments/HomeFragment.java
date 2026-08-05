@@ -1,20 +1,39 @@
 package com.chouchene.factures.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.chouchene.factures.R;
+import com.chouchene.factures.adapter.HistoryAdapter;
+import com.chouchene.factures.database.AppDatabase;
+import com.chouchene.factures.database.DatabaseClient;
+import com.chouchene.factures.entity.Invoice;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.card.MaterialCardView;
 
-public class HomeFragment extends Fragment {
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.Executors;
+
+public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryActionListener {
+
+    private TextView txtGreeting, txtRevenue, txtDocCount;
+    private RecyclerView rvRecent;
+    private HistoryAdapter adapter;
+    private AppDatabase db;
 
     public HomeFragment() {}
 
@@ -27,6 +46,13 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        db = DatabaseClient.getInstance(requireContext().getApplicationContext()).getAppDatabase();
+
+        txtGreeting = view.findViewById(R.id.txt_greeting);
+        txtRevenue = view.findViewById(R.id.txt_home_revenue);
+        txtDocCount = view.findViewById(R.id.txt_home_doc_count);
+        rvRecent = view.findViewById(R.id.rv_home_recent);
+
         MaterialCardView cardDocuments = view.findViewById(R.id.card_documents);
         MaterialCardView cardClients = view.findViewById(R.id.card_clients);
         MaterialCardView cardDashboard = view.findViewById(R.id.card_dashboard);
@@ -37,7 +63,85 @@ public class HomeFragment extends Fragment {
         cardDocuments.setOnClickListener(v -> navView.setSelectedItemId(R.id.documentsHubFragment));
         cardClients.setOnClickListener(v -> navView.setSelectedItemId(R.id.clientsFragment));
         cardDashboard.setOnClickListener(v -> navView.setSelectedItemId(R.id.parametresFragment));
-        
         cardProfile.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.personalSettingsFragment));
+
+        setupRecyclerView();
+        loadHomeData();
+    }
+
+    private void setupRecyclerView() {
+        adapter = new HistoryAdapter(this);
+        rvRecent.setLayoutManager(new LinearLayoutManager(requireContext()));
+        rvRecent.setAdapter(adapter);
+    }
+
+    private void loadHomeData() {
+        SharedPreferences userPrefs = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String name = userPrefs.getString("User", "");
+        if (!name.isEmpty()) {
+            txtGreeting.setText("Bonjour, " + name + " !");
+        }
+
+        Executors.newSingleThreadExecutor().execute(() -> {
+            float revenue = db.invoiceDao().getMonthlyIncome(new java.util.Date());
+            int count = db.invoiceDao().getMonthlyCount(new java.util.Date());
+            List<Invoice> latest = db.invoiceDao().getLatestInvoices();
+
+            if (getActivity() != null) {
+                requireActivity().runOnUiThread(() -> {
+                    txtRevenue.setText(String.format(Locale.getDefault(), "%.2f €", revenue));
+                    txtDocCount.setText(String.valueOf(count));
+                    adapter.setData(latest);
+                });
+            }
+        });
+    }
+
+    @Override
+    public void onItemClick(Invoice invoice) {
+        Bundle b = new Bundle();
+        b.putString("file_path", invoice.filePath);
+        Executors.newSingleThreadExecutor().execute(() -> {
+            com.chouchene.factures.entity.Client client = db.clientDao().getClientByName(invoice.clientName);
+            if (getActivity() != null) {
+                requireActivity().runOnUiThread(() -> {
+                    if (client != null) {
+                        b.putString("mail_client", client.getEmail());
+                    }
+                    Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, b);
+                });
+            }
+        });
+    }
+
+    @Override
+    public void onDeleteClick(Invoice invoice) {
+        // Not used on home screen
+    }
+
+    @Override
+    public void onStatusClick(Invoice invoice) {
+        BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
+        View view = getLayoutInflater().inflate(R.layout.layout_status_selector, null);
+
+        view.findViewById(R.id.status_pending).setOnClickListener(v -> updateStatus(invoice, "En attente", dialog));
+        view.findViewById(R.id.status_paid).setOnClickListener(v -> updateStatus(invoice, "Payée", dialog));
+        view.findViewById(R.id.status_cancelled).setOnClickListener(v -> updateStatus(invoice, "Annulée", dialog));
+
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
+    private void updateStatus(Invoice invoice, String status, BottomSheetDialog dialog) {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            invoice.status = status;
+            db.invoiceDao().updateInvoice(invoice);
+            if (getActivity() != null) {
+                requireActivity().runOnUiThread(() -> {
+                    dialog.dismiss();
+                    loadHomeData();
+                });
+            }
+        });
     }
 }

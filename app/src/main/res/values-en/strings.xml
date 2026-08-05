@@ -92,4 +92,12 @@
     <string name="label_profile">User profile</string>
     <string name="title_account">Account</string>
     <string name="action_logout">Log out</string>
+    <string name="label_bank_details">Bank Details</string>
+    <string name="label_bank_address">Bank Address</string>
+    <string name="label_company_logo">Company Logo</string>
+    <string name="action_edit_logo">Edit Logo</string>
+    <string name="label_driver_name">Driver Name</string>
+    <string name="label_plate_number">Plate Number</string>
+    <string name="label_evtc_number">EVTC Number</string>
+    <string name="label_driver_and_vehicle">Driver and Vehicle</string>
 </resources>

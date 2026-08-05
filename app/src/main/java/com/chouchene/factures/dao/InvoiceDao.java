@@ -24,22 +24,22 @@ public interface InvoiceDao {
     @androidx.room.Delete
     void deleteInvoice(Invoice invoice);
 
-    @Query("SELECT SUM(amount) FROM invoices WHERE date(date / 1000, 'unixepoch') = date(:date / 1000, 'unixepoch')")
+    @Query("SELECT SUM(amount) FROM invoices WHERE date(date / 1000, 'unixepoch', 'localtime') = date(:date / 1000, 'unixepoch', 'localtime')")
     float getDailyIncome(Date date);
 
-    @Query("SELECT SUM(amount) FROM invoices WHERE strftime('%m-%Y', date / 1000, 'unixepoch') = strftime('%m-%Y', :date / 1000, 'unixepoch')")
+    @Query("SELECT SUM(amount) FROM invoices WHERE strftime('%m-%Y', date / 1000, 'unixepoch', 'localtime') = strftime('%m-%Y', :date / 1000, 'unixepoch', 'localtime')")
     float getMonthlyIncome(Date date);
 
-    @Query("SELECT SUM(amount) FROM invoices WHERE strftime('%Y', date / 1000, 'unixepoch') = strftime('%Y', :date / 1000, 'unixepoch')")
+    @Query("SELECT SUM(amount) FROM invoices WHERE strftime('%Y', date / 1000, 'unixepoch', 'localtime') = strftime('%Y', :date / 1000, 'unixepoch', 'localtime')")
     float getYearlyIncome(Date date);
 
-    @Query("SELECT COUNT(*) FROM invoices WHERE date(date / 1000, 'unixepoch') = date(:date / 1000, 'unixepoch')")
+    @Query("SELECT COUNT(*) FROM invoices WHERE date(date / 1000, 'unixepoch', 'localtime') = date(:date / 1000, 'unixepoch', 'localtime')")
     int getDailyCount(Date date);
 
-    @Query("SELECT COUNT(*) FROM invoices WHERE strftime('%m-%Y', date / 1000, 'unixepoch') = strftime('%m-%Y', :date / 1000, 'unixepoch')")
+    @Query("SELECT COUNT(*) FROM invoices WHERE strftime('%m-%Y', date / 1000, 'unixepoch', 'localtime') = strftime('%m-%Y', :date / 1000, 'unixepoch', 'localtime')")
     int getMonthlyCount(Date date);
 
-    @Query("SELECT COUNT(*) FROM invoices WHERE strftime('%Y', date / 1000, 'unixepoch') = strftime('%Y', :date / 1000, 'unixepoch')")
+    @Query("SELECT COUNT(*) FROM invoices WHERE strftime('%Y', date / 1000, 'unixepoch', 'localtime') = strftime('%Y', :date / 1000, 'unixepoch', 'localtime')")
     int getYearlyCount(Date date);
 
     @Query("SELECT date, SUM(amount) as dailyTotal FROM invoices GROUP BY date(date / 1000, 'unixepoch') ORDER BY date ASC")
@@ -59,4 +59,13 @@ public interface InvoiceDao {
 
     @Query("SELECT * FROM invoices WHERE client_name LIKE '%' || :query || '%' ORDER BY date DESC")
     List<Invoice> searchInvoices(String query);
+
+    @Query("SELECT * FROM invoices ORDER BY date DESC LIMIT 3")
+    List<Invoice> getLatestInvoices();
+
+    @Query("SELECT SUM(amount) FROM invoices")
+    float getTotalRevenue();
+
+    @Query("SELECT COUNT(*) FROM invoices")
+    int getTotalCount();
 }

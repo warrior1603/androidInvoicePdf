@@ -188,6 +188,7 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
 
         txtDesciption = view.findViewById(R.id.edit_description);
         txtQuantite = view.findViewById(R.id.edit_quantite);
+        txtQuantite.setText("1");
         txtPrix = view.findViewById(R.id.edit_prix);
         txtTva = view.findViewById(R.id.edit_tva);
         txtTva.setText("10");
