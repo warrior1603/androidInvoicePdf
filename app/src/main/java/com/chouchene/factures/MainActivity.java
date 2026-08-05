@@ -116,6 +116,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (sharedPreferences.getBoolean("first_run", true)) {
+            startActivity(new Intent(this, OnboardingActivity.class));
+            finish();
+            return;
+        }
+
         boolean isDarkMode = sharedPreferences.getBoolean("theme", false);
         setTheme(isDarkMode ? R.style.DarkTheme : R.style.LightTheme);
         EdgeToEdge.enable(this);
@@ -213,6 +220,10 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
         imgProfile.setOnClickListener(v -> showProfileMenu());
+
+        if (!sharedPreferences.getBoolean("tooltip_shown", false)) {
+            imgProfile.post(() -> showTooltip(imgProfile));
+        }
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         if (navHostFragment != null) {
@@ -434,6 +445,23 @@ public class MainActivity extends AppCompatActivity {
                 icon = itemView.findViewById(R.id.result_icon);
             }
         }
+    }
+
+    private void showTooltip(View anchor) {
+        View tooltipView = getLayoutInflater().inflate(R.layout.layout_tooltip, null);
+        TextView textView = tooltipView.findViewById(R.id.tooltip_text);
+        textView.setText(R.string.tooltip_profile);
+
+        android.widget.PopupWindow popupWindow = new android.widget.PopupWindow(
+                tooltipView,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                true
+        );
+        popupWindow.setElevation(10);
+        popupWindow.showAsDropDown(anchor, 0, 10);
+
+        sharedPreferences.edit().putBoolean("tooltip_shown", true).apply();
     }
 
     private void askPermissions() {

@@ -113,4 +113,18 @@
     <string name="label_plate_number">Numéro d\'Immatriculation</string>
     <string name="label_evtc_number">Numéro EVTC</string>
     <string name="label_driver_and_vehicle">Chauffeur et Véhicule</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_title_1">Bienvenue sur Mes Factures</string>
+    <string name="onboarding_desc_1">Gérez vos factures et bons de commande en toute simplicité.</string>
+    <string name="onboarding_title_2">Analyses &amp; Statistiques</string>
+    <string name="onboarding_desc_2">Suivez votre chiffre d\'affaires et visualisez vos performances avec des graphiques clairs.</string>
+    <string name="onboarding_title_3">Gestion des Clients</string>
+    <string name="onboarding_desc_3">Enregistrez vos clients pour générer des factures encore plus rapidement.</string>
+    <string name="btn_next">Suivant</string>
+    <string name="btn_skip">Passer</string>
+    <string name="btn_get_started">Commencer</string>
+
+    <!-- Tooltips -->
+    <string name="tooltip_profile">Configurez votre profil d\'entreprise ici !</string>
 </resources>
