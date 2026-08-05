@@ -52,6 +52,9 @@
     <string name="label_reports_desc">Statistiques et revenus</string>
     <string name="label_welcome_back">Bonjour !</string>
     <string name="label_tap_to_add">Appuyez sur + pour en ajouter un</string>
+    <string name="msg_contact_permission_required">Permission contacts requise</string>
+    <string name="msg_import_error">Erreur lors de l\'import</string>
+    <string name="label_import_contacts">Importer des contacts</string>
     <string name="label_no_history">Aucun historique</string>
     <string name="label_client_details">Détails du client</string>
     <string name="label_guest">Invité</string>

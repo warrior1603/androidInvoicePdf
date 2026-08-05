@@ -93,16 +93,22 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
             if (filter == null) {
                 bons = db.invoiceDao().getBonsOnly();
             } else {
-                switch (filter.type) {
-                    case "MONTH":
-                        bons = db.invoiceDao().getDocumentsByMonth("Bon", filter.value);
-                        break;
-                    case "YEAR":
-                        bons = db.invoiceDao().getDocumentsByYear("Bon", filter.value);
-                        break;
-                    default:
-                        bons = db.invoiceDao().getBonsOnly();
-                        break;
+                if (filter.type == null && filter.status != null) {
+                    bons = db.invoiceDao().getDocumentsByStatus("Bon", filter.status);
+                } else if (filter.type != null && filter.status == null) {
+                    switch (filter.type) {
+                        case "MONTH": bons = db.invoiceDao().getDocumentsByMonth("Bon", filter.value); break;
+                        case "YEAR": bons = db.invoiceDao().getDocumentsByYear("Bon", filter.value); break;
+                        default: bons = db.invoiceDao().getBonsOnly(); break;
+                    }
+                } else if (filter.type != null && filter.status != null) {
+                    switch (filter.type) {
+                        case "MONTH": bons = db.invoiceDao().getDocumentsByMonthAndStatus("Bon", filter.value, filter.status); break;
+                        case "YEAR": bons = db.invoiceDao().getDocumentsByYearAndStatus("Bon", filter.value, filter.status); break;
+                        default: bons = db.invoiceDao().getDocumentsByStatus("Bon", filter.status); break;
+                    }
+                } else {
+                    bons = db.invoiceDao().getBonsOnly();
                 }
             }
             if (getActivity() != null) {

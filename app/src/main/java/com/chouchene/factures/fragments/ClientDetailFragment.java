@@ -141,9 +141,15 @@ public class ClientDetailFragment extends Fragment implements HistoryAdapter.OnH
     private void loadHistory() {
         Executors.newSingleThreadExecutor().execute(() -> {
             List<Invoice> history = db.invoiceDao().getInvoicesByClient(client.getClientName());
+            float totalRevenue = db.invoiceDao().getTotalRevenueByClient(client.getClientName());
+            
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
                     adapter.setData(history);
+                    TextView txtTotalRevenue = getView().findViewById(R.id.detail_total_revenue);
+                    if (txtTotalRevenue != null) {
+                        txtTotalRevenue.setText(String.format(java.util.Locale.getDefault(), "%.2f €", totalRevenue));
+                    }
                 });
             }
         });

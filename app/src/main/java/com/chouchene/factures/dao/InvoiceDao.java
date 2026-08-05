@@ -69,6 +69,15 @@ public interface InvoiceDao {
     @Query("SELECT * FROM invoices WHERE type = :type AND strftime('%Y', date / 1000, 'unixepoch', 'localtime') = :year ORDER BY date DESC")
     List<Invoice> getDocumentsByYear(String type, String year);
 
+    @Query("SELECT * FROM invoices WHERE type = :type AND status = :status ORDER BY date DESC")
+    List<Invoice> getDocumentsByStatus(String type, String status);
+
+    @Query("SELECT * FROM invoices WHERE type = :type AND status = :status AND strftime('%m-%Y', date / 1000, 'unixepoch', 'localtime') = :monthYear ORDER BY date DESC")
+    List<Invoice> getDocumentsByMonthAndStatus(String type, String monthYear, String status);
+
+    @Query("SELECT * FROM invoices WHERE type = :type AND status = :status AND strftime('%Y', date / 1000, 'unixepoch', 'localtime') = :year ORDER BY date DESC")
+    List<Invoice> getDocumentsByYearAndStatus(String type, String year, String status);
+
     @Query("SELECT * FROM invoices ORDER BY date DESC LIMIT 3")
     List<Invoice> getLatestInvoices();
 
@@ -80,6 +89,9 @@ public interface InvoiceDao {
 
     @Query("SELECT * FROM invoices WHERE client_name = :clientName ORDER BY date DESC")
     List<Invoice> getInvoicesByClient(String clientName);
+
+    @Query("SELECT SUM(amount) FROM invoices WHERE client_name = :clientName")
+    float getTotalRevenueByClient(String clientName);
 
     @Query("SELECT COUNT(*) FROM invoices WHERE status = 'En attente' AND (date / 1000) < (strftime('%s', 'now') - 30*24*60*60)")
     int getOverdueInvoicesCount();

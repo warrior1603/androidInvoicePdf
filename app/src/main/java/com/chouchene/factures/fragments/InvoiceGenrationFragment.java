@@ -93,16 +93,22 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
             if (filter == null) {
                 invoices = db.invoiceDao().getInvoicesOnly();
             } else {
-                switch (filter.type) {
-                    case "MONTH":
-                        invoices = db.invoiceDao().getDocumentsByMonth("Facture", filter.value);
-                        break;
-                    case "YEAR":
-                        invoices = db.invoiceDao().getDocumentsByYear("Facture", filter.value);
-                        break;
-                    default:
-                        invoices = db.invoiceDao().getInvoicesOnly();
-                        break;
+                if (filter.type == null && filter.status != null) {
+                    invoices = db.invoiceDao().getDocumentsByStatus("Facture", filter.status);
+                } else if (filter.type != null && filter.status == null) {
+                    switch (filter.type) {
+                        case "MONTH": invoices = db.invoiceDao().getDocumentsByMonth("Facture", filter.value); break;
+                        case "YEAR": invoices = db.invoiceDao().getDocumentsByYear("Facture", filter.value); break;
+                        default: invoices = db.invoiceDao().getInvoicesOnly(); break;
+                    }
+                } else if (filter.type != null && filter.status != null) {
+                    switch (filter.type) {
+                        case "MONTH": invoices = db.invoiceDao().getDocumentsByMonthAndStatus("Facture", filter.value, filter.status); break;
+                        case "YEAR": invoices = db.invoiceDao().getDocumentsByYearAndStatus("Facture", filter.value, filter.status); break;
+                        default: invoices = db.invoiceDao().getDocumentsByStatus("Facture", filter.status); break;
+                    }
+                } else {
+                    invoices = db.invoiceDao().getInvoicesOnly();
                 }
             }
             if (getActivity() != null) {

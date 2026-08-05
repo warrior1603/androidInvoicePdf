@@ -1,26 +1,41 @@
 package com.chouchene.factures.fragments;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import com.chouchene.factures.R;
 import com.chouchene.factures.adapter.CustomAdapter;
 import com.chouchene.factures.dao.ClientDao;
+import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Client;
 import com.chouchene.factures.utils.SwipeToDeleteCallback;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.transition.Hold;
 
 import java.util.ArrayList;
@@ -37,6 +52,24 @@ public class ClientListFragment extends Fragment {
     private ClientDao clientDao;
     private RecyclerView recyclerView;
     private LinearLayout emptyState;
+    private FloatingActionButton fab;
+    private View speedDialLayout;
+
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    launchContactPicker();
+                } else {
+                    Toast.makeText(getContext(), R.string.msg_contact_permission_required, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+    private final ActivityResultLauncher<Intent> contactPickerLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                    handleContactResult(result.getData().getData());
+                }
+            });
 
     public static ClientListFragment newInstance(Mode mode, int highlightId) {
         ClientListFragment fragment = new ClientListFragment();
@@ -79,7 +112,7 @@ public class ClientListFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recyclerViewClients);
         emptyState = view.findViewById(R.id.empty_state);
-        ExtendedFloatingActionButton fab = view.findViewById(R.id.fab);
+        fab = view.findViewById(R.id.fab);
 
         if (mode == Mode.RECENT) {
             fab.setVisibility(View.GONE);
@@ -93,9 +126,24 @@ public class ClientListFragment extends Fragment {
         recyclerView.setAdapter(listAdapter);
 
         // Start transition once data is loaded and laid out
-        recyclerView.getViewTreeObserver().addOnPreDrawListener(() -> {
+        recyclerView.post(() -> {
             startPostponedEnterTransition();
-            return true;
+        });
+
+        // Speed Dial logic
+        speedDialLayout = view.findViewById(R.id.speedDialLayout);
+        fab.setOnClickListener(v -> {
+            toggleSpeedDial();
+        });
+
+        view.findViewById(R.id.optionManual).setOnClickListener(v -> {
+            toggleSpeedDial();
+            showAddClientDialog(false);
+        });
+
+        view.findViewById(R.id.optionImport).setOnClickListener(v -> {
+            toggleSpeedDial();
+            showAddClientDialog(true);
         });
 
         new ItemTouchHelper(new SwipeToDeleteCallback(requireContext()) {
@@ -116,16 +164,98 @@ public class ClientListFragment extends Fragment {
                 }
             });
         }
+    }
 
-        fab.setOnClickListener(v -> {
-            AddClientBottomSheet bottomSheet = AddClientBottomSheet.newInstance(null);
-            bottomSheet.setOnClientSavedListener(() -> {
+    private void showAddClientDialog(boolean autoStartImport) {
+        if (!isAdded()) return;
+        
+        if (autoStartImport) {
+            checkPermissionAndLaunchPicker();
+        } else {
+            openAddClientBottomSheet(null);
+        }
+    }
+
+    private void openAddClientBottomSheet(Client prefilledClient) {
+        AddClientBottomSheet bottomSheet = AddClientBottomSheet.newInstance(prefilledClient);
+        bottomSheet.setOnClientSavedListener(() -> {
+            if (isAdded()) {
                 loadData();
                 listAdapter.setData(myClients);
-                com.google.android.material.snackbar.Snackbar.make(view, "Client ajouté avec succès", com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
-            });
-            bottomSheet.show(getChildFragmentManager(), "ADD_CLIENT");
+                com.google.android.material.snackbar.Snackbar.make(requireView(), "Client ajouté avec succès", com.google.android.material.snackbar.Snackbar.LENGTH_LONG).show();
+            }
         });
+        bottomSheet.show(getChildFragmentManager(), "ADD_CLIENT");
+    }
+
+    private void checkPermissionAndLaunchPicker() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
+            launchContactPicker();
+        } else {
+            requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS);
+        }
+    }
+
+    private void launchContactPicker() {
+        Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+        contactPickerLauncher.launch(intent);
+    }
+
+    private void handleContactResult(Uri contactUri) {
+        if (contactUri == null) return;
+
+        ContentResolver cr = requireContext().getContentResolver();
+        try (Cursor cursor = cr.query(contactUri, null, null, null, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                // Name
+                int nameIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+                String name = nameIndex != -1 ? cursor.getString(nameIndex) : "";
+
+                // Phone
+                int phoneIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+                String phone = phoneIndex != -1 ? cursor.getString(phoneIndex) : "";
+
+                // Contact ID to fetch email
+                int contactIdIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID);
+                String email = "";
+                if (contactIdIndex != -1) {
+                    String contactId = cursor.getString(contactIdIndex);
+                    email = fetchEmail(contactId);
+                }
+
+                // Pre-fill a client object
+                Client prefilled = new Client(name, "", "", "", "", "", "", email, phone);
+                openAddClientBottomSheet(prefilled);
+            }
+        } catch (Exception e) {
+            Toast.makeText(getContext(), R.string.msg_import_error, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private String fetchEmail(String contactId) {
+        ContentResolver cr = requireContext().getContentResolver();
+        try (Cursor emailCursor = cr.query(
+                ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+                null,
+                ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
+                new String[]{contactId}, null)) {
+
+            if (emailCursor != null && emailCursor.moveToFirst()) {
+                int emailIndex = emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS);
+                if (emailIndex != -1) return emailCursor.getString(emailIndex);
+            }
+        }
+        return "";
+    }
+
+    private void toggleSpeedDial() {
+        if (speedDialLayout.getVisibility() == View.GONE) {
+            speedDialLayout.setVisibility(View.VISIBLE);
+            fab.setImageResource(R.drawable.baseline_cancel_24);
+        } else {
+            speedDialLayout.setVisibility(View.GONE);
+            fab.setImageResource(R.drawable.rounded_add_24);
+        }
     }
 
     private void onDeleteClick(Client client) {

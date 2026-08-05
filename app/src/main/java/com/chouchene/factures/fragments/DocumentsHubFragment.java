@@ -14,6 +14,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.chouchene.factures.R;
 import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -22,6 +23,7 @@ public class DocumentsHubFragment extends Fragment {
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
     private Chip filterChip;
+    private ChipGroup statusChipGroup;
     private DocumentsViewModel viewModel;
 
     public DocumentsHubFragment() {}
@@ -40,6 +42,7 @@ public class DocumentsHubFragment extends Fragment {
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
         filterChip = view.findViewById(R.id.filterChip);
+        statusChipGroup = view.findViewById(R.id.statusChipGroup);
 
         viewPager.setAdapter(new DocumentsPagerAdapter(this));
 
@@ -57,15 +60,32 @@ public class DocumentsHubFragment extends Fragment {
         }).attach();
 
         viewModel.getCurrentFilter().observe(getViewLifecycleOwner(), filter -> {
-            if (filter != null) {
+            if (filter != null && filter.label != null) {
                 filterChip.setVisibility(View.VISIBLE);
                 filterChip.setText("Filtré par: " + filter.label);
             } else {
                 filterChip.setVisibility(View.GONE);
             }
+            
+            // Sync chips if filter changed from outside (e.g. cleared)
+            if (filter == null || filter.status == null) {
+                statusChipGroup.check(R.id.chipAll);
+            }
         });
 
-        filterChip.setOnCloseIconClickListener(v -> viewModel.clearFilter());
+        statusChipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
+            if (checkedIds.isEmpty()) {
+                viewModel.setStatusFilter(null);
+                return;
+            }
+            int id = checkedIds.get(0);
+            if (id == R.id.chipPaid) viewModel.setStatusFilter("Payée");
+            else if (id == R.id.chipPending) viewModel.setStatusFilter("En attente");
+            else if (id == R.id.chipCancelled) viewModel.setStatusFilter("Annulée");
+            else viewModel.setStatusFilter(null);
+        });
+
+        filterChip.setOnCloseIconClickListener(v -> viewModel.clearTimeFilter());
     }
 
     @Override

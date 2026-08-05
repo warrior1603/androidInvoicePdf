@@ -33,6 +33,8 @@ public class AddClientBottomSheet extends BottomSheetDialogFragment {
     private ClientRepository clientRepository;
     private ClientDao clientDao;
 
+    private TextInputEditText txtName, txtEmail, txtPhone;
+
     public interface OnClientSavedListener {
         void onClientSaved();
     }
@@ -61,21 +63,21 @@ public class AddClientBottomSheet extends BottomSheetDialogFragment {
         clientRepository = new ClientRepository(clientDao);
 
         TextView title = view.findViewById(R.id.title);
-        TextInputEditText txtName = view.findViewById(R.id.edit_user_name_client);
+        txtName = view.findViewById(R.id.edit_user_name_client);
         TextInputEditText txtRue = view.findViewById(R.id.edit_street);
         TextInputEditText txtVille = view.findViewById(R.id.edit_ville);
         TextInputEditText txtCodePostale = view.findViewById(R.id.edit_code_postale);
         TextInputEditText txtPays = view.findViewById(R.id.edit_pays);
         TextInputEditText txtSiren = view.findViewById(R.id.edit_siren);
         TextInputEditText txtTva = view.findViewById(R.id.tva_client);
-        TextInputEditText txtEmail = view.findViewById(R.id.edit_email_client);
-        TextInputEditText txtPhone = view.findViewById(R.id.edit_phone_client);
+        txtEmail = view.findViewById(R.id.edit_email_client);
+        txtPhone = view.findViewById(R.id.edit_phone_client);
         MaterialButton btnSave = view.findViewById(R.id.btn_save);
 
-        boolean isEdit = client != null;
+        boolean isEdit = client != null && client.getId() != 0;
         title.setText(isEdit ? "Modifier client" : "Nouveau client");
 
-        if (isEdit) {
+        if (client != null) {
             txtName.setText(client.getClientName());
             txtRue.setText(client.getStreet());
             txtVille.setText(client.getVille());
