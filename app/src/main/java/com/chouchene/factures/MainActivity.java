@@ -232,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
-        imgProfile.setOnClickListener(v -> showProfileMenu());
+        imgProfile.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SettingsActivity.class)));
 
         if (!sharedPreferences.getBoolean("tooltip_shown", false)) {
             imgProfile.post(() -> showTooltip(imgProfile));
@@ -358,6 +358,17 @@ public class MainActivity extends AppCompatActivity {
                 combinedResults.add(new SearchResult(i.clientName, String.format(Locale.getDefault(), "%.2f €", i.amount), i.type, i.filePath, i.id));
             }
 
+            // Search Settings (Suggestion 4)
+            String lowerQ = finalQuery.toLowerCase();
+            if (lowerQ.contains("param") || lowerQ.contains("sett") || lowerQ.contains("régl") ||
+                lowerQ.contains("thème") || lowerQ.contains("langue") || lowerQ.contains("sauvegarde") ||
+                lowerQ.contains("export") || lowerQ.contains("import") || lowerQ.contains("dark")) {
+                combinedResults.add(new SearchResult("Paramètres de l'application", "Thème, Langue, Sauvegarde...", "Action", "settings", 0));
+            }
+            if (lowerQ.contains("profil") || lowerQ.contains("entreprise") || lowerQ.contains("siren") || lowerQ.contains("tva")) {
+                combinedResults.add(new SearchResult("Profil Entreprise", "Modifier vos informations légales", "Action", "profile", 0));
+            }
+
             runOnUiThread(() -> {
                 if (searchAdapter != null) {
                     searchAdapter.setResults(combinedResults);
@@ -414,6 +425,8 @@ public class MainActivity extends AppCompatActivity {
                 holder.icon.setImageResource(R.drawable.rounded_person_24);
             } else if ("Bon".equals(result.type)) {
                 holder.icon.setImageResource(R.drawable.rounded_shopping_cart_24);
+            } else if ("Action".equals(result.type)) {
+                holder.icon.setImageResource(R.drawable.baseline_settings_24);
             } else {
                 holder.icon.setImageResource(R.drawable.rounded_receipt_long_24);
             }
@@ -424,6 +437,12 @@ public class MainActivity extends AppCompatActivity {
                     Bundle args = new Bundle();
                     args.putInt("client_id", result.id);
                     navController.navigate(R.id.clientDetailFragment, args);
+                } else if ("Action".equals(result.type)) {
+                    if ("settings".equals(result.filePath)) {
+                        startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                    } else if ("profile".equals(result.filePath)) {
+                        navController.navigate(R.id.personalSettingsFragment);
+                    }
                 } else {
                     Bundle args = new Bundle();
                     args.putString("file_path", result.filePath);

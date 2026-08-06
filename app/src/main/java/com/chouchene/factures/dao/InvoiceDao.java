@@ -39,6 +39,12 @@ public interface InvoiceDao {
     @Query("SELECT COUNT(*) FROM invoices WHERE strftime('%m-%Y', date / 1000, 'unixepoch', 'localtime') = strftime('%m-%Y', :date / 1000, 'unixepoch', 'localtime')")
     int getMonthlyCount(Date date);
 
+    @Query("SELECT COUNT(*) FROM invoices WHERE type = 'Facture' AND strftime('%m-%Y', date / 1000, 'unixepoch', 'localtime') = strftime('%m-%Y', :date / 1000, 'unixepoch', 'localtime')")
+    int getMonthlyInvoicesCount(Date date);
+
+    @Query("SELECT COUNT(*) FROM invoices WHERE type = 'Bon' AND strftime('%m-%Y', date / 1000, 'unixepoch', 'localtime') = strftime('%m-%Y', :date / 1000, 'unixepoch', 'localtime')")
+    int getMonthlyBonsCount(Date date);
+
     @Query("SELECT COUNT(*) FROM invoices WHERE strftime('%Y', date / 1000, 'unixepoch', 'localtime') = strftime('%Y', :date / 1000, 'unixepoch', 'localtime')")
     int getYearlyCount(Date date);
 
@@ -63,6 +69,9 @@ public interface InvoiceDao {
     @Query("SELECT * FROM invoices WHERE type = :type AND date(date / 1000, 'unixepoch', 'localtime') = date(:date / 1000, 'unixepoch', 'localtime') ORDER BY date DESC")
     List<Invoice> getDocumentsByDay(String type, Date date);
 
+    @Query("SELECT * FROM invoices WHERE date(date / 1000, 'unixepoch', 'localtime') = date(:date / 1000, 'unixepoch', 'localtime') ORDER BY date DESC")
+    List<Invoice> getInvoicesByDay(Date date);
+
     @Query("SELECT * FROM invoices WHERE type = :type AND strftime('%m-%Y', date / 1000, 'unixepoch', 'localtime') = :monthYear ORDER BY date DESC")
     List<Invoice> getDocumentsByMonth(String type, String monthYear);
 
@@ -80,6 +89,9 @@ public interface InvoiceDao {
 
     @Query("SELECT * FROM invoices WHERE strftime('%m-%Y', date / 1000, 'unixepoch', 'localtime') = :monthYear ORDER BY date DESC")
     List<Invoice> getInvoicesByMonth(String monthYear);
+
+    @Query("SELECT * FROM invoices WHERE strftime('%Y', date / 1000, 'unixepoch', 'localtime') = :year ORDER BY date DESC")
+    List<Invoice> getInvoicesByYear(String year);
 
     @Query("SELECT * FROM invoices ORDER BY date DESC LIMIT 3")
     List<Invoice> getLatestInvoices();

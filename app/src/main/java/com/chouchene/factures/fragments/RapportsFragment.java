@@ -38,6 +38,9 @@ public class RapportsFragment extends Fragment {
                 case 2:
                     tab.setText(getString(R.string.label_this_year));
                     break;
+                case 3:
+                    tab.setText("Global");
+                    break;
             }
         }).attach();
 
@@ -60,6 +63,8 @@ public class RapportsFragment extends Fragment {
                     return AnalyticsDetailFragment.newInstance(AnalyticsDetailFragment.Timeframe.MONTHLY);
                 case 2:
                     return AnalyticsDetailFragment.newInstance(AnalyticsDetailFragment.Timeframe.YEARLY);
+                case 3:
+                    return AnalyticsDetailFragment.newInstance(AnalyticsDetailFragment.Timeframe.ALL_TIME);
                 default:
                     return AnalyticsDetailFragment.newInstance(AnalyticsDetailFragment.Timeframe.DAILY);
             }
@@ -67,7 +72,7 @@ public class RapportsFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return 3;
+            return 4;
         }
     }
 }

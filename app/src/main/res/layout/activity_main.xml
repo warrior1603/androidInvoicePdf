@@ -26,7 +26,7 @@
 
             <com.google.android.material.search.SearchBar
                 android:id="@+id/search_bar"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_search_app"
                 app:navigationIcon="@null"
@@ -40,15 +40,16 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/img_profile_top"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:layout_marginEnd="6dp"
-                android:src="@drawable/rounded_person_24"
-                android:contentDescription="@string/label_profile"
-                android:background="?attr/colorSurface"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/baseline_settings_24"
+                android:contentDescription="@string/title_settings"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 app:shapeAppearanceOverlay="@style/App.ShapeAppearance.Circle"
+                app:tint="?attr/colorOnSurfaceVariant"
                 android:scaleType="centerInside"
-                android:padding="10dp"
+                android:padding="12dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:elevation="4dp"

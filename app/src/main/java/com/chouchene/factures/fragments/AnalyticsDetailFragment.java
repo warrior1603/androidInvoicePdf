@@ -17,6 +17,7 @@ import androidx.navigation.Navigation;
 
 import com.chouchene.factures.R;
 import com.chouchene.factures.dao.InvoiceDao;
+import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Invoice;
 import com.chouchene.factures.adapter.HistoryAdapter;
@@ -45,7 +46,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class AnalyticsDetailFragment extends Fragment implements com.chouchene.factures.adapter.HistoryAdapter.OnHistoryActionListener {
 
-    public enum Timeframe { DAILY, MONTHLY, YEARLY }
+    public enum Timeframe { DAILY, MONTHLY, YEARLY, ALL_TIME }
 
     private Timeframe timeframe;
     private InvoiceDao db;
@@ -103,10 +104,9 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                         Date d = cal.getTime();
                         float dayTotal = db.getDailyIncome(d);
                         BarEntry entry = new BarEntry(6 - i, dayTotal);
-                        // We don't have a DAY filter in the hub yet, but let's use MONTH for now as it's more common to filter by month
-                        entry.setData(new DocumentsViewModel.Filter("MONTH", 
-                            new SimpleDateFormat("MM-yyyy", Locale.getDefault()).format(d),
-                            new SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(d)));
+                        entry.setData(new DocumentsViewModel.Filter("DAY", 
+                            String.valueOf(d.getTime()),
+                            new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(d)));
                         chartEntries.add(entry);
                         labels.add(new SimpleDateFormat("dd/MM", Locale.getDefault()).format(d));
                     }
@@ -151,6 +151,26 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                             new SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(d)));
                         chartEntries.add(entry);
                         labels.add(new SimpleDateFormat("MMM", Locale.getDefault()).format(d));
+                    }
+                    break;
+
+                case ALL_TIME:
+                    revenue = db.getTotalRevenue();
+                    count = db.getTotalCount();
+                    labelTop = "REVENU TOTAL";
+                    labelChart = "ÉVOLUTION PAR ANNÉE";
+
+                    for (int i = 4; i >= 0; i--) {
+                        cal.setTime(new Date());
+                        cal.add(Calendar.YEAR, -i);
+                        Date d = cal.getTime();
+                        float yearTotal = db.getYearlyIncome(d);
+                        BarEntry entry = new BarEntry(4 - i, yearTotal);
+                        entry.setData(new DocumentsViewModel.Filter("YEAR",
+                                new SimpleDateFormat("yyyy", Locale.getDefault()).format(d),
+                                new SimpleDateFormat("yyyy", Locale.getDefault()).format(d)));
+                        chartEntries.add(entry);
+                        labels.add(new SimpleDateFormat("yyyy", Locale.getDefault()).format(d));
                     }
                     break;
             }
@@ -265,9 +285,20 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
         rv.setAdapter(adapter);
 
         Executors.newSingleThreadExecutor().execute(() -> {
-            List<Invoice> invoices;
+            final List<Invoice> invoices;
             if ("MONTH".equals(filter.type)) {
                 invoices = db.getInvoicesByMonth(filter.value);
+            } else if ("DAY".equals(filter.type)) {
+                List<Invoice> dayInvoices;
+                try {
+                    long timestamp = Long.parseLong(filter.value);
+                    dayInvoices = db.getInvoicesByDay(new Date(timestamp));
+                } catch (Exception e) {
+                    dayInvoices = new ArrayList<>();
+                }
+                invoices = dayInvoices;
+            } else if ("YEAR".equals(filter.type)) {
+                invoices = db.getInvoicesByYear(filter.value);
             } else {
                 invoices = db.getLatestInvoices(); // Fallback
             }

@@ -38,7 +38,7 @@ import android.content.Intent;
 
 public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryActionListener {
 
-    private TextView txtGreeting, txtRevenue, txtDocCount, txtCurrentDate;
+    private TextView txtGreeting, txtRevenue, txtInvoiceCount, txtBonCount, txtCurrentDate;
     private View badgeOverdue;
     private com.facebook.shimmer.ShimmerFrameLayout shimmerContainer;
     private RecyclerView rvRecent;
@@ -61,7 +61,8 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         txtGreeting = view.findViewById(R.id.txt_greeting);
         txtCurrentDate = view.findViewById(R.id.txt_current_date);
         txtRevenue = view.findViewById(R.id.txt_home_revenue);
-        txtDocCount = view.findViewById(R.id.txt_home_doc_count);
+        txtInvoiceCount = view.findViewById(R.id.txt_home_invoice_count);
+        txtBonCount = view.findViewById(R.id.txt_home_bon_count);
         rvRecent = view.findViewById(R.id.rv_home_recent);
         badgeOverdue = view.findViewById(R.id.badge_overdue);
         shimmerContainer = view.findViewById(R.id.shimmer_view_container);
@@ -74,6 +75,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         MaterialCardView cardClients = view.findViewById(R.id.card_clients);
         MaterialCardView cardDashboard = view.findViewById(R.id.card_dashboard);
         MaterialCardView cardProfile = view.findViewById(R.id.card_profile);
+        MaterialCardView cardSettings = view.findViewById(R.id.card_settings);
 
         BottomNavigationView navView = requireActivity().findViewById(R.id.bottomNavigationView);
 
@@ -81,6 +83,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         cardClients.setOnClickListener(v -> navView.setSelectedItemId(R.id.clientsFragment));
         cardDashboard.setOnClickListener(v -> navView.setSelectedItemId(R.id.parametresFragment));
         cardProfile.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.personalSettingsFragment));
+        cardSettings.setOnClickListener(v -> startActivity(new Intent(requireContext(), com.chouchene.factures.SettingsActivity.class)));
 
         view.findViewById(R.id.btn_view_all_recent).setOnClickListener(v -> navView.setSelectedItemId(R.id.documentsHubFragment));
 
@@ -142,14 +145,16 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
 
         Executors.newSingleThreadExecutor().execute(() -> {
             float revenue = db.invoiceDao().getMonthlyIncome(new java.util.Date());
-            int count = db.invoiceDao().getMonthlyCount(new java.util.Date());
+            int invoiceCount = db.invoiceDao().getMonthlyInvoicesCount(new java.util.Date());
+            int bonCount = db.invoiceDao().getMonthlyBonsCount(new java.util.Date());
             List<Invoice> latest = db.invoiceDao().getLatestInvoices();
             int overdueCount = db.invoiceDao().getOverdueInvoicesCount();
 
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
                     txtRevenue.setText(String.format(Locale.getDefault(), "%.2f €", revenue));
-                    txtDocCount.setText(String.valueOf(count));
+                    txtInvoiceCount.setText(String.valueOf(invoiceCount));
+                    txtBonCount.setText(String.valueOf(bonCount));
                     adapter.setData(latest);
                     
                     if (badgeOverdue != null) {
