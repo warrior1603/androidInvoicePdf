@@ -156,7 +156,7 @@
                             android:layout_height="wrap_content"
                             android:text="+0%"
                             android:textStyle="bold"
-                            android:textColor="#4CAF50" />
+                            android:textColor="@color/status_paid" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

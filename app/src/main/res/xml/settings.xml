@@ -9,7 +9,6 @@
             android:title="@string/pref_title_dark_mode"
             android:summary="@string/pref_summary_dark_mode"
             android:icon="@drawable/rounded_moon_24"
-            app:widgetLayout="@layout/m3_switch_widget"
             android:defaultValue="false" />
 
         <SwitchPreferenceCompat
@@ -17,7 +16,6 @@
             android:title="@string/pref_title_dynamic_colors"
             android:summary="@string/pref_summary_dynamic_colors"
             android:icon="@drawable/rounded_brush_24"
-            app:widgetLayout="@layout/m3_switch_widget"
             android:defaultValue="false" />
 
         <SwitchPreferenceCompat
@@ -25,7 +23,6 @@
             android:title="Verrouillage biométrique"
             android:summary="Sécuriser l'accès à l'application"
             android:icon="@drawable/rounded_fingerprint_24"
-            app:widgetLayout="@layout/m3_switch_widget"
             android:defaultValue="false" />
 
         <ListPreference

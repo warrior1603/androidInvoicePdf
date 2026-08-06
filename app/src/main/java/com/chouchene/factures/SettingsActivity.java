@@ -200,12 +200,12 @@ public class SettingsActivity extends AppCompatActivity {
             SwitchPreferenceCompat dynamicColorSwitch = findPreference("dynamic_colors");
             if (dynamicColorSwitch != null) {
                 dynamicColorSwitch.setOnPreferenceChangeListener((preference, newValue) -> {
-                    // Force save immediately before recreation
+                    // Update state manually and THEN recreate
                     boolean isEnabled = (boolean) newValue;
                     PreferenceManager.getDefaultSharedPreferences(requireContext())
                             .edit()
                             .putBoolean("dynamic_colors", isEnabled)
-                            .commit(); // Use commit to ensure it's saved before recreate()
+                            .apply();
                     
                     requireActivity().recreate();
                     return true;

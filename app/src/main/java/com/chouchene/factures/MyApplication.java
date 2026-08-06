@@ -9,7 +9,6 @@ import com.chouchene.factures.utils.LocaleHelper;
 import com.google.android.material.color.DynamicColors;
 import com.google.android.material.color.DynamicColorsOptions;
 import android.content.Context;
-import android.app.Activity;
 
 public class MyApplication extends Application {
     @Override
@@ -23,10 +22,18 @@ public class MyApplication extends Application {
         
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         
-        // Handle Light/Dark mode globally
+        // 1. Handle Light/Dark mode globally
         boolean isDarkMode = sharedPreferences.getBoolean("theme", false);
         AppCompatDelegate.setDefaultNightMode(
                 isDarkMode ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO
         );
+
+        // 2. Apply dynamic colors globally with a reliable FALSE default
+        DynamicColors.applyToActivitiesIfAvailable(this, new DynamicColorsOptions.Builder()
+                .setPrecondition((activity, themeResId) -> {
+                    return PreferenceManager.getDefaultSharedPreferences(activity)
+                            .getBoolean("dynamic_colors", false);
+                })
+                .build());
     }
 }

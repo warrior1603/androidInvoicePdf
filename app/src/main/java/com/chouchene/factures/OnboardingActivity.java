@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.util.TypedValue;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -114,7 +115,7 @@ public class OnboardingActivity extends AppCompatActivity {
             dots[i] = new ImageView(getApplicationContext());
             dots[i].setImageDrawable(ContextCompat.getDrawable(
                     getApplicationContext(),
-                    R.drawable.rounded_circle_24 // Assuming this exists or using a generic one
+                    R.drawable.rounded_circle_24
             ));
             dots[i].setLayoutParams(params);
             layoutDots.addView(dots[i]);
@@ -123,10 +124,14 @@ public class OnboardingActivity extends AppCompatActivity {
 
     private void setCurrentDot(int index) {
         int childCount = layoutDots.getChildCount();
+        TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(androidx.appcompat.R.attr.colorPrimary, typedValue, true);
+        int colorActive = typedValue.data;
+
         for (int i = 0; i < childCount; i++) {
             ImageView imageView = (ImageView) layoutDots.getChildAt(i);
             if (i == index) {
-                imageView.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.primary_light));
+                imageView.setColorFilter(colorActive);
             } else {
                 imageView.setColorFilter(ContextCompat.getColor(getApplicationContext(), android.R.color.darker_gray));
             }

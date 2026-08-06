@@ -79,7 +79,7 @@ public class TemplatePreviewFragment extends Fragment {
 
     private void updateSelectionUI() {
         String current = settingsPrefs.getString("invoice_template", "invoice_template.html");
-        int primary = ContextCompat.getColor(requireContext(), R.color.primary_light);
+        int primary = ContextCompat.getColor(requireContext(), R.color.primary);
         
         cardStandard.setStrokeColor(current.equals("invoice_template.html") ? primary : 0);
         cardStandard.setStrokeWidth(current.equals("invoice_template.html") ? 4 : 0);
