@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -23,6 +24,7 @@ import com.chouchene.factures.fragments.TemplatePreviewFragment;
 import com.chouchene.factures.utils.BackupUtils;
 import com.chouchene.factures.utils.LocaleHelper;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.color.DynamicColors;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -44,8 +46,9 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isDarkMode = sharedPreferences.getBoolean(THEME_KEY, false);
-        setTheme(isDarkMode ? R.style.DarkTheme : R.style.LightTheme);
+        if (sharedPreferences.getBoolean("dynamic_colors", true)) {
+            com.google.android.material.color.DynamicColors.applyToActivityIfAvailable(this);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
 
@@ -106,7 +109,7 @@ public class SettingsActivity extends AppCompatActivity {
             new Thread(() -> {
                 try (OutputStream os = requireContext().getContentResolver().openOutputStream(uri)) {
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
-                    String pdfDir = prefs.getString("directory", null);
+                    String pdfDir = prefs.getString("directory", BackupUtils.getDefaultPdfDir(requireContext()));
                     boolean success = BackupUtils.exportData(requireContext(), os, pdfDir);
                     if (isAdded()) {
                         requireActivity().runOnUiThread(() -> {
@@ -145,7 +148,7 @@ public class SettingsActivity extends AppCompatActivity {
             new Thread(() -> {
                 try (InputStream is = requireContext().getContentResolver().openInputStream(uri)) {
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
-                    String pdfDir = prefs.getString("directory", null);
+                    String pdfDir = prefs.getString("directory", BackupUtils.getDefaultPdfDir(requireContext()));
 
                     // Close DB safely
                     DatabaseClient.getInstance(requireContext().getApplicationContext()).getAppDatabase().close();
@@ -197,6 +200,13 @@ public class SettingsActivity extends AppCompatActivity {
             SwitchPreferenceCompat dynamicColorSwitch = findPreference("dynamic_colors");
             if (dynamicColorSwitch != null) {
                 dynamicColorSwitch.setOnPreferenceChangeListener((preference, newValue) -> {
+                    // Force save immediately before recreation
+                    boolean isEnabled = (boolean) newValue;
+                    PreferenceManager.getDefaultSharedPreferences(requireContext())
+                            .edit()
+                            .putBoolean("dynamic_colors", isEnabled)
+                            .commit(); // Use commit to ensure it's saved before recreate()
+                    
                     requireActivity().recreate();
                     return true;
                 });

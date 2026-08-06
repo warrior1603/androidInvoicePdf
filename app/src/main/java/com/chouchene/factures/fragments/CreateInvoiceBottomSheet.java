@@ -35,6 +35,7 @@ import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Client;
 import com.chouchene.factures.entity.Invoice;
+import com.chouchene.factures.utils.BackupUtils;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
@@ -337,7 +338,9 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
                 .replace("{{totalTtc}}", String.format(Locale.US, "%.2f %s", totalTtc, currency));
 
         final String fileName = "Facture_" + customerName.trim().replaceAll("[^a-zA-Z0-9]", "_") + "_" + System.currentTimeMillis() + ".pdf";
-        final File pdfFile = new File(requireContext().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), fileName);
+        
+        String dirPath = settingsSharedPreferences.getString("directory", BackupUtils.getDefaultPdfDir(requireContext()));
+        final File pdfFile = new File(dirPath, fileName);
 
         createPdfFromHtml(template, pdfFile, totalTtc);
     }

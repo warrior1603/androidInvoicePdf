@@ -46,6 +46,7 @@ import com.chouchene.factures.entity.Client;
 import com.chouchene.factures.entity.Invoice;
 import com.chouchene.factures.utils.LocaleHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.color.DynamicColors;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.search.SearchBar;
 import com.google.android.material.search.SearchView;
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
     AppDatabase db;
     com.chouchene.factures.fragments.ClientsViewModel clientsViewModel;
     private KonfettiView konfettiView;
+    private boolean lastDynamicColorsState;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -128,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        lastDynamicColorsState = sharedPreferences.getBoolean("dynamic_colors", true);
 
         if (sharedPreferences.getBoolean("first_run", true)) {
             startActivity(new Intent(this, OnboardingActivity.class));
@@ -135,8 +138,11 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        boolean isDarkMode = sharedPreferences.getBoolean("theme", false);
-        setTheme(isDarkMode ? R.style.DarkTheme : R.style.LightTheme);
+        // Apply dynamic colors if enabled
+        if (sharedPreferences.getBoolean("dynamic_colors", true)) {
+            com.google.android.material.color.DynamicColors.applyToActivityIfAvailable(this);
+        }
+
         EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
         
@@ -193,6 +199,16 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         biometricPrompt.authenticate(promptInfo);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Check if dynamic colors setting has changed while we were in Settings
+        boolean currentDynamicState = sharedPreferences.getBoolean("dynamic_colors", true);
+        if (currentDynamicState != lastDynamicColorsState) {
+            recreate();
+        }
     }
 
     private void initApp() {

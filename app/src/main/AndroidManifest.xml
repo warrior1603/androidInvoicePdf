@@ -34,7 +34,7 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/android_icon_round"
         android:supportsRtl="true"
-        android:theme="@style/LightTheme"
+        android:theme="@style/AppTheme"
         android:pageSizeCompat="enabled"
         android:extractNativeLibs="false"
         tools:ignore="UnusedAttribute"

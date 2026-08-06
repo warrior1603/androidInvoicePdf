@@ -14,6 +14,7 @@ import androidx.preference.PreferenceManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.color.DynamicColors;
 
 import java.util.ArrayList;
 import java.util.List;

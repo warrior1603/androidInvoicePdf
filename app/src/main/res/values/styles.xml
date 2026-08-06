@@ -2,7 +2,30 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- ── Base Theme Design ────────────────────────────────────── -->
-    <style name="LightTheme" parent="Theme.Material3.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Default colors (Fallback if Dynamic Colors are off) -->
+        <item name="colorPrimary">@color/primary_light</item>
+        <item name="colorOnPrimary">@color/on_primary_light</item>
+        <item name="colorPrimaryContainer">@color/primary_container_light</item>
+        <item name="colorOnPrimaryContainer">@color/on_primary_container_light</item>
+        <item name="colorSecondary">@color/secondary_light</item>
+        <item name="colorOnSecondary">@color/on_secondary_light</item>
+        <item name="colorSecondaryContainer">@color/secondary_container_light</item>
+        <item name="colorOnSecondaryContainer">@color/on_secondary_container_light</item>
+        <item name="android:colorBackground">@color/background_light</item>
+        <item name="android:windowBackground">@color/background_light</item>
+
+        <!-- Component overrides -->
+        <item name="toolbarStyle">@style/App.Toolbar</item>
+        <item name="bottomNavigationStyle">@style/App.BottomNavigation</item>
+        <item name="materialButtonStyle">@style/App.Button</item>
+        <item name="floatingActionButtonStyle">@style/App.Fab</item>
+        <item name="cardViewStyle">@style/App.CardView</item>
+        <item name="textInputStyle">@style/App.TextInput</item>
+        <item name="materialSwitchStyle">@style/Widget.Material3.CompoundButton.MaterialSwitch</item>
+    </style>
+
+    <style name="LightTheme" parent="AppTheme">
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
@@ -52,7 +75,7 @@
         <item name="materialSwitchStyle">@style/Widget.Material3.CompoundButton.MaterialSwitch</item>
     </style>
 
-    <style name="DarkTheme" parent="Theme.Material3.Dark.NoActionBar">
+    <style name="DarkTheme" parent="AppTheme">
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
@@ -201,7 +224,7 @@
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/white</item>
         <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
-        <item name="postSplashScreenTheme">@style/LightTheme</item>
+        <item name="postSplashScreenTheme">@style/AppTheme</item>
     </style>
 
 </resources>

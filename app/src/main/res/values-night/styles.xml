@@ -2,6 +2,6 @@
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/background_dark</item>
         <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
-        <item name="postSplashScreenTheme">@style/DarkTheme</item>
+        <item name="postSplashScreenTheme">@style/AppTheme</item>
     </style>
 </resources>

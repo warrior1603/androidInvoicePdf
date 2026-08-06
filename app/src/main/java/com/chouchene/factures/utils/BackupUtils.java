@@ -20,6 +20,13 @@ public class BackupUtils {
     private static final String TAG = "BackupUtils";
     private static final String DB_NAME = "MyClientsV8";
 
+    public static String getDefaultPdfDir(Context context) {
+        File dir = context.getExternalFilesDir(android.os.Environment.DIRECTORY_DOCUMENTS);
+        if (dir == null) dir = new File(context.getFilesDir(), "Documents");
+        if (!dir.exists()) dir.mkdirs();
+        return dir.getPath();
+    }
+
     public static boolean exportData(Context context, OutputStream outputStream, String pdfDirPath) {
         try (ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(outputStream))) {
             // 1. Export Database files
@@ -32,11 +39,13 @@ public class BackupUtils {
             if (dbWalFile.exists()) addToZip(zos, dbWalFile, "database/" + DB_NAME + "-wal");
 
             // 2. Export PDFs
-            if (pdfDirPath != null) {
-                File pdfDir = new File(pdfDirPath);
-                if (pdfDir.exists() && pdfDir.isDirectory()) {
-                    addDirectoryToZip(zos, pdfDir, "documents/");
-                }
+            if (pdfDirPath == null || pdfDirPath.isEmpty()) {
+                pdfDirPath = getDefaultPdfDir(context);
+            }
+            
+            File pdfDir = new File(pdfDirPath);
+            if (pdfDir.exists() && pdfDir.isDirectory()) {
+                addDirectoryToZip(zos, pdfDir, "documents/");
             }
 
             zos.finish();
@@ -73,11 +82,10 @@ public class BackupUtils {
     }
 
     public static boolean importData(Context context, InputStream inputStream, String pdfDirPath) {
-        boolean dbImported = false;
+        boolean success = false;
         
-        // Fallback to default Download directory if none provided
         if (pdfDirPath == null || pdfDirPath.isEmpty()) {
-            pdfDirPath = android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS).getPath() + "/Factures";
+            pdfDirPath = getDefaultPdfDir(context);
         }
         
         File docDir = new File(pdfDirPath);
@@ -93,10 +101,12 @@ public class BackupUtils {
                         File dbFile = context.getDatabasePath(fileName);
                         if (!dbFile.getParentFile().exists()) dbFile.getParentFile().mkdirs();
                         copyInputStreamToExistingFile(zis, dbFile);
-                        dbImported = true;
+                        success = true;
                         Log.d(TAG, "Base de données importée: " + fileName);
                     } else if (name.startsWith("documents/")) {
                         String fileName = name.substring("documents/".length());
+                        if (fileName.isEmpty()) continue;
+                        
                         File pdfFile = new File(docDir, fileName);
                         
                         // Ensure sub-directories for PDFs exist
@@ -104,6 +114,7 @@ public class BackupUtils {
                         if (parent != null && !parent.exists()) parent.mkdirs();
                         
                         copyInputStreamToExistingFile(zis, pdfFile);
+                        success = true;
                         Log.d(TAG, "Document PDF importé: " + pdfFile.getAbsolutePath());
                     }
                 } catch (IOException e) {
@@ -112,7 +123,7 @@ public class BackupUtils {
                 }
                 zis.closeEntry();
             }
-            return dbImported;
+            return success;
         } catch (IOException e) {
             Log.e(TAG, "Importation échouée", e);
             return false;

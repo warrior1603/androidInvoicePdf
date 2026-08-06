@@ -19,6 +19,7 @@ import com.chouchene.factures.R;
 import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Invoice;
+import com.chouchene.factures.utils.BackupUtils;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -153,10 +154,9 @@ public class CreateBonBottomSheet extends BottomSheetDialogFragment {
             acroForm.setNeedAppearances(true);
             acroForm.flatten();
 
-            String newDirectory = settingsSharedPreferences.getString(DIRECTORY_KEY, "");
-            File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
             String fileName = "Bon-de-commande_" + passager.trim().replace(" ", "_") + "_" + System.currentTimeMillis() + ".pdf";
-            File invoiceFile = new File(!newDirectory.isEmpty() ? new File(newDirectory) : downloadsDir, fileName);
+            String dirPath = settingsSharedPreferences.getString(DIRECTORY_KEY, BackupUtils.getDefaultPdfDir(requireContext()));
+            File invoiceFile = new File(dirPath, fileName);
 
             document.save(invoiceFile);
             document.close();
