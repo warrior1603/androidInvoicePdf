@@ -73,29 +73,48 @@ public class BackupUtils {
     }
 
     public static boolean importData(Context context, InputStream inputStream, String pdfDirPath) {
+        boolean dbImported = false;
+        
+        // Fallback to default Download directory if none provided
+        if (pdfDirPath == null || pdfDirPath.isEmpty()) {
+            pdfDirPath = android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS).getPath() + "/Factures";
+        }
+        
+        File docDir = new File(pdfDirPath);
+        if (!docDir.exists()) docDir.mkdirs();
+
         try (ZipInputStream zis = new ZipInputStream(new BufferedInputStream(inputStream))) {
             ZipEntry entry;
             while ((entry = zis.getNextEntry()) != null) {
                 String name = entry.getName();
-                if (name.startsWith("database/")) {
-                    String fileName = name.substring("database/".length());
-                    File dbFile = context.getDatabasePath(fileName);
-                    // Ensure directory exists
-                    if (!dbFile.getParentFile().exists()) dbFile.getParentFile().mkdirs();
-                    copyInputStreamToExistingFile(zis, dbFile);
-                } else if (name.startsWith("documents/")) {
-                    if (pdfDirPath != null) {
+                try {
+                    if (name.startsWith("database/")) {
+                        String fileName = name.substring("database/".length());
+                        File dbFile = context.getDatabasePath(fileName);
+                        if (!dbFile.getParentFile().exists()) dbFile.getParentFile().mkdirs();
+                        copyInputStreamToExistingFile(zis, dbFile);
+                        dbImported = true;
+                        Log.d(TAG, "Base de données importée: " + fileName);
+                    } else if (name.startsWith("documents/")) {
                         String fileName = name.substring("documents/".length());
-                        File pdfFile = new File(pdfDirPath, fileName);
-                        if (!pdfFile.getParentFile().exists()) pdfFile.getParentFile().mkdirs();
+                        File pdfFile = new File(docDir, fileName);
+                        
+                        // Ensure sub-directories for PDFs exist
+                        File parent = pdfFile.getParentFile();
+                        if (parent != null && !parent.exists()) parent.mkdirs();
+                        
                         copyInputStreamToExistingFile(zis, pdfFile);
+                        Log.d(TAG, "Document PDF importé: " + pdfFile.getAbsolutePath());
                     }
+                } catch (IOException e) {
+                    Log.e(TAG, "Erreur sur l'entrée: " + name, e);
+                    if (name.startsWith("database/")) throw e;
                 }
                 zis.closeEntry();
             }
-            return true;
+            return dbImported;
         } catch (IOException e) {
-            Log.e(TAG, "Import failed", e);
+            Log.e(TAG, "Importation échouée", e);
             return false;
         }
     }
@@ -107,6 +126,7 @@ public class BackupUtils {
             while ((count = is.read(buffer)) != -1) {
                 os.write(buffer, 0, count);
             }
+            os.flush();
         }
     }
 }

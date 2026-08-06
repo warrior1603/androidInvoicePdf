@@ -49,8 +49,6 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
 
-
-
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -82,8 +80,6 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-
-
     public static class SettingsFragment extends PreferenceFragmentCompat {
 
         private ActivityResultLauncher<String> exportLauncher;
@@ -107,17 +103,28 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         private void performExport(Uri uri) {
-            try (OutputStream os = requireContext().getContentResolver().openOutputStream(uri)) {
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
-                String pdfDir = prefs.getString("directory", null);
-                if (BackupUtils.exportData(requireContext(), os, pdfDir)) {
-                    android.widget.Toast.makeText(requireContext(), R.string.msg_export_success, android.widget.Toast.LENGTH_SHORT).show();
-                } else {
-                    android.widget.Toast.makeText(requireContext(), R.string.msg_export_error, android.widget.Toast.LENGTH_SHORT).show();
+            new Thread(() -> {
+                try (OutputStream os = requireContext().getContentResolver().openOutputStream(uri)) {
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
+                    String pdfDir = prefs.getString("directory", null);
+                    boolean success = BackupUtils.exportData(requireContext(), os, pdfDir);
+                    if (isAdded()) {
+                        requireActivity().runOnUiThread(() -> {
+                            if (success) {
+                                android.widget.Toast.makeText(requireContext(), R.string.msg_export_success, android.widget.Toast.LENGTH_SHORT).show();
+                            } else {
+                                android.widget.Toast.makeText(requireContext(), R.string.msg_export_error, android.widget.Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                } catch (Exception e) {
+                    if (isAdded()) {
+                        requireActivity().runOnUiThread(() -> 
+                            android.widget.Toast.makeText(requireContext(), R.string.msg_export_error, android.widget.Toast.LENGTH_SHORT).show()
+                        );
+                    }
                 }
-            } catch (Exception e) {
-                android.widget.Toast.makeText(requireContext(), R.string.msg_export_error, android.widget.Toast.LENGTH_SHORT).show();
-            }
+            }).start();
         }
 
         private void confirmImport(Uri uri) {
@@ -130,34 +137,52 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         private void performImport(Uri uri) {
-            try (InputStream is = requireContext().getContentResolver().openInputStream(uri)) {
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
-                String pdfDir = prefs.getString("directory", null);
+            android.app.ProgressDialog pd = new android.app.ProgressDialog(requireContext());
+            pd.setMessage("Importation en cours...");
+            pd.setCancelable(false);
+            pd.show();
 
-                // Close DB safely
-                DatabaseClient.getInstance(requireContext()).getAppDatabase().close();
+            new Thread(() -> {
+                try (InputStream is = requireContext().getContentResolver().openInputStream(uri)) {
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
+                    String pdfDir = prefs.getString("directory", null);
 
-                if (BackupUtils.importData(requireContext(), is, pdfDir)) {
-                    android.widget.Toast.makeText(requireContext(), R.string.msg_import_success, android.widget.Toast.LENGTH_LONG).show();
-                    // Restart App
-                    Intent intent = new Intent(requireContext(), MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    android.os.Process.killProcess(android.os.Process.myPid());
-                    System.exit(0);
-                } else {
-                    android.widget.Toast.makeText(requireContext(), R.string.msg_import_error, android.widget.Toast.LENGTH_SHORT).show();
+                    // Close DB safely
+                    DatabaseClient.getInstance(requireContext().getApplicationContext()).getAppDatabase().close();
+
+                    boolean success = BackupUtils.importData(requireContext(), is, pdfDir);
+
+                    if (isAdded()) {
+                        requireActivity().runOnUiThread(() -> {
+                            pd.dismiss();
+                            if (success) {
+                                android.widget.Toast.makeText(requireContext(), R.string.msg_import_success, android.widget.Toast.LENGTH_LONG).show();
+                                // Restart App
+                                Intent intent = new Intent(requireContext(), MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                android.os.Process.killProcess(android.os.Process.myPid());
+                                System.exit(0);
+                            } else {
+                                android.widget.Toast.makeText(requireContext(), R.string.msg_import_error, android.widget.Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                } catch (Exception e) {
+                    if (isAdded()) {
+                        requireActivity().runOnUiThread(() -> {
+                            pd.dismiss();
+                            android.widget.Toast.makeText(requireContext(), R.string.msg_import_error, android.widget.Toast.LENGTH_SHORT).show();
+                        });
+                    }
                 }
-            } catch (Exception e) {
-                android.widget.Toast.makeText(requireContext(), R.string.msg_import_error, android.widget.Toast.LENGTH_SHORT).show();
-            }
+            }).start();
         }
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.settings, rootKey);
 
-            // Find the SwitchPreferenceCompat
             SwitchPreferenceCompat darkModeSwitch = findPreference(THEME_KEY);
             if (darkModeSwitch != null) {
                 darkModeSwitch.setOnPreferenceChangeListener((preference, newValue) -> {
@@ -215,7 +240,7 @@ public class SettingsActivity extends AppCompatActivity {
             Preference importPref = findPreference("import_data");
             if (importPref != null) {
                 importPref.setOnPreferenceClickListener(preference -> {
-                    importLauncher.launch(new String[]{"application/zip"});
+                    importLauncher.launch(new String[]{"application/zip", "application/x-zip-compressed", "application/octet-stream"});
                     return true;
                 });
             }

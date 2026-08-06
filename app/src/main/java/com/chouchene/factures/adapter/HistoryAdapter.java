@@ -80,6 +80,15 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
             listener.onStatusClick(invoice);
         });
+
+        holder.txtStatus.setOnLongClickListener(v -> {
+            if (!"Payée".equals(invoice.status)) {
+                v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                listener.onStatusChange(invoice, "Payée");
+                return true;
+            }
+            return false;
+        });
     }
 
     @Override

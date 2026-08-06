@@ -214,9 +214,17 @@ public class ClientDetailFragment extends Fragment implements HistoryAdapter.OnH
         BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
         View view = getLayoutInflater().inflate(R.layout.layout_status_selector, null);
 
-        view.findViewById(R.id.status_pending).setOnClickListener(v -> updateStatus(invoice, "En attente", dialog));
-        view.findViewById(R.id.status_paid).setOnClickListener(v -> updateStatus(invoice, "Payée", dialog));
-        view.findViewById(R.id.status_cancelled).setOnClickListener(v -> updateStatus(invoice, "Annulée", dialog));
+        com.google.android.material.chip.Chip chipPending = view.findViewById(R.id.status_pending);
+        com.google.android.material.chip.Chip chipPaid = view.findViewById(R.id.status_paid);
+        com.google.android.material.chip.Chip chipCancelled = view.findViewById(R.id.status_cancelled);
+
+        if ("Payée".equals(invoice.status)) chipPaid.setChecked(true);
+        else if ("Annulée".equals(invoice.status)) chipCancelled.setChecked(true);
+        else chipPending.setChecked(true);
+
+        chipPending.setOnClickListener(v -> updateStatus(invoice, "En attente", dialog));
+        chipPaid.setOnClickListener(v -> updateStatus(invoice, "Payée", dialog));
+        chipCancelled.setOnClickListener(v -> updateStatus(invoice, "Annulée", dialog));
 
         dialog.setContentView(view);
         dialog.show();

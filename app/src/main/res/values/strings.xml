@@ -54,6 +54,11 @@
     <string name="label_tap_to_add">Appuyez sur + pour en ajouter un</string>
     <string name="msg_contact_permission_required">Permission contacts requise</string>
     <string name="label_import_contacts">Importer des contacts</string>
+    <string name="label_payment_status">Statut du paiement</string>
+    <string name="label_update_status">Mettez à jour l\'état de ce document</string>
+    <string name="status_paid">Payée</string>
+    <string name="status_pending">En attente</string>
+    <string name="status_cancelled">Annulée</string>
     <string name="label_no_history">Aucun historique</string>
     <string name="label_client_details">Détails du client</string>
     <string name="label_guest">Invité</string>

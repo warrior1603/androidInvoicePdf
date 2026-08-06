@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="32dp">
+    android:paddingBottom="48dp">
 
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView
         android:layout_width="match_parent"
@@ -15,106 +15,74 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="24dp"
-        android:paddingVertical="8dp"
-        android:text="Modifier le statut"
-        android:textSize="20sp" />
+        android:text="@string/label_payment_status"
+        android:textSize="22sp"
+        android:textStyle="bold" />
 
     <TextView
         style="@style/App.TextAppearance.BodyMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="24dp"
-        android:paddingBottom="16dp"
-        android:text="Choisissez le nouvel état de ce document"
-        android:alpha="0.7" />
+        android:paddingTop="4dp"
+        android:text="@string/label_update_status"
+        android:alpha="0.6" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/status_pending"
-        style="@style/App.CardView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="12dp">
+        android:layout_marginTop="32dp"
+        android:paddingHorizontal="20dp"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="16dp">
+        <com.google.android.material.chip.Chip
+            android:id="@+id/status_pending"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:text="@string/status_pending"
+            android:textAlignment="center"
+            app:chipIcon="@drawable/rounded_access_time_24"
+            app:chipIconTint="@color/white"
+            android:textColor="@color/white"
+            app:chipBackgroundColor="@color/bg_status_pending_selector"
+            app:chipStrokeWidth="0dp"
+            android:checkable="true" />
 
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/rounded_access_time_24"
-                app:tint="#FFA000" />
+        <com.google.android.material.chip.Chip
+            android:id="@+id/status_paid"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:text="@string/status_paid"
+            android:textAlignment="center"
+            app:chipIcon="@drawable/rounded_check_24"
+            app:chipIconTint="@color/white"
+            android:textColor="@color/white"
+            app:chipBackgroundColor="@color/bg_status_paid_selector"
+            app:chipStrokeWidth="0dp"
+            android:checkable="true" />
 
-            <TextView
-                style="@style/App.TextAppearance.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="En attente" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.chip.Chip
+            android:id="@+id/status_cancelled"
+            style="@style/Widget.Material3.Chip.Filter"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:text="@string/status_cancelled"
+            android:textAlignment="center"
+            app:chipIcon="@drawable/baseline_cancel_24"
+            app:chipIconTint="@color/white"
+            android:textColor="@color/white"
+            app:chipBackgroundColor="@color/bg_status_cancelled_selector"
+            app:chipStrokeWidth="0dp"
+            android:checkable="true" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/status_paid"
-        style="@style/App.CardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="12dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="16dp">
-
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/rounded_check_24"
-                app:tint="#4CAF50" />
-
-            <TextView
-                style="@style/App.TextAppearance.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="Payée" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/status_cancelled"
-        style="@style/App.CardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="16dp">
-
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/baseline_cancel_24"
-                app:tint="#F44336" />
-
-            <TextView
-                style="@style/App.TextAppearance.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="Annulée" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
 
 </LinearLayout>
