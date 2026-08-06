@@ -23,7 +23,10 @@ import com.chouchene.factures.entity.Invoice;
 import com.chouchene.factures.utils.SwipeHistoryCallback;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import android.widget.ImageView;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -144,7 +147,10 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         }
 
         Executors.newSingleThreadExecutor().execute(() -> {
-            float revenue = db.invoiceDao().getMonthlyIncome(new java.util.Date());
+            float income = db.invoiceDao().getMonthlyIncome(new java.util.Date());
+            float expenses = db.expenseDao().getMonthlyExpenses(new java.util.Date());
+            float profit = income - expenses;
+            
             int invoiceCount = db.invoiceDao().getMonthlyInvoicesCount(new java.util.Date());
             int bonCount = db.invoiceDao().getMonthlyBonsCount(new java.util.Date());
             List<Invoice> latest = db.invoiceDao().getLatestInvoices();
@@ -152,7 +158,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
 
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
-                    txtRevenue.setText(String.format(Locale.getDefault(), "%.2f €", revenue));
+                    txtRevenue.setText(String.format(Locale.getDefault(), "%.2f €", profit));
                     txtInvoiceCount.setText(String.valueOf(invoiceCount));
                     txtBonCount.setText(String.valueOf(bonCount));
                     adapter.setData(latest);
@@ -172,9 +178,15 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
     }
 
     @Override
-    public void onItemClick(Invoice invoice) {
+    public void onItemClick(Invoice invoice, View sharedElement) {
         Bundle b = new Bundle();
         b.putString("file_path", invoice.filePath);
+        b.putString("transition_name", androidx.core.view.ViewCompat.getTransitionName(sharedElement));
+
+        androidx.navigation.fragment.FragmentNavigator.Extras extras = new androidx.navigation.fragment.FragmentNavigator.Extras.Builder()
+                .addSharedElement(sharedElement, androidx.core.view.ViewCompat.getTransitionName(sharedElement))
+                .build();
+
         Executors.newSingleThreadExecutor().execute(() -> {
             com.chouchene.factures.entity.Client client = db.clientDao().getClientByName(invoice.clientName);
             if (getActivity() != null) {
@@ -182,7 +194,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                     if (client != null) {
                         b.putString("mail_client", client.getEmail());
                     }
-                    Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, b);
+                    Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, b, null, extras);
                 });
             }
         });

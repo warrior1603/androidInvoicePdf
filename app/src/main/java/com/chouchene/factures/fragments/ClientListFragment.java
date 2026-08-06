@@ -339,7 +339,7 @@ public class ClientListFragment extends Fragment {
 
             com.airbnb.lottie.LottieAnimationView lottie = emptyState.findViewById(R.id.lottie_empty_state);
             android.widget.ImageView staticImg = emptyState.findViewById(R.id.img_empty_state);
-            LottieUtils.loadLottieWithFallback(lottie, staticImg, "anim_empty_clients.json");
+            LottieUtils.loadLottieWithFallback(lottie, staticImg, "anim_empty_invoices.json");
         } else {
             emptyState.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);

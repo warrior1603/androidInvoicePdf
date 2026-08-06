@@ -10,6 +10,9 @@ import android.content.pm.LabeledIntent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
@@ -40,10 +43,19 @@ public class WebViewPdfFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setSharedElementEnterTransition(new com.google.android.material.transition.MaterialContainerTransform());
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_webview_pdf_sendmail, container, false);
         Bundle bundle = getArguments();
+        if (bundle != null && bundle.containsKey("transition_name")) {
+            view.setTransitionName(bundle.getString("transition_name"));
+        }
         final String filePath = (bundle != null) ? bundle.getString("file_path", "") : "";
         final String mailClient = (bundle != null) ? bundle.getString("mail_client", "") : "";
 

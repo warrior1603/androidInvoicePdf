@@ -33,6 +33,11 @@
     <string name="pref_summary_preview">Voir et comparer les modèles de facture</string>
     <string name="pref_category_company">Entreprise</string>
     <string name="pref_title_profile">Profil Entreprise</string>
+    <string name="title_expenses">Dépenses</string>
+    <string name="add_expense">Ajouter Dépense</string>
+    <string name="new_expense">Nouvelle dépense</string>
+    <string name="empty_expenses">Aucune dépense trouvée</string>
+    <string name="empty_expenses_sub">Commencez par en ajouter une nouvelle</string>
     <string name="pref_summary_profile">Configurer vos informations (SIREN, TVA, Adresse…)</string>
 
     <!-- Labels -->

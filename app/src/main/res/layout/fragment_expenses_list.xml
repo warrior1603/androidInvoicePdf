@@ -65,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Aucun document trouvé"
+            android:text="@string/empty_expenses"
             android:textColor="?attr/colorOnSurface" />
 
         <TextView
@@ -73,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Commencez par en créer un nouveau"
+            android:text="@string/empty_expenses_sub"
             android:alpha="0.7" />
     </LinearLayout>
 
@@ -84,8 +84,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:text="Ajouter"
+        android:text="@string/add_expense"
         app:icon="@drawable/rounded_add_24"
-        android:contentDescription="Ajouter" />
+        android:contentDescription="@string/add_expense" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

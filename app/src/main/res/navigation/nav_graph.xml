@@ -102,4 +102,15 @@
         android:name="com.chouchene.factures.fragments.CreateBonBottomSheet"
         tools:layout="@layout/bottom_sheet_create_bon" />
 
+    <fragment
+        android:id="@+id/expensesFragment"
+        android:name="com.chouchene.factures.fragments.ExpensesFragment"
+        android:label="@string/title_expenses"
+        tools:layout="@layout/fragment_expenses_list" />
+
+    <dialog
+        android:id="@+id/addExpenseBottomSheet"
+        android:name="com.chouchene.factures.fragments.AddExpenseBottomSheet"
+        tools:layout="@layout/bottom_sheet_add_expense" />
+
 </navigation>

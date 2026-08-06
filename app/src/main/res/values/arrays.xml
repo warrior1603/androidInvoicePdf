@@ -28,4 +28,13 @@
         <item>fr</item>
         <item>en</item>
     </string-array>
+
+    <string-array name="expense_categories">
+        <item>Carburant</item>
+        <item>Assurance</item>
+        <item>Réparation</item>
+        <item>Fournitures</item>
+        <item>Repas</item>
+        <item>Autre</item>
+    </string-array>
 </resources>

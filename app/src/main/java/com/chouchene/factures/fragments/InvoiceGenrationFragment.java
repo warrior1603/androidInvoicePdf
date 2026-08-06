@@ -166,9 +166,10 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
     }
 
     @Override
-    public void onItemClick(Invoice invoice) {
+    public void onItemClick(Invoice invoice, View sharedElement) {
         Bundle b = new Bundle();
         b.putString("file_path", invoice.filePath);
+        b.putString("transition_name", "invoice_" + invoice.id);
         
         Executors.newSingleThreadExecutor().execute(() -> {
             com.chouchene.factures.entity.Client client = db.clientDao().getClientByName(invoice.clientName);
@@ -177,7 +178,13 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
                     if (client != null) {
                         b.putString("mail_client", client.getEmail());
                     }
-                    Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, b);
+                    
+                    androidx.navigation.fragment.FragmentNavigator.Extras extras = 
+                        new androidx.navigation.fragment.FragmentNavigator.Extras.Builder()
+                            .addSharedElement(sharedElement, "invoice_" + invoice.id)
+                            .build();
+
+                    Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, b, null, extras);
                 });
             }
         });

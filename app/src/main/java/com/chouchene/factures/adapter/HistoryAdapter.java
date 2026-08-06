@@ -24,7 +24,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     private final OnHistoryActionListener listener;
 
     public interface OnHistoryActionListener {
-        void onItemClick(Invoice invoice);
+        void onItemClick(Invoice invoice, View sharedElement);
         void onDeleteClick(Invoice invoice);
         void onStatusClick(Invoice invoice);
         void onShareClick(Invoice invoice);
@@ -62,9 +62,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             holder.icon.setImageResource(R.drawable.rounded_shopping_cart_24);
         }
 
+        androidx.core.view.ViewCompat.setTransitionName(holder.itemView, "invoice_" + invoice.id);
+
         holder.itemView.setOnClickListener(v -> {
             v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-            listener.onItemClick(invoice);
+            listener.onItemClick(invoice, holder.itemView);
         });
         
         holder.txtStatus.setText(invoice.status != null ? invoice.status : "En attente");

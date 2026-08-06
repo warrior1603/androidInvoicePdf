@@ -120,6 +120,10 @@
         <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
     </style>
 
+    <style name="App.TextAppearance.BodySmall" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+
     <style name="App.TextAppearance.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
         <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
     </style>

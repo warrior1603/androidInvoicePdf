@@ -169,6 +169,66 @@
 
         </LinearLayout>
 
+        <!-- Expenses Card (Moved Up) -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardExpenses"
+            style="@style/App.CardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="?attr/colorTertiaryContainer"
+                    android:alpha="0.8">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:src="@drawable/rounded_payments_24"
+                        app:tint="?attr/colorTertiary" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1">
+                    <TextView
+                        style="@style/App.TextAppearance.TitleMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Suivi des Dépenses"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Gérer vos coûts et frais"
+                        android:textAppearance="?attr/textAppearanceBodySmall"
+                        android:alpha="0.6" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/rounded_chevron_right_24"
+                    app:tint="?attr/colorOnSurfaceVariant" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
         <!-- Analysis Section -->
         <TextView
             android:id="@+id/chartTitle"
@@ -176,7 +236,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="TENDANCE DES REVENUS"
+            android:text="TENDANCE DU BÉNÉFICE"
             android:textColor="?attr/colorPrimary"
             android:letterSpacing="0.05"
             android:textStyle="bold" />
@@ -184,8 +244,7 @@
         <com.google.android.material.card.MaterialCardView
             style="@style/App.CardView"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="250dp"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="16dp">
 

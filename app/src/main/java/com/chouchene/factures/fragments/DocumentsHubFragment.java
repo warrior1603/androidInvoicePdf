@@ -13,10 +13,13 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.chouchene.factures.R;
+import com.chouchene.factures.database.DatabaseClient;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+
+import java.util.concurrent.Executors;
 
 public class DocumentsHubFragment extends Fragment {
 
@@ -86,6 +89,27 @@ public class DocumentsHubFragment extends Fragment {
         });
 
         filterChip.setOnCloseIconClickListener(v -> viewModel.clearTimeFilter());
+
+        updateChipsCounts();
+    }
+
+    private void updateChipsCounts() {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            com.chouchene.factures.dao.InvoiceDao dao = DatabaseClient.getInstance(requireContext()).getAppDatabase().invoiceDao();
+            int all = dao.getTotalCount();
+            int paid = dao.getCountByStatus("Payée");
+            int pending = dao.getCountByStatus("En attente");
+            int cancelled = dao.getCountByStatus("Annulée");
+
+            if (getActivity() != null) {
+                requireActivity().runOnUiThread(() -> {
+                    ((Chip) getView().findViewById(R.id.chipAll)).setText("Tous (" + all + ")");
+                    ((Chip) getView().findViewById(R.id.chipPaid)).setText("Payée (" + paid + ")");
+                    ((Chip) getView().findViewById(R.id.chipPending)).setText("Attente (" + pending + ")");
+                    ((Chip) getView().findViewById(R.id.chipCancelled)).setText("Annulée (" + cancelled + ")");
+                });
+            }
+        });
     }
 
     @Override

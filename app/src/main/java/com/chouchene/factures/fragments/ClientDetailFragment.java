@@ -197,11 +197,17 @@ public class ClientDetailFragment extends Fragment implements HistoryAdapter.OnH
     }
 
     @Override
-    public void onItemClick(Invoice invoice) {
+    public void onItemClick(Invoice invoice, View sharedElement) {
         Bundle b = new Bundle();
         b.putString("file_path", invoice.filePath);
         b.putString("mail_client", client.getEmail());
-        Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, b);
+        b.putString("transition_name", androidx.core.view.ViewCompat.getTransitionName(sharedElement));
+
+        androidx.navigation.fragment.FragmentNavigator.Extras extras = new androidx.navigation.fragment.FragmentNavigator.Extras.Builder()
+                .addSharedElement(sharedElement, androidx.core.view.ViewCompat.getTransitionName(sharedElement))
+                .build();
+
+        Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, b, null, extras);
     }
 
     @Override

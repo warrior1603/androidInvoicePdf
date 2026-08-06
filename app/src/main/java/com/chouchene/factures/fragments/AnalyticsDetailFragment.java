@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.chouchene.factures.R;
+import com.chouchene.factures.dao.ExpenseDao;
 import com.chouchene.factures.dao.InvoiceDao;
 import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.database.DatabaseClient;
@@ -50,6 +51,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
 
     private Timeframe timeframe;
     private InvoiceDao db;
+    private ExpenseDao expenseDb;
 
     public static AnalyticsDetailFragment newInstance(Timeframe timeframe) {
         AnalyticsDetailFragment fragment = new AnalyticsDetailFragment();
@@ -65,7 +67,9 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
         if (getArguments() != null) {
             timeframe = (Timeframe) getArguments().getSerializable("timeframe");
         }
-        db = DatabaseClient.getInstance(requireContext().getApplicationContext()).getAppDatabase().invoiceDao();
+        AppDatabase appDb = DatabaseClient.getInstance(requireContext().getApplicationContext()).getAppDatabase();
+        db = appDb.invoiceDao();
+        expenseDb = appDb.expenseDao();
     }
 
     @Nullable
@@ -79,6 +83,9 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
         TextView chartTitle = view.findViewById(R.id.chartTitle);
         BarChart barChart = view.findViewById(R.id.barChart);
         View chartEmptyState = view.findViewById(R.id.chart_empty_state);
+        View cardExpenses = view.findViewById(R.id.cardExpenses);
+
+        cardExpenses.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.expensesFragment));
 
         Executors.newSingleThreadExecutor().execute(() -> {
             Date today = new Date();
@@ -93,17 +100,20 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
 
             switch (timeframe) {
                 case DAILY:
-                    revenue = db.getDailyIncome(today);
+                    float dailyIncome = db.getDailyIncome(today);
+                    float dailyExpenses = expenseDb.getDailyExpenses(today);
+                    revenue = dailyIncome - dailyExpenses;
                     count = db.getDailyCount(today);
-                    labelTop = "REVENU DU JOUR";
-                    labelChart = "DERNIERS 7 JOURS";
+                    labelTop = "BÉNÉFICE DU JOUR";
+                    labelChart = "DERNIERS 7 JOURS (Profit)";
                     
                     for (int i = 6; i >= 0; i--) {
                         cal.setTime(new Date());
                         cal.add(Calendar.DAY_OF_YEAR, -i);
                         Date d = cal.getTime();
-                        float dayTotal = db.getDailyIncome(d);
-                        BarEntry entry = new BarEntry(6 - i, dayTotal);
+                        float income = db.getDailyIncome(d);
+                        float exp = expenseDb.getDailyExpenses(d);
+                        BarEntry entry = new BarEntry(6 - i, income - exp);
                         entry.setData(new DocumentsViewModel.Filter("DAY", 
                             String.valueOf(d.getTime()),
                             new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(d)));
@@ -113,17 +123,20 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                     break;
 
                 case MONTHLY:
-                    revenue = db.getMonthlyIncome(today);
+                    float monthlyIncome = db.getMonthlyIncome(today);
+                    float monthlyExpenses = expenseDb.getMonthlyExpenses(today);
+                    revenue = monthlyIncome - monthlyExpenses;
                     count = db.getMonthlyCount(today);
-                    labelTop = "REVENU DU MOIS";
-                    labelChart = "DERNIERS 6 MOIS";
+                    labelTop = "BÉNÉFICE DU MOIS";
+                    labelChart = "DERNIERS 6 MOIS (Bénéfice)";
                     
                     for (int i = 5; i >= 0; i--) {
                         cal.setTime(new Date());
                         cal.add(Calendar.MONTH, -i);
                         Date d = cal.getTime();
-                        float monthTotal = db.getMonthlyIncome(d);
-                        BarEntry entry = new BarEntry(5 - i, monthTotal);
+                        float income = db.getMonthlyIncome(d);
+                        float exp = expenseDb.getMonthlyExpenses(d);
+                        BarEntry entry = new BarEntry(5 - i, income - exp);
                         entry.setData(new DocumentsViewModel.Filter("MONTH", 
                             new SimpleDateFormat("MM-yyyy", Locale.getDefault()).format(d),
                             new SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(d)));
@@ -133,10 +146,12 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                     break;
 
                 case YEARLY:
-                    revenue = db.getYearlyIncome(today);
+                    float yearlyIncome = db.getYearlyIncome(today);
+                    float yearlyExpenses = expenseDb.getYearlyExpenses(today);
+                    revenue = yearlyIncome - yearlyExpenses;
                     count = db.getYearlyCount(today);
-                    labelTop = "REVENU DE L'ANNÉE";
-                    labelChart = "ÉVOLUTION ANNUELLE";
+                    labelTop = "BÉNÉFICE DE L'ANNÉE";
+                    labelChart = "ÉVOLUTION DU BÉNÉFICE";
                     
                     int currentMonth = cal.get(Calendar.MONTH);
                     for (int i = 0; i <= currentMonth; i++) {
@@ -144,8 +159,9 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                         cal.set(Calendar.DAY_OF_MONTH, 1);
                         cal.set(Calendar.MONTH, i);
                         Date d = cal.getTime();
-                        float monthTotal = db.getMonthlyIncome(d);
-                        BarEntry entry = new BarEntry(i, monthTotal);
+                        float income = db.getMonthlyIncome(d);
+                        float exp = expenseDb.getMonthlyExpenses(d);
+                        BarEntry entry = new BarEntry(i, income - exp);
                         entry.setData(new DocumentsViewModel.Filter("MONTH", 
                             new SimpleDateFormat("MM-yyyy", Locale.getDefault()).format(d),
                             new SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(d)));
@@ -314,10 +330,16 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
     }
 
     @Override
-    public void onItemClick(Invoice invoice) {
+    public void onItemClick(Invoice invoice, View sharedElement) {
         Bundle b = new Bundle();
         b.putString("file_path", invoice.filePath);
-        Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, b);
+        b.putString("transition_name", androidx.core.view.ViewCompat.getTransitionName(sharedElement));
+
+        androidx.navigation.fragment.FragmentNavigator.Extras extras = new androidx.navigation.fragment.FragmentNavigator.Extras.Builder()
+                .addSharedElement(sharedElement, androidx.core.view.ViewCompat.getTransitionName(sharedElement))
+                .build();
+
+        Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, b, null, extras);
     }
 
     @Override

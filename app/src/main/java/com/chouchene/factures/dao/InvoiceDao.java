@@ -108,6 +108,9 @@ public interface InvoiceDao {
     @Query("SELECT SUM(amount) FROM invoices WHERE client_name = :clientName")
     float getTotalRevenueByClient(String clientName);
 
+    @Query("SELECT COUNT(*) FROM invoices WHERE status = :status")
+    int getCountByStatus(String status);
+
     @Query("SELECT COUNT(*) FROM invoices WHERE status = 'En attente' AND (date / 1000) < (strftime('%s', 'now') - 30*24*60*60)")
     int getOverdueInvoicesCount();
 }

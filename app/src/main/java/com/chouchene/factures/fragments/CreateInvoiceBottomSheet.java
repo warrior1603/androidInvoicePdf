@@ -36,6 +36,8 @@ import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Client;
 import com.chouchene.factures.entity.Invoice;
 import com.chouchene.factures.utils.BackupUtils;
+import com.chouchene.factures.utils.SignatureView;
+import android.graphics.Bitmap;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
@@ -68,6 +70,7 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
     private TextInputLayout inputClient, layoutDescription, layoutQuantite, layoutPrix, layoutTva, layoutPaymentMode;
     private AutoCompleteTextView autoCompletePaymentMode;
     private LinearLayout inputClientProvisoire;
+    private SignatureView signatureView;
 
     private Integer mumeroFacture = 0;
     private SharedPreferences sharedPreferences, settingsSharedPreferences;
@@ -115,6 +118,9 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
         setupRadioGroup(view);
         setupInputs(view);
         setupPaymentMode(view);
+
+        signatureView = view.findViewById(R.id.signature_view);
+        view.findViewById(R.id.btn_clear_signature).setOnClickListener(v -> signatureView.clear());
 
         // Handle pre-selected client
         if (getArguments() != null && getArguments().containsKey("preselected_client_id")) {
@@ -307,6 +313,19 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
         }
         String logoHtml = logoBase64.isEmpty() ? "" : "<img src=\"" + logoBase64 + "\" style=\"max-height: 80px; margin-bottom: 10px;\">";
 
+        String signatureHtml = "";
+        if (!signatureView.isEmpty()) {
+            Bitmap sigBitmap = signatureView.getSignatureBitmap();
+            try {
+                java.io.ByteArrayOutputStream outputStream = new java.io.ByteArrayOutputStream();
+                sigBitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+                String sigBase64 = Base64.encodeToString(outputStream.toByteArray(), Base64.NO_WRAP);
+                signatureHtml = "<div style='margin-top: 30px; text-align: right;'><p>Signature:</p><img src='data:image/png;base64," + sigBase64 + "' style='max-height: 100px;'></div>";
+            } catch (Exception e) {
+                Log.e("PDF_GEN", "Signature error", e);
+            }
+        }
+
         mumeroFacture++;
         sharedPreferences.edit().putInt("last-invoice-number", mumeroFacture).apply();
 
@@ -335,7 +354,8 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
                 .replace("{{tvaEuro}}", String.format(Locale.US, "%.2f %s", (p - ht), currency))
                 .replace("{{totalHt}}", String.format(Locale.US, "%.2f %s", totalHt, currency))
                 .replace("{{totalTva}}", String.format(Locale.US, "%.2f %s", totalTva, currency))
-                .replace("{{totalTtc}}", String.format(Locale.US, "%.2f %s", totalTtc, currency));
+                .replace("{{totalTtc}}", String.format(Locale.US, "%.2f %s", totalTtc, currency))
+                .replace("</body>", signatureHtml + "</body>");
 
         final String fileName = "Facture_" + customerName.trim().replaceAll("[^a-zA-Z0-9]", "_") + "_" + System.currentTimeMillis() + ".pdf";
         
