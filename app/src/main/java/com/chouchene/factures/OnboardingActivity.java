@@ -81,17 +81,17 @@ public class OnboardingActivity extends AppCompatActivity {
         ));
 
         items.add(new OnboardingAdapter.OnboardingItem(
-                "anim_onboarding_2.json",
-                R.drawable.graph_svgrepo_com,
-                getString(R.string.onboarding_title_2),
-                getString(R.string.onboarding_desc_2)
-        ));
-
-        items.add(new OnboardingAdapter.OnboardingItem(
                 "anim_onboarding_3.json",
                 R.drawable.rounded_people_24,
                 getString(R.string.onboarding_title_3),
                 getString(R.string.onboarding_desc_3)
+        ));
+
+        items.add(new OnboardingAdapter.OnboardingItem(
+                "anim_onboarding_2.json",
+                R.drawable.graph_svgrepo_com,
+                getString(R.string.onboarding_title_2),
+                getString(R.string.onboarding_desc_2)
         ));
 
         onboardingAdapter = new OnboardingAdapter(items);

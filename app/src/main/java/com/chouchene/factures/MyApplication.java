@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceManager;
 
 import com.chouchene.factures.utils.LocaleHelper;
+import com.google.android.material.color.DynamicColors;
 import android.content.Context;
 
 public class MyApplication extends Application {
@@ -18,6 +19,9 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedPreferences.getBoolean("dynamic_colors", true)) {
+            DynamicColors.applyToActivitiesIfAvailable(this);
+        }
         boolean isDarkMode = sharedPreferences.getBoolean("theme", false);
         if (isDarkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);

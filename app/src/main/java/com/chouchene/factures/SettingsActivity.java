@@ -194,6 +194,14 @@ public class SettingsActivity extends AppCompatActivity {
                 });
             }
 
+            SwitchPreferenceCompat dynamicColorSwitch = findPreference("dynamic_colors");
+            if (dynamicColorSwitch != null) {
+                dynamicColorSwitch.setOnPreferenceChangeListener((preference, newValue) -> {
+                    requireActivity().recreate();
+                    return true;
+                });
+            }
+
             Preference profilePref = findPreference("profile_entreprise");
             if (profilePref != null) {
                 profilePref.setOnPreferenceClickListener(preference -> {

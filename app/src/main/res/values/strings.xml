@@ -59,6 +59,8 @@
     <string name="status_paid">Payée</string>
     <string name="status_pending">En attente</string>
     <string name="status_cancelled">Annulée</string>
+    <string name="pref_title_dynamic_colors">Couleurs dynamiques</string>
+    <string name="pref_summary_dynamic_colors">Adapter les couleurs à votre fond d\'écran (Android 12+)</string>
     <string name="label_no_history">Aucun historique</string>
     <string name="label_client_details">Détails du client</string>
     <string name="label_guest">Invité</string>
