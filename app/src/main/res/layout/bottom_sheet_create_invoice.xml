@@ -300,7 +300,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:hint="@string/label_payment_method"
-                        app:startIconDrawable="@drawable/rounded_payments_24">
+                        app:startIconDrawable="@drawable/rounded_credit_card_24">
                         <AutoCompleteTextView
                             android:id="@+id/autoCompletePaymentMode"
                             android:layout_width="match_parent"

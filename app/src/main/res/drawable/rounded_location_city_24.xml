@@ -2,9 +2,11 @@
     android:width="24dp"
     android:height="24dp"
     android:viewportWidth="24"
-    android:viewportHeight="24"
-    android:tint="#000000">
-  <path
-      android:fillColor="@android:color/white"
-      android:pathData="M15,11V5c0,-1.1 -0.9,-2 -2,-2H3c-1.1,0 -2,0.9 -2,2v14c0,1.1 0.9,2 2,2h18c1.1,0 2,-0.9 2,-2v-7c0,-1.1 -0.9,-2 -2,-2h-6zm-8,8H5v-2h2v2zm0,-4H5v-2h2v2zm0,-4H5V9h2v2zm0,-4H5V5h2v2zm4,12H9v-2h2v2zm0,-4H9v-2h2v2zm0,-4H9V9h2v2zm0,-4H9V5h2v2zm4,12h-2v-2h2v2zm0,-4h-2v-2h2v2zm0,-4h-2V9h2v2zm0,-4h-2V5h2v2zm4,12h-2v-2h2v2zm0,-4h-2v-2h2v2z"/>
+    android:viewportHeight="24">
+    <path
+        android:strokeColor="#000000"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M3,21h18M5,21v-14l8,-3v17M13,21v-9l8,-3v12M9,9h0M9,12h0M9,15h0M9,18h0M17,12h0M17,15h0M17,18h0" />
 </vector>
