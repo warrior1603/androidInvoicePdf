@@ -28,6 +28,10 @@ public class OnboardingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedPreferences.getBoolean("dynamic_colors", false)) {
+            com.google.android.material.color.DynamicColors.applyToActivityIfAvailable(this);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onboarding);
 
@@ -53,10 +57,12 @@ public class OnboardingActivity extends AppCompatActivity {
                     btnNext.setVisibility(View.GONE);
                     btnSkip.setVisibility(View.GONE);
                     btnGetStarted.setVisibility(View.VISIBLE);
+                    layoutDots.setVisibility(View.GONE);
                 } else {
                     btnNext.setVisibility(View.VISIBLE);
                     btnSkip.setVisibility(View.VISIBLE);
                     btnGetStarted.setVisibility(View.GONE);
+                    layoutDots.setVisibility(View.VISIBLE);
                 }
             }
         });

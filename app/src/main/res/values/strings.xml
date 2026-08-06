@@ -145,7 +145,4 @@
     <string name="btn_next">Suivant</string>
     <string name="btn_skip">Passer</string>
     <string name="btn_get_started">Commencer</string>
-
-    <!-- Tooltips -->
-    <string name="tooltip_profile">Configurez votre profil d\'entreprise ici !</string>
 </resources>

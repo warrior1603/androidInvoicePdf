@@ -46,7 +46,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (sharedPreferences.getBoolean("dynamic_colors", true)) {
+        if (sharedPreferences.getBoolean("dynamic_colors", false)) {
             com.google.android.material.color.DynamicColors.applyToActivityIfAvailable(this);
         }
         super.onCreate(savedInstanceState);

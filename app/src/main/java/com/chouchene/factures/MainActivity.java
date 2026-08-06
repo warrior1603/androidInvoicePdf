@@ -46,7 +46,6 @@ import com.chouchene.factures.entity.Client;
 import com.chouchene.factures.entity.Invoice;
 import com.chouchene.factures.utils.LocaleHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.color.DynamicColors;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.search.SearchBar;
 import com.google.android.material.search.SearchView;
@@ -106,6 +105,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
         
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        lastDynamicColorsState = sharedPreferences.getBoolean("dynamic_colors", false);
+
+        if (sharedPreferences.getBoolean("first_run", true)) {
+            super.onCreate(savedInstanceState);
+            startActivity(new Intent(this, OnboardingActivity.class));
+            finish();
+            return;
+        }
+
+        // Set theme before super.onCreate if needed, but AppTheme handles it
+        // Apply dynamic colors before super.onCreate or setContentView
+        if (lastDynamicColorsState) {
+            com.google.android.material.color.DynamicColors.applyToActivityIfAvailable(this);
+        }
+
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+
         splashScreen.setOnExitAnimationListener(splashScreenViewProvider -> {
             final View splashScreenView = splashScreenViewProvider.getView();
             final View iconView = splashScreenViewProvider.getIconView();
@@ -128,23 +146,6 @@ public class MainActivity extends AppCompatActivity {
 
             animatorSet.start();
         });
-
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        lastDynamicColorsState = sharedPreferences.getBoolean("dynamic_colors", true);
-
-        if (sharedPreferences.getBoolean("first_run", true)) {
-            startActivity(new Intent(this, OnboardingActivity.class));
-            finish();
-            return;
-        }
-
-        // Apply dynamic colors if enabled
-        if (sharedPreferences.getBoolean("dynamic_colors", true)) {
-            com.google.android.material.color.DynamicColors.applyToActivityIfAvailable(this);
-        }
-
-        EdgeToEdge.enable(this);
-        super.onCreate(savedInstanceState);
         
         try {
             if (sharedPreferences.getBoolean("biometric_lock", false) && isBiometricAvailable()) {
@@ -205,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         // Check if dynamic colors setting has changed while we were in Settings
-        boolean currentDynamicState = sharedPreferences.getBoolean("dynamic_colors", true);
+        boolean currentDynamicState = sharedPreferences.getBoolean("dynamic_colors", false);
         if (currentDynamicState != lastDynamicColorsState) {
             recreate();
         }
@@ -249,10 +250,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
         imgProfile.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SettingsActivity.class)));
-
-        if (!sharedPreferences.getBoolean("tooltip_shown", false)) {
-            imgProfile.post(() -> showTooltip(imgProfile));
-        }
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         if (navHostFragment != null) {
@@ -511,23 +508,6 @@ public class MainActivity extends AppCompatActivity {
                             .build()
             );
         }, 400L);
-    }
-
-    private void showTooltip(View anchor) {
-        View tooltipView = getLayoutInflater().inflate(R.layout.layout_tooltip, null);
-        TextView textView = tooltipView.findViewById(R.id.tooltip_text);
-        textView.setText(R.string.tooltip_profile);
-
-        android.widget.PopupWindow popupWindow = new android.widget.PopupWindow(
-                tooltipView,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                true
-        );
-        popupWindow.setElevation(10);
-        popupWindow.showAsDropDown(anchor, 0, 10);
-
-        sharedPreferences.edit().putBoolean("tooltip_shown", true).apply();
     }
 
     private void askPermissions() {
