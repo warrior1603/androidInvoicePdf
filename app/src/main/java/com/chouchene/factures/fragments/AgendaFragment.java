@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -172,12 +171,12 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
             }
         }
 
-        final int count = bookings.size();
+        final int totalCount = bookings.size();
 
         if (getActivity() != null) {
             getActivity().runOnUiThread(() -> {
                 adapter.setData(filtered, isMonthlyView, selectedDate);
-                if (isMonth) adapter.updateMonthStats(count);
+                if (isMonth) adapter.updateMonthStats(totalCount);
                 
                 shimmerContainer.stopShimmer();
                 shimmerContainer.setVisibility(View.GONE);
