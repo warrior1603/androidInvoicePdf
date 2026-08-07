@@ -8,9 +8,13 @@ A professional, Material 3-powered Android application tailored for private driv
 | :---: | :---: | :---: |
 | ![Home](screenshots/home.png) | ![History](screenshots/history.png) | ![Profile](screenshots/profile.png) |
 
-| Analytics | Settings | Documents |
+| Analytics | Settings | Agenda |
 | :---: | :---: | :---: |
-| ![Analytics](screenshots/rapports.png) | ![Settings](screenshots/settings.png) | ![Bons](screenshots/bons.png) |
+| ![Analytics](screenshots/rapports.png) | ![Settings](screenshots/settings.png) | ![Agenda](screenshots/agenda.png) |
+
+| Documents |
+| :---: |
+| ![Documents](screenshots/bons.png) |
 
 ## 🚀 Key Features
 
