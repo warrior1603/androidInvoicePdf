@@ -30,15 +30,15 @@ public class NotificationHelper {
 
     public static void scheduleBookingReminder(Context context, Booking booking) {
         long now = System.currentTimeMillis();
-        long reminderTime = booking.dateTime.getTime() - (30 * 60 * 1000); // 30 minutes before
+        long reminderTime = booking.dateTime.getTime() - (60 * 60 * 1000); // 1 heure avant
         
-        // If 30 mins before is already passed, but the course hasn't started yet
+        // Si l'heure du rappel (1h avant) est déjà passée, mais que la course n'a pas encore commencé
         if (reminderTime < now) {
             if (booking.dateTime.getTime() > now) {
-                // Schedule it for 10 seconds from now so the user sees it immediately
+                // On programme le rappel pour dans 10 secondes pour que le chauffeur le voie immédiatement
                 reminderTime = now + 10000; 
             } else {
-                return; // Course already started or passed
+                return; // Course déjà commencée ou passée
             }
         }
 
