@@ -103,50 +103,24 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
+        SplashScreen.installSplashScreen(this);
+        super.onCreate(savedInstanceState);
         
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         lastDynamicColorsState = sharedPreferences.getBoolean("dynamic_colors", false);
 
         if (sharedPreferences.getBoolean("first_run", true)) {
-            super.onCreate(savedInstanceState);
             startActivity(new Intent(this, OnboardingActivity.class));
             finish();
             return;
         }
 
-        // Set theme before super.onCreate if needed, but AppTheme handles it
-        // Apply dynamic colors before super.onCreate or setContentView
         if (lastDynamicColorsState) {
             com.google.android.material.color.DynamicColors.applyToActivityIfAvailable(this);
         }
 
-        super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
 
-        splashScreen.setOnExitAnimationListener(splashScreenViewProvider -> {
-            final View splashScreenView = splashScreenViewProvider.getView();
-            final View iconView = splashScreenViewProvider.getIconView();
-
-            ObjectAnimator scaleX = ObjectAnimator.ofFloat(iconView, View.SCALE_X, 1f, 5f);
-            ObjectAnimator scaleY = ObjectAnimator.ofFloat(iconView, View.SCALE_Y, 1f, 5f);
-            ObjectAnimator alpha = ObjectAnimator.ofFloat(splashScreenView, View.ALPHA, 1f, 0f);
-
-            AnimatorSet animatorSet = new AnimatorSet();
-            animatorSet.setDuration(500L);
-            animatorSet.setInterpolator(new AccelerateInterpolator());
-            animatorSet.playTogether(scaleX, scaleY, alpha);
-
-            animatorSet.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    splashScreenViewProvider.remove();
-                }
-            });
-
-            animatorSet.start();
-        });
-        
         try {
             if (sharedPreferences.getBoolean("biometric_lock", false) && isBiometricAvailable()) {
                 showBiometricPrompt();
@@ -205,7 +179,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Check if dynamic colors setting has changed while we were in Settings
         boolean currentDynamicState = sharedPreferences.getBoolean("dynamic_colors", false);
         if (currentDynamicState != lastDynamicColorsState) {
             recreate();
@@ -256,8 +229,8 @@ public class MainActivity extends AppCompatActivity {
             navController = navHostFragment.getNavController();
 
             appBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.homeFragment, R.id.documentsHubFragment,
-                    R.id.clientsFragment, R.id.parametresFragment)
+                    R.id.homeFragment, R.id.agendaFragment, R.id.documentsHubFragment,
+                    R.id.clientsHubFragment, R.id.parametresFragment)
                     .build();
 
             NavigationUI.setupWithNavController(bottomNavigationView, navController);
@@ -298,47 +271,22 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
+        handleIntent(getIntent());
         askPermissions();
     }
 
-    private void showProfileMenu() {
-        BottomSheetDialog dialog = new BottomSheetDialog(this);
-        View view = getLayoutInflater().inflate(R.layout.layout_profile_menu, null);
-        
-        SharedPreferences userPrefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        TextView txtName = view.findViewById(R.id.menu_user_name);
-        TextView txtEmail = view.findViewById(R.id.menu_user_email);
-        
-        txtName.setText(userPrefs.getString("User", "Utilisateur"));
-        txtEmail.setText(userPrefs.getString("email", "email@exemple.com"));
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleIntent(intent);
+    }
 
-        view.findViewById(R.id.menu_item_profile).setOnClickListener(v -> {
-            dialog.dismiss();
-            navController.navigate(R.id.personalSettingsFragment);
-        });
-
-        view.findViewById(R.id.menu_item_settings).setOnClickListener(v -> {
-            dialog.dismiss();
-            navController.navigate(R.id.settingsActivity);
-        });
-
-        view.findViewById(R.id.menu_item_help).setOnClickListener(v -> {
-            dialog.dismiss();
-            navController.navigate(R.id.helpFragment);
-        });
-
-        view.findViewById(R.id.menu_item_about).setOnClickListener(v -> {
-            dialog.dismiss();
-            navController.navigate(R.id.aboutFragment);
-        });
-
-        view.findViewById(R.id.menu_item_logout).setOnClickListener(v -> {
-            dialog.dismiss();
-            Toast.makeText(this, "Déconnexion...", Toast.LENGTH_SHORT).show();
-        });
-
-        dialog.setContentView(view);
-        dialog.show();
+    private void handleIntent(Intent intent) {
+        if (intent != null && "agenda".equals(intent.getStringExtra("navigate_to"))) {
+            if (bottomNavigationView != null) {
+                bottomNavigationView.setSelectedItemId(R.id.agendaFragment);
+            }
+        }
     }
 
     @Override
@@ -358,20 +306,10 @@ public class MainActivity extends AppCompatActivity {
         String finalQuery = query.trim();
         Executors.newSingleThreadExecutor().execute(() -> {
             List<SearchResult> combinedResults = new ArrayList<>();
-
-            // Search Clients
             List<Client> clients = db.clientDao().searchClients(finalQuery);
-            for (Client c : clients) {
-                combinedResults.add(new SearchResult(c.getClientName(), c.getEmail(), "Client", null, c.getId()));
-            }
-
-            // Search Invoices
+            for (Client c : clients) combinedResults.add(new SearchResult(c.getClientName(), c.getEmail(), "Client", null, c.getId()));
             List<Invoice> invoices = db.invoiceDao().searchInvoices(finalQuery);
-            for (Invoice i : invoices) {
-                combinedResults.add(new SearchResult(i.clientName, String.format(Locale.getDefault(), "%.2f €", i.amount), i.type, i.filePath, i.id));
-            }
-
-            // Search Settings (Suggestion 4)
+            for (Invoice i : invoices) combinedResults.add(new SearchResult(i.clientName, String.format(Locale.getDefault(), "%.2f €", i.amount), i.type, i.filePath, i.id));
             String lowerQ = finalQuery.toLowerCase();
             if (lowerQ.contains("param") || lowerQ.contains("sett") || lowerQ.contains("régl") ||
                 lowerQ.contains("thème") || lowerQ.contains("langue") || lowerQ.contains("sauvegarde") ||
@@ -381,132 +319,72 @@ public class MainActivity extends AppCompatActivity {
             if (lowerQ.contains("profil") || lowerQ.contains("entreprise") || lowerQ.contains("siren") || lowerQ.contains("tva")) {
                 combinedResults.add(new SearchResult("Profil Entreprise", "Modifier vos informations légales", "Action", "profile", 0));
             }
-
             runOnUiThread(() -> {
                 if (searchAdapter != null) {
                     searchAdapter.setResults(combinedResults);
-                    if (searchEmptyState != null) {
-                        searchEmptyState.setVisibility(combinedResults.isEmpty() ? View.VISIBLE : View.GONE);
-                    }
+                    if (searchEmptyState != null) searchEmptyState.setVisibility(combinedResults.isEmpty() ? View.VISIBLE : View.GONE);
                 }
             });
         });
     }
 
     public static class SearchResult {
-        public String title;
-        public String subtitle;
-        public String type; // "Facture", "Bon", "Client"
-        public String filePath;
+        public String title, subtitle, type, filePath;
         public int id;
-
         public SearchResult(String title, String subtitle, String type, String filePath, int id) {
-            this.title = title;
-            this.subtitle = subtitle;
-            this.type = type;
-            this.filePath = filePath;
-            this.id = id;
+            this.title = title; this.subtitle = subtitle; this.type = type; this.filePath = filePath; this.id = id;
         }
     }
 
     private class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.ViewHolder> {
         private List<SearchResult> results = new ArrayList<>();
-
         public void setResults(List<SearchResult> results) {
-            this.results = results;
-            notifyDataSetChanged();
-            if (searchRecyclerView != null) {
-                searchRecyclerView.scrollToPosition(0);
-            }
+            this.results = results; notifyDataSetChanged();
+            if (searchRecyclerView != null) searchRecyclerView.scrollToPosition(0);
         }
-
-        @NonNull
-        @Override
-        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_search_result, parent, false);
-            return new ViewHolder(view);
+        @NonNull @Override public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_search_result, parent, false));
         }
-
-        @Override
-        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        @Override public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             SearchResult result = results.get(position);
-            holder.title.setText(result.title);
-            holder.subtitle.setText(result.subtitle);
-            holder.type.setText(result.type);
-
-            if ("Client".equals(result.type)) {
-                holder.icon.setImageResource(R.drawable.rounded_person_24);
-            } else if ("Bon".equals(result.type)) {
-                holder.icon.setImageResource(R.drawable.rounded_shopping_cart_24);
-            } else if ("Action".equals(result.type)) {
-                holder.icon.setImageResource(R.drawable.baseline_settings_24);
-            } else {
-                holder.icon.setImageResource(R.drawable.rounded_receipt_long_24);
-            }
-
+            holder.title.setText(result.title); holder.subtitle.setText(result.subtitle); holder.type.setText(result.type);
+            if ("Client".equals(result.type)) holder.icon.setImageResource(R.drawable.rounded_person_24);
+            else if ("Bon".equals(result.type)) holder.icon.setImageResource(R.drawable.rounded_shopping_cart_24);
+            else if ("Action".equals(result.type)) holder.icon.setImageResource(R.drawable.baseline_settings_24);
+            else holder.icon.setImageResource(R.drawable.rounded_receipt_long_24);
             holder.itemView.setOnClickListener(v -> {
                 searchView.hide();
                 if ("Client".equals(result.type)) {
-                    Bundle args = new Bundle();
-                    args.putInt("client_id", result.id);
+                    Bundle args = new Bundle(); args.putInt("client_id", result.id);
                     navController.navigate(R.id.clientDetailFragment, args);
                 } else if ("Action".equals(result.type)) {
-                    if ("settings".equals(result.filePath)) {
-                        startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-                    } else if ("profile".equals(result.filePath)) {
-                        navController.navigate(R.id.personalSettingsFragment);
-                    }
+                    if ("settings".equals(result.filePath)) startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                    else if ("profile".equals(result.filePath)) navController.navigate(R.id.personalSettingsFragment);
                 } else {
-                    Bundle args = new Bundle();
-                    args.putString("file_path", result.filePath);
-                    
+                    Bundle args = new Bundle(); args.putString("file_path", result.filePath);
                     Executors.newSingleThreadExecutor().execute(() -> {
                         com.chouchene.factures.entity.Client client = db.clientDao().getClientByName(result.title);
-                        runOnUiThread(() -> {
-                            if (client != null) {
-                                args.putString("mail_client", client.getEmail());
-                            }
-                            navController.navigate(R.id.webViewPdfFragment, args);
-                        });
+                        runOnUiThread(() -> { if (client != null) args.putString("mail_client", client.getEmail()); navController.navigate(R.id.webViewPdfFragment, args); });
                     });
                 }
             });
         }
-
-        @Override
-        public int getItemCount() {
-            return results.size();
-        }
-
+        @Override public int getItemCount() { return results.size(); }
         class ViewHolder extends RecyclerView.ViewHolder {
-            TextView title, subtitle, type;
-            ImageView icon;
-
+            TextView title, subtitle, type; ImageView icon;
             ViewHolder(View itemView) {
                 super(itemView);
-                title = itemView.findViewById(R.id.result_title);
-                subtitle = itemView.findViewById(R.id.result_subtitle);
-                type = itemView.findViewById(R.id.result_type);
-                icon = itemView.findViewById(R.id.result_icon);
+                title = itemView.findViewById(R.id.result_title); subtitle = itemView.findViewById(R.id.result_subtitle);
+                type = itemView.findViewById(R.id.result_type); icon = itemView.findViewById(R.id.result_icon);
             }
         }
     }
 
     public void triggerConfetti() {
         if (konfettiView == null) return;
-        
         konfettiView.postDelayed(() -> {
             EmitterConfig emitterConfig = new Emitter(2, TimeUnit.SECONDS).perSecond(50);
-            konfettiView.start(
-                    new PartyFactory(emitterConfig)
-                            .angle(nl.dionsegijn.konfetti.core.Angle.BOTTOM)
-                            .spread(nl.dionsegijn.konfetti.core.Spread.ROUND)
-                            .shapes(Shape.Circle.INSTANCE, Shape.Square.INSTANCE)
-                            .position(0.0, 0.0, 1.0, 0.0)
-                            .sizes(new Size(8, 50, 10))
-                            .colors(Arrays.asList(0xfce18a, 0xff726d, 0xb48def, 0xf4306d))
-                            .build()
-            );
+            konfettiView.start(new PartyFactory(emitterConfig).angle(nl.dionsegijn.konfetti.core.Angle.BOTTOM).spread(nl.dionsegijn.konfetti.core.Spread.ROUND).shapes(Shape.Circle.INSTANCE, Shape.Square.INSTANCE).position(0.0, 0.0, 1.0, 0.0).sizes(new Size(8, 50, 10)).colors(Arrays.asList(0xfce18a, 0xff726d, 0xb48def, 0xf4306d)).build());
         }, 400L);
     }
 

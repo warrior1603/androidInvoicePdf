@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceManager;
 
 import com.chouchene.factures.utils.LocaleHelper;
+import com.chouchene.factures.utils.NotificationHelper;
 import com.google.android.material.color.DynamicColors;
 import com.google.android.material.color.DynamicColorsOptions;
 import android.content.Context;
@@ -35,5 +36,8 @@ public class MyApplication extends Application {
                             .getBoolean("dynamic_colors", false);
                 })
                 .build());
+
+        // 3. Create Notification Channel
+        NotificationHelper.createNotificationChannel(this);
     }
 }

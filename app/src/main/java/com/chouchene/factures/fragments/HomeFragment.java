@@ -30,6 +30,8 @@ import android.widget.ImageView;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executors;
@@ -41,7 +43,7 @@ import android.content.Intent;
 
 public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryActionListener {
 
-    private TextView txtGreeting, txtRevenue, txtInvoiceCount, txtBonCount, txtCurrentDate;
+    private TextView txtGreeting, txtRevenue, txtInvoiceCount, txtBonCount, txtBookingCount, txtCurrentDate;
     private View badgeOverdue;
     private com.facebook.shimmer.ShimmerFrameLayout shimmerContainer;
     private RecyclerView rvRecent;
@@ -66,6 +68,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         txtRevenue = view.findViewById(R.id.txt_home_revenue);
         txtInvoiceCount = view.findViewById(R.id.txt_home_invoice_count);
         txtBonCount = view.findViewById(R.id.txt_home_bon_count);
+        txtBookingCount = view.findViewById(R.id.txt_home_booking_count);
         rvRecent = view.findViewById(R.id.rv_home_recent);
         badgeOverdue = view.findViewById(R.id.badge_overdue);
         shimmerContainer = view.findViewById(R.id.shimmer_view_container);
@@ -76,6 +79,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
 
         MaterialCardView cardDocuments = view.findViewById(R.id.card_documents);
         MaterialCardView cardClients = view.findViewById(R.id.card_clients);
+        MaterialCardView cardAgenda = view.findViewById(R.id.card_agenda);
         MaterialCardView cardDashboard = view.findViewById(R.id.card_dashboard);
         MaterialCardView cardProfile = view.findViewById(R.id.card_profile);
         MaterialCardView cardSettings = view.findViewById(R.id.card_settings);
@@ -83,10 +87,15 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         BottomNavigationView navView = requireActivity().findViewById(R.id.bottomNavigationView);
 
         cardDocuments.setOnClickListener(v -> navView.setSelectedItemId(R.id.documentsHubFragment));
-        cardClients.setOnClickListener(v -> navView.setSelectedItemId(R.id.clientsFragment));
+        cardClients.setOnClickListener(v -> navView.setSelectedItemId(R.id.clientsHubFragment));
+        cardAgenda.setOnClickListener(v -> navView.setSelectedItemId(R.id.agendaFragment));
         cardDashboard.setOnClickListener(v -> navView.setSelectedItemId(R.id.parametresFragment));
         cardProfile.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.personalSettingsFragment));
         cardSettings.setOnClickListener(v -> startActivity(new Intent(requireContext(), com.chouchene.factures.SettingsActivity.class)));
+
+        view.findViewById(R.id.stat_invoices).setOnClickListener(v -> navView.setSelectedItemId(R.id.documentsHubFragment));
+        view.findViewById(R.id.stat_orders).setOnClickListener(v -> navView.setSelectedItemId(R.id.documentsHubFragment));
+        view.findViewById(R.id.stat_bookings).setOnClickListener(v -> navView.setSelectedItemId(R.id.agendaFragment));
 
         view.findViewById(R.id.btn_view_all_recent).setOnClickListener(v -> navView.setSelectedItemId(R.id.documentsHubFragment));
 
@@ -153,6 +162,8 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
             
             int invoiceCount = db.invoiceDao().getMonthlyInvoicesCount(new java.util.Date());
             int bonCount = db.invoiceDao().getMonthlyBonsCount(new java.util.Date());
+            int bookingCount = db.bookingDao().getMonthlyBookingsCount(new java.util.Date());
+
             List<Invoice> latest = db.invoiceDao().getLatestInvoices();
             int overdueCount = db.invoiceDao().getOverdueInvoicesCount();
 
@@ -161,6 +172,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                     txtRevenue.setText(String.format(Locale.getDefault(), "%.2f €", profit));
                     txtInvoiceCount.setText(String.valueOf(invoiceCount));
                     txtBonCount.setText(String.valueOf(bonCount));
+                    txtBookingCount.setText(String.valueOf(bookingCount));
                     adapter.setData(latest);
                     
                     if (badgeOverdue != null) {

@@ -3,6 +3,7 @@
 
     <!-- General UI -->
     <string name="title_home">Accueil</string>
+    <string name="title_agenda">Agenda</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_invoices">Factures</string>
     <string name="title_orders">Bons</string>

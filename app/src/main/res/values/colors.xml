@@ -41,6 +41,9 @@
     <color name="icon_clients">#4CAF50</color>
     <color name="icon_clients_bg">#E8F5E9</color>
 
+    <color name="icon_agenda">#9C27B0</color>
+    <color name="icon_agenda_bg">#F3E5F5</color>
+
     <color name="icon_dashboard">#FF9800</color>
     <color name="icon_dashboard_bg">#FFF3E0</color>
 

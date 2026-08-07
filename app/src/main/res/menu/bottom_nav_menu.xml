@@ -11,7 +11,12 @@
         android:title="@string/title_documents" />
 
     <item
-        android:id="@+id/clientsFragment"
+        android:id="@+id/agendaFragment"
+        android:icon="@drawable/nav_agenda_selector"
+        android:title="@string/title_agenda" />
+
+    <item
+        android:id="@+id/clientsHubFragment"
         android:icon="@drawable/nav_people_selector"
         android:title="@string/title_clients" />
 
