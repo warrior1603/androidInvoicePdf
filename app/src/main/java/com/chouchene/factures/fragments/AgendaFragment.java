@@ -52,7 +52,7 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
         
         com.google.android.material.appbar.MaterialToolbar toolbar = view.findViewById(R.id.toolbar);
         if (toolbar != null && getArguments() != null && getArguments().containsKey("selected_date")) {
-            toolbar.setNavigationIcon(R.drawable.rounded_history_24); // Show back icon if came from search
+            toolbar.setNavigationIcon(R.drawable.rounded_arrow_back_24); // Use standard back arrow
             toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(v).popBackStack());
         }
 

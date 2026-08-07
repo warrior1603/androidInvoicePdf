@@ -51,7 +51,7 @@ public class GlobalHistoryFragment extends Fragment implements HistoryAdapter.On
 
         com.google.android.material.appbar.MaterialToolbar toolbar = view.findViewById(R.id.toolbar);
         if (toolbar != null) {
-            toolbar.setNavigationIcon(R.drawable.rounded_history_24); // Or a back arrow
+            toolbar.setNavigationIcon(R.drawable.rounded_arrow_back_24);
             toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(v).popBackStack());
         }
 
@@ -116,7 +116,12 @@ public class GlobalHistoryFragment extends Fragment implements HistoryAdapter.On
 
     @Override
     public void onItemClick(RecentActivity activity, View sharedElement) {
-        if (activity.type == RecentActivity.Type.BOOKING) return;
+        if (activity.type == RecentActivity.Type.BOOKING) {
+            Bundle b = new Bundle();
+            b.putLong("selected_date", activity.date.getTime());
+            Navigation.findNavController(requireView()).navigate(R.id.agendaFragment, b);
+            return;
+        }
         
         Invoice invoice = (Invoice) activity.originalObject;
         Bundle b = new Bundle();

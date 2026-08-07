@@ -214,8 +214,9 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
     @Override
     public void onItemClick(RecentActivity activity, View sharedElement) {
         if (activity.type == RecentActivity.Type.BOOKING) {
-            // Navigate to agenda or show booking detail
-            requireActivity().findViewById(R.id.bottomNavigationView).performClick(); // Placeholder logic
+            Bundle b = new Bundle();
+            b.putLong("selected_date", activity.date.getTime());
+            Navigation.findNavController(requireView()).navigate(R.id.agendaFragment, b);
             return;
         }
 
