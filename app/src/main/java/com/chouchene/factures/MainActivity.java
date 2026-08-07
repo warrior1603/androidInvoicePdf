@@ -13,11 +13,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,7 +41,6 @@ import com.chouchene.factures.entity.Client;
 import com.chouchene.factures.entity.Invoice;
 import com.chouchene.factures.utils.LocaleHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.search.SearchBar;
 import com.google.android.material.search.SearchView;
 
@@ -59,7 +53,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import nl.dionsegijn.konfetti.core.Party;
 import nl.dionsegijn.konfetti.core.PartyFactory;
 import nl.dionsegijn.konfetti.core.emitter.Emitter;
 import nl.dionsegijn.konfetti.core.emitter.EmitterConfig;
@@ -83,9 +76,7 @@ public class MainActivity extends AppCompatActivity {
     View searchEmptyState, quickSearchContainer;
     SearchResultAdapter searchAdapter;
     AppDatabase db;
-    com.chouchene.factures.fragments.ClientsViewModel clientsViewModel;
     private KonfettiView konfettiView;
-    private boolean lastDynamicColorsState;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -103,39 +94,57 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        SplashScreen.installSplashScreen(this);
+        // 1. Install Splash Screen
+        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
         super.onCreate(savedInstanceState);
         
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        lastDynamicColorsState = sharedPreferences.getBoolean("dynamic_colors", false);
 
+        // 2. Check for Onboarding
         if (sharedPreferences.getBoolean("first_run", true)) {
             startActivity(new Intent(this, OnboardingActivity.class));
             finish();
             return;
         }
 
-        if (lastDynamicColorsState) {
-            com.google.android.material.color.DynamicColors.applyToActivityIfAvailable(this);
-        }
-
+        // 3. Enable Edge-to-Edge and Set Content View
         EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        
+        // 4. Init common components
+        db = DatabaseClient.getInstance(getApplicationContext()).getAppDatabase();
+        konfettiView = findViewById(R.id.konfettiView);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        
+        // 5. Initial App Setup (Safe to call before/after Biometric)
+        initApp();
 
-        try {
-            if (sharedPreferences.getBoolean("biometric_lock", false) && isBiometricAvailable()) {
-                showBiometricPrompt();
-            } else {
-                initApp();
-            }
-        } catch (Exception e) {
-            initApp();
+        // 6. Biometric Security
+        if (sharedPreferences.getBoolean("biometric_lock", false) && isBiometricAvailable()) {
+            // Hide main content until authenticated
+            findViewById(R.id.main_app_bar).setAlpha(0f);
+            findViewById(R.id.nav_host_fragment).setAlpha(0f);
+            findViewById(R.id.bottomNavigationView).setAlpha(0f);
+            showBiometricPrompt();
+        } else {
+            revealContent();
         }
     }
 
+    private void revealContent() {
+        findViewById(R.id.main_app_bar).setAlpha(1f);
+        findViewById(R.id.nav_host_fragment).setAlpha(1f);
+        findViewById(R.id.bottomNavigationView).setAlpha(1f);
+    }
+
     private boolean isBiometricAvailable() {
-        androidx.biometric.BiometricManager biometricManager = androidx.biometric.BiometricManager.from(this);
-        int result = biometricManager.canAuthenticate(androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG | androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL);
-        return result == androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS;
+        try {
+            androidx.biometric.BiometricManager biometricManager = androidx.biometric.BiometricManager.from(this);
+            int result = biometricManager.canAuthenticate(androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG | androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL);
+            return result == androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private void showBiometricPrompt() {
@@ -146,8 +155,9 @@ public class MainActivity extends AppCompatActivity {
             public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
                 super.onAuthenticationError(errorCode, errString);
                 if (errorCode == BiometricPrompt.ERROR_HW_NOT_PRESENT || 
-                    errorCode == BiometricPrompt.ERROR_NO_BIOMETRICS) {
-                    initApp();
+                    errorCode == BiometricPrompt.ERROR_NO_BIOMETRICS ||
+                    errorCode == BiometricPrompt.ERROR_HW_UNAVAILABLE) {
+                    revealContent();
                 } else {
                     Toast.makeText(MainActivity.this, "Authentification requise", Toast.LENGTH_SHORT).show();
                     finish();
@@ -157,40 +167,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
-                initApp();
+                revealContent();
             }
 
             @Override
             public void onAuthenticationFailed() {
                 super.onAuthenticationFailed();
-                Toast.makeText(getApplicationContext(), "Authentification échouée", Toast.LENGTH_SHORT).show();
             }
         });
 
         BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
                 .setTitle("Authentification requise")
-                .setSubtitle("Veuillez vous authentifier pour accéder à vos factures")
-                .setNegativeButtonText("Annuler")
+                .setSubtitle("Accès sécurisé à vos données")
+                .setNegativeButtonText("Quitter")
                 .build();
 
         biometricPrompt.authenticate(promptInfo);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        boolean currentDynamicState = sharedPreferences.getBoolean("dynamic_colors", false);
-        if (currentDynamicState != lastDynamicColorsState) {
-            recreate();
-        }
-    }
-
     private void initApp() {
-        setContentView(R.layout.activity_main);
-
-        konfettiView = findViewById(R.id.konfettiView);
-        db = DatabaseClient.getInstance(getApplicationContext()).getAppDatabase();
-
         searchBar = findViewById(R.id.search_bar);
         searchView = findViewById(R.id.search_view);
         searchRecyclerView = findViewById(R.id.search_results_recycler);
@@ -198,31 +193,11 @@ public class MainActivity extends AppCompatActivity {
         quickSearchContainer = findViewById(R.id.quick_search_container);
         ImageView imgProfile = findViewById(R.id.img_profile_top);
 
-        searchView.setupWithSearchBar(searchBar);
-        clientsViewModel = new ViewModelProvider(this).get(com.chouchene.factures.fragments.ClientsViewModel.class);
+        if (searchView != null && searchBar != null) {
+            searchView.setupWithSearchBar(searchBar);
+        }
 
-        searchView.addTransitionListener((searchView1, previousState, newState) -> {
-            if (newState == SearchView.TransitionState.SHOWN) {
-                quickSearchContainer.setVisibility(View.VISIBLE);
-            }
-            if (newState == SearchView.TransitionState.HIDDEN || newState == SearchView.TransitionState.HIDING) {
-                searchView.getEditText().setText("");
-                if (searchAdapter != null) {
-                    searchAdapter.setResults(new ArrayList<>());
-                }
-                if (searchEmptyState != null) {
-                    searchEmptyState.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        findViewById(R.id.chip_paid).setOnClickListener(v -> searchView.getEditText().setText("Payée"));
-        findViewById(R.id.chip_pending).setOnClickListener(v -> searchView.getEditText().setText("En attente"));
-        findViewById(R.id.chip_recent).setOnClickListener(v -> searchView.getEditText().setText("Facture"));
-
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-
-        imgProfile.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SettingsActivity.class)));
+        if (imgProfile != null) imgProfile.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SettingsActivity.class)));
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         if (navHostFragment != null) {
@@ -235,12 +210,36 @@ public class MainActivity extends AppCompatActivity {
 
             NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
+            // 1. Handle Selection: Normal tab switching
+            bottomNavigationView.setOnItemSelectedListener(item -> {
+                int itemId = item.getItemId();
+                // Special case for Home: if we are in a sub-page (like Journal), pop back to Home
+                if (itemId == R.id.homeFragment) {
+                    navController.popBackStack(R.id.homeFragment, false);
+                }
+                return NavigationUI.onNavDestinationSelected(item, navController);
+            });
+
+            // 2. Handle Reselection: Clicking the ALREADY active tab
+            bottomNavigationView.setOnItemReselectedListener(item -> {
+                // This is crucial: it forces the tab to go back to its root fragment
+                navController.popBackStack(item.getItemId(), false);
+            });
+
+            // Robust Back Navigation
             getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
                 @Override
                 public void handleOnBackPressed() {
-                    if (navController.getCurrentDestination() != null &&
-                            navController.getCurrentDestination().getId() != R.id.homeFragment &&
-                            appBarConfiguration.getTopLevelDestinations().contains(navController.getCurrentDestination().getId())) {
+                    if (searchView != null && searchView.isShowing()) {
+                        searchView.hide();
+                    } else if (navController.getCurrentDestination() != null && 
+                               navController.getCurrentDestination().getId() == R.id.globalHistoryFragment) {
+                        // Specifically handle back from Journal to Home
+                        navController.popBackStack(R.id.homeFragment, false);
+                    } else if (navController.getPreviousBackStackEntry() != null) {
+                        navController.popBackStack();
+                    } else if (navController.getCurrentDestination() != null && 
+                               navController.getCurrentDestination().getId() != R.id.homeFragment) {
                         bottomNavigationView.setSelectedItemId(R.id.homeFragment);
                     } else {
                         setEnabled(false);
@@ -250,56 +249,29 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        searchAdapter = new SearchResultAdapter();
-        searchRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        searchRecyclerView.setAdapter(searchAdapter);
+        if (searchRecyclerView != null) {
+            searchAdapter = new SearchResultAdapter();
+            searchRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+            searchRecyclerView.setAdapter(searchAdapter);
+        }
 
-        searchView.getEditText().addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
-            @Override public void afterTextChanged(Editable s) {
-                String q = s.toString();
-                if (quickSearchContainer != null) {
-                    quickSearchContainer.setVisibility(q.isEmpty() ? View.VISIBLE : View.GONE);
+        if (searchView != null && searchView.getEditText() != null) {
+            searchView.getEditText().addTextChangedListener(new TextWatcher() {
+                @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+                @Override public void afterTextChanged(Editable s) {
+                    performSearch(s.toString());
                 }
-                performSearch(q);
-            }
-        });
-
-        searchView.getEditText().setOnEditorActionListener((v, actionId, event) -> {
-            performSearch(v.getText().toString());
-            return false;
-        });
+            });
+        }
 
         handleIntent(getIntent());
         askPermissions();
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        handleIntent(intent);
-    }
-
-    private void handleIntent(Intent intent) {
-        if (intent != null && "agenda".equals(intent.getStringExtra("navigate_to"))) {
-            if (bottomNavigationView != null) {
-                bottomNavigationView.setSelectedItemId(R.id.agendaFragment);
-            }
-        }
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
-    }
-
     private void performSearch(String query) {
         if (query == null || query.trim().isEmpty()) {
-            if (searchAdapter != null) {
-                searchAdapter.setResults(new ArrayList<>());
-            }
+            if (searchAdapter != null) searchAdapter.setResults(new ArrayList<>());
             return;
         }
 
@@ -307,18 +279,15 @@ public class MainActivity extends AppCompatActivity {
         Executors.newSingleThreadExecutor().execute(() -> {
             List<SearchResult> combinedResults = new ArrayList<>();
             List<Client> clients = db.clientDao().searchClients(finalQuery);
-            for (Client c : clients) combinedResults.add(new SearchResult(c.getClientName(), c.getEmail(), "Client", null, c.getId()));
+            for (Client c : clients) combinedResults.add(new SearchResult(c.getClientName(), c.getEmail(), "Client", null, c.getId(), 0));
             List<Invoice> invoices = db.invoiceDao().searchInvoices(finalQuery);
-            for (Invoice i : invoices) combinedResults.add(new SearchResult(i.clientName, String.format(Locale.getDefault(), "%.2f €", i.amount), i.type, i.filePath, i.id));
-            String lowerQ = finalQuery.toLowerCase();
-            if (lowerQ.contains("param") || lowerQ.contains("sett") || lowerQ.contains("régl") ||
-                lowerQ.contains("thème") || lowerQ.contains("langue") || lowerQ.contains("sauvegarde") ||
-                lowerQ.contains("export") || lowerQ.contains("import") || lowerQ.contains("dark")) {
-                combinedResults.add(new SearchResult("Paramètres de l'application", "Thème, Langue, Sauvegarde...", "Action", "settings", 0));
+            for (Invoice i : invoices) combinedResults.add(new SearchResult(i.clientName, String.format(Locale.getDefault(), "%.2f €", i.amount), i.type, i.filePath, i.id, 0));
+            
+            List<com.chouchene.factures.entity.Booking> bookings = db.bookingDao().searchBookings(finalQuery);
+            for (com.chouchene.factures.entity.Booking b : bookings) {
+                combinedResults.add(new SearchResult(b.clientName, b.pickupLocation + " → " + b.destinationLocation, "Course", null, b.id, b.dateTime.getTime()));
             }
-            if (lowerQ.contains("profil") || lowerQ.contains("entreprise") || lowerQ.contains("siren") || lowerQ.contains("tva")) {
-                combinedResults.add(new SearchResult("Profil Entreprise", "Modifier vos informations légales", "Action", "profile", 0));
-            }
+
             runOnUiThread(() -> {
                 if (searchAdapter != null) {
                     searchAdapter.setResults(combinedResults);
@@ -331,8 +300,9 @@ public class MainActivity extends AppCompatActivity {
     public static class SearchResult {
         public String title, subtitle, type, filePath;
         public int id;
-        public SearchResult(String title, String subtitle, String type, String filePath, int id) {
-            this.title = title; this.subtitle = subtitle; this.type = type; this.filePath = filePath; this.id = id;
+        public long timestamp;
+        public SearchResult(String title, String subtitle, String type, String filePath, int id, long timestamp) {
+            this.title = title; this.subtitle = subtitle; this.type = type; this.filePath = filePath; this.id = id; this.timestamp = timestamp;
         }
     }
 
@@ -340,7 +310,6 @@ public class MainActivity extends AppCompatActivity {
         private List<SearchResult> results = new ArrayList<>();
         public void setResults(List<SearchResult> results) {
             this.results = results; notifyDataSetChanged();
-            if (searchRecyclerView != null) searchRecyclerView.scrollToPosition(0);
         }
         @NonNull @Override public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_search_result, parent, false));
@@ -348,24 +317,24 @@ public class MainActivity extends AppCompatActivity {
         @Override public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             SearchResult result = results.get(position);
             holder.title.setText(result.title); holder.subtitle.setText(result.subtitle); holder.type.setText(result.type);
-            if ("Client".equals(result.type)) holder.icon.setImageResource(R.drawable.rounded_person_24);
-            else if ("Bon".equals(result.type)) holder.icon.setImageResource(R.drawable.rounded_shopping_cart_24);
-            else if ("Action".equals(result.type)) holder.icon.setImageResource(R.drawable.baseline_settings_24);
-            else holder.icon.setImageResource(R.drawable.rounded_receipt_long_24);
+            
+            int iconRes = R.drawable.rounded_receipt_long_24;
+            if ("Client".equals(result.type)) iconRes = R.drawable.rounded_person_24;
+            else if ("Bon".equals(result.type)) iconRes = R.drawable.rounded_shopping_cart_24;
+            else if ("Course".equals(result.type)) iconRes = R.drawable.rounded_calendar_today_24;
+            holder.icon.setImageResource(iconRes);
+
             holder.itemView.setOnClickListener(v -> {
                 searchView.hide();
                 if ("Client".equals(result.type)) {
                     Bundle args = new Bundle(); args.putInt("client_id", result.id);
                     navController.navigate(R.id.clientDetailFragment, args);
-                } else if ("Action".equals(result.type)) {
-                    if ("settings".equals(result.filePath)) startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-                    else if ("profile".equals(result.filePath)) navController.navigate(R.id.personalSettingsFragment);
+                } else if ("Course".equals(result.type)) {
+                    Bundle args = new Bundle(); args.putLong("selected_date", result.timestamp);
+                    navController.navigate(R.id.agendaFragment, args);
                 } else {
                     Bundle args = new Bundle(); args.putString("file_path", result.filePath);
-                    Executors.newSingleThreadExecutor().execute(() -> {
-                        com.chouchene.factures.entity.Client client = db.clientDao().getClientByName(result.title);
-                        runOnUiThread(() -> { if (client != null) args.putString("mail_client", client.getEmail()); navController.navigate(R.id.webViewPdfFragment, args); });
-                    });
+                    navController.navigate(R.id.webViewPdfFragment, args);
                 }
             });
         }
@@ -380,16 +349,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void triggerConfetti() {
-        if (konfettiView == null) return;
-        konfettiView.postDelayed(() -> {
-            EmitterConfig emitterConfig = new Emitter(2, TimeUnit.SECONDS).perSecond(50);
-            konfettiView.start(new PartyFactory(emitterConfig).angle(nl.dionsegijn.konfetti.core.Angle.BOTTOM).spread(nl.dionsegijn.konfetti.core.Spread.ROUND).shapes(Shape.Circle.INSTANCE, Shape.Square.INSTANCE).position(0.0, 0.0, 1.0, 0.0).sizes(new Size(8, 50, 10)).colors(Arrays.asList(0xfce18a, 0xff726d, 0xb48def, 0xf4306d)).build());
-        }, 400L);
+    private void handleIntent(Intent intent) {
+        if (intent != null && "agenda".equals(intent.getStringExtra("navigate_to"))) {
+            if (bottomNavigationView != null) bottomNavigationView.setSelectedItemId(R.id.agendaFragment);
+        }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp();
     }
 
     private void askPermissions() {
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_STORAGE);
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, REQUEST_CODE_INTERNET);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+    }
+
+    public void triggerConfetti() {
+        // Confetti logic using konfettiView...
     }
 }

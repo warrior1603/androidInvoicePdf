@@ -88,11 +88,16 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             listener.onItemClick(activity, holder.itemView);
         });
         
-        holder.txtStatus.setText(activity.status != null ? activity.status : "En attente");
+        String displayStatus = activity.status;
+        if ("Scheduled".equals(displayStatus)) displayStatus = holder.itemView.getContext().getString(R.string.status_scheduled);
+        else if ("Completed".equals(displayStatus)) displayStatus = holder.itemView.getContext().getString(R.string.status_completed);
+        else if ("Cancelled".equals(displayStatus)) displayStatus = holder.itemView.getContext().getString(R.string.status_cancelled);
+        
+        holder.txtStatus.setText(displayStatus != null ? displayStatus : "En attente");
         int statusColor;
         int statusBg;
         
-        if ("Payée".equals(activity.status) || "Completed".equals(activity.status)) {
+        if ("Payée".equals(activity.status) || "Completed".equals(activity.status) || "Terminée".equals(activity.status)) {
             statusBg = R.drawable.bg_status_paid;
             statusColor = ContextCompat.getColor(holder.itemView.getContext(), R.color.status_paid);
         } else if ("Annulée".equals(activity.status) || "Cancelled".equals(activity.status)) {

@@ -49,6 +49,12 @@ public class GlobalHistoryFragment extends Fragment implements HistoryAdapter.On
 
         db = DatabaseClient.getInstance(requireContext()).getAppDatabase();
 
+        com.google.android.material.appbar.MaterialToolbar toolbar = view.findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            toolbar.setNavigationIcon(R.drawable.rounded_history_24); // Or a back arrow
+            toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(v).popBackStack());
+        }
+
         recyclerView = view.findViewById(R.id.rv_global_history);
         emptyState = view.findViewById(R.id.empty_state);
         ChipGroup chipGroup = view.findViewById(R.id.filter_chip_group);

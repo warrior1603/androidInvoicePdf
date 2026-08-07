@@ -59,6 +59,8 @@
     <string name="status_paid">Paid</string>
     <string name="status_pending">Pending</string>
     <string name="status_cancelled">Cancelled</string>
+    <string name="status_scheduled">Scheduled</string>
+    <string name="status_completed">Completed</string>
     <string name="pref_title_dynamic_colors">Dynamic colors</string>
     <string name="pref_summary_dynamic_colors">Adapt colors to your wallpaper (Android 12+)</string>
     <string name="label_no_history">No history</string>

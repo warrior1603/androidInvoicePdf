@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -48,12 +49,24 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
         super.onViewCreated(view, savedInstanceState);
 
         db = DatabaseClient.getInstance(requireContext()).getAppDatabase();
+        
+        com.google.android.material.appbar.MaterialToolbar toolbar = view.findViewById(R.id.toolbar);
+        if (toolbar != null && getArguments() != null && getArguments().containsKey("selected_date")) {
+            toolbar.setNavigationIcon(R.drawable.rounded_history_24); // Show back icon if came from search
+            toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(v).popBackStack());
+        }
+
         selectedDate = new Date();
+        if (getArguments() != null && getArguments().containsKey("selected_date")) {
+            selectedDate = new Date(getArguments().getLong("selected_date"));
+        }
 
         rvBookings = view.findViewById(R.id.rvBookings);
         emptyState = view.findViewById(R.id.emptyState);
         calendarView = view.findViewById(R.id.calendarView);
         ExtendedFloatingActionButton fab = view.findViewById(R.id.fabAddBooking);
+        
+        calendarView.setDate(selectedDate.getTime());
 
         adapter = new AgendaAdapter(this);
         rvBookings.setLayoutManager(new LinearLayoutManager(requireContext()));
