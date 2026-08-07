@@ -66,7 +66,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/client_input"
-                        app:startIconDrawable="@drawable/rounded_person_24"
+                        app:startIconDrawable="@drawable/ic_nav_user_outline"
+                        app:endIconMode="custom"
+                        app:endIconDrawable="@drawable/ic_address_book_outline"
+                        app:endIconTint="?attr/colorPrimary"
                         android:hint="@string/label_search_customer">
                         <AutoCompleteTextView
                             android:id="@+id/autoCompleteTextView"

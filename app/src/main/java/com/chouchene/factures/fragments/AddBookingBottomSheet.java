@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +18,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
@@ -34,6 +34,7 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
     private TextInputEditText editClientName, editPhone, editPickup, editDestination, editDate, editTime, editPrice;
     private TextView txtTitle;
     private MaterialButton btnSave, btnDelete;
+    private MaterialSwitch switchCancelled;
     private Calendar calendar = Calendar.getInstance();
     private OnBookingAddedListener listener;
     private Booking existingBooking;
@@ -43,11 +44,13 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
         void onBookingAdded();
     }
 
-    public static AddBookingBottomSheet newInstance(int bookingId) {
+    public static AddBookingBottomSheet newInstance(Integer bookingId) {
         AddBookingBottomSheet fragment = new AddBookingBottomSheet();
-        Bundle args = new Bundle();
-        args.putInt("booking_id", bookingId);
-        fragment.setArguments(args);
+        if (bookingId != null) {
+            Bundle args = new Bundle();
+            args.putInt("booking_id", bookingId);
+            fragment.setArguments(args);
+        }
         return fragment;
     }
 
@@ -70,6 +73,7 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
         }
 
         txtTitle = view.findViewById(R.id.txtSheetTitle);
+        switchCancelled = view.findViewById(R.id.switchCancelled);
         editClientName = view.findViewById(R.id.editClientName);
         editPhone = view.findViewById(R.id.editPhone);
         editPickup = view.findViewById(R.id.editPickup);
@@ -86,6 +90,11 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
         editDate.setText(dateFmt.format(calendar.getTime()));
         editTime.setText(timeFmt.format(calendar.getTime()));
 
+        com.google.android.material.textfield.TextInputLayout clientInput = view.findViewById(R.id.client_input_layout);
+        if (clientInput != null) {
+            clientInput.setEndIconOnClickListener(v -> showClientPicker());
+        }
+
         editDate.setOnClickListener(v -> showDatePicker());
         editTime.setOnClickListener(v -> showTimePicker());
 
@@ -93,8 +102,18 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
         btnDelete.setOnClickListener(v -> confirmDelete());
 
         if (bookingId != -1) {
+            switchCancelled.setVisibility(View.VISIBLE);
             loadExistingBooking();
         }
+    }
+
+    private void showClientPicker() {
+        ClientPickerBottomSheet picker = new ClientPickerBottomSheet();
+        picker.setOnClientSelectedListener(client -> {
+            editClientName.setText(client.clientName);
+            editPhone.setText(client.phone);
+        });
+        picker.show(getChildFragmentManager(), "CLIENT_PICKER");
     }
 
     private void loadExistingBooking() {
@@ -123,6 +142,8 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
                 editDestination.setText(booking.destinationLocation);
                 editPrice.setText(String.valueOf(booking.estimatedPrice));
                 
+                switchCancelled.setChecked("Cancelled".equals(booking.status));
+
                 SimpleDateFormat dateFmt = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                 SimpleDateFormat timeFmt = new SimpleDateFormat("HH:mm", Locale.getDefault());
                 editDate.setText(dateFmt.format(booking.dateTime));
@@ -180,6 +201,8 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
             if (!priceStr.isEmpty()) price = Double.parseDouble(priceStr);
         } catch (Exception ignored) {}
 
+        String status = switchCancelled.isChecked() ? "Cancelled" : "Scheduled";
+
         AppDatabase db = DatabaseClient.getInstance(requireContext().getApplicationContext()).getAppDatabase();
         
         final Booking booking;
@@ -191,8 +214,9 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
             booking.destinationLocation = dest;
             booking.dateTime = calendar.getTime();
             booking.estimatedPrice = price;
+            booking.status = status;
         } else {
-            booking = new Booking(name, phone, pickup, dest, calendar.getTime(), "", price);
+            booking = new Booking(name, phone, pickup, dest, calendar.getTime(), status, price);
         }
         
         Executors.newSingleThreadExecutor().execute(() -> {
@@ -203,11 +227,13 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
                 booking.id = (int) id;
             }
             
-            // Re-schedule notification
-            NotificationHelper.scheduleBookingReminder(requireContext(), booking);
+            // Re-schedule notification only if not cancelled
+            if (!"Cancelled".equals(booking.status)) {
+                NotificationHelper.scheduleBookingReminder(requireContext(), booking);
+            }
             
             if (getActivity() != null) {
-                getActivity().runOnUiThread(() -> {
+                requireActivity().runOnUiThread(() -> {
                     if (listener != null) listener.onBookingAdded();
                     dismiss();
                 });

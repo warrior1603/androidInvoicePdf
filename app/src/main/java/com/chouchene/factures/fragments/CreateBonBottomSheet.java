@@ -16,6 +16,7 @@ import androidx.navigation.Navigation;
 import androidx.preference.PreferenceManager;
 
 import com.chouchene.factures.R;
+import com.google.android.material.textfield.TextInputLayout;
 import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Invoice;
@@ -84,7 +85,11 @@ public class CreateBonBottomSheet extends BottomSheetDialogFragment {
         editTimePriseForm = view.findViewById(R.id.edit_heure_prise);
         editTimePriseForm.setOnClickListener(v -> showTimePickerDialog(editTimePriseForm));
 
-        editPassager = view.findViewById(R.id.edit_passager);
+        TextInputLayout passagerInput = view.findViewById(R.id.passager_input_layout);
+        if (passagerInput != null) {
+            passagerInput.setEndIconOnClickListener(v -> showClientPicker());
+            editPassager = (com.google.android.material.textfield.TextInputEditText) passagerInput.getEditText();
+        }
         editPec = view.findViewById(R.id.edit_pec);
         editDestination = view.findViewById(R.id.edit_destination);
         editTarif = view.findViewById(R.id.edit_tarif);
@@ -99,6 +104,15 @@ public class CreateBonBottomSheet extends BottomSheetDialogFragment {
                 Log.e("BON_GEN", "Error", e);
             }
         });
+    }
+
+    private void showClientPicker() {
+        ClientPickerBottomSheet picker = new ClientPickerBottomSheet();
+        picker.setOnClientSelectedListener(client -> {
+            editPassager.setText(client.clientName);
+            editTelPassager.setText(client.phone);
+        });
+        picker.show(getChildFragmentManager(), "CLIENT_PICKER");
     }
 
     private void generateBonDeCommande() throws IOException {

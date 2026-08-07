@@ -17,8 +17,9 @@
         android:padding="16dp"
         android:gravity="center_vertical">
 
+        <!-- Left: Time (replaces Icon weight) -->
         <LinearLayout
-            android:layout_width="60dp"
+            android:layout_width="52dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical">
@@ -27,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="14:30"
-                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="?attr/colorPrimary" />
             <TextView
@@ -41,81 +42,65 @@
 
         <View
             android:layout_width="1dp"
-            android:layout_height="40dp"
+            android:layout_height="32dp"
             android:background="?attr/colorOutlineVariant"
             android:layout_marginHorizontal="12dp" />
 
+        <!-- Center: Name & Route -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <TextView
+                    android:id="@+id/txtClientName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Client Name"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    android:ellipsize="end" />
+
+                <ImageButton
+                    android:id="@+id/btnCall"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_phone_outline"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:tint="?attr/colorPrimary"
+                    android:padding="6dp"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="Appeler" />
+            </LinearLayout>
+
             <TextView
-                android:id="@+id/txtClientName"
+                android:id="@+id/txtRoute"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Client Name"
-                android:textAppearance="?attr/textAppearanceTitleMedium"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="4dp"
-                android:gravity="center_vertical">
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/ic_map_pin_outline"
-                    app:tint="@color/icon_documents"
-                    android:alpha="0.8"
-                    android:contentDescription="Départ" />
-                <TextView
-                    android:id="@+id/txtPickup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="Pickup Location"
-                    android:textSize="13sp"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:alpha="0.8" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="2dp"
-                android:gravity="center_vertical">
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/ic_map_pin_outline"
-                    app:tint="@color/status_cancelled"
-                    android:alpha="0.8"
-                    android:contentDescription="Arrivée" />
-                <TextView
-                    android:id="@+id/txtDestination"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="Destination Location"
-                    android:textSize="13sp"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:alpha="0.8" />
-            </LinearLayout>
+                android:text="Pickup → Destination"
+                android:textSize="12sp"
+                android:alpha="0.7"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginTop="2dp"/>
         </LinearLayout>
 
+        <!-- Right: Amount & Status -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="end"
-            android:layout_marginStart="8dp">
+            android:layout_marginStart="12dp">
 
             <TextView
                 android:id="@+id/txtAmount"
@@ -123,19 +108,23 @@
                 android:layout_height="wrap_content"
                 android:text="45.00 €"
                 android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textSize="15sp"
                 android:textColor="?attr/colorOnSurface" />
 
-            <ImageButton
-                android:id="@+id/btnCall"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+            <TextView
+                android:id="@+id/txtStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:src="@drawable/ic_phone_outline"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                app:tint="?attr/colorPrimary"
-                android:contentDescription="Appeler le client" />
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="2dp"
+                android:text="À venir"
+                android:textSize="10sp"
+                android:textColor="@color/white"
+                android:background="@drawable/bg_status_pending"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
         </LinearLayout>
-
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

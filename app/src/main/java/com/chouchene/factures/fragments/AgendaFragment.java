@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CalendarView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -21,8 +20,11 @@ import com.chouchene.factures.adapter.AgendaAdapter;
 import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Booking;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -35,8 +37,11 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
     private AppDatabase db;
     private LinearLayout emptyState;
     private com.facebook.shimmer.ShimmerFrameLayout shimmerContainer;
-    private CalendarView calendarView;
+    private TabLayout tabLayout;
+    private ChipGroup statusChipGroup;
     private Date selectedDate;
+    private boolean isMonthlyView = false;
+    private String currentStatusFilter = null;
 
     public AgendaFragment() {}
 
@@ -51,12 +56,6 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
 
         db = DatabaseClient.getInstance(requireContext()).getAppDatabase();
         
-        com.google.android.material.appbar.MaterialToolbar toolbar = view.findViewById(R.id.toolbar);
-        if (toolbar != null && getArguments() != null && getArguments().containsKey("selected_date")) {
-            toolbar.setNavigationIcon(R.drawable.rounded_arrow_back_24); // Use standard back arrow
-            toolbar.setNavigationOnClickListener(v -> Navigation.findNavController(v).popBackStack());
-        }
-
         selectedDate = new Date();
         if (getArguments() != null && getArguments().containsKey("selected_date")) {
             selectedDate = new Date(getArguments().getLong("selected_date"));
@@ -65,66 +64,136 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
         rvBookings = view.findViewById(R.id.rvBookings);
         emptyState = view.findViewById(R.id.emptyState);
         shimmerContainer = view.findViewById(R.id.shimmer_view_container);
-        calendarView = view.findViewById(R.id.calendarView);
+        tabLayout = view.findViewById(R.id.tabLayout);
+        statusChipGroup = view.findViewById(R.id.statusChipGroup);
         ExtendedFloatingActionButton fab = view.findViewById(R.id.fabAddBooking);
         
-        calendarView.setDate(selectedDate.getTime());
-
         adapter = new AgendaAdapter(this);
         rvBookings.setLayoutManager(new LinearLayoutManager(requireContext()));
         rvBookings.setAdapter(adapter);
 
-        calendarView.setOnDateChangeListener((cv, year, month, dayOfMonth) -> {
-            Calendar cal = Calendar.getInstance();
-            cal.set(year, month, dayOfMonth, 0, 0, 0);
-            selectedDate = cal.getTime();
-            loadBookingsForDate(selectedDate);
-        });
+        setupTabs();
+        setupChips();
 
         fab.setOnClickListener(v -> {
-            AddBookingBottomSheet bottomSheet = new AddBookingBottomSheet();
-            bottomSheet.setOnBookingAddedListener(() -> loadBookingsForDate(selectedDate));
+            AddBookingBottomSheet bottomSheet = AddBookingBottomSheet.newInstance(null);
+            bottomSheet.setOnBookingAddedListener(this::loadBookings);
             bottomSheet.show(getChildFragmentManager(), "ADD_BOOKING");
         });
 
-        loadBookingsForDate(selectedDate);
+        loadBookings();
+    }
+
+    private void setupTabs() {
+        tabLayout.addTab(tabLayout.newTab().setText("Jour").setIcon(R.drawable.ic_tab_day_outline));
+        tabLayout.addTab(tabLayout.newTab().setText("Mois").setIcon(R.drawable.ic_tab_month_outline));
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                isMonthlyView = tab.getPosition() == 1;
+                loadBookings();
+            }
+            @Override public void onTabUnselected(TabLayout.Tab tab) {}
+            @Override public void onTabReselected(TabLayout.Tab tab) {}
+        });
+    }
+
+    private void setupChips() {
+        statusChipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
+            if (checkedIds.isEmpty()) {
+                currentStatusFilter = null;
+            } else {
+                int id = checkedIds.get(0);
+                if (id == R.id.chipScheduled) currentStatusFilter = "Scheduled";
+                else if (id == R.id.chipCompleted) currentStatusFilter = "Completed";
+                else currentStatusFilter = null;
+            }
+            loadBookings();
+        });
+    }
+
+    private void loadBookings() {
+        if (isMonthlyView) {
+            loadBookingsForMonth(selectedDate);
+        } else {
+            loadBookingsForDate(selectedDate);
+        }
     }
 
     private void loadBookingsForDate(Date date) {
+        showLoading();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 0); cal.set(Calendar.MINUTE, 0); cal.set(Calendar.SECOND, 0);
+        Date start = cal.getTime();
+        cal.set(Calendar.HOUR_OF_DAY, 23); cal.set(Calendar.MINUTE, 59); cal.set(Calendar.SECOND, 59);
+        Date end = cal.getTime();
+
+        Executors.newSingleThreadExecutor().execute(() -> {
+            List<Booking> bookings = db.bookingDao().getBookingsBetweenDates(start, end);
+            filterAndDisplay(bookings, false);
+        });
+    }
+
+    private void loadBookingsForMonth(Date date) {
+        showLoading();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.HOUR_OF_DAY, 0); cal.set(Calendar.MINUTE, 0); cal.set(Calendar.SECOND, 0);
+        Date start = cal.getTime();
+        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+        cal.set(Calendar.HOUR_OF_DAY, 23); cal.set(Calendar.MINUTE, 59); cal.set(Calendar.SECOND, 59);
+        Date end = cal.getTime();
+
+        Executors.newSingleThreadExecutor().execute(() -> {
+            List<Booking> bookings = db.bookingDao().getBookingsBetweenDates(start, end);
+            filterAndDisplay(bookings, true);
+        });
+    }
+
+    private void filterAndDisplay(List<Booking> bookings, boolean isMonth) {
+        List<Booking> filtered = new ArrayList<>();
+        Date now = new Date();
+
+        for (Booking b : bookings) {
+            String effectiveStatus;
+            if ("Cancelled".equals(b.status)) {
+                effectiveStatus = "Cancelled";
+            } else if (b.dateTime.before(now)) {
+                effectiveStatus = "Completed";
+            } else {
+                effectiveStatus = "Scheduled";
+            }
+
+            if (currentStatusFilter == null || currentStatusFilter.equals(effectiveStatus)) {
+                filtered.add(b);
+            }
+        }
+
+        final int count = bookings.size();
+
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(() -> {
+                adapter.setData(filtered, isMonthlyView, selectedDate);
+                if (isMonth) adapter.updateMonthStats(count);
+                
+                shimmerContainer.stopShimmer();
+                shimmerContainer.setVisibility(View.GONE);
+                rvBookings.setVisibility(View.VISIBLE);
+                emptyState.setVisibility(filtered.isEmpty() && !isMonthlyView ? View.VISIBLE : View.GONE);
+            });
+        }
+    }
+
+    private void showLoading() {
         if (shimmerContainer != null) {
             shimmerContainer.setVisibility(View.VISIBLE);
             shimmerContainer.startShimmer();
             rvBookings.setVisibility(View.GONE);
             emptyState.setVisibility(View.GONE);
         }
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        Date start = cal.getTime();
-
-        cal.set(Calendar.HOUR_OF_DAY, 23);
-        cal.set(Calendar.MINUTE, 59);
-        cal.set(Calendar.SECOND, 59);
-        Date end = cal.getTime();
-
-        Executors.newSingleThreadExecutor().execute(() -> {
-            try { Thread.sleep(600); } catch (Exception ignored) {}
-            List<Booking> bookings = db.bookingDao().getBookingsBetweenDates(start, end);
-            if (getActivity() != null) {
-                getActivity().runOnUiThread(() -> {
-                    if (shimmerContainer != null) {
-                        shimmerContainer.stopShimmer();
-                        shimmerContainer.setVisibility(View.GONE);
-                    }
-                    adapter.setData(bookings);
-                    rvBookings.setVisibility(bookings.isEmpty() ? View.GONE : View.VISIBLE);
-                    emptyState.setVisibility(bookings.isEmpty() ? View.VISIBLE : View.GONE);
-                });
-            }
-        });
     }
 
     @Override
@@ -137,7 +206,13 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
     @Override
     public void onBookingClick(Booking booking) {
         AddBookingBottomSheet bottomSheet = AddBookingBottomSheet.newInstance(booking.id);
-        bottomSheet.setOnBookingAddedListener(() -> loadBookingsForDate(selectedDate));
+        bottomSheet.setOnBookingAddedListener(this::loadBookings);
         bottomSheet.show(getChildFragmentManager(), "EDIT_BOOKING");
+    }
+
+    @Override
+    public void onDateChanged(Date date) {
+        this.selectedDate = date;
+        loadBookings();
     }
 }

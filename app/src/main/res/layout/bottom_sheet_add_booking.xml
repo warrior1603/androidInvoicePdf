@@ -19,12 +19,16 @@
             android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/client_input_layout"
             style="@style/App.TextInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:hint="Nom du client"
-            app:startIconDrawable="@drawable/rounded_people_24">
+            app:startIconDrawable="@drawable/ic_nav_user_outline"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_address_book_outline"
+            app:endIconTint="?attr/colorPrimary">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editClientName"
                 android:layout_width="match_parent"
@@ -127,6 +131,15 @@
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/switchCancelled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Marquer comme annulée"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
+            android:visibility="gone" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSave"

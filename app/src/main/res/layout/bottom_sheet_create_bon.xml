@@ -41,11 +41,15 @@
                     android:orientation="vertical">
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/passager_input_layout"
                         style="@style/App.TextInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/label_passenger_name"
-                        app:startIconDrawable="@drawable/rounded_person_24">
+                        app:startIconDrawable="@drawable/ic_nav_user_outline"
+                        app:endIconMode="custom"
+                        app:endIconDrawable="@drawable/ic_address_book_outline"
+                        app:endIconTint="?attr/colorPrimary">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edit_passager"
                             android:layout_width="match_parent"
