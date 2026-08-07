@@ -119,4 +119,10 @@
         android:name="com.chouchene.factures.fragments.AddExpenseBottomSheet"
         tools:layout="@layout/bottom_sheet_add_expense" />
 
+    <fragment
+        android:id="@+id/globalHistoryFragment"
+        android:name="com.chouchene.factures.fragments.GlobalHistoryFragment"
+        android:label="Journal d'activité"
+        tools:layout="@layout/fragment_global_history" />
+
 </navigation>

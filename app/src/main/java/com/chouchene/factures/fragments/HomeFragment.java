@@ -19,7 +19,9 @@ import com.chouchene.factures.R;
 import com.chouchene.factures.adapter.HistoryAdapter;
 import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.database.DatabaseClient;
+import com.chouchene.factures.entity.Booking;
 import com.chouchene.factures.entity.Invoice;
+import com.chouchene.factures.model.RecentActivity;
 import com.chouchene.factures.utils.SwipeHistoryCallback;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -30,7 +32,9 @@ import android.widget.ImageView;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -97,7 +101,9 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         view.findViewById(R.id.stat_orders).setOnClickListener(v -> navView.setSelectedItemId(R.id.documentsHubFragment));
         view.findViewById(R.id.stat_bookings).setOnClickListener(v -> navView.setSelectedItemId(R.id.agendaFragment));
 
-        view.findViewById(R.id.btn_view_all_recent).setOnClickListener(v -> navView.setSelectedItemId(R.id.documentsHubFragment));
+        view.findViewById(R.id.btn_view_all_recent).setOnClickListener(v -> 
+            Navigation.findNavController(v).navigate(R.id.globalHistoryFragment)
+        );
 
         setupRecyclerView();
         loadHomeData();
@@ -112,18 +118,21 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getBindingAdapterPosition();
-                Invoice invoice = adapter.getInvoiceAt(position);
+                RecentActivity activity = adapter.getActivityAt(position);
                 if (direction == ItemTouchHelper.RIGHT) {
-                    onStatusChange(invoice, "Payée");
+                    onStatusChange(activity, "Payée");
                 } else if (direction == ItemTouchHelper.LEFT) {
-                    onShareClick(invoice);
+                    onShareClick(activity);
                 }
             }
         }).attachToRecyclerView(rvRecent);
     }
 
     @Override
-    public void onShareClick(Invoice invoice) {
+    public void onShareClick(RecentActivity activity) {
+        if (activity.type == RecentActivity.Type.BOOKING) return;
+        
+        Invoice invoice = (Invoice) activity.originalObject;
         if (invoice.filePath == null) return;
         File file = new File(invoice.filePath);
         if (!file.exists()) return;
@@ -133,13 +142,13 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         intent.setType("application/pdf");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(Intent.createChooser(intent, "Partager la facture"));
+        startActivity(Intent.createChooser(intent, "Partager le document"));
         adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onStatusChange(Invoice invoice, String newStatus) {
-        updateStatus(invoice, newStatus, null);
+    public void onStatusChange(RecentActivity activity, String newStatus) {
+        updateStatus(activity, newStatus, null);
     }
 
     private void loadHomeData() {
@@ -164,16 +173,29 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
             int bonCount = db.invoiceDao().getMonthlyBonsCount(new java.util.Date());
             int bookingCount = db.bookingDao().getMonthlyBookingsCount(new java.util.Date());
 
-            List<Invoice> latest = db.invoiceDao().getLatestInvoices();
+            List<Invoice> latestInvoices = db.invoiceDao().getLatestInvoices();
+            List<Booking> latestBookings = db.bookingDao().getLatestBookings();
+            
+            List<RecentActivity> allActivity = new ArrayList<>();
+            for (Invoice i : latestInvoices) allActivity.add(new RecentActivity(i));
+            for (Booking b : latestBookings) allActivity.add(new RecentActivity(b));
+            
+            // Sort by date descending
+            Collections.sort(allActivity, (a1, a2) -> a2.date.compareTo(a1.date));
+            
+            // Keep only latest 5 if needed, or all
+            if (allActivity.size() > 5) allActivity = allActivity.subList(0, 5);
+
             int overdueCount = db.invoiceDao().getOverdueInvoicesCount();
 
+            List<RecentActivity> finalActivity = allActivity;
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
                     txtRevenue.setText(String.format(Locale.getDefault(), "%.2f €", profit));
                     txtInvoiceCount.setText(String.valueOf(invoiceCount));
                     txtBonCount.setText(String.valueOf(bonCount));
                     txtBookingCount.setText(String.valueOf(bookingCount));
-                    adapter.setData(latest);
+                    adapter.setData(finalActivity);
                     
                     if (badgeOverdue != null) {
                         badgeOverdue.setVisibility(overdueCount > 0 ? View.VISIBLE : View.GONE);
@@ -190,7 +212,14 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
     }
 
     @Override
-    public void onItemClick(Invoice invoice, View sharedElement) {
+    public void onItemClick(RecentActivity activity, View sharedElement) {
+        if (activity.type == RecentActivity.Type.BOOKING) {
+            // Navigate to agenda or show booking detail
+            requireActivity().findViewById(R.id.bottomNavigationView).performClick(); // Placeholder logic
+            return;
+        }
+
+        Invoice invoice = (Invoice) activity.originalObject;
         Bundle b = new Bundle();
         b.putString("file_path", invoice.filePath);
         b.putString("transition_name", androidx.core.view.ViewCompat.getTransitionName(sharedElement));
@@ -213,24 +242,29 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
     }
 
     @Override
-    public void onDeleteClick(Invoice invoice) {
+    public void onDeleteClick(RecentActivity activity) {
         // Not used on home screen
     }
 
     @Override
-    public void onStatusClick(Invoice invoice) {
+    public void onStatusClick(RecentActivity activity) {
+        if (activity.type == RecentActivity.Type.BOOKING) return;
+        
         BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
         View view = getLayoutInflater().inflate(R.layout.layout_status_selector, null);
 
-        view.findViewById(R.id.status_pending).setOnClickListener(v -> updateStatus(invoice, "En attente", dialog));
-        view.findViewById(R.id.status_paid).setOnClickListener(v -> updateStatus(invoice, "Payée", dialog));
-        view.findViewById(R.id.status_cancelled).setOnClickListener(v -> updateStatus(invoice, "Annulée", dialog));
+        view.findViewById(R.id.status_pending).setOnClickListener(v -> updateStatus(activity, "En attente", dialog));
+        view.findViewById(R.id.status_paid).setOnClickListener(v -> updateStatus(activity, "Payée", dialog));
+        view.findViewById(R.id.status_cancelled).setOnClickListener(v -> updateStatus(activity, "Annulée", dialog));
 
         dialog.setContentView(view);
         dialog.show();
     }
 
-    private void updateStatus(Invoice invoice, String status, BottomSheetDialog dialog) {
+    private void updateStatus(RecentActivity activity, String status, BottomSheetDialog dialog) {
+        if (activity.type == RecentActivity.Type.BOOKING) return;
+        
+        Invoice invoice = (Invoice) activity.originalObject;
         Executors.newSingleThreadExecutor().execute(() -> {
             invoice.status = status;
             db.invoiceDao().updateInvoice(invoice);

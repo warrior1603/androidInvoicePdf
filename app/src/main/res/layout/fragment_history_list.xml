@@ -34,31 +34,31 @@
 
     <LinearLayout
         android:id="@+id/empty_state"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:paddingBottom="80dp">
 
         <ImageView
             android:id="@+id/img_empty_state"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:src="@drawable/rounded_receipt_long_24"
-            android:alpha="0.2"
+            android:alpha="0.15"
             app:tint="?attr/colorOutline"
             android:contentDescription="@null" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottie_empty_state"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:visibility="gone"
             android:saveEnabled="false"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            android:alpha="0.8" />
+            android:alpha="0.6" />
 
         <TextView
             style="@style/App.TextAppearance.TitleMedium"
@@ -66,7 +66,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="Aucun document trouvé"
-            android:textColor="?attr/colorOnSurface" />
+            android:alpha="0.4"
+            android:textStyle="bold" />
 
         <TextView
             style="@style/App.TextAppearance.BodyMedium"
@@ -74,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Commencez par en créer un nouveau"
-            android:alpha="0.7" />
+            android:alpha="0.4" />
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton

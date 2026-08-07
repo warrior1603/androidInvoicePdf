@@ -22,6 +22,7 @@ import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Client;
 import com.chouchene.factures.entity.Invoice;
+import com.chouchene.factures.model.RecentActivity;
 import com.chouchene.factures.utils.AvatarHelper;
 import com.chouchene.factures.utils.SwipeHistoryCallback;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -29,6 +30,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.transition.MaterialContainerTransform;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 
@@ -149,18 +151,19 @@ public class ClientDetailFragment extends Fragment implements HistoryAdapter.OnH
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getBindingAdapterPosition();
-                Invoice invoice = adapter.getInvoiceAt(position);
+                RecentActivity activity = adapter.getActivityAt(position);
                 if (direction == ItemTouchHelper.RIGHT) {
-                    onStatusChange(invoice, "Payée");
+                    onStatusChange(activity, "Payée");
                 } else if (direction == ItemTouchHelper.LEFT) {
-                    onShareClick(invoice);
+                    onShareClick(activity);
                 }
             }
         }).attachToRecyclerView(rvHistory);
     }
 
     @Override
-    public void onShareClick(Invoice invoice) {
+    public void onShareClick(RecentActivity activity) {
+        Invoice invoice = (Invoice) activity.originalObject;
         if (invoice.filePath == null) return;
         File file = new File(invoice.filePath);
         if (!file.exists()) return;
@@ -169,14 +172,14 @@ public class ClientDetailFragment extends Fragment implements HistoryAdapter.OnH
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("application/pdf");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(Intent.createChooser(intent, "Partager la facture"));
         adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onStatusChange(Invoice invoice, String newStatus) {
-        updateStatus(invoice, newStatus, null);
+    public void onStatusChange(RecentActivity activity, String newStatus) {
+        updateStatus(activity, newStatus, null);
     }
 
     private void loadHistory() {
@@ -184,9 +187,12 @@ public class ClientDetailFragment extends Fragment implements HistoryAdapter.OnH
             List<Invoice> history = db.invoiceDao().getInvoicesByClient(client.getClientName());
             float totalRevenue = db.invoiceDao().getTotalRevenueByClient(client.getClientName());
             
+            List<RecentActivity> activities = new ArrayList<>();
+            for (Invoice i : history) activities.add(new RecentActivity(i));
+
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
-                    adapter.setData(history);
+                    adapter.setData(activities);
                     TextView txtTotalRevenue = getView().findViewById(R.id.detail_total_revenue);
                     if (txtTotalRevenue != null) {
                         txtTotalRevenue.setText(String.format(java.util.Locale.getDefault(), "%.2f €", totalRevenue));
@@ -197,26 +203,22 @@ public class ClientDetailFragment extends Fragment implements HistoryAdapter.OnH
     }
 
     @Override
-    public void onItemClick(Invoice invoice, View sharedElement) {
+    public void onItemClick(RecentActivity activity, View sharedElement) {
+        Invoice invoice = (Invoice) activity.originalObject;
         Bundle b = new Bundle();
         b.putString("file_path", invoice.filePath);
         b.putString("mail_client", client.getEmail());
-        b.putString("transition_name", androidx.core.view.ViewCompat.getTransitionName(sharedElement));
-
-        androidx.navigation.fragment.FragmentNavigator.Extras extras = new androidx.navigation.fragment.FragmentNavigator.Extras.Builder()
-                .addSharedElement(sharedElement, androidx.core.view.ViewCompat.getTransitionName(sharedElement))
-                .build();
-
-        Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, b, null, extras);
+        Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, b);
     }
 
     @Override
-    public void onDeleteClick(Invoice invoice) {
+    public void onDeleteClick(RecentActivity activity) {
         // Implementation can be added if deletion from here is desired
     }
 
     @Override
-    public void onStatusClick(Invoice invoice) {
+    public void onStatusClick(RecentActivity activity) {
+        Invoice invoice = (Invoice) activity.originalObject;
         BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
         View view = getLayoutInflater().inflate(R.layout.layout_status_selector, null);
 
@@ -228,15 +230,16 @@ public class ClientDetailFragment extends Fragment implements HistoryAdapter.OnH
         else if ("Annulée".equals(invoice.status)) chipCancelled.setChecked(true);
         else chipPending.setChecked(true);
 
-        chipPending.setOnClickListener(v -> updateStatus(invoice, "En attente", dialog));
-        chipPaid.setOnClickListener(v -> updateStatus(invoice, "Payée", dialog));
-        chipCancelled.setOnClickListener(v -> updateStatus(invoice, "Annulée", dialog));
+        chipPending.setOnClickListener(v -> updateStatus(activity, "En attente", dialog));
+        chipPaid.setOnClickListener(v -> updateStatus(activity, "Payée", dialog));
+        chipCancelled.setOnClickListener(v -> updateStatus(activity, "Annulée", dialog));
 
         dialog.setContentView(view);
         dialog.show();
     }
 
-    private void updateStatus(Invoice invoice, String status, BottomSheetDialog dialog) {
+    private void updateStatus(RecentActivity activity, String status, BottomSheetDialog dialog) {
+        Invoice invoice = (Invoice) activity.originalObject;
         Executors.newSingleThreadExecutor().execute(() -> {
             invoice.status = status;
             db.invoiceDao().updateInvoice(invoice);

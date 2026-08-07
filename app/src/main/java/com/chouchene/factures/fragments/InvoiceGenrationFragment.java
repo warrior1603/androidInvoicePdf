@@ -20,12 +20,14 @@ import com.chouchene.factures.adapter.HistoryAdapter;
 import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Invoice;
+import com.chouchene.factures.model.RecentActivity;
 import com.chouchene.factures.utils.LottieUtils;
 import com.chouchene.factures.utils.SwipeHistoryCallback;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 
@@ -71,11 +73,11 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getBindingAdapterPosition();
-                Invoice invoice = adapter.getInvoiceAt(position);
+                RecentActivity activity = adapter.getActivityAt(position);
                 if (direction == ItemTouchHelper.RIGHT) {
-                    onStatusChange(invoice, "Payée");
+                    onStatusChange(activity, "Payée");
                 } else if (direction == ItemTouchHelper.LEFT) {
-                    onShareClick(invoice);
+                    onShareClick(activity);
                     adapter.notifyItemChanged(position);
                 }
             }
@@ -135,13 +137,17 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
                     invoices = db.invoiceDao().getInvoicesOnly();
                 }
             }
+
+            List<RecentActivity> finalActivities = new ArrayList<>();
+            for (Invoice i : invoices) finalActivities.add(new RecentActivity(i));
+
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
                     if (shimmerContainer != null) {
                         shimmerContainer.stopShimmer();
                         shimmerContainer.setVisibility(View.GONE);
                     }
-                    adapter.setData(invoices);
+                    adapter.setData(finalActivities);
                     checkEmptyState();
                 });
             }
@@ -166,10 +172,10 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
     }
 
     @Override
-    public void onItemClick(Invoice invoice, View sharedElement) {
+    public void onItemClick(RecentActivity activity, View sharedElement) {
+        Invoice invoice = (Invoice) activity.originalObject;
         Bundle b = new Bundle();
         b.putString("file_path", invoice.filePath);
-        b.putString("transition_name", "invoice_" + invoice.id);
         
         Executors.newSingleThreadExecutor().execute(() -> {
             com.chouchene.factures.entity.Client client = db.clientDao().getClientByName(invoice.clientName);
@@ -178,20 +184,15 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
                     if (client != null) {
                         b.putString("mail_client", client.getEmail());
                     }
-                    
-                    androidx.navigation.fragment.FragmentNavigator.Extras extras = 
-                        new androidx.navigation.fragment.FragmentNavigator.Extras.Builder()
-                            .addSharedElement(sharedElement, "invoice_" + invoice.id)
-                            .build();
-
-                    Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, b, null, extras);
+                    Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, b);
                 });
             }
         });
     }
 
     @Override
-    public void onDeleteClick(Invoice invoice) {
+    public void onDeleteClick(RecentActivity activity) {
+        Invoice invoice = (Invoice) activity.originalObject;
         new MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Supprimer")
                 .setMessage("Voulez-vous supprimer cette facture ?")
@@ -207,7 +208,8 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
     }
 
     @Override
-    public void onStatusClick(Invoice invoice) {
+    public void onStatusClick(RecentActivity activity) {
+        Invoice invoice = (Invoice) activity.originalObject;
         com.google.android.material.bottomsheet.BottomSheetDialog dialog = new com.google.android.material.bottomsheet.BottomSheetDialog(requireContext());
         View view = getLayoutInflater().inflate(R.layout.layout_status_selector, null);
 
@@ -219,16 +221,17 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
         else if ("Annulée".equals(invoice.status)) chipCancelled.setChecked(true);
         else chipPending.setChecked(true);
 
-        chipPending.setOnClickListener(v -> updateStatus(invoice, "En attente", dialog));
-        chipPaid.setOnClickListener(v -> updateStatus(invoice, "Payée", dialog));
-        chipCancelled.setOnClickListener(v -> updateStatus(invoice, "Annulée", dialog));
+        chipPending.setOnClickListener(v -> updateStatus(activity, "En attente", dialog));
+        chipPaid.setOnClickListener(v -> updateStatus(activity, "Payée", dialog));
+        chipCancelled.setOnClickListener(v -> updateStatus(activity, "Annulée", dialog));
 
         dialog.setContentView(view);
         dialog.show();
     }
 
     @Override
-    public void onShareClick(Invoice invoice) {
+    public void onShareClick(RecentActivity activity) {
+        Invoice invoice = (Invoice) activity.originalObject;
         if (invoice.filePath == null) return;
         File file = new File(invoice.filePath);
         if (!file.exists()) return;
@@ -244,7 +247,8 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
     }
 
     @Override
-    public void onStatusChange(Invoice invoice, String newStatus) {
+    public void onStatusChange(RecentActivity activity, String newStatus) {
+        Invoice invoice = (Invoice) activity.originalObject;
         Executors.newSingleThreadExecutor().execute(() -> {
             invoice.status = newStatus;
             db.invoiceDao().updateInvoice(invoice);
@@ -260,13 +264,14 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
         });
     }
 
-    private void updateStatus(Invoice invoice, String status, com.google.android.material.bottomsheet.BottomSheetDialog dialog) {
+    private void updateStatus(RecentActivity activity, String status, com.google.android.material.bottomsheet.BottomSheetDialog dialog) {
+        Invoice invoice = (Invoice) activity.originalObject;
         Executors.newSingleThreadExecutor().execute(() -> {
             invoice.status = status;
             db.invoiceDao().updateInvoice(invoice);
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
-                    dialog.dismiss();
+                    if (dialog != null) dialog.dismiss();
                     loadInvoices();
                     if ("Payée".equals(status) && getActivity() instanceof com.chouchene.factures.MainActivity) {
                         ((com.chouchene.factures.MainActivity) getActivity()).triggerConfetti();

@@ -22,6 +22,7 @@ import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Invoice;
 import com.chouchene.factures.adapter.HistoryAdapter;
+import com.chouchene.factures.model.RecentActivity;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -211,7 +212,6 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
     }
 
     private void setupChart(BarChart barChart, List<BarEntry> entries, List<String> labels, View emptyState) {
-        // Check if all entries are 0
         boolean hasData = false;
         for (BarEntry e : entries) {
             if (e.getY() > 0) {
@@ -319,9 +319,12 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                 invoices = db.getLatestInvoices(); // Fallback
             }
             
+            List<RecentActivity> finalActivities = new ArrayList<>();
+            for (Invoice i : invoices) finalActivities.add(new RecentActivity(i));
+
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
-                    adapter.setData(invoices);
+                    adapter.setData(finalActivities);
                     dialog.setContentView(view);
                     dialog.show();
                 });
@@ -330,7 +333,8 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
     }
 
     @Override
-    public void onItemClick(Invoice invoice, View sharedElement) {
+    public void onItemClick(RecentActivity activity, View sharedElement) {
+        Invoice invoice = (Invoice) activity.originalObject;
         Bundle b = new Bundle();
         b.putString("file_path", invoice.filePath);
         b.putString("transition_name", androidx.core.view.ViewCompat.getTransitionName(sharedElement));
@@ -343,16 +347,16 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
     }
 
     @Override
-    public void onDeleteClick(Invoice invoice) {}
+    public void onDeleteClick(RecentActivity activity) {}
 
     @Override
-    public void onStatusClick(Invoice invoice) {}
+    public void onStatusClick(RecentActivity activity) {}
 
     @Override
-    public void onShareClick(Invoice invoice) {}
+    public void onShareClick(RecentActivity activity) {}
 
     @Override
-    public void onStatusChange(Invoice invoice, String newStatus) {}
+    public void onStatusChange(RecentActivity activity, String newStatus) {}
 
     @ColorInt
     private int resolveColor(int attr) {

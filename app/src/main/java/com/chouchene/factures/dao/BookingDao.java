@@ -38,4 +38,7 @@ public interface BookingDao {
 
     @Query("SELECT COUNT(*) FROM bookings WHERE strftime('%m-%Y', date_time / 1000, 'unixepoch', 'localtime') = strftime('%m-%Y', :date / 1000, 'unixepoch', 'localtime')")
     int getMonthlyBookingsCount(Date date);
+
+    @Query("SELECT * FROM bookings ORDER BY date_time DESC LIMIT 3")
+    List<Booking> getLatestBookings();
 }
