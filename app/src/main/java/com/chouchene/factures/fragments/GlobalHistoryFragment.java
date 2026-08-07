@@ -33,6 +33,7 @@ public class GlobalHistoryFragment extends Fragment implements HistoryAdapter.On
     private HistoryAdapter adapter;
     private AppDatabase db;
     private LinearLayout emptyState;
+    private com.facebook.shimmer.ShimmerFrameLayout shimmerContainer;
     private List<RecentActivity> allActivities = new ArrayList<>();
 
     public GlobalHistoryFragment() {}
@@ -57,6 +58,7 @@ public class GlobalHistoryFragment extends Fragment implements HistoryAdapter.On
 
         recyclerView = view.findViewById(R.id.rv_global_history);
         emptyState = view.findViewById(R.id.empty_state);
+        shimmerContainer = view.findViewById(R.id.shimmer_view_container);
         ChipGroup chipGroup = view.findViewById(R.id.filter_chip_group);
 
         adapter = new HistoryAdapter(this);
@@ -72,7 +74,15 @@ public class GlobalHistoryFragment extends Fragment implements HistoryAdapter.On
     }
 
     private void loadData() {
+        if (shimmerContainer != null) {
+            shimmerContainer.setVisibility(View.VISIBLE);
+            shimmerContainer.startShimmer();
+            recyclerView.setVisibility(View.GONE);
+            emptyState.setVisibility(View.GONE);
+        }
+
         Executors.newSingleThreadExecutor().execute(() -> {
+            try { Thread.sleep(800); } catch (Exception ignored) {}
             List<Invoice> invoices = db.invoiceDao().getAllInvoices();
             List<Booking> bookings = db.bookingDao().getBookingsBetweenDates(new java.util.Date(0), new java.util.Date(Long.MAX_VALUE));
             
@@ -84,7 +94,12 @@ public class GlobalHistoryFragment extends Fragment implements HistoryAdapter.On
 
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
+                    if (shimmerContainer != null) {
+                        shimmerContainer.stopShimmer();
+                        shimmerContainer.setVisibility(View.GONE);
+                    }
                     adapter.setData(allActivities);
+                    recyclerView.setVisibility(allActivities.isEmpty() ? View.GONE : View.VISIBLE);
                     checkEmptyState();
                 });
             }

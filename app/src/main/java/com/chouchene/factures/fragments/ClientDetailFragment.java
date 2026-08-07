@@ -43,6 +43,7 @@ public class ClientDetailFragment extends Fragment implements HistoryAdapter.OnH
     private AppDatabase db;
     private HistoryAdapter adapter;
     private RecyclerView rvHistory;
+    private com.facebook.shimmer.ShimmerFrameLayout shimmerContainer;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -136,6 +137,7 @@ public class ClientDetailFragment extends Fragment implements HistoryAdapter.OnH
         });
 
         rvHistory = view.findViewById(R.id.rv_client_history);
+        shimmerContainer = view.findViewById(R.id.shimmer_view_container);
         setupRecyclerView();
         loadHistory();
         
@@ -183,7 +185,14 @@ public class ClientDetailFragment extends Fragment implements HistoryAdapter.OnH
     }
 
     private void loadHistory() {
+        if (shimmerContainer != null) {
+            shimmerContainer.setVisibility(View.VISIBLE);
+            shimmerContainer.startShimmer();
+            rvHistory.setVisibility(View.GONE);
+        }
+
         Executors.newSingleThreadExecutor().execute(() -> {
+            try { Thread.sleep(600); } catch (Exception ignored) {}
             List<Invoice> history = db.invoiceDao().getInvoicesByClient(client.getClientName());
             float totalRevenue = db.invoiceDao().getTotalRevenueByClient(client.getClientName());
             
@@ -192,7 +201,12 @@ public class ClientDetailFragment extends Fragment implements HistoryAdapter.OnH
 
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
+                    if (shimmerContainer != null) {
+                        shimmerContainer.stopShimmer();
+                        shimmerContainer.setVisibility(View.GONE);
+                    }
                     adapter.setData(activities);
+                    rvHistory.setVisibility(View.VISIBLE);
                     TextView txtTotalRevenue = getView().findViewById(R.id.detail_total_revenue);
                     if (txtTotalRevenue != null) {
                         txtTotalRevenue.setText(String.format(java.util.Locale.getDefault(), "%.2f €", totalRevenue));

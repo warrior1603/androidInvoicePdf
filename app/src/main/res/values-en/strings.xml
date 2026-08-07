@@ -125,13 +125,20 @@
     <string name="msg_import_confirm">Do you really want to import this data? This will replace your current data.</string>
 
     <!-- Onboarding -->
-    <string name="onboarding_title_1">Bienvenue sur Mes Factures</string>
-    <string name="onboarding_desc_1">Gérez vos factures et bons de commande en toute simplicité.</string>
-    <string name="onboarding_title_2">Analyses &amp; Statistiques</string>
-    <string name="onboarding_desc_2">Suivez votre chiffre d\'affaires et visualisez vos performances avec des graphiques clairs.</string>
-    <string name="onboarding_title_3">Gestion des Clients</string>
-    <string name="onboarding_desc_3">Enregistrez vos clients pour générer des factures encore plus rapidement.</string>
-    <string name="btn_next">Suivant</string>
-    <string name="btn_skip">Passer</string>
-    <string name="btn_get_started">Commencer</string>
+    <string name="onboarding_title_1">Welcome to My Invoices</string>
+    <string name="onboarding_desc_1">Manage your invoices and orders easily.</string>
+    <string name="onboarding_title_2">Analytics &amp; Stats</string>
+    <string name="onboarding_desc_2">Track your revenue and visualize your performance with clear charts.</string>
+    <string name="onboarding_title_3">Client Management</string>
+    <string name="onboarding_desc_3">Save your regular clients to generate invoices even faster.</string>
+    <string name="btn_next">Next</string>
+    <string name="btn_skip">Skip</string>
+    <string name="btn_get_started">Get Started</string>
+
+    <!-- Booking -->
+    <string name="title_add_booking">New Trip</string>
+    <string name="title_edit_booking">Edit Trip</string>
+    <string name="action_update">Update</string>
+    <string name="action_delete_booking">Delete trip</string>
+    <string name="msg_confirm_delete_booking">Do you really want to delete this trip?</string>
 </resources>

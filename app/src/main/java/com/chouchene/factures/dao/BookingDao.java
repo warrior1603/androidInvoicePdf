@@ -27,6 +27,9 @@ public interface BookingDao {
     @Query("SELECT * FROM bookings ORDER BY date_time ASC")
     LiveData<List<Booking>> getAllBookings();
 
+    @Query("SELECT * FROM bookings WHERE id = :id")
+    Booking getBookingById(int id);
+
     @Query("SELECT * FROM bookings WHERE date_time >= :start AND date_time <= :end ORDER BY date_time ASC")
     List<Booking> getBookingsBetweenDates(Date start, Date end);
 

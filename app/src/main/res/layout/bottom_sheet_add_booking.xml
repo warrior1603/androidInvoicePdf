@@ -11,6 +11,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/txtSheetTitle"
             style="@style/App.TextAppearance.TitleLarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -133,8 +134,20 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="32dp"
-            android:layout_marginBottom="16dp"
             android:text="Enregistrer la course" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDelete"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:text="Supprimer la course"
+            android:textColor="?attr/colorError"
+            android:visibility="gone"
+            app:icon="@drawable/rounded_delete_24"
+            app:iconTint="?attr/colorError" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

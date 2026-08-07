@@ -29,8 +29,18 @@ public class NotificationHelper {
     }
 
     public static void scheduleBookingReminder(Context context, Booking booking) {
+        long now = System.currentTimeMillis();
         long reminderTime = booking.dateTime.getTime() - (30 * 60 * 1000); // 30 minutes before
-        if (reminderTime < System.currentTimeMillis()) return;
+        
+        // If 30 mins before is already passed, but the course hasn't started yet
+        if (reminderTime < now) {
+            if (booking.dateTime.getTime() > now) {
+                // Schedule it for 10 seconds from now so the user sees it immediately
+                reminderTime = now + 10000; 
+            } else {
+                return; // Course already started or passed
+            }
+        }
 
         Intent intent = new Intent(context, BookingReminderReceiver.class);
         intent.putExtra("booking_id", booking.id);

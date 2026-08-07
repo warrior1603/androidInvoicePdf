@@ -153,4 +153,11 @@
     <string name="btn_next">Suivant</string>
     <string name="btn_skip">Passer</string>
     <string name="btn_get_started">Commencer</string>
+
+    <!-- Booking -->
+    <string name="title_add_booking">Nouvelle Course</string>
+    <string name="title_edit_booking">Modifier la Course</string>
+    <string name="action_update">Mettre à jour</string>
+    <string name="action_delete_booking">Supprimer la course</string>
+    <string name="msg_confirm_delete_booking">Voulez-vous vraiment supprimer cette course ?</string>
 </resources>

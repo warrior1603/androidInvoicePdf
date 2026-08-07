@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +18,7 @@ import com.chouchene.factures.utils.NotificationHelper;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
@@ -29,11 +32,23 @@ import java.util.concurrent.Executors;
 public class AddBookingBottomSheet extends BottomSheetDialogFragment {
 
     private TextInputEditText editClientName, editPhone, editPickup, editDestination, editDate, editTime, editPrice;
+    private TextView txtTitle;
+    private MaterialButton btnSave, btnDelete;
     private Calendar calendar = Calendar.getInstance();
     private OnBookingAddedListener listener;
+    private Booking existingBooking;
+    private int bookingId = -1;
 
     public interface OnBookingAddedListener {
         void onBookingAdded();
+    }
+
+    public static AddBookingBottomSheet newInstance(int bookingId) {
+        AddBookingBottomSheet fragment = new AddBookingBottomSheet();
+        Bundle args = new Bundle();
+        args.putInt("booking_id", bookingId);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     public void setOnBookingAddedListener(OnBookingAddedListener listener) {
@@ -50,6 +65,11 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (getArguments() != null) {
+            bookingId = getArguments().getInt("booking_id", -1);
+        }
+
+        txtTitle = view.findViewById(R.id.txtSheetTitle);
         editClientName = view.findViewById(R.id.editClientName);
         editPhone = view.findViewById(R.id.editPhone);
         editPickup = view.findViewById(R.id.editPickup);
@@ -57,7 +77,8 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
         editDate = view.findViewById(R.id.editDate);
         editTime = view.findViewById(R.id.editTime);
         editPrice = view.findViewById(R.id.editPrice);
-        MaterialButton btnSave = view.findViewById(R.id.btnSave);
+        btnSave = view.findViewById(R.id.btnSave);
+        btnDelete = view.findViewById(R.id.btnDelete);
 
         SimpleDateFormat dateFmt = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         SimpleDateFormat timeFmt = new SimpleDateFormat("HH:mm", Locale.getDefault());
@@ -69,6 +90,45 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
         editTime.setOnClickListener(v -> showTimePicker());
 
         btnSave.setOnClickListener(v -> saveBooking());
+        btnDelete.setOnClickListener(v -> confirmDelete());
+
+        if (bookingId != -1) {
+            loadExistingBooking();
+        }
+    }
+
+    private void loadExistingBooking() {
+        AppDatabase db = DatabaseClient.getInstance(requireContext()).getAppDatabase();
+        Executors.newSingleThreadExecutor().execute(() -> {
+            Booking booking = db.bookingDao().getBookingById(bookingId);
+            if (booking != null) {
+                populateFields(booking);
+            }
+        });
+    }
+
+    private void populateFields(Booking booking) {
+        existingBooking = booking;
+        calendar.setTime(booking.dateTime);
+        
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(() -> {
+                if (txtTitle != null) txtTitle.setText(R.string.title_edit_booking);
+                if (btnSave != null) btnSave.setText(R.string.action_update);
+                if (btnDelete != null) btnDelete.setVisibility(View.VISIBLE);
+                
+                editClientName.setText(booking.clientName);
+                editPhone.setText(booking.clientPhone);
+                editPickup.setText(booking.pickupLocation);
+                editDestination.setText(booking.destinationLocation);
+                editPrice.setText(String.valueOf(booking.estimatedPrice));
+                
+                SimpleDateFormat dateFmt = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                SimpleDateFormat timeFmt = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                editDate.setText(dateFmt.format(booking.dateTime));
+                editTime.setText(timeFmt.format(booking.dateTime));
+            });
+        }
     }
 
     private void showDatePicker() {
@@ -120,15 +180,55 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
             if (!priceStr.isEmpty()) price = Double.parseDouble(priceStr);
         } catch (Exception ignored) {}
 
-        Booking booking = new Booking(name, phone, pickup, dest, calendar.getTime(), "", price);
-        
         AppDatabase db = DatabaseClient.getInstance(requireContext().getApplicationContext()).getAppDatabase();
+        
+        final Booking booking;
+        if (bookingId != -1 && existingBooking != null) {
+            booking = existingBooking;
+            booking.clientName = name;
+            booking.clientPhone = phone;
+            booking.pickupLocation = pickup;
+            booking.destinationLocation = dest;
+            booking.dateTime = calendar.getTime();
+            booking.estimatedPrice = price;
+        } else {
+            booking = new Booking(name, phone, pickup, dest, calendar.getTime(), "", price);
+        }
+        
         Executors.newSingleThreadExecutor().execute(() -> {
-            long id = db.bookingDao().insertBooking(booking);
-            booking.id = (int) id;
-            // Schedule notification
+            if (bookingId != -1) {
+                db.bookingDao().updateBooking(booking);
+            } else {
+                long id = db.bookingDao().insertBooking(booking);
+                booking.id = (int) id;
+            }
+            
+            // Re-schedule notification
             NotificationHelper.scheduleBookingReminder(requireContext(), booking);
             
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    if (listener != null) listener.onBookingAdded();
+                    dismiss();
+                });
+            }
+        });
+    }
+
+    private void confirmDelete() {
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.action_delete)
+                .setMessage(R.string.msg_confirm_delete_booking)
+                .setPositiveButton(R.string.action_delete, (dialog, which) -> deleteBooking())
+                .setNegativeButton(R.string.action_cancel, null)
+                .show();
+    }
+
+    private void deleteBooking() {
+        if (existingBooking == null) return;
+        AppDatabase db = DatabaseClient.getInstance(requireContext()).getAppDatabase();
+        Executors.newSingleThreadExecutor().execute(() -> {
+            db.bookingDao().deleteBooking(existingBooking);
             if (getActivity() != null) {
                 getActivity().runOnUiThread(() -> {
                     if (listener != null) listener.onBookingAdded();

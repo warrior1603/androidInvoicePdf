@@ -34,6 +34,7 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
     private AgendaAdapter adapter;
     private AppDatabase db;
     private LinearLayout emptyState;
+    private com.facebook.shimmer.ShimmerFrameLayout shimmerContainer;
     private CalendarView calendarView;
     private Date selectedDate;
 
@@ -63,6 +64,7 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
 
         rvBookings = view.findViewById(R.id.rvBookings);
         emptyState = view.findViewById(R.id.emptyState);
+        shimmerContainer = view.findViewById(R.id.shimmer_view_container);
         calendarView = view.findViewById(R.id.calendarView);
         ExtendedFloatingActionButton fab = view.findViewById(R.id.fabAddBooking);
         
@@ -89,6 +91,13 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
     }
 
     private void loadBookingsForDate(Date date) {
+        if (shimmerContainer != null) {
+            shimmerContainer.setVisibility(View.VISIBLE);
+            shimmerContainer.startShimmer();
+            rvBookings.setVisibility(View.GONE);
+            emptyState.setVisibility(View.GONE);
+        }
+
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -102,10 +111,16 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
         Date end = cal.getTime();
 
         Executors.newSingleThreadExecutor().execute(() -> {
+            try { Thread.sleep(600); } catch (Exception ignored) {}
             List<Booking> bookings = db.bookingDao().getBookingsBetweenDates(start, end);
             if (getActivity() != null) {
                 getActivity().runOnUiThread(() -> {
+                    if (shimmerContainer != null) {
+                        shimmerContainer.stopShimmer();
+                        shimmerContainer.setVisibility(View.GONE);
+                    }
                     adapter.setData(bookings);
+                    rvBookings.setVisibility(bookings.isEmpty() ? View.GONE : View.VISIBLE);
                     emptyState.setVisibility(bookings.isEmpty() ? View.VISIBLE : View.GONE);
                 });
             }
@@ -121,6 +136,8 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
 
     @Override
     public void onBookingClick(Booking booking) {
-        // Show details or edit
+        AddBookingBottomSheet bottomSheet = AddBookingBottomSheet.newInstance(booking.id);
+        bottomSheet.setOnBookingAddedListener(() -> loadBookingsForDate(selectedDate));
+        bottomSheet.show(getChildFragmentManager(), "EDIT_BOOKING");
     }
 }

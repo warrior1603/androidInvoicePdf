@@ -53,6 +53,8 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
     private Timeframe timeframe;
     private InvoiceDao db;
     private ExpenseDao expenseDb;
+    private com.facebook.shimmer.ShimmerFrameLayout shimmerContainer;
+    private View mainContent;
 
     public static AnalyticsDetailFragment newInstance(Timeframe timeframe) {
         AnalyticsDetailFragment fragment = new AnalyticsDetailFragment();
@@ -78,6 +80,9 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_analytics_detail, container, false);
 
+        shimmerContainer = view.findViewById(R.id.shimmer_view_container);
+        mainContent = view.findViewById(R.id.main_content);
+        
         TextView revenueLabel = view.findViewById(R.id.revenueLabel);
         TextView totalRevenueTxt = view.findViewById(R.id.totalRevenue);
         TextView documentCountTxt = view.findViewById(R.id.documentCount);
@@ -88,7 +93,14 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
 
         cardExpenses.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.expensesFragment));
 
+        if (shimmerContainer != null) {
+            shimmerContainer.setVisibility(View.VISIBLE);
+            shimmerContainer.startShimmer();
+            mainContent.setVisibility(View.GONE);
+        }
+
         Executors.newSingleThreadExecutor().execute(() -> {
+            try { Thread.sleep(700); } catch (Exception ignored) {}
             Date today = new Date();
             float revenue = 0;
             int count = 0;
@@ -117,7 +129,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                         BarEntry entry = new BarEntry(6 - i, income - exp);
                         entry.setData(new DocumentsViewModel.Filter("DAY", 
                             String.valueOf(d.getTime()),
-                            new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(d)));
+                            new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(d), null));
                         chartEntries.add(entry);
                         labels.add(new SimpleDateFormat("dd/MM", Locale.getDefault()).format(d));
                     }
@@ -140,7 +152,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                         BarEntry entry = new BarEntry(5 - i, income - exp);
                         entry.setData(new DocumentsViewModel.Filter("MONTH", 
                             new SimpleDateFormat("MM-yyyy", Locale.getDefault()).format(d),
-                            new SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(d)));
+                            new SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(d), null));
                         chartEntries.add(entry);
                         labels.add(new SimpleDateFormat("MM/yy", Locale.getDefault()).format(d));
                     }
@@ -165,7 +177,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                         BarEntry entry = new BarEntry(i, income - exp);
                         entry.setData(new DocumentsViewModel.Filter("MONTH", 
                             new SimpleDateFormat("MM-yyyy", Locale.getDefault()).format(d),
-                            new SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(d)));
+                            new SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(d), null));
                         chartEntries.add(entry);
                         labels.add(new SimpleDateFormat("MMM", Locale.getDefault()).format(d));
                     }
@@ -185,7 +197,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                         BarEntry entry = new BarEntry(4 - i, yearTotal);
                         entry.setData(new DocumentsViewModel.Filter("YEAR",
                                 new SimpleDateFormat("yyyy", Locale.getDefault()).format(d),
-                                new SimpleDateFormat("yyyy", Locale.getDefault()).format(d)));
+                                new SimpleDateFormat("yyyy", Locale.getDefault()).format(d), null));
                         chartEntries.add(entry);
                         labels.add(new SimpleDateFormat("yyyy", Locale.getDefault()).format(d));
                     }
@@ -199,6 +211,11 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
 
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
+                    if (shimmerContainer != null) {
+                        shimmerContainer.stopShimmer();
+                        shimmerContainer.setVisibility(View.GONE);
+                        mainContent.setVisibility(View.VISIBLE);
+                    }
                     revenueLabel.setText(finalLabelTop);
                     totalRevenueTxt.setText(String.format(Locale.getDefault(), "%.2f €", finalRev));
                     documentCountTxt.setText(String.valueOf(finalCount));
