@@ -74,14 +74,20 @@
         <receiver android:name=".utils.BookingReminderReceiver"
             android:exported="false" />
 
-        <receiver android:name=".widget.HomeWidgetProvider"
+        <receiver
+            android:name=".widget.HomeWidgetProvider"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-            <meta-data android:name="android.appwidget.provider"
+            <meta-data
+                android:name="android.appwidget.provider"
                 android:resource="@xml/home_widget_info" />
         </receiver>
+
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="ocr" />
     </application>
 
 </manifest>

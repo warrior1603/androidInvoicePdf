@@ -74,6 +74,7 @@ dependencies {
     implementation("androidx.biometric:biometric:1.1.0")
     implementation("com.airbnb.android:lottie:6.4.0")
     implementation("nl.dionsegijn:konfetti-xml:2.0.4")
+    implementation("com.google.mlkit:text-recognition:16.0.1")
 
     annotationProcessor("androidx.room:room-compiler:2.8.4")
     testImplementation("junit:junit:4.13.2")

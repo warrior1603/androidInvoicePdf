@@ -10,13 +10,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/txt_title"
-        style="@style/App.TextAppearance.TitleLarge"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:text="Nouvelle dépense" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="24dp">
+
+        <TextView
+            android:id="@+id/txt_title"
+            style="@style/App.TextAppearance.TitleLarge"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Nouvelle dépense" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_scan_receipt"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Scanner"
+            app:icon="@drawable/ic_camera_outline"
+            app:iconSize="18dp" />
+    </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/App.TextInput"
