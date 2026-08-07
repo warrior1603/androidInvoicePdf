@@ -112,4 +112,11 @@ public class ExpensesFragment extends Fragment implements ExpenseAdapter.OnExpen
                 .setNegativeButton("Annuler", null)
                 .show();
     }
+
+    @Override
+    public void onEditClick(Expense expense) {
+        AddExpenseBottomSheet bottomSheet = AddExpenseBottomSheet.newInstance(expense.id);
+        bottomSheet.setOnExpenseAddedListener(this::loadExpenses);
+        bottomSheet.show(getChildFragmentManager(), "EDIT_EXPENSE");
+    }
 }

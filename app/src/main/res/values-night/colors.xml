@@ -49,6 +49,9 @@
     <color name="icon_settings">#B0BEC5</color>
     <color name="icon_settings_bg">#263238</color>
 
+    <color name="icon_expenses">#EF9A9A</color>
+    <color name="icon_expenses_bg">#331B1B</color>
+
     <!-- Status Colors (Refined for Soft Badges) -->
     <color name="status_paid">#81C784</color>
     <color name="status_paid_bg">#1B3320</color>

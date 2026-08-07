@@ -66,11 +66,11 @@
                 android:layout_marginTop="4dp"
                 android:gravity="center_vertical">
                 <ImageView
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:src="@drawable/rounded_location_on_24"
-                    app:tint="?attr/colorPrimary"
-                    android:alpha="0.7"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_map_pin_outline"
+                    app:tint="@color/icon_documents"
+                    android:alpha="0.8"
                     android:contentDescription="Départ" />
                 <TextView
                     android:id="@+id/txtPickup"
@@ -91,11 +91,11 @@
                 android:layout_marginTop="2dp"
                 android:gravity="center_vertical">
                 <ImageView
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:src="@drawable/rounded_location_on_24"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_map_pin_outline"
                     app:tint="@color/status_cancelled"
-                    android:alpha="0.7"
+                    android:alpha="0.8"
                     android:contentDescription="Arrivée" />
                 <TextView
                     android:id="@+id/txtDestination"
@@ -130,7 +130,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="4dp"
-                android:src="@drawable/rounded_local_phone_24"
+                android:src="@drawable/ic_phone_outline"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 app:tint="?attr/colorPrimary"
                 android:contentDescription="Appeler le client" />

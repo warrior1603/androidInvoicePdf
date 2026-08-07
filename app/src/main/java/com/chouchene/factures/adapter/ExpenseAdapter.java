@@ -23,6 +23,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
 
     public interface OnExpenseActionListener {
         void onDeleteClick(Expense expense);
+        void onEditClick(Expense expense);
     }
 
     public ExpenseAdapter(OnExpenseActionListener listener) {
@@ -51,6 +52,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
         SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         holder.txtDate.setText(fmt.format(expense.date));
 
+        holder.itemView.setOnClickListener(v -> listener.onEditClick(expense));
         holder.itemView.setOnLongClickListener(v -> {
             listener.onDeleteClick(expense);
             return true;

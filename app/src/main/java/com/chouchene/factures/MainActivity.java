@@ -10,6 +10,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.view.animation.AnticipateInterpolator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,8 +99,46 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        // 1. Install Splash Screen
+        // 1. Install Splash Screen with a premium exit animation
         SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
+        
+        splashScreen.setOnExitAnimationListener(splashScreenViewProvider -> {
+            final View splashScreenView = splashScreenViewProvider.getView();
+            final View iconView = splashScreenViewProvider.getIconView();
+
+            // 1. Initial Zoom In (Anticipation)
+            ObjectAnimator zoomX = ObjectAnimator.ofFloat(iconView, View.SCALE_X, 1f, 1.4f);
+            ObjectAnimator zoomY = ObjectAnimator.ofFloat(iconView, View.SCALE_Y, 1f, 1.4f);
+            AnimatorSet zoomIn = new AnimatorSet();
+            zoomIn.setDuration(400L);
+            zoomIn.setInterpolator(new android.view.animation.OvershootInterpolator());
+            zoomIn.playTogether(zoomX, zoomY);
+
+            // 2. Final Exit (Portal effect)
+            ObjectAnimator scaleX = ObjectAnimator.ofFloat(iconView, View.SCALE_X, 1.4f, 0.1f);
+            ObjectAnimator scaleY = ObjectAnimator.ofFloat(iconView, View.SCALE_Y, 1.4f, 0.1f);
+            ObjectAnimator translationY = ObjectAnimator.ofFloat(iconView, View.TRANSLATION_Y, 0f, -1000f);
+            ObjectAnimator alpha = ObjectAnimator.ofFloat(splashScreenView, View.ALPHA, 1f, 0f);
+
+            AnimatorSet exitPortal = new AnimatorSet();
+            exitPortal.setDuration(600L);
+            exitPortal.setInterpolator(new android.view.animation.AnticipateInterpolator(1.2f));
+            exitPortal.playTogether(scaleX, scaleY, translationY, alpha);
+
+            // Sequence: Zoom -> Portal
+            AnimatorSet fullAnimation = new AnimatorSet();
+            fullAnimation.playSequentially(zoomIn, exitPortal);
+
+            fullAnimation.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    splashScreenViewProvider.remove();
+                }
+            });
+
+            fullAnimation.start();
+        });
+
         super.onCreate(savedInstanceState);
         
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -377,6 +420,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void triggerConfetti() {
-        // Confetti logic using konfettiView...
+        if (konfettiView == null) return;
+        
+        konfettiView.postDelayed(() -> {
+            EmitterConfig emitterConfig = new Emitter(1, TimeUnit.SECONDS).perSecond(100);
+            konfettiView.start(
+                    new PartyFactory(emitterConfig)
+                            .angle(nl.dionsegijn.konfetti.core.Angle.BOTTOM)
+                            .spread(nl.dionsegijn.konfetti.core.Spread.ROUND)
+                            .shapes(Shape.Circle.INSTANCE, Shape.Square.INSTANCE)
+                            .position(0.0, 0.0, 1.0, 0.0)
+                            .sizes(new Size(8, 50, 10))
+                            .colors(Arrays.asList(0x3F51B5, 0x2E7D32, 0x81C784, 0x7986CB))
+                            .build()
+            );
+        }, 200L);
     }
 }

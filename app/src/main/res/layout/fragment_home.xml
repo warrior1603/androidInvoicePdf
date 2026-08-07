@@ -250,7 +250,7 @@
                                 <ImageView
                                     android:layout_width="28dp"
                                     android:layout_height="28dp"
-                                    android:src="@drawable/rounded_files_24"
+                                    android:src="@drawable/ic_nav_files_outline"
                                     app:tint="@color/icon_documents" />
                                 <TextView
                                     style="@style/App.TextAppearance.TitleMedium"
@@ -293,7 +293,7 @@
                             <ImageView
                                 android:layout_width="28dp"
                                 android:layout_height="28dp"
-                                android:src="@drawable/rounded_people_24"
+                                android:src="@drawable/ic_nav_user_outline"
                                 app:tint="@color/icon_clients" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"
@@ -332,7 +332,7 @@
                             <ImageView
                                 android:layout_width="28dp"
                                 android:layout_height="28dp"
-                                android:src="@drawable/rounded_calendar_today_24"
+                                android:src="@drawable/ic_nav_calendar_outline"
                                 app:tint="@color/icon_agenda" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"
@@ -363,7 +363,7 @@
                             <ImageView
                                 android:layout_width="28dp"
                                 android:layout_height="28dp"
-                                android:src="@drawable/rounded_dashboard_24"
+                                android:src="@drawable/ic_nav_dashboard_outline"
                                 app:tint="@color/icon_dashboard" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"
@@ -402,7 +402,7 @@
                             <ImageView
                                 android:layout_width="28dp"
                                 android:layout_height="28dp"
-                                android:src="@drawable/rounded_business_24"
+                                android:src="@drawable/ic_nav_building_outline"
                                 app:tint="@color/icon_profile" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"
@@ -433,7 +433,7 @@
                             <ImageView
                                 android:layout_width="28dp"
                                 android:layout_height="28dp"
-                                android:src="@drawable/baseline_settings_24"
+                                android:src="@drawable/ic_nav_settings_outline"
                                 app:tint="@color/icon_settings" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"

@@ -12,6 +12,12 @@ public interface ExpenseDao {
     @Insert
     void insertExpense(Expense expense);
 
+    @androidx.room.Update
+    void updateExpense(Expense expense);
+
+    @Query("SELECT * FROM expenses WHERE id = :id")
+    Expense getExpenseById(int id);
+
     @Query("SELECT * FROM expenses ORDER BY date DESC")
     List<Expense> getAllExpenses();
 

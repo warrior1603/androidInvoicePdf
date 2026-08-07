@@ -106,7 +106,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         );
 
         setupRecyclerView();
-        loadHomeData();
+        loadHomeData(true);
     }
 
     private void setupRecyclerView() {
@@ -148,11 +148,16 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
 
     @Override
     public void onStatusChange(RecentActivity activity, String newStatus) {
+        if ("Payée".equals(newStatus)) {
+            if (getActivity() instanceof com.chouchene.factures.MainActivity) {
+                ((com.chouchene.factures.MainActivity) getActivity()).triggerConfetti();
+            }
+        }
         updateStatus(activity, newStatus, null);
     }
 
-    private void loadHomeData() {
-        if (shimmerContainer != null) {
+    private void loadHomeData(boolean showShimmer) {
+        if (showShimmer && shimmerContainer != null) {
             shimmerContainer.setVisibility(View.VISIBLE);
             shimmerContainer.startShimmer();
             rvRecent.setVisibility(View.GONE);
@@ -272,7 +277,12 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
                     if (dialog != null) dialog.dismiss();
-                    loadHomeData();
+                    if ("Payée".equals(status)) {
+                        if (getActivity() instanceof com.chouchene.factures.MainActivity) {
+                            ((com.chouchene.factures.MainActivity) getActivity()).triggerConfetti();
+                        }
+                    }
+                    loadHomeData(false);
                 });
             }
         });

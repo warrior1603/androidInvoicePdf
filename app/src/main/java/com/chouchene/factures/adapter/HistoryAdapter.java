@@ -112,13 +112,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         holder.txtStatus.setTextColor(statusColor);
 
         holder.txtStatus.setOnClickListener(v -> {
-            v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+            v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             listener.onStatusClick(activity);
         });
 
         holder.txtStatus.setOnLongClickListener(v -> {
             if (activity.type != RecentActivity.Type.BOOKING && !"Payée".equals(activity.status)) {
-                v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                com.chouchene.factures.utils.AnimationUtils.popView(v);
                 listener.onStatusChange(activity, "Payée");
                 return true;
             }

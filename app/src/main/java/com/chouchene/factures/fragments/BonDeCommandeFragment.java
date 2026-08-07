@@ -84,9 +84,9 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
         }).attachToRecyclerView(recyclerView);
 
         if (viewModel != null) {
-            viewModel.getCurrentFilter().observe(getViewLifecycleOwner(), this::loadBons);
+            viewModel.getCurrentFilter().observe(getViewLifecycleOwner(), filter -> loadBons(filter, true));
         } else {
-            loadBons(null);
+            loadBons(null, true);
         }
 
         fab.setOnClickListener(v -> {
@@ -95,15 +95,15 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
                 if (getActivity() instanceof com.chouchene.factures.MainActivity) {
                     ((com.chouchene.factures.MainActivity) getActivity()).triggerConfetti();
                 }
-                if (viewModel != null) loadBons(viewModel.getCurrentFilter().getValue());
-                else loadBons(null);
+                if (viewModel != null) loadBons(viewModel.getCurrentFilter().getValue(), true);
+                else loadBons(null, true);
             });
             bottomSheet.show(getChildFragmentManager(), "CREATE_BON");
         });
     }
 
-    private void loadBons(DocumentsViewModel.Filter filter) {
-        if (shimmerContainer != null) {
+    private void loadBons(DocumentsViewModel.Filter filter, boolean showShimmer) {
+        if (showShimmer && shimmerContainer != null) {
             shimmerContainer.setVisibility(View.VISIBLE);
             shimmerContainer.startShimmer();
             recyclerView.setVisibility(View.GONE);
@@ -155,8 +155,8 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
     }
 
     private void loadBons() {
-        if (viewModel != null) loadBons(viewModel.getCurrentFilter().getValue());
-        else loadBons(null);
+        if (viewModel != null) loadBons(viewModel.getCurrentFilter().getValue(), false);
+        else loadBons(null, false);
     }
 
     private void checkEmptyState() {
@@ -254,10 +254,12 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
             db.invoiceDao().updateInvoice(invoice);
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
-                    loadBons();
-                    if ("Payée".equals(newStatus) && getActivity() instanceof com.chouchene.factures.MainActivity) {
-                        ((com.chouchene.factures.MainActivity) getActivity()).triggerConfetti();
+                    if ("Payée".equals(newStatus)) {
+                        if (getActivity() instanceof com.chouchene.factures.MainActivity) {
+                            ((com.chouchene.factures.MainActivity) getActivity()).triggerConfetti();
+                        }
                     }
+                    loadBons();
                     android.widget.Toast.makeText(requireContext(), "Statut mis à jour: " + newStatus, android.widget.Toast.LENGTH_SHORT).show();
                 });
             }
@@ -271,11 +273,13 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
             db.invoiceDao().updateInvoice(invoice);
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
-                    dialog.dismiss();
-                    loadBons();
-                    if ("Payée".equals(status) && getActivity() instanceof com.chouchene.factures.MainActivity) {
-                        ((com.chouchene.factures.MainActivity) getActivity()).triggerConfetti();
+                    if (dialog != null) dialog.dismiss();
+                    if ("Payée".equals(status)) {
+                        if (getActivity() instanceof com.chouchene.factures.MainActivity) {
+                            ((com.chouchene.factures.MainActivity) getActivity()).triggerConfetti();
+                        }
                     }
+                    loadBons();
                 });
             }
         });

@@ -84,9 +84,9 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
         }).attachToRecyclerView(recyclerView);
 
         if (viewModel != null) {
-            viewModel.getCurrentFilter().observe(getViewLifecycleOwner(), this::loadInvoices);
+            viewModel.getCurrentFilter().observe(getViewLifecycleOwner(), filter -> loadInvoices(filter, true));
         } else {
-            loadInvoices(null);
+            loadInvoices(null, true);
         }
 
         fab.setOnClickListener(v -> {
@@ -95,15 +95,15 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
                 if (getActivity() instanceof com.chouchene.factures.MainActivity) {
                     ((com.chouchene.factures.MainActivity) getActivity()).triggerConfetti();
                 }
-                if (viewModel != null) loadInvoices(viewModel.getCurrentFilter().getValue());
-                else loadInvoices(null);
+                if (viewModel != null) loadInvoices(viewModel.getCurrentFilter().getValue(), true);
+                else loadInvoices(null, true);
             });
             bottomSheet.show(getChildFragmentManager(), "CREATE_INVOICE");
         });
     }
 
-    private void loadInvoices(DocumentsViewModel.Filter filter) {
-        if (shimmerContainer != null) {
+    private void loadInvoices(DocumentsViewModel.Filter filter, boolean showShimmer) {
+        if (showShimmer && shimmerContainer != null) {
             shimmerContainer.setVisibility(View.VISIBLE);
             shimmerContainer.startShimmer();
             recyclerView.setVisibility(View.GONE);
@@ -155,8 +155,8 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
     }
 
     private void loadInvoices() {
-        if (viewModel != null) loadInvoices(viewModel.getCurrentFilter().getValue());
-        else loadInvoices(null);
+        if (viewModel != null) loadInvoices(viewModel.getCurrentFilter().getValue(), false);
+        else loadInvoices(null, false);
     }
 
     private void checkEmptyState() {
@@ -254,10 +254,12 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
             db.invoiceDao().updateInvoice(invoice);
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
-                    loadInvoices();
-                    if ("Payée".equals(newStatus) && getActivity() instanceof com.chouchene.factures.MainActivity) {
-                        ((com.chouchene.factures.MainActivity) getActivity()).triggerConfetti();
+                    if ("Payée".equals(newStatus)) {
+                        if (getActivity() instanceof com.chouchene.factures.MainActivity) {
+                            ((com.chouchene.factures.MainActivity) getActivity()).triggerConfetti();
+                        }
                     }
+                    loadInvoices();
                     android.widget.Toast.makeText(requireContext(), "Statut mis à jour: " + newStatus, android.widget.Toast.LENGTH_SHORT).show();
                 });
             }
@@ -272,10 +274,12 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
                     if (dialog != null) dialog.dismiss();
-                    loadInvoices();
-                    if ("Payée".equals(status) && getActivity() instanceof com.chouchene.factures.MainActivity) {
-                        ((com.chouchene.factures.MainActivity) getActivity()).triggerConfetti();
+                    if ("Payée".equals(status)) {
+                        if (getActivity() instanceof com.chouchene.factures.MainActivity) {
+                            ((com.chouchene.factures.MainActivity) getActivity()).triggerConfetti();
+                        }
                     }
+                    loadInvoices();
                 });
             }
         });
