@@ -11,87 +11,68 @@
         android:id="@+id/pdfView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonsPdf"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/buttonsPdf"
-        android:layout_width="0dp"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_actions"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="?attr/colorSurface"
-        android:elevation="12dp"
-        android:orientation="horizontal"
-        android:paddingHorizontal="8dp"
-        android:paddingVertical="16dp"
+        android:layout_marginBottom="32dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+        app:strokeWidth="1dp"
+        app:strokeColor="?attr/colorOutlineVariant"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/emailButton"
-            style="@style/App.Button"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:layout_weight="1"
-            android:text="Envoyer"
-            android:textSize="11sp"
-            android:insetLeft="0dp"
-            android:insetRight="0dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            app:icon="@drawable/rounded_send_24"
-            app:iconGravity="textStart"
-            app:iconPadding="4dp"
-            app:iconSize="18dp"
-            app:backgroundTint="?attr/colorPrimaryContainer"
-            android:textColor="?attr/colorOnPrimaryContainer"
-            app:iconTint="?attr/colorOnPrimaryContainer" />
+            android:orientation="horizontal"
+            android:padding="8dp">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/shareButton"
-            style="@style/App.Button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:layout_weight="1"
-            android:text="Partager"
-            android:textSize="11sp"
-            android:insetLeft="0dp"
-            android:insetRight="0dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            app:icon="@drawable/rounded_share_24"
-            app:iconGravity="textStart"
-            app:iconPadding="4dp"
-            app:iconSize="18dp"
-            app:backgroundTint="?attr/colorSecondaryContainer"
-            android:textColor="?attr/colorOnSecondaryContainer"
-            app:iconTint="?attr/colorOnSecondaryContainer" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/emailButton"
+                style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="4dp"
+                app:icon="@drawable/rounded_send_24"
+                app:iconTint="?attr/colorPrimary"
+                app:backgroundTint="@android:color/transparent"
+                android:contentDescription="Envoyer" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/printButton"
-            style="@style/App.Button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:layout_weight="1"
-            android:text="Imprimer"
-            android:textSize="11sp"
-            android:insetLeft="0dp"
-            android:insetRight="0dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            app:icon="@drawable/rounded_print_24"
-            app:iconGravity="textStart"
-            app:iconPadding="4dp"
-            app:iconSize="18dp"
-            app:backgroundTint="?attr/colorTertiaryContainer"
-            android:textColor="?attr/colorOnTertiaryContainer"
-            app:iconTint="?attr/colorOnTertiaryContainer" />
-    </LinearLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/shareButton"
+                style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="4dp"
+                app:icon="@drawable/rounded_share_24"
+                app:iconTint="?attr/colorSecondary"
+                app:backgroundTint="@android:color/transparent"
+                android:contentDescription="Partager" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/printButton"
+                style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="4dp"
+                app:icon="@drawable/rounded_print_24"
+                app:iconTint="?attr/colorTertiary"
+                app:backgroundTint="@android:color/transparent"
+                android:contentDescription="Imprimer" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Kept original view for compatibility, will be invisible -->
+    <View android:id="@+id/buttonsPdf" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" tools:ignore="MissingConstraints"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -55,6 +55,8 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
     private ExpenseDao expenseDb;
     private com.facebook.shimmer.ShimmerFrameLayout shimmerContainer;
     private View mainContent;
+    private com.google.android.material.progressindicator.LinearProgressIndicator progressMargin;
+    private TextView txtMarginLabel;
 
     public static AnalyticsDetailFragment newInstance(Timeframe timeframe) {
         AnalyticsDetailFragment fragment = new AnalyticsDetailFragment();
@@ -82,6 +84,8 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
 
         shimmerContainer = view.findViewById(R.id.shimmer_view_container);
         mainContent = view.findViewById(R.id.main_content);
+        progressMargin = view.findViewById(R.id.progress_margin);
+        txtMarginLabel = view.findViewById(R.id.txt_margin_label);
         
         TextView revenueLabel = view.findViewById(R.id.revenueLabel);
         TextView totalRevenueTxt = view.findViewById(R.id.totalRevenue);
@@ -209,6 +213,14 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
             final String finalLabelTop = labelTop;
             final String finalLabelChart = labelChart;
 
+            float totalIncome = 0;
+            if (timeframe == Timeframe.DAILY) totalIncome = db.getDailyIncome(today);
+            else if (timeframe == Timeframe.MONTHLY) totalIncome = db.getMonthlyIncome(today);
+            else if (timeframe == Timeframe.YEARLY) totalIncome = db.getYearlyIncome(today);
+            else totalIncome = db.getTotalRevenue();
+
+            final float incomeForMargin = totalIncome;
+
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
                     if (shimmerContainer != null) {
@@ -221,6 +233,17 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                     documentCountTxt.setText(String.valueOf(finalCount));
                     chartTitle.setText(finalLabelChart);
                     setupChart(barChart, chartEntries, labels, chartEmptyState);
+
+                    // Update Margin
+                    if (incomeForMargin > 0) {
+                        int marginPercent = (int) ((finalRev / incomeForMargin) * 100);
+                        if (marginPercent < 0) marginPercent = 0;
+                        progressMargin.setProgress(marginPercent);
+                        txtMarginLabel.setText("Marge réelle: " + marginPercent + "%");
+                    } else {
+                        progressMargin.setProgress(0);
+                        txtMarginLabel.setText("Marge réelle: 0%");
+                    }
                 });
             }
         });
