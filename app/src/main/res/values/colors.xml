@@ -4,21 +4,21 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
 
-    <!-- ── Material 3 Baseline Palette (Light) ────────────────── -->
-    <color name="primary">#6750A4</color>
+    <!-- ── Material 3 Baseline Palette (Light - Modern Indigo) ────────────────── -->
+    <color name="primary">#3F51B5</color>
     <color name="on_primary">#FFFFFF</color>
-    <color name="primary_container">#EADDFF</color>
-    <color name="on_primary_container">#21005D</color>
+    <color name="primary_container">#E8EAF6</color>
+    <color name="on_primary_container">#1A237E</color>
 
-    <color name="secondary">#625B71</color>
+    <color name="secondary">#5C6BC0</color>
     <color name="on_secondary">#FFFFFF</color>
-    <color name="secondary_container">#E8DEF8</color>
-    <color name="on_secondary_container">#1D192B</color>
+    <color name="secondary_container">#C5CAE9</color>
+    <color name="on_secondary_container">#0D47A1</color>
 
-    <color name="tertiary">#7D5260</color>
+    <color name="tertiary">#7986CB</color>
     <color name="on_tertiary">#FFFFFF</color>
-    <color name="tertiary_container">#FFD8E4</color>
-    <color name="on_tertiary_container">#31111D</color>
+    <color name="tertiary_container">#E8EAF6</color>
+    <color name="on_tertiary_container">#283593</color>
 
     <color name="error">#B3261E</color>
     <color name="on_error">#FFFFFF</color>
@@ -35,15 +35,30 @@
     <color name="outline_variant">#CAC4D0</color>
 
     <!-- Generic Icon Colors -->
-    <color name="icon_clients">#6750A4</color>
-    <color name="icon_dashboard">#625B71</color>
-    <color name="icon_profile">#7D5260</color>
-    <color name="icon_settings">#49454F</color>
+    <color name="icon_documents">#2196F3</color>
+    <color name="icon_documents_bg">#E3F2FD</color>
 
-    <!-- Status Colors -->
+    <color name="icon_clients">#4CAF50</color>
+    <color name="icon_clients_bg">#E8F5E9</color>
+
+    <color name="icon_dashboard">#FF9800</color>
+    <color name="icon_dashboard_bg">#FFF3E0</color>
+
+    <color name="icon_profile">#009688</color>
+    <color name="icon_profile_bg">#E0F2F1</color>
+
+    <color name="icon_settings">#607D8B</color>
+    <color name="icon_settings_bg">#ECEFF1</color>
+
+    <!-- Status Colors (Refined for Soft Badges) -->
     <color name="status_paid">#2E7D32</color>
+    <color name="status_paid_bg">#E8F5E9</color>
+
     <color name="status_pending">#ED6C02</color>
+    <color name="status_pending_bg">#FFF3E0</color>
+
     <color name="status_cancelled">#D32F2F</color>
+    <color name="status_cancelled_bg">#FFEBEE</color>
 
     <!-- Legacy / System -->
     <color name="ic_launcher_background">#6750A4</color>

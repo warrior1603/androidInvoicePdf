@@ -61,8 +61,8 @@
 
     <style name="App.BottomNavigation" parent="Widget.Material3.BottomNavigationView">
         <item name="android:background">?attr/colorSurface</item>
-        <item name="itemIconTint">?attr/colorOnSurfaceVariant</item>
-        <item name="itemTextColor">?attr/colorOnSurfaceVariant</item>
+        <item name="itemIconTint">@color/bottom_navigation_item_tint</item>
+        <item name="itemTextColor">@color/bottom_navigation_item_tint</item>
         <item name="itemRippleColor">?attr/colorSurfaceVariant</item>
         <item name="itemActiveIndicatorStyle">@style/App.BottomNavigation.Indicator</item>
     </style>

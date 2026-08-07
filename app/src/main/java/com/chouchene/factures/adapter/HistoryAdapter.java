@@ -6,8 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.content.res.ColorStateList;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chouchene.factures.R;
@@ -58,8 +60,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
         if ("Facture".equals(invoice.type)) {
             holder.icon.setImageResource(R.drawable.rounded_receipt_long_24);
+            holder.icon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(holder.itemView.getContext(), R.color.icon_documents)));
         } else {
             holder.icon.setImageResource(R.drawable.rounded_shopping_cart_24);
+            holder.icon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(holder.itemView.getContext(), R.color.icon_dashboard)));
         }
 
         androidx.core.view.ViewCompat.setTransitionName(holder.itemView, "invoice_" + invoice.id);
@@ -70,13 +74,22 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         });
         
         holder.txtStatus.setText(invoice.status != null ? invoice.status : "En attente");
+        int statusColor;
+        int statusBg;
+        
         if ("Payée".equals(invoice.status)) {
-            holder.txtStatus.setBackgroundResource(R.drawable.bg_status_paid);
+            statusBg = R.drawable.bg_status_paid;
+            statusColor = ContextCompat.getColor(holder.itemView.getContext(), R.color.status_paid);
         } else if ("Annulée".equals(invoice.status)) {
-            holder.txtStatus.setBackgroundResource(R.drawable.bg_status_cancelled);
+            statusBg = R.drawable.bg_status_cancelled;
+            statusColor = ContextCompat.getColor(holder.itemView.getContext(), R.color.status_cancelled);
         } else {
-            holder.txtStatus.setBackgroundResource(R.drawable.bg_status_pending);
+            statusBg = R.drawable.bg_status_pending;
+            statusColor = ContextCompat.getColor(holder.itemView.getContext(), R.color.status_pending);
         }
+        
+        holder.txtStatus.setBackgroundResource(statusBg);
+        holder.txtStatus.setTextColor(statusColor);
 
         holder.txtStatus.setOnClickListener(v -> {
             v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);

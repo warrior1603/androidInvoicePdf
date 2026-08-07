@@ -121,7 +121,7 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@drawable/rounded_receipt_long_24"
-                                app:tint="?attr/colorPrimary" />
+                                app:tint="@color/icon_documents" />
                             <TextView
                                 android:id="@+id/txt_home_invoice_count"
                                 android:layout_width="wrap_content"
@@ -156,7 +156,7 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@drawable/rounded_shopping_cart_24"
-                                app:tint="#FF9800" />
+                                app:tint="@color/icon_dashboard" />
                             <TextView
                                 android:id="@+id/txt_home_bon_count"
                                 android:layout_width="wrap_content"
@@ -224,7 +224,7 @@
                                     android:layout_width="32dp"
                                     android:layout_height="32dp"
                                     android:src="@drawable/rounded_files_24"
-                                    app:tint="?attr/colorPrimary" />
+                                    app:tint="@color/icon_documents" />
                                 <TextView
                                     style="@style/App.TextAppearance.TitleMedium"
                                     android:layout_width="wrap_content"
