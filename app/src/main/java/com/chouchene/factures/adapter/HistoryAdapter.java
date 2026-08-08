@@ -64,16 +64,16 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         
         switch (activity.type) {
             case BOOKING:
-                iconRes = R.drawable.rounded_calendar_today_24;
+                iconRes = R.drawable.ic_calendar_event_outline;
                 iconColor = R.color.icon_agenda;
                 break;
             case ORDER:
-                iconRes = R.drawable.rounded_shopping_cart_24;
+                iconRes = R.drawable.ic_shopping_cart_outline;
                 iconColor = R.color.icon_dashboard;
                 break;
             case INVOICE:
             default:
-                iconRes = R.drawable.rounded_receipt_long_24;
+                iconRes = R.drawable.ic_receipt_outline;
                 iconColor = R.color.icon_documents;
                 break;
         }

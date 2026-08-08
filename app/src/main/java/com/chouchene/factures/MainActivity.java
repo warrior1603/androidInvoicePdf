@@ -360,13 +360,35 @@ public class MainActivity extends AppCompatActivity {
         }
         @Override public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             SearchResult result = results.get(position);
-            holder.title.setText(result.title); holder.subtitle.setText(result.subtitle); holder.type.setText(result.type);
+            holder.title.setText(result.title);
+            holder.subtitle.setText(result.subtitle);
+            holder.type.setText(result.type);
             
-            int iconRes = R.drawable.rounded_receipt_long_24;
-            if ("Client".equals(result.type)) iconRes = R.drawable.rounded_person_24;
-            else if ("Bon".equals(result.type)) iconRes = R.drawable.rounded_shopping_cart_24;
-            else if ("Course".equals(result.type)) iconRes = R.drawable.rounded_calendar_today_24;
+            int iconRes = R.drawable.ic_receipt_outline;
+            int typeColor;
+            int typeBg;
+
+            if ("Client".equals(result.type)) {
+                iconRes = R.drawable.ic_nav_user_outline;
+                typeColor = ContextCompat.getColor(MainActivity.this, R.color.white);
+                typeBg = R.drawable.bg_badge_green;
+            } else if ("Bon".equals(result.type)) {
+                iconRes = R.drawable.ic_shopping_cart_outline;
+                typeColor = ContextCompat.getColor(MainActivity.this, R.color.white);
+                typeBg = R.drawable.bg_badge_orange;
+            } else if ("Course".equals(result.type)) {
+                iconRes = R.drawable.ic_calendar_event_outline;
+                typeColor = ContextCompat.getColor(MainActivity.this, R.color.white);
+                typeBg = R.drawable.bg_badge_purple;
+            } else {
+                iconRes = R.drawable.ic_receipt_outline;
+                typeColor = ContextCompat.getColor(MainActivity.this, R.color.white);
+                typeBg = R.drawable.bg_badge_blue;
+            }
+
             holder.icon.setImageResource(iconRes);
+            holder.type.setTextColor(typeColor);
+            holder.type.setBackgroundResource(typeBg);
 
             holder.itemView.setOnClickListener(v -> {
                 searchView.hide();

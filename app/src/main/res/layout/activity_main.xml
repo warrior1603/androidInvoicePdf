@@ -21,13 +21,13 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="16dp"
             android:paddingVertical="8dp">
 
             <com.google.android.material.search.SearchBar
                 android:id="@+id/search_bar"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
                 android:hint="@string/hint_search_app"
                 app:navigationIcon="@null"
                 app:backgroundTint="?attr/colorSurfaceVariant"
@@ -157,6 +157,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:paddingHorizontal="16dp"
                 android:paddingTop="8dp"
                 android:clipToPadding="false"
                 android:layoutAnimation="@anim/layout_animation_fall_down" />

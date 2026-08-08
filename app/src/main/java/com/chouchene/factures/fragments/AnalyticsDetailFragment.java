@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -90,7 +91,9 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
         TextView revenueLabel = view.findViewById(R.id.revenueLabel);
         TextView totalRevenueTxt = view.findViewById(R.id.totalRevenue);
         TextView documentCountTxt = view.findViewById(R.id.documentCount);
+        TextView totalClientsTxt = view.findViewById(R.id.txt_total_clients_val);
         TextView chartTitle = view.findViewById(R.id.chartTitle);
+        TextView growthValTxt = view.findViewById(R.id.txt_growth_val);
         BarChart barChart = view.findViewById(R.id.barChart);
         View chartEmptyState = view.findViewById(R.id.chart_empty_state);
         View cardExpenses = view.findViewById(R.id.cardExpenses);
@@ -107,7 +110,9 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
             try { Thread.sleep(700); } catch (Exception ignored) {}
             Date today = new Date();
             float revenue = 0;
+            float prevRevenue = 0;
             int count = 0;
+            int clientCount = DatabaseClient.getInstance(requireContext()).getAppDatabase().clientDao().getAllClients().size();
             List<BarEntry> chartEntries = new ArrayList<>();
             List<String> labels = new ArrayList<>();
             String labelTop = "";
@@ -123,6 +128,10 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                     count = db.getDailyCount(today);
                     labelTop = "BÉNÉFICE DU JOUR";
                     labelChart = "DERNIERS 7 JOURS (Profit)";
+
+                    cal.setTime(today);
+                    cal.add(Calendar.DAY_OF_YEAR, -1);
+                    prevRevenue = db.getDailyIncome(cal.getTime()) - expenseDb.getDailyExpenses(cal.getTime());
                     
                     for (int i = 6; i >= 0; i--) {
                         cal.setTime(new Date());
@@ -146,6 +155,10 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                     count = db.getMonthlyCount(today);
                     labelTop = "BÉNÉFICE DU MOIS";
                     labelChart = "DERNIERS 6 MOIS (Bénéfice)";
+
+                    cal.setTime(today);
+                    cal.add(Calendar.MONTH, -1);
+                    prevRevenue = db.getMonthlyIncome(cal.getTime()) - expenseDb.getMonthlyExpenses(cal.getTime());
                     
                     for (int i = 5; i >= 0; i--) {
                         cal.setTime(new Date());
@@ -169,6 +182,10 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                     count = db.getYearlyCount(today);
                     labelTop = "BÉNÉFICE DE L'ANNÉE";
                     labelChart = "ÉVOLUTION DU BÉNÉFICE";
+
+                    cal.setTime(today);
+                    cal.add(Calendar.YEAR, -1);
+                    prevRevenue = db.getYearlyIncome(cal.getTime()) - expenseDb.getYearlyExpenses(cal.getTime());
                     
                     int currentMonth = cal.get(Calendar.MONTH);
                     for (int i = 0; i <= currentMonth; i++) {
@@ -209,6 +226,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
             }
 
             final float finalRev = revenue;
+            final float finalPrevRev = prevRevenue;
             final int finalCount = count;
             final String finalLabelTop = labelTop;
             final String finalLabelChart = labelChart;
@@ -231,7 +249,24 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                     revenueLabel.setText(finalLabelTop);
                     totalRevenueTxt.setText(String.format(Locale.getDefault(), "%.2f €", finalRev));
                     documentCountTxt.setText(String.valueOf(finalCount));
+                    totalClientsTxt.setText(String.valueOf(clientCount));
                     chartTitle.setText(finalLabelChart);
+
+                    // Update Growth
+                    if (finalPrevRev > 0) {
+                        float growth = ((finalRev - finalPrevRev) / finalPrevRev) * 100;
+                        growthValTxt.setText(String.format(Locale.getDefault(), "%+.1f%%", growth));
+                        growthValTxt.setTextColor(growth >= 0 ? 
+                            ContextCompat.getColor(requireContext(), R.color.status_paid) : 
+                            ContextCompat.getColor(requireContext(), R.color.status_cancelled));
+                    } else if (finalRev > 0) {
+                        growthValTxt.setText("+100%");
+                        growthValTxt.setTextColor(ContextCompat.getColor(requireContext(), R.color.status_paid));
+                    } else {
+                        growthValTxt.setText("0%");
+                        growthValTxt.setTextColor(resolveColor(com.google.android.material.R.attr.colorOnSurfaceVariant));
+                    }
+
                     setupChart(barChart, chartEntries, labels, chartEmptyState);
 
                     // Update Margin
@@ -365,6 +400,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
                     adapter.setData(finalActivities);
+                    rv.scheduleLayoutAnimation();
                     dialog.setContentView(view);
                     dialog.show();
                 });

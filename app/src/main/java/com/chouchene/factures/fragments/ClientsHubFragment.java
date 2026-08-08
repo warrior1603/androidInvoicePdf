@@ -45,7 +45,23 @@ public class ClientsHubFragment extends Fragment {
             }
         }).attach();
 
+        updateClientCount(tabLayout);
         handleNewArguments(viewPager);
+    }
+
+    private void updateClientCount(TabLayout tabLayout) {
+        java.util.concurrent.Executors.newSingleThreadExecutor().execute(() -> {
+            int count = com.chouchene.factures.database.DatabaseClient.getInstance(requireContext())
+                    .getAppDatabase().clientDao().getAllClients().size();
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    TabLayout.Tab tab = tabLayout.getTabAt(0);
+                    if (tab != null) {
+                        tab.setText(getString(R.string.label_all_clients) + " (" + count + ")");
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -55,6 +71,10 @@ public class ClientsHubFragment extends Fragment {
             ViewPager2 viewPager = getView().findViewById(R.id.clientsViewPager);
             if (viewPager != null) {
                 handleNewArguments(viewPager);
+            }
+            TabLayout tabLayout = getView().findViewById(R.id.clientsTabLayout);
+            if (tabLayout != null) {
+                updateClientCount(tabLayout);
             }
         }
     }

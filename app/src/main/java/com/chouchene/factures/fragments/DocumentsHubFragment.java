@@ -58,11 +58,11 @@ public class DocumentsHubFragment extends Fragment {
             switch (position) {
                 case 0:
                     tab.setText(getString(R.string.title_invoices));
-                    tab.setIcon(R.drawable.rounded_receipt_long_24);
+                    tab.setIcon(R.drawable.ic_receipt_outline);
                     break;
                 case 1:
                     tab.setText(getString(R.string.title_orders));
-                    tab.setIcon(R.drawable.rounded_shopping_cart_24);
+                    tab.setIcon(R.drawable.ic_shopping_cart_outline);
                     break;
             }
         }).attach();

@@ -119,7 +119,7 @@
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/rounded_history_24"
+            android:src="@drawable/ic_clock_outline"
             android:alpha="0.15"
             app:tint="?attr/colorOutline" />
 
