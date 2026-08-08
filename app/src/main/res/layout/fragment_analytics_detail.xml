@@ -311,14 +311,24 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Dépenses"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:includeFontPadding="false" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:text="Gérer"
-                            android:textAppearance="?attr/textAppearanceBodySmall"
-                            android:alpha="0.6" />
+                            android:textAppearance="?attr/textAppearanceLabelSmall"
+                            android:textColor="@color/icon_expenses"
+                            android:textStyle="bold"
+                            android:alpha="0.9" />
                     </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/rounded_chevron_right_24"
+                        app:tint="?attr/colorOutlineVariant" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
