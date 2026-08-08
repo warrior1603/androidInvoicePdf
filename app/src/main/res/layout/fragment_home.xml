@@ -183,7 +183,7 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <!-- Header & Revenue -->
+                    <!-- Header & Revenue (Modern Horizontal) -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -201,31 +201,35 @@
                                 android:text="Bénéfice du mois"
                                 android:textAppearance="?attr/textAppearanceLabelLarge"
                                 android:textColor="?attr/colorOnPrimaryContainer"
-                                android:alpha="0.7" />
+                                android:alpha="0.7"
+                                android:includeFontPadding="false" />
                             <TextView
                                 android:id="@+id/txt_home_revenue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
+                                android:layout_marginTop="2dp"
                                 android:text="0.00 €"
-                                android:textSize="36sp"
+                                android:textSize="34sp"
                                 android:fontFamily="sans-serif-black"
                                 android:textStyle="bold"
-                                android:textColor="?attr/colorOnPrimaryContainer" />
+                                android:textColor="?attr/colorOnPrimaryContainer"
+                                android:includeFontPadding="false" />
                             <TextView
                                 android:id="@+id/txt_home_revenue_daily"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
                                 android:text="Aujourd'hui: 0.00 €"
                                 android:textAppearance="?attr/textAppearanceLabelMedium"
                                 android:textColor="?attr/colorOnPrimaryContainer"
-                                android:alpha="0.7" />
+                                android:alpha="0.7"
+                                android:includeFontPadding="false" />
                         </LinearLayout>
 
                         <com.google.android.material.card.MaterialCardView
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
-                            app:cardCornerRadius="28dp"
+                            android:layout_width="52dp"
+                            android:layout_height="52dp"
+                            app:cardCornerRadius="26dp"
                             app:cardElevation="0dp"
                             app:cardBackgroundColor="?attr/colorPrimary">
                             <ImageView
@@ -240,7 +244,7 @@
                     <com.google.android.material.divider.MaterialDivider
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="20dp"
+                        android:layout_marginVertical="16dp"
                         app:dividerColor="?attr/colorOnPrimaryContainer"
                         android:alpha="0.1" />
 
