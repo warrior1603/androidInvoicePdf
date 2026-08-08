@@ -120,12 +120,16 @@
                 android:layout_marginTop="8dp"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="4dp"
+                android:minWidth="85dp"
+                android:gravity="center"
                 android:text="À venir"
                 android:textSize="10sp"
                 android:textColor="@color/white"
                 android:background="@drawable/bg_status_pending"
                 android:textAllCaps="true"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="none" />
         </LinearLayout>
     </LinearLayout>
 

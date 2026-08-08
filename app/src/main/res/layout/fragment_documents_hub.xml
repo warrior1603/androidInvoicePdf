@@ -43,21 +43,30 @@
                 style="@style/Widget.Material3.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Payée" />
+                android:text="Payée"
+                app:chipIcon="@drawable/ic_status_check"
+                app:chipIconTint="?attr/colorPrimary"
+                app:chipIconSize="16dp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipPending"
                 style="@style/Widget.Material3.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="En attente" />
+                android:text="En attente"
+                app:chipIcon="@drawable/ic_status_clock"
+                app:chipIconTint="?attr/colorPrimary"
+                app:chipIconSize="16dp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipCancelled"
                 style="@style/Widget.Material3.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Annulée" />
+                android:text="Annulée"
+                app:chipIcon="@drawable/ic_status_x"
+                app:chipIconTint="?attr/colorPrimary"
+                app:chipIconSize="16dp" />
 
         </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>

@@ -92,7 +92,7 @@
                     <ImageView
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:src="@drawable/rounded_payments_24"
+                        android:src="@drawable/ic_wallet_outline"
                         app:tint="?attr/colorOnTertiaryContainer" />
 
                     <LinearLayout
