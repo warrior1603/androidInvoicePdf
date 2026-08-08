@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -26,6 +27,7 @@ import com.chouchene.factures.utils.LocaleHelper;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.color.DynamicColors;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
@@ -87,6 +89,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         private ActivityResultLauncher<String> exportLauncher;
         private ActivityResultLauncher<String[]> importLauncher;
+        private ActivityResultLauncher<Uri> dirPickerLauncher;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -103,6 +106,57 @@ public class SettingsActivity extends AppCompatActivity {
                     confirmImport(uri);
                 }
             });
+
+            dirPickerLauncher = registerForActivityResult(new ActivityResultContracts.OpenDocumentTree(), uri -> {
+                if (uri != null) {
+                    saveDirectory(uri);
+                }
+            });
+        }
+
+        private void saveDirectory(Uri uri) {
+            // Take persistent permission
+            try {
+                requireContext().getContentResolver().takePersistableUriPermission(uri,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            } catch (Exception e) {
+                Log.e("Settings", "Permission failed", e);
+            }
+            
+            String path = null;
+            
+            // Try to extract a real path if it's on primary storage
+            // Format: /tree/primary:Download -> /storage/emulated/0/Download
+            if (uri.getPath() != null) {
+                String treeId = uri.getPath();
+                if (treeId.contains("primary:")) {
+                    String subPath = treeId.split("primary:")[1];
+                    path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + subPath;
+                }
+            }
+
+            // Fallback to internal storage if we couldn't get a valid path
+            if (path == null) {
+                path = BackupUtils.getDefaultPdfDir(requireContext());
+                android.widget.Toast.makeText(requireContext(), "Dossier non compatible, retour au dossier par défaut", android.widget.Toast.LENGTH_LONG).show();
+            }
+
+            PreferenceManager.getDefaultSharedPreferences(requireContext())
+                    .edit()
+                    .putString("directory", path)
+                    .apply();
+            
+            updateDirectorySummary();
+            android.widget.Toast.makeText(requireContext(), "Dossier mis à jour", android.widget.Toast.LENGTH_SHORT).show();
+        }
+
+        private void updateDirectorySummary() {
+            Preference dirPref = findPreference("directory");
+            if (dirPref != null) {
+                String current = PreferenceManager.getDefaultSharedPreferences(requireContext())
+                        .getString("directory", BackupUtils.getDefaultPdfDir(requireContext()));
+                dirPref.setSummary(current);
+            }
         }
 
         private void performExport(Uri uri) {
@@ -185,6 +239,17 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.settings, rootKey);
+            updateDirectorySummary();
+
+            Preference dirPref = findPreference("directory");
+            if (dirPref != null) {
+                dirPref.setOnPreferenceClickListener(preference -> {
+                    // Try to point to Downloads folder by default using a standard SAF URI
+                    Uri initialUri = Uri.parse("content://com.android.externalstorage.documents/document/primary%3ADownload");
+                    dirPickerLauncher.launch(initialUri);
+                    return true;
+                });
+            }
 
             SwitchPreferenceCompat darkModeSwitch = findPreference(THEME_KEY);
             if (darkModeSwitch != null) {

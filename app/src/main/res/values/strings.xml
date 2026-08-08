@@ -46,7 +46,10 @@
     <string name="label_today">Aujourd\'hui</string>
     <string name="label_trend">Tendance</string>
     <string name="label_this_year">Cette Année</string>
-    <item name="label_this_month" type="string">Ce Mois</item>
+    <string name="label_this_month" type="string">Ce Mois</string>
+    <string name="label_next_trip">PROCHAIN TRAJET</string>
+    <string name="label_overdue_alert">%1$d factures en retard de paiement</string>
+    <string name="label_no_trip">Aucun trajet prévu</string>
     <string name="label_revenue_analysis">Analyse des revenus</string>
     <string name="label_no_data">Aucune donnée disponible</string>
     <string name="label_no_clients">Aucun client trouvé</string>
@@ -144,12 +147,28 @@
     <string name="msg_import_confirm">Voulez-vous vraiment importer ces données ? Cela remplacera vos données actuelles.</string>
 
     <!-- Onboarding -->
-    <string name="onboarding_title_1">Bienvenue sur Mes Factures</string>
-    <string name="onboarding_desc_1">Gérez vos factures et bons de commande en toute simplicité.</string>
-    <string name="onboarding_title_2">Analyses &amp; Statistiques</string>
-    <string name="onboarding_desc_2">Suivez votre chiffre d\'affaires et visualisez vos performances avec des graphiques clairs.</string>
-    <string name="onboarding_title_3">Gestion des Clients</string>
-    <string name="onboarding_desc_3">Enregistrez vos clients pour générer des factures encore plus rapidement.</string>
+    <string name="onboarding_title_welcome">Votre Assistant VTC Pro</string>
+    <string name="onboarding_desc_welcome">Transformez votre activité avec un outil de gestion puissant, élégant et simple.</string>
+
+    <string name="onboarding_title_docs">Factures &amp; Bons</string>
+    <string name="onboarding_desc_docs">Générez des PDF professionnels pour vos clients et passagers en quelques secondes.</string>
+
+    <string name="onboarding_title_clients">Gestion des Clients</string>
+    <string name="onboarding_desc_clients">Enregistrez vos clients réguliers et vos préférences pour accélérer vos saisies.</string>
+
+    <string name="onboarding_title_agenda">Agenda &amp; Rappels</string>
+    <string name="onboarding_desc_agenda">Planifiez vos courses à l\'avance et recevez des alertes automatiques avant le départ.</string>
+
+    <string name="onboarding_title_stats">Bénéfices &amp; Dépenses</string>
+    <string name="onboarding_desc_stats">Suivez votre rentabilité réelle et automatisez la saisie de vos frais grâce au Scan IA.</string>
+
+    <string name="onboarding_title_1" translatable="false">Legacy Onboarding 1</string>
+    <string name="onboarding_desc_1" translatable="false">Legacy Desc 1</string>
+    <string name="onboarding_title_2" translatable="false">Legacy Onboarding 2</string>
+    <string name="onboarding_desc_2" translatable="false">Legacy Desc 2</string>
+    <string name="onboarding_title_3" translatable="false">Legacy Onboarding 3</string>
+    <string name="onboarding_desc_3" translatable="false">Legacy Desc 3</string>
+
     <string name="btn_next">Suivant</string>
     <string name="btn_skip">Passer</string>
     <string name="btn_get_started">Commencer</string>

@@ -45,6 +45,12 @@ public interface BookingDao {
     @Query("SELECT * FROM bookings ORDER BY date_time DESC LIMIT 3")
     List<Booking> getLatestBookings();
 
+    @Query("SELECT * FROM bookings WHERE date_time >= :now AND status = 'Scheduled' ORDER BY date_time ASC LIMIT 1")
+    Booking getNextUpcomingBooking(Date now);
+
+    @Query("SELECT * FROM bookings WHERE status = 'Scheduled' AND date_time >= :now ORDER BY date_time ASC")
+    List<Booking> getActiveUpcomingBookings(Date now);
+
     @Query("SELECT * FROM bookings WHERE client_name LIKE '%' || :query || '%' OR pickup_location LIKE '%' || :query || '%' OR destination_location LIKE '%' || :query || '%' ORDER BY date_time DESC")
     List<Booking> searchBookings(String query);
 }

@@ -38,6 +38,136 @@
                 android:textAllCaps="true"
                 android:letterSpacing="0.1" />
 
+            <!-- Next Upcoming Trip Card (New Focus) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_next_trip"
+                style="@style/App.CardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/icon_agenda_bg"
+                app:strokeWidth="0dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="20dp"
+                    android:gravity="center_vertical">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        app:cardCornerRadius="24dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@color/white">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="12dp"
+                            android:src="@drawable/ic_nav_calendar_outline"
+                            app:tint="@color/icon_agenda" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="16dp"
+                        android:orientation="vertical">
+                        <TextView
+                            style="@style/App.TextAppearance.LabelLarge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_next_trip"
+                            android:textColor="@color/icon_agenda"
+                            android:textSize="10sp"
+                            android:letterSpacing="0.1"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txt_next_trip_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="14:30"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:textColor="?attr/colorOnSurface" />
+
+                        <TextView
+                            android:id="@+id/txt_next_trip_route"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Lieu de prise en charge"
+                            android:textSize="13sp"
+                            android:alpha="0.7"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/btn_view_trip"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/rounded_chevron_right_24"
+                        app:tint="@color/icon_agenda"
+                        android:alpha="0.5"
+                        android:clickable="true"
+                        android:focusable="true" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Payment Alert Card (New) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_overdue_alert"
+                style="@style/App.CardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/status_cancelled_bg"
+                app:strokeWidth="0dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_alert_circle_outline"
+                        app:tint="@color/status_cancelled" />
+
+                    <TextView
+                        android:id="@+id/txt_overdue_count"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="12dp"
+                        android:text="@string/label_overdue_alert"
+                        android:textColor="@color/status_cancelled"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/rounded_chevron_right_24"
+                        app:tint="@color/status_cancelled"
+                        android:alpha="0.5" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             <!-- Unified Monthly Insights Card -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_monthly_insights"
@@ -82,6 +212,14 @@
                                 android:fontFamily="sans-serif-black"
                                 android:textStyle="bold"
                                 android:textColor="?attr/colorOnPrimaryContainer" />
+                            <TextView
+                                android:id="@+id/txt_home_revenue_daily"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Aujourd'hui: 0.00 €"
+                                android:textAppearance="?attr/textAppearanceLabelMedium"
+                                android:textColor="?attr/colorOnPrimaryContainer"
+                                android:alpha="0.7" />
                         </LinearLayout>
 
                         <com.google.android.material.card.MaterialCardView

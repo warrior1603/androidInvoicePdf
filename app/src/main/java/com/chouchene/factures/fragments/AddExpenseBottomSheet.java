@@ -105,6 +105,10 @@ public class AddExpenseBottomSheet extends BottomSheetDialogFragment {
             cameraLauncher.launch(takePictureIntent);
         });
 
+        if (getArguments() != null && getArguments().getBoolean("auto_scan", false)) {
+            btnScan.performClick();
+        }
+
         AppDatabase db = DatabaseClient.getInstance(requireContext().getApplicationContext()).getAppDatabase();
 
         if (expenseId != null) {

@@ -81,25 +81,44 @@ public class OnboardingActivity extends AppCompatActivity {
     private void setupOnboardingItems() {
         List<OnboardingAdapter.OnboardingItem> items = new ArrayList<>();
 
+        // Page 1: Bienvenue & Professionnalisme
         items.add(new OnboardingAdapter.OnboardingItem(
                 "anim_onboarding_1.json",
-                R.drawable.invoice,
-                getString(R.string.onboarding_title_1),
-                getString(R.string.onboarding_desc_1)
+                R.drawable.rounded_business_24,
+                getString(R.string.onboarding_title_welcome),
+                getString(R.string.onboarding_desc_welcome)
         ));
 
+        // Page 2: Gestion de factures et bon
+        items.add(new OnboardingAdapter.OnboardingItem(
+                "anim_onboarding_1.json", // Reusing standard doc animation
+                R.drawable.invoice,
+                getString(R.string.onboarding_title_docs),
+                getString(R.string.onboarding_desc_docs)
+        ));
+
+        // Page 3: Gestion de clients
         items.add(new OnboardingAdapter.OnboardingItem(
                 "anim_onboarding_3.json",
                 R.drawable.rounded_people_24,
-                getString(R.string.onboarding_title_3),
-                getString(R.string.onboarding_desc_3)
+                getString(R.string.onboarding_title_clients),
+                getString(R.string.onboarding_desc_clients)
         ));
 
+        // Page 4: Gestion d'agenda
+        items.add(new OnboardingAdapter.OnboardingItem(
+                "anim_agenda.json",
+                R.drawable.ic_nav_calendar_outline,
+                getString(R.string.onboarding_title_agenda),
+                getString(R.string.onboarding_desc_agenda)
+        ));
+
+        // Page 5: Dashboard des bénéfices et dépenses
         items.add(new OnboardingAdapter.OnboardingItem(
                 "anim_onboarding_2.json",
                 R.drawable.graph_svgrepo_com,
-                getString(R.string.onboarding_title_2),
-                getString(R.string.onboarding_desc_2)
+                getString(R.string.onboarding_title_stats),
+                getString(R.string.onboarding_desc_stats)
         ));
 
         onboardingAdapter = new OnboardingAdapter(items);

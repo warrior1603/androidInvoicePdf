@@ -48,11 +48,10 @@
     <PreferenceCategory
         android:title="Stockage et Modèles">
 
-        <EditTextPreference
+        <Preference
             android:key="directory"
             android:title="@string/pref_title_directory"
             android:summary="@string/pref_summary_directory"
-            android:dialogTitle="@string/pref_dialog_title_directory"
             android:icon="@drawable/rounded_folder_24" />
 
         <ListPreference

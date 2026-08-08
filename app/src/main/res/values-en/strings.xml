@@ -41,6 +41,9 @@
     <string name="label_trend">Trend</string>
     <string name="label_this_year">This Year</string>
     <item name="label_this_month" type="string">This Month</item>
+    <string name="label_next_trip">NEXT TRIP</string>
+    <string name="label_overdue_alert">%1$d invoices overdue</string>
+    <string name="label_no_trip">No trips scheduled</string>
     <string name="label_revenue_analysis">Revenue Analysis</string>
     <string name="label_no_data">No data available</string>
     <string name="label_no_clients">No clients found</string>
@@ -125,12 +128,28 @@
     <string name="msg_import_confirm">Do you really want to import this data? This will replace your current data.</string>
 
     <!-- Onboarding -->
-    <string name="onboarding_title_1">Welcome to My Invoices</string>
-    <string name="onboarding_desc_1">Manage your invoices and orders easily.</string>
-    <string name="onboarding_title_2">Analytics &amp; Stats</string>
-    <string name="onboarding_desc_2">Track your revenue and visualize your performance with clear charts.</string>
-    <string name="onboarding_title_3">Client Management</string>
-    <string name="onboarding_desc_3">Save your regular clients to generate invoices even faster.</string>
+    <string name="onboarding_title_welcome">Your VTC Pro Assistant</string>
+    <string name="onboarding_desc_welcome">Transform your business with a powerful, elegant, and simple management tool.</string>
+
+    <string name="onboarding_title_docs">Invoices &amp; Orders</string>
+    <string name="onboarding_desc_docs">Generate professional PDFs for your customers and passengers in seconds.</string>
+
+    <string name="onboarding_title_clients">Customer Management</string>
+    <string name="onboarding_desc_clients">Save your regular clients and preferences to speed up your data entry.</string>
+
+    <string name="onboarding_title_agenda">Agenda &amp; Reminders</string>
+    <string name="onboarding_desc_agenda">Plan your trips in advance and receive automatic alerts before departure.</string>
+
+    <string name="onboarding_title_stats">Profits &amp; Expenses</string>
+    <string name="onboarding_desc_stats">Track your real profitability and automate expense entry with AI Scanning.</string>
+
+    <string name="onboarding_title_1" translatable="false">Legacy Onboarding 1</string>
+    <string name="onboarding_desc_1" translatable="false">Legacy Desc 1</string>
+    <string name="onboarding_title_2" translatable="false">Legacy Onboarding 2</string>
+    <string name="onboarding_desc_2" translatable="false">Legacy Desc 2</string>
+    <string name="onboarding_title_3" translatable="false">Legacy Onboarding 3</string>
+    <string name="onboarding_desc_3" translatable="false">Legacy Desc 3</string>
+
     <string name="btn_next">Next</string>
     <string name="btn_skip">Skip</string>
     <string name="btn_get_started">Get Started</string>

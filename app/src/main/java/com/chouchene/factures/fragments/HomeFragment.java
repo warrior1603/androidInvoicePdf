@@ -47,8 +47,9 @@ import android.content.Intent;
 
 public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryActionListener {
 
-    private TextView txtGreeting, txtRevenue, txtInvoiceCount, txtBonCount, txtBookingCount, txtCurrentDate;
-    private View badgeOverdue;
+    private TextView txtGreeting, txtRevenue, txtRevenueDaily, txtInvoiceCount, txtBonCount, txtBookingCount, txtCurrentDate;
+    private TextView txtOverdueAlert;
+    private View badgeOverdue, cardOverdue;
     private com.facebook.shimmer.ShimmerFrameLayout shimmerContainer;
     private RecyclerView rvRecent;
     private HistoryAdapter adapter;
@@ -70,11 +71,14 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         txtGreeting = view.findViewById(R.id.txt_greeting);
         txtCurrentDate = view.findViewById(R.id.txt_current_date);
         txtRevenue = view.findViewById(R.id.txt_home_revenue);
+        txtRevenueDaily = view.findViewById(R.id.txt_home_revenue_daily);
         txtInvoiceCount = view.findViewById(R.id.txt_home_invoice_count);
         txtBonCount = view.findViewById(R.id.txt_home_bon_count);
         txtBookingCount = view.findViewById(R.id.txt_home_booking_count);
         rvRecent = view.findViewById(R.id.rv_home_recent);
         badgeOverdue = view.findViewById(R.id.badge_overdue);
+        cardOverdue = view.findViewById(R.id.card_overdue_alert);
+        txtOverdueAlert = view.findViewById(R.id.txt_overdue_count);
         shimmerContainer = view.findViewById(R.id.shimmer_view_container);
         
         // Set dynamic date
@@ -115,6 +119,30 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
 
         setupRecyclerView();
         loadHomeData(true);
+    }
+
+    private void setupNextTripCard(View view, Booking booking) {
+        View card = view.findViewById(R.id.card_next_trip);
+        if (booking == null) {
+            card.setVisibility(View.GONE);
+            return;
+        }
+
+        card.setVisibility(View.VISIBLE);
+        TextView txtTime = view.findViewById(R.id.txt_next_trip_time);
+        TextView txtRoute = view.findViewById(R.id.txt_next_trip_route);
+        
+        SimpleDateFormat timeFmt = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        txtTime.setText(timeFmt.format(booking.dateTime) + " • " + booking.clientName);
+        txtRoute.setText(booking.pickupLocation + " → " + booking.destinationLocation);
+
+        card.setOnClickListener(v -> {
+            Bundle b = new Bundle();
+            b.putLong("selected_date", booking.dateTime.getTime());
+            Navigation.findNavController(requireView()).navigate(R.id.agendaFragment, b);
+        });
+        
+        view.findViewById(R.id.btn_view_trip).setOnClickListener(v -> card.performClick());
     }
 
     private void setupRecyclerView() {
@@ -179,6 +207,10 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
 
         Executors.newSingleThreadExecutor().execute(() -> {
             float income = db.invoiceDao().getMonthlyIncome(new java.util.Date());
+            float dailyIncome = db.invoiceDao().getDailyIncome(new java.util.Date());
+            float dailyExpenses = db.expenseDao().getDailyExpenses(new java.util.Date());
+            float dailyProfit = dailyIncome - dailyExpenses;
+
             float expenses = db.expenseDao().getMonthlyExpenses(new java.util.Date());
             float profit = income - expenses;
             
@@ -186,12 +218,14 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
             int bonCount = db.invoiceDao().getMonthlyBonsCount(new java.util.Date());
             int bookingCount = db.bookingDao().getMonthlyBookingsCount(new java.util.Date());
 
+            Booking nextBooking = db.bookingDao().getNextUpcomingBooking(new Date());
+
             List<Invoice> latestInvoices = db.invoiceDao().getLatestInvoices();
-            List<Booking> latestBookings = db.bookingDao().getLatestBookings();
+            List<Booking> activeBookings = db.bookingDao().getActiveUpcomingBookings(new java.util.Date());
             
             List<RecentActivity> allActivity = new ArrayList<>();
             for (Invoice i : latestInvoices) allActivity.add(new RecentActivity(i));
-            for (Booking b : latestBookings) allActivity.add(new RecentActivity(b));
+            for (Booking b : activeBookings) allActivity.add(new RecentActivity(b));
             
             // Sort by date descending
             Collections.sort(allActivity, (a1, a2) -> a2.date.compareTo(a1.date));
@@ -204,15 +238,36 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
             List<RecentActivity> finalActivity = allActivity;
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
+                    View v = getView();
+                    if (v == null) return;
+
                     txtRevenue.setText(String.format(Locale.getDefault(), "%.2f €", profit));
+                    txtRevenueDaily.setText(String.format(Locale.getDefault(), "Aujourd'hui: %.2f €", dailyProfit));
                     txtInvoiceCount.setText(String.valueOf(invoiceCount));
                     txtBonCount.setText(String.valueOf(bonCount));
                     txtBookingCount.setText(String.valueOf(bookingCount));
                     adapter.setData(finalActivity);
                     rvRecent.scheduleLayoutAnimation();
+
+                    setupNextTripCard(v, nextBooking);
                     
                     if (badgeOverdue != null) {
                         badgeOverdue.setVisibility(overdueCount > 0 ? View.VISIBLE : View.GONE);
+                    }
+
+                    if (cardOverdue != null) {
+                        if (overdueCount > 0) {
+                            cardOverdue.setVisibility(View.VISIBLE);
+                            txtOverdueAlert.setText(getString(R.string.label_overdue_alert, overdueCount));
+                            cardOverdue.setOnClickListener(v_overdue -> {
+                                Bundle b = new Bundle();
+                                b.putInt("start_tab", 0);
+                                // We could also set a status filter here if we wanted
+                                Navigation.findNavController(v_overdue).navigate(R.id.documentsHubFragment, b);
+                            });
+                        } else {
+                            cardOverdue.setVisibility(View.GONE);
+                        }
                     }
 
                     if (shimmerContainer != null) {
