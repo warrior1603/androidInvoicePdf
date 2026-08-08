@@ -181,6 +181,7 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
                 shimmerContainer.stopShimmer();
                 shimmerContainer.setVisibility(View.GONE);
                 rvBookings.setVisibility(View.VISIBLE);
+                rvBookings.scheduleLayoutAnimation();
                 emptyState.setVisibility(filtered.isEmpty() && !isMonthlyView ? View.VISIBLE : View.GONE);
             });
         }

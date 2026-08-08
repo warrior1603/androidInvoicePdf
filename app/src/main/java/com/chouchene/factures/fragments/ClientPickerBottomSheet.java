@@ -79,7 +79,13 @@ public class ClientPickerBottomSheet extends BottomSheetDialogFragment {
             allClients = db.clientDao().getAllClients();
             recentClients = db.clientDao().getRecentClients();
             if (getActivity() != null) {
-                getActivity().runOnUiThread(() -> adapter.setClients(allClients, recentClients));
+                getActivity().runOnUiThread(() -> {
+                    adapter.setClients(allClients, recentClients);
+                    if (getView() != null) {
+                        RecyclerView rv = getView().findViewById(R.id.rvClients);
+                        if (rv != null) rv.scheduleLayoutAnimation();
+                    }
+                });
             }
         });
     }

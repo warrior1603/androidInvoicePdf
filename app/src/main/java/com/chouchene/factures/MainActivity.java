@@ -334,6 +334,7 @@ public class MainActivity extends AppCompatActivity {
             runOnUiThread(() -> {
                 if (searchAdapter != null) {
                     searchAdapter.setResults(combinedResults);
+                    if (searchRecyclerView != null) searchRecyclerView.scheduleLayoutAnimation();
                     if (searchEmptyState != null) searchEmptyState.setVisibility(combinedResults.isEmpty() ? View.VISIBLE : View.GONE);
                 }
             });

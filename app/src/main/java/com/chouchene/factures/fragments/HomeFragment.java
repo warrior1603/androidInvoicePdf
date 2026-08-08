@@ -97,8 +97,16 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         cardProfile.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.personalSettingsFragment));
         cardSettings.setOnClickListener(v -> startActivity(new Intent(requireContext(), com.chouchene.factures.SettingsActivity.class)));
 
-        view.findViewById(R.id.stat_invoices).setOnClickListener(v -> navView.setSelectedItemId(R.id.documentsHubFragment));
-        view.findViewById(R.id.stat_orders).setOnClickListener(v -> navView.setSelectedItemId(R.id.documentsHubFragment));
+        view.findViewById(R.id.stat_invoices).setOnClickListener(v -> {
+            Bundle b = new Bundle();
+            b.putInt("start_tab", 0);
+            Navigation.findNavController(v).navigate(R.id.documentsHubFragment, b);
+        });
+        view.findViewById(R.id.stat_orders).setOnClickListener(v -> {
+            Bundle b = new Bundle();
+            b.putInt("start_tab", 1);
+            Navigation.findNavController(v).navigate(R.id.documentsHubFragment, b);
+        });
         view.findViewById(R.id.stat_bookings).setOnClickListener(v -> navView.setSelectedItemId(R.id.agendaFragment));
 
         view.findViewById(R.id.btn_view_all_recent).setOnClickListener(v -> 
@@ -201,6 +209,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                     txtBonCount.setText(String.valueOf(bonCount));
                     txtBookingCount.setText(String.valueOf(bookingCount));
                     adapter.setData(finalActivity);
+                    rvRecent.scheduleLayoutAnimation();
                     
                     if (badgeOverdue != null) {
                         badgeOverdue.setVisibility(overdueCount > 0 ? View.VISIBLE : View.GONE);

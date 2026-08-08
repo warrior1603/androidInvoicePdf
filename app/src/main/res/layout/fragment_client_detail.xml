@@ -290,6 +290,7 @@
                 android:layout_marginLeft="-24dp"
                 android:layout_marginRight="-24dp"
                 android:clipToPadding="false"
+                android:layoutAnimation="@anim/layout_animation_fall_down"
                 android:nestedScrollingEnabled="false" />
 
         </LinearLayout>

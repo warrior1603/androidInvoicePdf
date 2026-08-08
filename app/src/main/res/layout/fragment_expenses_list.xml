@@ -30,7 +30,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingBottom="88dp" />
+        android:paddingBottom="88dp"
+        android:layoutAnimation="@anim/layout_animation_fall_down" />
 
     <LinearLayout
         android:id="@+id/empty_state"

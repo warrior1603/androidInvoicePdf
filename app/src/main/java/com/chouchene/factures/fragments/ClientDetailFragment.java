@@ -207,6 +207,7 @@ public class ClientDetailFragment extends Fragment implements HistoryAdapter.OnH
                     }
                     adapter.setData(activities);
                     rvHistory.setVisibility(View.VISIBLE);
+                    rvHistory.scheduleLayoutAnimation();
                     TextView txtTotalRevenue = getView().findViewById(R.id.detail_total_revenue);
                     if (txtTotalRevenue != null) {
                         txtTotalRevenue.setText(String.format(java.util.Locale.getDefault(), "%.2f €", totalRevenue));

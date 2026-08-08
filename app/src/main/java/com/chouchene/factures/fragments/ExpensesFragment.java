@@ -80,6 +80,7 @@ public class ExpensesFragment extends Fragment implements ExpenseAdapter.OnExpen
                         shimmerContainer.setVisibility(View.GONE);
                     }
                     adapter.setData(expenses);
+                    recyclerView.scheduleLayoutAnimation();
                     checkEmptyState();
                 });
             }

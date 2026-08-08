@@ -100,6 +100,7 @@ public class GlobalHistoryFragment extends Fragment implements HistoryAdapter.On
                     }
                     adapter.setData(allActivities);
                     recyclerView.setVisibility(allActivities.isEmpty() ? View.GONE : View.VISIBLE);
+                    recyclerView.scheduleLayoutAnimation();
                     checkEmptyState();
                 });
             }

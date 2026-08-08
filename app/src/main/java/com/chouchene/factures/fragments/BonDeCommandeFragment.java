@@ -148,6 +148,7 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
                         shimmerContainer.setVisibility(View.GONE);
                     }
                     adapter.setData(finalActivities);
+                    recyclerView.scheduleLayoutAnimation();
                     checkEmptyState();
                 });
             }

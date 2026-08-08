@@ -49,6 +49,11 @@ public class DocumentsHubFragment extends Fragment {
 
         viewPager.setAdapter(new DocumentsPagerAdapter(this));
 
+        if (getArguments() != null && getArguments().containsKey("start_tab")) {
+            int startTab = getArguments().getInt("start_tab");
+            viewPager.setCurrentItem(startTab, false);
+        }
+
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             switch (position) {
                 case 0:

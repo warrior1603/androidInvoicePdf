@@ -68,7 +68,7 @@
     </style>
 
     <style name="App.BottomNavigation.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
-        <item name="android:color">?attr/colorPrimaryContainer</item>
+        <item name="android:color">#1A3F51B5</item> <!-- 10% opacity Indigo -->
     </style>
 
     <style name="App.Button" parent="Widget.Material3.Button">

@@ -148,6 +148,7 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
                         shimmerContainer.setVisibility(View.GONE);
                     }
                     adapter.setData(finalActivities);
+                    recyclerView.scheduleLayoutAnimation();
                     checkEmptyState();
                 });
             }

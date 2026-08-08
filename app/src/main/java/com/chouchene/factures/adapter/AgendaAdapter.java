@@ -137,6 +137,14 @@ public class AgendaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         holder.txtStatus.setText(label);
         holder.txtStatus.setBackgroundResource(bgRes);
         holder.txtStatus.setTextColor(textColor);
+
+        // Add Icon to Badge
+        int iconRes = "Completed".equals(status) ? R.drawable.ic_status_check :
+                     "Cancelled".equals(status) ? R.drawable.ic_status_x : R.drawable.ic_status_clock;
+        
+        holder.txtStatus.setCompoundDrawablesWithIntrinsicBounds(iconRes, 0, 0, 0);
+        holder.txtStatus.setCompoundDrawablePadding(8);
+        androidx.core.widget.TextViewCompat.setCompoundDrawableTintList(holder.txtStatus, android.content.res.ColorStateList.valueOf(textColor));
     }
 
     @Override

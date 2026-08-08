@@ -322,6 +322,7 @@ public class ClientListFragment extends Fragment {
                     }
                     // Update data and show list OR empty state
                     listAdapter.setData(myClients);
+                    recyclerView.scheduleLayoutAnimation();
                     // checkEmptyState is called inside setData via the listener, 
                     // but we ensure list/empty state visibility here for safety
                     boolean isEmpty = myClients.isEmpty();

@@ -111,6 +111,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         holder.txtStatus.setBackgroundResource(statusBg);
         holder.txtStatus.setTextColor(statusColor);
 
+        // Add Icon to Badge
+        int statusIcon = ("Payée".equals(activity.status) || "Completed".equals(activity.status) || "Terminée".equals(activity.status)) ? R.drawable.ic_status_check :
+                        ("Annulée".equals(activity.status) || "Cancelled".equals(activity.status)) ? R.drawable.ic_status_x : R.drawable.ic_status_clock;
+        
+        holder.txtStatus.setCompoundDrawablesWithIntrinsicBounds(statusIcon, 0, 0, 0);
+        holder.txtStatus.setCompoundDrawablePadding(8);
+        androidx.core.widget.TextViewCompat.setCompoundDrawableTintList(holder.txtStatus, ColorStateList.valueOf(statusColor));
+
         holder.txtStatus.setOnClickListener(v -> {
             v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             listener.onStatusClick(activity);
