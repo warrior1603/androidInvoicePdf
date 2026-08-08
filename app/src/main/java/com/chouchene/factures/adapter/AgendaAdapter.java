@@ -4,8 +4,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
-import android.widget.ImageButton;
 import android.widget.TextView;
+import com.google.android.material.button.MaterialButton;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -94,11 +94,11 @@ public class AgendaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             SimpleDateFormat timeFmt = new SimpleDateFormat("HH:mm", Locale.getDefault());
             SimpleDateFormat dateFmt = new SimpleDateFormat("dd MMM", Locale.getDefault());
             
-            h.txtTime.setText(timeFmt.format(booking.dateTime));
-            h.txtDate.setText(dateFmt.format(booking.dateTime));
-            h.txtClientName.setText(booking.clientName);
-            h.txtRoute.setText(booking.pickupLocation + " → " + booking.destinationLocation);
-            h.txtAmount.setText(String.format(Locale.getDefault(), "%.2f €", booking.estimatedPrice));
+            ((TextView) h.txtTime).setText(timeFmt.format(booking.dateTime));
+            ((TextView) h.txtDate).setText(dateFmt.format(booking.dateTime));
+            ((TextView) h.txtClientName).setText(booking.clientName);
+            ((TextView) h.txtRoute).setText(booking.pickupLocation + " → " + booking.destinationLocation);
+            ((TextView) h.txtAmount).setText(String.format(Locale.getDefault(), "%.2f €", booking.estimatedPrice));
             
             setupStatusBadge(h, booking);
 
@@ -134,17 +134,18 @@ public class AgendaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             label = "À venir";
         }
 
-        holder.txtStatus.setText(label);
-        holder.txtStatus.setBackgroundResource(bgRes);
-        holder.txtStatus.setTextColor(textColor);
+        TextView txtStatus = (TextView) holder.txtStatus;
+        txtStatus.setText(label);
+        txtStatus.setBackgroundResource(bgRes);
+        txtStatus.setTextColor(textColor);
 
         // Add Icon to Badge
         int iconRes = "Completed".equals(status) ? R.drawable.ic_status_check :
                      "Cancelled".equals(status) ? R.drawable.ic_status_x : R.drawable.ic_status_clock;
         
-        holder.txtStatus.setCompoundDrawablesWithIntrinsicBounds(iconRes, 0, 0, 0);
-        holder.txtStatus.setCompoundDrawablePadding(8);
-        androidx.core.widget.TextViewCompat.setCompoundDrawableTintList(holder.txtStatus, android.content.res.ColorStateList.valueOf(textColor));
+        txtStatus.setCompoundDrawablesWithIntrinsicBounds(iconRes, 0, 0, 0);
+        txtStatus.setCompoundDrawablePadding(8);
+        androidx.core.widget.TextViewCompat.setCompoundDrawableTintList(txtStatus, android.content.res.ColorStateList.valueOf(textColor));
     }
 
     @Override
@@ -170,8 +171,8 @@ public class AgendaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
-        TextView txtTime, txtDate, txtClientName, txtRoute, txtAmount, txtStatus;
-        ImageButton btnCall;
+        View txtTime, txtDate, txtClientName, txtRoute, txtAmount, txtStatus;
+        View btnCall;
         ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             txtTime = itemView.findViewById(R.id.txtTime);

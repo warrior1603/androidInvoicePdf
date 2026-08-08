@@ -4,21 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:paddingTop="16dp"
     android:minHeight="500dp">
 
-    <View
-        android:layout_width="40dp"
-        android:layout_height="4dp"
-        android:layout_gravity="center"
-        android:background="?attr/colorOutlineVariant"
-        android:layout_marginBottom="16dp" />
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <TextView
         style="@style/App.TextAppearance.TitleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sélectionner un client"
+        android:paddingHorizontal="16dp"
         android:layout_marginBottom="16dp" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -27,6 +25,7 @@
             android:layout_height="wrap_content"
             android:hint="Rechercher un client..."
             app:startIconDrawable="@drawable/ic_search_outline"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="8dp">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editSearch"

@@ -4,13 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingVertical="16dp">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/App.CardView"
-        app:cardBackgroundColor="?attr/colorSurfaceVariant"
         app:strokeWidth="0dp">
 
         <CalendarView

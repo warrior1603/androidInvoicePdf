@@ -3,7 +3,7 @@
     android:id="@+id/txt_header_title"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingHorizontal="16dp"
+    android:paddingHorizontal="0dp"
     android:paddingTop="16dp"
     android:paddingBottom="8dp"
     android:text="Header"

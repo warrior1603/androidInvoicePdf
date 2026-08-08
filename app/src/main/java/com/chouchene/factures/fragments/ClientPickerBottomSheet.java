@@ -135,9 +135,9 @@ public class ClientPickerBottomSheet extends BottomSheetDialogFragment {
             if (holder instanceof HeaderViewHolder) {
                 HeaderViewHolder h = (HeaderViewHolder) holder;
                 if (!recents.isEmpty()) {
-                    h.text.setText(position == 0 ? "Récents" : "Tous les clients");
+                    h.text.setText(position == 0 ? R.string.label_recent_clients : R.string.label_all_clients);
                 } else {
-                    h.text.setText("Tous les clients");
+                    h.text.setText(R.string.label_all_clients);
                 }
             } else {
                 ItemViewHolder h = (ItemViewHolder) holder;

@@ -106,6 +106,7 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
                 int id = checkedIds.get(0);
                 if (id == R.id.chipScheduled) currentStatusFilter = "Scheduled";
                 else if (id == R.id.chipCompleted) currentStatusFilter = "Completed";
+                else if (id == R.id.chipCancelled) currentStatusFilter = "Cancelled";
                 else currentStatusFilter = null;
             }
             loadBookings();
@@ -155,15 +156,23 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
     private void filterAndDisplay(List<Booking> bookings, boolean isMonth) {
         List<Booking> filtered = new ArrayList<>();
         Date now = new Date();
+        
+        int allCount = bookings.size();
+        int upcomingCount = 0;
+        int completedCount = 0;
+        int cancelledCount = 0;
 
         for (Booking b : bookings) {
             String effectiveStatus;
             if ("Cancelled".equals(b.status)) {
                 effectiveStatus = "Cancelled";
+                cancelledCount++;
             } else if (b.dateTime.before(now)) {
                 effectiveStatus = "Completed";
+                completedCount++;
             } else {
                 effectiveStatus = "Scheduled";
+                upcomingCount++;
             }
 
             if (currentStatusFilter == null || currentStatusFilter.equals(effectiveStatus)) {
@@ -171,13 +180,25 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
             }
         }
 
-        final int totalCount = bookings.size();
+        final int totalCount = allCount;
+        final int finalUpcoming = upcomingCount;
+        final int finalCompleted = completedCount;
+        final int finalCancelled = cancelledCount;
 
         if (getActivity() != null) {
             getActivity().runOnUiThread(() -> {
+                View fragmentView = getView();
+                if (fragmentView == null) return;
+
                 adapter.setData(filtered, isMonthlyView, selectedDate);
                 if (isMonth) adapter.updateMonthStats(totalCount);
                 
+                // Update Chip Texts with Counts
+                ((com.google.android.material.chip.Chip) fragmentView.findViewById(R.id.chipAll)).setText("Tout (" + totalCount + ")");
+                ((com.google.android.material.chip.Chip) fragmentView.findViewById(R.id.chipScheduled)).setText("À venir (" + finalUpcoming + ")");
+                ((com.google.android.material.chip.Chip) fragmentView.findViewById(R.id.chipCompleted)).setText("Terminées (" + finalCompleted + ")");
+                ((com.google.android.material.chip.Chip) fragmentView.findViewById(R.id.chipCancelled)).setText("Annulées (" + finalCancelled + ")");
+
                 shimmerContainer.stopShimmer();
                 shimmerContainer.setVisibility(View.GONE);
                 rvBookings.setVisibility(View.VISIBLE);
