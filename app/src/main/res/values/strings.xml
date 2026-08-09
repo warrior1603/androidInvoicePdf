@@ -46,7 +46,7 @@
     <string name="label_today">Aujourd\'hui</string>
     <string name="label_trend">Tendance</string>
     <string name="label_this_year">Cette Année</string>
-    <string name="label_this_month" type="string">Ce Mois</string>
+    <string name="label_this_month">Ce Mois</string>
     <string name="label_next_trip">PROCHAIN TRAJET</string>
     <string name="label_overdue_alert">%1$d factures en retard de paiement</string>
     <string name="label_no_trip">Aucun trajet prévu</string>
@@ -179,4 +179,13 @@
     <string name="action_update">Mettre à jour</string>
     <string name="action_delete_booking">Supprimer la course</string>
     <string name="msg_confirm_delete_booking">Voulez-vous vraiment supprimer cette course ?</string>
+
+    <!-- Stepper & Generation -->
+    <string name="msg_pdf_error">Erreur PDF</string>
+    <string name="msg_order_created">Bon de commande créé avec succès</string>
+    <string name="action_open">OUVRIR</string>
+    <string name="title_choose_time">Sélectionner l\'heure</string>
+    <string name="title_choose_date">Sélectionner la date</string>
+    <string name="label_required">Requis</string>
+    <string name="msg_name_required">Le nom est obligatoire</string>
 </resources>

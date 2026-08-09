@@ -40,7 +40,7 @@
     <string name="label_today">Today</string>
     <string name="label_trend">Trend</string>
     <string name="label_this_year">This Year</string>
-    <item name="label_this_month" type="string">This Month</item>
+    <string name="label_this_month">This Month</string>
     <string name="label_next_trip">NEXT TRIP</string>
     <string name="label_overdue_alert">%1$d invoices overdue</string>
     <string name="label_no_trip">No trips scheduled</string>
@@ -160,4 +160,13 @@
     <string name="action_update">Update</string>
     <string name="action_delete_booking">Delete trip</string>
     <string name="msg_confirm_delete_booking">Do you really want to delete this trip?</string>
+
+    <!-- Stepper & Generation -->
+    <string name="msg_pdf_error">PDF Error</string>
+    <string name="msg_order_created">Order created successfully</string>
+    <string name="action_open">OPEN</string>
+    <string name="title_choose_time">Select Time</string>
+    <string name="title_choose_date">Select Date</string>
+    <string name="label_required">Required</string>
+    <string name="msg_name_required">Name is required</string>
 </resources>

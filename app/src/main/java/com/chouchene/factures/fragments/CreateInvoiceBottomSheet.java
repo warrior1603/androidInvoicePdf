@@ -1,6 +1,7 @@
 package com.chouchene.factures.fragments;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -22,9 +23,12 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,7 +43,11 @@ import com.chouchene.factures.entity.Invoice;
 import com.chouchene.factures.api.FetchVilleFromCodePostale;
 import com.chouchene.factures.utils.BackupUtils;
 import com.chouchene.factures.utils.SignatureView;
+import com.chouchene.factures.utils.GlassUtils;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -48,7 +56,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
@@ -66,6 +73,11 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
     private AutoCompleteTextView autoCompletePaymentMode, autoCompleteTextView;
     private LinearLayout inputClientProvisoire;
     private SignatureView signatureView;
+    private ViewFlipper viewFlipper;
+    private MaterialButton btnBack, btnNext, btnCreatePdf;
+    private TextView stepNumber1, stepNumber2, stepNumber3;
+    private TextView stepLabel1, stepLabel2, stepLabel3;
+    private int currentStep = 0;
 
     private String currentInvoiceNumber;
     private SharedPreferences sharedPreferences, settingsSharedPreferences;
@@ -98,6 +110,30 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
         return inflater.inflate(R.layout.bottom_sheet_create_invoice, container, false);
     }
 
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        BottomSheetDialog dialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
+        dialog.setOnShowListener(d -> {
+            BottomSheetDialog bsd = (BottomSheetDialog) d;
+            FrameLayout bottomSheet = bsd.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+            if (bottomSheet != null) {
+                BottomSheetBehavior<FrameLayout> behavior = BottomSheetBehavior.from(bottomSheet);
+                behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                behavior.setSkipCollapsed(true);
+            }
+        });
+        return dialog;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (getDialog() != null && getDialog().getWindow() != null) {
+            GlassUtils.applyGlassEffect(getDialog().getWindow(), 80f);
+        }
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -110,6 +146,7 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
         generateSequentialInvoiceNumber();
 
         setupInputs(view);
+        setupStepper(view);
         setupClientSearch(view);
         setupRadioGroup(view);
         setupPaymentMode(view);
@@ -119,8 +156,98 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
             loadClientForInvoice(clientId);
         }
 
-        view.findViewById(R.id.btnCreatePdf).setOnClickListener(v -> handleGenerateInvoice());
         view.findViewById(R.id.btn_clear_signature).setOnClickListener(v -> signatureView.clear());
+    }
+
+    private void setupStepper(View view) {
+        viewFlipper = view.findViewById(R.id.view_flipper);
+        btnBack = view.findViewById(R.id.btn_back);
+        btnNext = view.findViewById(R.id.btn_next);
+        btnCreatePdf = view.findViewById(R.id.btnCreatePdf);
+
+        stepNumber1 = view.findViewById(R.id.step_number_1);
+        stepNumber2 = view.findViewById(R.id.step_number_2);
+        stepNumber3 = view.findViewById(R.id.step_number_3);
+        stepLabel1 = view.findViewById(R.id.step_label_1);
+        stepLabel2 = view.findViewById(R.id.step_label_2);
+        stepLabel3 = view.findViewById(R.id.step_label_3);
+
+        btnNext.setOnClickListener(v -> goToNextStep());
+        btnBack.setOnClickListener(v -> goToPreviousStep());
+        btnCreatePdf.setOnClickListener(v -> handleGenerateInvoice());
+        
+        updateStepperUI();
+    }
+
+    private void goToNextStep() {
+        if (currentStep == 0) {
+            String clientName = isClientProvisoire ? txtName.getText().toString().trim() : (selectedClient != null ? selectedClient.clientName : autoCompleteTextView.getText().toString());
+            if (clientName.isEmpty()) {
+                Toast.makeText(requireContext(), "Nom du client requis", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        
+        if (currentStep < 2) {
+            currentStep++;
+            viewFlipper.setInAnimation(requireContext(), R.anim.slide_in_right);
+            viewFlipper.setOutAnimation(requireContext(), R.anim.slide_out_left);
+            viewFlipper.showNext();
+            updateStepperUI();
+        }
+    }
+
+    private void goToPreviousStep() {
+        if (currentStep > 0) {
+            currentStep--;
+            viewFlipper.setInAnimation(requireContext(), android.R.anim.slide_in_left);
+            viewFlipper.setOutAnimation(requireContext(), android.R.anim.slide_out_right);
+            viewFlipper.showPrevious();
+            updateStepperUI();
+        }
+    }
+
+    private void updateStepperUI() {
+        btnBack.setVisibility(currentStep == 0 ? View.GONE : View.VISIBLE);
+        btnNext.setVisibility(currentStep == 2 ? View.GONE : View.VISIBLE);
+        btnCreatePdf.setVisibility(currentStep == 2 ? View.VISIBLE : View.GONE);
+
+        // Update indicators
+        updateStepIndicator(stepNumber1, stepLabel1, currentStep >= 0);
+        updateStepIndicator(stepNumber2, stepLabel2, currentStep >= 1);
+        updateStepIndicator(stepNumber3, stepLabel3, currentStep >= 2);
+        
+        if (currentStep == 2) {
+            updateSummary();
+        }
+    }
+
+    private void updateStepIndicator(TextView number, TextView label, boolean active) {
+        number.setBackgroundResource(active ? R.drawable.circle_stepper_active : R.drawable.circle_stepper_inactive);
+        number.setTextColor(active ? android.graphics.Color.WHITE : android.graphics.Color.GRAY);
+        label.setTypeface(null, active ? android.graphics.Typeface.BOLD : android.graphics.Typeface.NORMAL);
+        
+        int activeColor = android.graphics.Color.BLUE; // Default
+        try {
+            android.util.TypedValue typedValue = new android.util.TypedValue();
+            requireContext().getTheme().resolveAttribute(android.R.attr.colorPrimary, typedValue, true);
+            activeColor = typedValue.data;
+        } catch (Exception ignored) {}
+
+        label.setTextColor(active ? activeColor : android.graphics.Color.GRAY);
+    }
+    
+    private void updateSummary() {
+        String clientName = isClientProvisoire ? txtName.getText().toString().trim() : (selectedClient != null ? selectedClient.clientName : autoCompleteTextView.getText().toString());
+        String desc = txtDescription.getText().toString();
+        String price = txtPrix.getText().toString();
+        
+        String summary = "Client: " + clientName + "\n" +
+                        "Description: " + desc + "\n" +
+                        "Montant: " + price + " €";
+        
+        TextView summaryView = getView().findViewById(R.id.summary_text);
+        if (summaryView != null) summaryView.setText(summary);
     }
 
     private void generateSequentialInvoiceNumber() {
