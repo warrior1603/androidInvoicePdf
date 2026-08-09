@@ -157,7 +157,7 @@ public class ClientDetailFragment extends Fragment implements HistoryAdapter.OnH
                 if (direction == ItemTouchHelper.RIGHT) {
                     onStatusChange(activity, "Payée");
                 } else if (direction == ItemTouchHelper.LEFT) {
-                    onShareClick(activity);
+                    onDeleteClick(activity);
                 }
             }
         }).attachToRecyclerView(rvHistory);

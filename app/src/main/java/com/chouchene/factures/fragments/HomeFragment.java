@@ -158,7 +158,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                 if (direction == ItemTouchHelper.RIGHT) {
                     onStatusChange(activity, "Payée");
                 } else if (direction == ItemTouchHelper.LEFT) {
-                    onShareClick(activity);
+                    onDeleteClick(activity);
                 }
             }
         }).attachToRecyclerView(rvRecent);
@@ -313,7 +313,39 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
 
     @Override
     public void onDeleteClick(RecentActivity activity) {
-        // Not used on home screen
+        String title = activity.type == RecentActivity.Type.BOOKING ? "Supprimer la course" : "Supprimer le document";
+        String message = activity.type == RecentActivity.Type.BOOKING ? 
+                "Voulez-vous vraiment supprimer cette course ?" : 
+                "Voulez-vous vraiment supprimer ce document ? Cette action est irréversible.";
+
+        new com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
+                .setTitle(title)
+                .setMessage(message)
+                .setNegativeButton("Annuler", (dialog, which) -> adapter.notifyDataSetChanged())
+                .setPositiveButton("Supprimer", (dialog, which) -> {
+                    Executors.newSingleThreadExecutor().execute(() -> {
+                        if (activity.type == RecentActivity.Type.BOOKING) {
+                            db.bookingDao().deleteBooking((Booking) activity.originalObject);
+                        } else {
+                            Invoice invoice = (Invoice) activity.originalObject;
+                            // Delete physical file
+                            if (invoice.filePath != null) {
+                                File file = new File(invoice.filePath);
+                                if (file.exists()) file.delete();
+                            }
+                            db.invoiceDao().deleteInvoice(invoice);
+                        }
+                        
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(() -> {
+                                loadHomeData(false);
+                                com.google.android.material.snackbar.Snackbar.make(requireView(), "Supprimé avec succès", com.google.android.material.snackbar.Snackbar.LENGTH_SHORT).show();
+                            });
+                        }
+                    });
+                })
+                .setOnCancelListener(dialog -> adapter.notifyDataSetChanged())
+                .show();
     }
 
     @Override

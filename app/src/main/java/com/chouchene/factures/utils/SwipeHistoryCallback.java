@@ -18,7 +18,7 @@ public abstract class SwipeHistoryCallback extends ItemTouchHelper.SimpleCallbac
 
     private final Context context;
     private final Drawable checkIcon;
-    private final Drawable shareIcon;
+    private final Drawable deleteIcon;
     private final int intrinsicWidth;
     private final int intrinsicHeight;
     private final Paint paint;
@@ -27,7 +27,7 @@ public abstract class SwipeHistoryCallback extends ItemTouchHelper.SimpleCallbac
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         this.context = context;
         this.checkIcon = ContextCompat.getDrawable(context, R.drawable.rounded_check_24);
-        this.shareIcon = ContextCompat.getDrawable(context, R.drawable.rounded_share_24);
+        this.deleteIcon = ContextCompat.getDrawable(context, R.drawable.rounded_delete_24);
         this.intrinsicWidth = checkIcon != null ? checkIcon.getIntrinsicWidth() : 0;
         this.intrinsicHeight = checkIcon != null ? checkIcon.getIntrinsicHeight() : 0;
         this.paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -67,8 +67,8 @@ public abstract class SwipeHistoryCallback extends ItemTouchHelper.SimpleCallbac
                 checkIcon.setTint(Color.WHITE);
                 checkIcon.draw(c);
             }
-        } else if (dX < 0) { // Swiping Left -> Share (Blue)
-            paint.setColor(Color.parseColor("#2196F3"));
+        } else if (dX < 0) { // Swiping Left -> Delete (Red)
+            paint.setColor(Color.parseColor("#F44336"));
             c.drawRoundRect(
                     itemView.getRight() + dX - margin,
                     itemView.getTop() + margin,
@@ -83,10 +83,10 @@ public abstract class SwipeHistoryCallback extends ItemTouchHelper.SimpleCallbac
             int iconLeft = itemView.getRight() - iconMargin - intrinsicWidth - margin;
             int iconBottom = iconTop + intrinsicHeight;
 
-            if (Math.abs(dX) > (iconMargin + intrinsicWidth + margin * 2) && shareIcon != null) {
-                shareIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
-                shareIcon.setTint(Color.WHITE);
-                shareIcon.draw(c);
+            if (Math.abs(dX) > (iconMargin + intrinsicWidth + margin * 2) && deleteIcon != null) {
+                deleteIcon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+                deleteIcon.setTint(Color.WHITE);
+                deleteIcon.draw(c);
             }
         }
 

@@ -77,8 +77,7 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
                 if (direction == ItemTouchHelper.RIGHT) {
                     onStatusChange(activity, "Payée");
                 } else if (direction == ItemTouchHelper.LEFT) {
-                    onShareClick(activity);
-                    adapter.notifyItemChanged(position);
+                    onDeleteClick(activity);
                 }
             }
         }).attachToRecyclerView(recyclerView);
@@ -199,8 +198,17 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
                 .setMessage("Voulez-vous supprimer cette facture ?")
                 .setPositiveButton("Supprimer", (dialog, which) -> {
                     Executors.newSingleThreadExecutor().execute(() -> {
+                        if (invoice.filePath != null) {
+                            File file = new File(invoice.filePath);
+                            if (file.exists()) file.delete();
+                        }
                         db.invoiceDao().deleteInvoice(invoice);
-                        loadInvoices();
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(() -> {
+                                loadInvoices();
+                                com.google.android.material.snackbar.Snackbar.make(requireView(), "Facture supprimée", com.google.android.material.snackbar.Snackbar.LENGTH_SHORT).show();
+                            });
+                        }
                     });
                 })
                 .setNegativeButton("Annuler", (dialog, which) -> adapter.notifyDataSetChanged())

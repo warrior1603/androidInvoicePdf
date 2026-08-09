@@ -77,8 +77,7 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
                 if (direction == ItemTouchHelper.RIGHT) {
                     onStatusChange(activity, "Payée");
                 } else if (direction == ItemTouchHelper.LEFT) {
-                    onShareClick(activity);
-                    adapter.notifyItemChanged(position);
+                    onDeleteClick(activity);
                 }
             }
         }).attachToRecyclerView(recyclerView);
@@ -199,8 +198,17 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
                 .setMessage("Voulez-vous supprimer ce bon de commande ?")
                 .setPositiveButton("Supprimer", (dialog, which) -> {
                     Executors.newSingleThreadExecutor().execute(() -> {
+                        if (invoice.filePath != null) {
+                            File file = new File(invoice.filePath);
+                            if (file.exists()) file.delete();
+                        }
                         db.invoiceDao().deleteInvoice(invoice);
-                        loadBons();
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(() -> {
+                                loadBons();
+                                com.google.android.material.snackbar.Snackbar.make(requireView(), "Bon de commande supprimé", com.google.android.material.snackbar.Snackbar.LENGTH_SHORT).show();
+                            });
+                        }
                     });
                 })
                 .setNegativeButton("Annuler", (dialog, which) -> adapter.notifyDataSetChanged())

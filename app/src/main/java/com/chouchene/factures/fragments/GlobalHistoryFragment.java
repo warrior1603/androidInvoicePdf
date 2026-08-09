@@ -20,8 +20,10 @@ import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Booking;
 import com.chouchene.factures.entity.Invoice;
 import com.chouchene.factures.model.RecentActivity;
+import com.chouchene.factures.utils.SwipeHistoryCallback;
 import com.google.android.material.chip.ChipGroup;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -64,6 +66,19 @@ public class GlobalHistoryFragment extends Fragment implements HistoryAdapter.On
         adapter = new HistoryAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerView.setAdapter(adapter);
+
+        new androidx.recyclerview.widget.ItemTouchHelper(new SwipeHistoryCallback(requireContext()) {
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getBindingAdapterPosition();
+                RecentActivity activity = adapter.getActivityAt(position);
+                if (direction == androidx.recyclerview.widget.ItemTouchHelper.RIGHT) {
+                    onStatusChange(activity, "Payée");
+                } else if (direction == androidx.recyclerview.widget.ItemTouchHelper.LEFT) {
+                    onDeleteClick(activity);
+                }
+            }
+        }).attachToRecyclerView(recyclerView);
 
         chipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
             if (checkedIds.isEmpty()) return;
@@ -146,7 +161,40 @@ public class GlobalHistoryFragment extends Fragment implements HistoryAdapter.On
     }
 
     @Override
-    public void onDeleteClick(RecentActivity activity) {}
+    public void onDeleteClick(RecentActivity activity) {
+        String title = activity.type == RecentActivity.Type.BOOKING ? "Supprimer la course" : "Supprimer le document";
+        String message = activity.type == RecentActivity.Type.BOOKING ? 
+                "Voulez-vous vraiment supprimer cette course ?" : 
+                "Voulez-vous vraiment supprimer ce document ? Cette action est irréversible.";
+
+        new com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
+                .setTitle(title)
+                .setMessage(message)
+                .setNegativeButton("Annuler", (dialog, which) -> adapter.notifyDataSetChanged())
+                .setPositiveButton("Supprimer", (dialog, which) -> {
+                    Executors.newSingleThreadExecutor().execute(() -> {
+                        if (activity.type == RecentActivity.Type.BOOKING) {
+                            db.bookingDao().deleteBooking((Booking) activity.originalObject);
+                        } else {
+                            Invoice invoice = (Invoice) activity.originalObject;
+                            if (invoice.filePath != null) {
+                                File file = new File(invoice.filePath);
+                                if (file.exists()) file.delete();
+                            }
+                            db.invoiceDao().deleteInvoice(invoice);
+                        }
+
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(() -> {
+                                loadData();
+                                com.google.android.material.snackbar.Snackbar.make(requireView(), "Supprimé avec succès", com.google.android.material.snackbar.Snackbar.LENGTH_SHORT).show();
+                            });
+                        }
+                    });
+                })
+                .setOnCancelListener(dialog -> adapter.notifyDataSetChanged())
+                .show();
+    }
 
     @Override
     public void onStatusClick(RecentActivity activity) {}
