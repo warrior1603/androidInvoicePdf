@@ -4,11 +4,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.ParcelFileDescriptor;
+import android.print.PageRange;
+import android.print.PrintAttributes;
+import android.print.PrintDocumentAdapter;
+import android.print.PrintDocumentInfo;
+import android.print.PrintResultCallbackShim;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,27 +38,25 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
-import com.tom_roush.pdfbox.android.PDFBoxResourceLoader;
-import com.tom_roush.pdfbox.pdmodel.PDDocument;
-import com.tom_roush.pdfbox.pdmodel.interactive.form.PDAcroForm;
-import com.tom_roush.pdfbox.pdmodel.interactive.form.PDField;
 
-import org.apache.commons.io.FileUtils;
-
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.Executors;
 
 public class CreateBonBottomSheet extends BottomSheetDialogFragment {
 
     private static final String DIRECTORY_KEY = "directory";
 
     private TextInputEditText editDateCommandForm, editTimeCommandForm, editDatePriseForm, editTimePriseForm;
-    private TextInputEditText editPassager, editPec, editDestination, editTarif, editTelPassager;
+    private TextInputEditText editPassager, editPec, editDestination, editTarif, editTelPassager, editVia;
 
     private SharedPreferences sharedPreferences, settingsSharedPreferences;
     private OnBonGeneratedListener listener;
@@ -94,6 +102,7 @@ public class CreateBonBottomSheet extends BottomSheetDialogFragment {
         editDestination = view.findViewById(R.id.edit_destination);
         editTarif = view.findViewById(R.id.edit_tarif);
         editTelPassager = view.findViewById(R.id.edit_tel_passager);
+        editVia = view.findViewById(R.id.edit_via);
 
         MaterialButton btnCreatePDF = view.findViewById(R.id.btn_save_info_bon);
         btnCreatePDF.setOnClickListener(v -> {
@@ -116,8 +125,6 @@ public class CreateBonBottomSheet extends BottomSheetDialogFragment {
     }
 
     private void generateBonDeCommande() throws IOException {
-        PDFBoxResourceLoader.init(requireContext().getApplicationContext());
-
         String userNameEmetteur = sharedPreferences.getString("User", "");
         String streetEmetteur = sharedPreferences.getString("Street", "");
         String cityEmetteur = sharedPreferences.getString("City", "");
@@ -127,6 +134,8 @@ public class CreateBonBottomSheet extends BottomSheetDialogFragment {
         String evtc = sharedPreferences.getString("evtc", "");
         String chauffeur = sharedPreferences.getString("chauffeur", "");
         String plaque = sharedPreferences.getString("plaque", "");
+        String siren = sharedPreferences.getString("siren", "");
+        String tva = sharedPreferences.getString("tva", "");
 
         String passager = editPassager.getText().toString();
         String telPassager = editTelPassager.getText().toString();
@@ -137,81 +146,147 @@ public class CreateBonBottomSheet extends BottomSheetDialogFragment {
         String priseEnCharge = editPec.getText().toString();
         String destination = editDestination.getText().toString();
         String tarif = editTarif.getText().toString();
+        String via = editVia.getText().toString();
 
-        File templateFile = new File(requireContext().getCacheDir(), "template-bon-commande.pdf");
-        try (InputStream inputStream = requireContext().getAssets().open("bon-de-commande.pdf")) {
-            FileUtils.copyToFile(inputStream, templateFile);
+        String html = loadHtmlFromAssets("order_template.html");
+
+        // Handle Company Logo (Base64)
+        String logoPath = sharedPreferences.getString("logo_uri", null);
+        String logoHtml = "";
+        if (logoPath != null) {
+            File logoFile = new File(logoPath);
+            if (logoFile.exists()) {
+                try {
+                    byte[] bytes = new byte[(int) logoFile.length()];
+                    try (FileInputStream fis = new FileInputStream(logoFile)) {
+                        fis.read(bytes);
+                    }
+                    String base64 = android.util.Base64.encodeToString(bytes, android.util.Base64.NO_WRAP);
+                    logoHtml = "<img src=\"data:image/png;base64," + base64 + "\" style=\"max-height: 60px;\">";
+                } catch (IOException e) {
+                    Log.e("BON", "Error encoding logo", e);
+                }
+            }
         }
 
-        try {
-            PDDocument document = PDDocument.load(templateFile);
-            PDAcroForm acroForm = document.getDocumentCatalog().getAcroForm();
-            if (acroForm == null) throw new IOException("No AcroForm found");
+        html = html.replace("{{companyLogo}}", logoHtml)
+                   .replace("{{nomEmetteur}}", userNameEmetteur)
+                   .replace("{{rueEmetteur}}", streetEmetteur)
+                   .replace("{{codePostaleEmetteur}}", codePostaleEmetteur)
+                   .replace("{{villeEmetteur}}", cityEmetteur)
+                   .replace("{{telEmetteur}}", telEmetteur)
+                   .replace("{{numeroEVTC}}", evtc)
+                   .replace("{{issuerSiren}}", siren)
+                   .replace("{{issuerTva}}", tva)
+                   .replace("{{nomConducteur}}", chauffeur)
+                   .replace("{{nomPassager}}", passager)
+                   .replace("{{telPassager}}", telPassager)
+                   .replace("{{dateCommande}}", dateCommande + " " + timeCommande)
+                   .replace("{{datePriseEnCharge}}", datePrise + " " + timePrise)
+                   .replace("{{lieuPriseEnCharge}}", priseEnCharge)
+                   .replace("{{destination}}", destination)
+                   .replace("{{tarif}}", tarif)
+                   .replace("{{via}}", via.isEmpty() ? "" : via)
+                   .replace("{{nomChauffeur}}", chauffeur)
+                   .replace("{{plaque}}", plaque);
 
-            setField(acroForm, "nomEmetteur", userNameEmetteur);
-            setField(acroForm, "rueEmetteur", streetEmetteur);
-            setField(acroForm, "codePostaleEmetteur", codePostaleEmetteur);
-            setField(acroForm, "villeEmetteur", cityEmetteur);
-            setField(acroForm, "numeroEVTC", evtc);
-            setField(acroForm, "telEmetteur", telEmetteur);
-            setField(acroForm, "nomConducteur", chauffeur);
-            setField(acroForm, "nomPassager", passager);
-            setField(acroForm, "telPassager", telPassager);
-            setField(acroForm, "dateCommande", dateCommande + " " + timeCommande);
-            setField(acroForm, "datePriseEnCharge", datePrise + " " + timePrise);
-            setField(acroForm, "lieuPriseEnCharge", priseEnCharge);
-            setField(acroForm, "destination", destination);
-            setField(acroForm, "tarif", tarif);
-            setField(acroForm, "nomChauffeur", chauffeur);
-            setField(acroForm, "plaque", plaque);
+        String fileName = "Bon-de-commande_" + passager.trim().replace(" ", "_") + "_" + System.currentTimeMillis() + ".pdf";
+        String dirPath = settingsSharedPreferences.getString(DIRECTORY_KEY, BackupUtils.getDefaultPdfDir(requireContext()));
+        File outFile = new File(dirPath, fileName);
 
-            acroForm.setNeedAppearances(true);
-            acroForm.flatten();
+        createPdfFromHtml(html, outFile, passager, emailEmetteur);
+    }
 
-            String fileName = "Bon-de-commande_" + passager.trim().replace(" ", "_") + "_" + System.currentTimeMillis() + ".pdf";
-            String dirPath = settingsSharedPreferences.getString(DIRECTORY_KEY, BackupUtils.getDefaultPdfDir(requireContext()));
-            File invoiceFile = new File(dirPath, fileName);
+    private void createPdfFromHtml(String html, File outFile, String clientName, String clientEmail) {
+        WebView webView = new WebView(requireContext());
+        webView.layout(0, 0, 1024, 1448);
+        webView.loadDataWithBaseURL("file:///android_asset/", html, "text/html", "UTF-8", null);
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    PrintAttributes attributes = new PrintAttributes.Builder()
+                            .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
+                            .setResolution(new PrintAttributes.Resolution("pdf", "pdf", 600, 600))
+                            .setMinMargins(PrintAttributes.Margins.NO_MARGINS)
+                            .build();
 
-            document.save(invoiceFile);
-            document.close();
-            templateFile.delete();
+                    PrintDocumentAdapter adapter = webView.createPrintDocumentAdapter("BonDeCommande");
+                    adapter.onLayout(null, attributes, null, new PrintResultCallbackShim.LayoutResultCallbackShim() {
+                        @Override
+                        public void onLayoutFinished(PrintDocumentInfo info, boolean changed) {
+                            try {
+                                ParcelFileDescriptor pfd = ParcelFileDescriptor.open(outFile, ParcelFileDescriptor.MODE_READ_WRITE | ParcelFileDescriptor.MODE_CREATE | ParcelFileDescriptor.MODE_TRUNCATE);
+                                adapter.onWrite(new PageRange[]{PageRange.ALL_PAGES}, pfd, null, new PrintResultCallbackShim.WriteResultCallbackShim() {
+                                    @Override
+                                    public void onWriteFinished(PageRange[] pages) {
+                                        try {
+                                            pfd.close();
+                                            saveToDatabase(clientName, outFile.getAbsolutePath(), clientEmail);
+                                        } catch (IOException e) {
+                                            Log.e("PDF", "Error closing PFD", e);
+                                        }
+                                    }
+                                    @Override
+                                    public void onWriteFailed(CharSequence error) {
+                                        if (getContext() != null) Toast.makeText(getContext(), "Erreur PDF", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            } catch (Exception e) {
+                                Log.e("PDF", "Error", e);
+                            }
+                        }
+                    }, null);
+                }, 1000);
+            }
+        });
+    }
 
+    private void saveToDatabase(String clientName, String path, String email) {
+        String tarifStr = editTarif.getText().toString();
+        double amount = 0;
+        try { amount = Double.parseDouble(tarifStr); } catch (Exception ignored) {}
+        
+        final double finalAmount = amount;
+        Executors.newSingleThreadExecutor().execute(() -> {
             AppDatabase db = DatabaseClient.getInstance(requireContext().getApplicationContext()).getAppDatabase();
-            double finalTarif = 0;
-            try { finalTarif = Double.parseDouble(tarif); } catch (Exception ignored) {}
-            db.invoiceDao().insertInvoice(new Invoice(finalTarif, new Date(), passager, invoiceFile.getAbsolutePath(), "Bon"));
+            db.invoiceDao().insertInvoice(new Invoice(finalAmount, new Date(), clientName, path, "Bon"));
+            
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    if (listener != null) listener.onBonGenerated();
+                    showSuccessSnackbar(path, email);
+                    dismiss();
+                });
+            }
+        });
+    }
 
-            if (listener != null) listener.onBonGenerated();
-            
-            final String filePath = invoiceFile.getAbsolutePath();
-            final String mailClient = emailEmetteur;
-            final Activity activity = getActivity();
-            
-            if (activity != null) {
-                View rootView = activity.findViewById(android.R.id.content);
-                if (rootView != null) {
-                    Snackbar.make(rootView, "Bon de commande créé avec succès", Snackbar.LENGTH_LONG)
+    private void showSuccessSnackbar(String filePath, String clientEmail) {
+        Activity activity = getActivity();
+        if (activity != null) {
+            View rootView = activity.findViewById(android.R.id.content);
+            if (rootView != null) {
+                Snackbar.make(rootView, "Bon de commande créé", Snackbar.LENGTH_LONG)
                         .setAction("OUVRIR", v -> {
                             Bundle b = new Bundle();
                             b.putString("file_path", filePath);
-                            b.putString("mail_client", mailClient);
+                            b.putString("mail_client", clientEmail);
                             Navigation.findNavController(activity, R.id.nav_host_fragment)
                                     .navigate(R.id.webViewPdfFragment, b);
                         })
                         .show();
-                }
             }
-            
-            dismiss();
-
-        } catch (IOException e) {
-            Log.e("BON_GEN", "Error", e);
         }
     }
 
-    private void setField(PDAcroForm form, String fieldName, String value) throws IOException {
-        PDField field = form.getField(fieldName);
-        if (field != null) field.setValue(value != null ? value : "");
+    private String loadHtmlFromAssets(String fileName) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(requireContext().getAssets().open(fileName)))) {
+            String line;
+            while ((line = reader.readLine()) != null) sb.append(line).append("\n");
+        }
+        return sb.toString();
     }
 
     private void showTimePickerDialog(TextInputEditText editTime) {

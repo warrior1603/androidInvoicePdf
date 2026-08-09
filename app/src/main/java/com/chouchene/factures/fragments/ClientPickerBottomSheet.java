@@ -34,7 +34,6 @@ public class ClientPickerBottomSheet extends BottomSheetDialogFragment {
     private OnClientSelectedListener listener;
 
     private static final int TYPE_HEADER = 0;
-    private static final int TYPE_RECENT = 1;
     private static final int TYPE_ALL = 2;
 
     public interface OnClientSelectedListener {
@@ -76,8 +75,12 @@ public class ClientPickerBottomSheet extends BottomSheetDialogFragment {
 
     private void loadClients() {
         Executors.newSingleThreadExecutor().execute(() -> {
-            allClients = db.clientDao().getAllClients();
-            recentClients = db.clientDao().getRecentClients();
+            List<Client> all = db.clientDao().getAllClients();
+            List<Client> recent = db.clientDao().getRecentClients();
+            
+            allClients = all != null ? all : new ArrayList<>();
+            recentClients = recent != null ? recent : new ArrayList<>();
+
             if (getActivity() != null) {
                 getActivity().runOnUiThread(() -> {
                     adapter.setClients(allClients, recentClients);
@@ -101,22 +104,25 @@ public class ClientPickerBottomSheet extends BottomSheetDialogFragment {
     }
 
     private class ClientAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-        private List<Client> clients = new ArrayList<>();
-        private List<Client> recents = new ArrayList<>();
+        private final List<Object> displayList = new ArrayList<>();
 
-        public void setClients(List<Client> clients, List<Client> recents) {
-            this.clients = clients;
-            this.recents = recents;
+        public void setClients(List<Client> all, List<Client> recents) {
+            displayList.clear();
+            if (!recents.isEmpty()) {
+                displayList.add("Récents");
+                displayList.addAll(recents);
+            }
+            if (!all.isEmpty()) {
+                displayList.add("Tous les clients");
+                displayList.addAll(all);
+            }
             notifyDataSetChanged();
         }
 
         @Override
         public int getItemViewType(int position) {
-            if (!recents.isEmpty()) {
-                if (position == 0) return TYPE_HEADER;
-                if (position <= recents.size()) return TYPE_RECENT;
-                if (position == recents.size() + 1) return TYPE_HEADER;
-            }
+            Object item = displayList.get(position);
+            if (item instanceof String) return TYPE_HEADER;
             return TYPE_ALL;
         }
 
@@ -132,24 +138,13 @@ public class ClientPickerBottomSheet extends BottomSheetDialogFragment {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+            Object item = displayList.get(position);
             if (holder instanceof HeaderViewHolder) {
-                HeaderViewHolder h = (HeaderViewHolder) holder;
-                if (!recents.isEmpty()) {
-                    h.text.setText(position == 0 ? R.string.label_recent_clients : R.string.label_all_clients);
-                } else {
-                    h.text.setText(R.string.label_all_clients);
-                }
-            } else {
+                ((HeaderViewHolder) holder).text.setText((String) item);
+            } else if (holder instanceof ItemViewHolder) {
+                Client client = (Client) item;
                 ItemViewHolder h = (ItemViewHolder) holder;
-                Client client;
-                if (!recents.isEmpty() && position <= recents.size()) {
-                    client = recents.get(position - 1);
-                } else {
-                    int offset = recents.isEmpty() ? 0 : recents.size() + 2;
-                    client = clients.get(position - offset);
-                }
-                
-                h.txtName.setText(client.clientName);
+                h.txtName.setText(client.clientName != null ? client.clientName : "Inconnu");
                 h.txtPhone.setText(client.phone != null ? client.phone : "");
                 h.itemView.setOnClickListener(v -> {
                     if (listener != null) listener.onClientSelected(client);
@@ -160,8 +155,7 @@ public class ClientPickerBottomSheet extends BottomSheetDialogFragment {
 
         @Override
         public int getItemCount() {
-            if (clients.isEmpty()) return 0;
-            return clients.size() + (recents.isEmpty() ? 1 : recents.size() + 2);
+            return displayList.size();
         }
 
         class HeaderViewHolder extends RecyclerView.ViewHolder {

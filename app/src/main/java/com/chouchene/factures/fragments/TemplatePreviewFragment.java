@@ -73,6 +73,13 @@ public class TemplatePreviewFragment extends Fragment {
 
     private void selectTemplate(String name) {
         settingsPrefs.edit().putString("invoice_template", name).apply();
+        
+        // Also update in InvoicePrefs for backward compatibility
+        requireContext().getSharedPreferences("InvoicePrefs", Context.MODE_PRIVATE)
+                .edit()
+                .putString("invoice_template", name)
+                .apply();
+
         updateSelectionUI();
         Toast.makeText(getContext(), "Modèle sélectionné !", Toast.LENGTH_SHORT).show();
     }
