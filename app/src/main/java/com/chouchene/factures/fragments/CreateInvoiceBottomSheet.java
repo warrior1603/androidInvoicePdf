@@ -274,7 +274,10 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
 
     private void generateHtmlPdf() {
         try {
-            String templateName = settingsSharedPreferences.getString("invoice_template", "invoice_template.html");
+            // Read template choice from Default SharedPreferences (where SettingsActivity saves it)
+            SharedPreferences defaultPrefs = androidx.preference.PreferenceManager.getDefaultSharedPreferences(requireContext());
+            String templateName = defaultPrefs.getString("invoice_template", "invoice_template.html");
+            
             String html = loadHtmlFromAssets(templateName);
 
             // Handle Company Logo
