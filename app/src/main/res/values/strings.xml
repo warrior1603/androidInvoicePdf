@@ -11,6 +11,7 @@
     <string name="title_documents">Documents</string>
     <string name="title_clients">Clients</string>
     <string name="title_settings">Paramètres</string>
+    <string name="label_bookings">Courses</string>
 
     <string name="action_generate">Générer</string>
     <string name="action_save">Enregistrer</string>
@@ -193,4 +194,5 @@
     <string name="title_choose_date">Sélectionner la date</string>
     <string name="label_required">Requis</string>
     <string name="msg_name_required">Le nom est obligatoire</string>
+    <string name="title_preview_doc">Aperçu</string>
 </resources>

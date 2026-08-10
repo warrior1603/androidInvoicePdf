@@ -307,6 +307,16 @@ public class MainActivity extends AppCompatActivity {
 
             NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
+            // Hide/Show BottomNav based on destination
+            navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+                int id = destination.getId();
+                if (id == R.id.webViewPdfFragment) {
+                    bottomNavigationView.setVisibility(View.GONE);
+                } else {
+                    bottomNavigationView.setVisibility(View.VISIBLE);
+                }
+            });
+
             // 1. Handle Selection: Normal tab switching
             bottomNavigationView.setOnItemSelectedListener(item -> {
                 // Pillar 4: Haptic Feedback
