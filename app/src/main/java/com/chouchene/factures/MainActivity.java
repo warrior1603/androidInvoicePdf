@@ -44,6 +44,9 @@ import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Client;
 import com.chouchene.factures.entity.Invoice;
+import com.chouchene.factures.fragments.FilterBottomSheet;
+import com.chouchene.factures.fragments.NotificationBottomSheet;
+import com.chouchene.factures.model.AppNotification;
 import com.chouchene.factures.utils.LocaleHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.search.SearchBar;
@@ -79,9 +82,11 @@ public class MainActivity extends AppCompatActivity {
     SearchBar searchBar;
     SearchView searchView;
     RecyclerView searchRecyclerView;
-    View searchEmptyState, quickSearchContainer;
+    View searchEmptyState, filterBar;
+    com.google.android.material.chip.ChipGroup smartFilterChips;
     SearchResultAdapter searchAdapter;
     AppDatabase db;
+    private String filterStatus, filterType;
     private KonfettiView konfettiView;
 
     @Override
@@ -234,11 +239,59 @@ public class MainActivity extends AppCompatActivity {
         searchView = findViewById(R.id.search_view);
         searchRecyclerView = findViewById(R.id.search_results_recycler);
         searchEmptyState = findViewById(R.id.search_empty_state);
-        quickSearchContainer = findViewById(R.id.quick_search_container);
+        filterBar = findViewById(R.id.filter_scroll_view);
+        smartFilterChips = findViewById(R.id.smart_filter_chips);
         ImageView imgProfile = findViewById(R.id.img_profile_top);
 
         if (searchView != null && searchBar != null) {
             searchView.setupWithSearchBar(searchBar);
+            
+            // Inflate menu into SearchView as well
+            searchView.inflateMenu(R.menu.search_bar_menu);
+            
+            // Unified listener for both SearchBar and SearchView menu
+            androidx.appcompat.widget.Toolbar.OnMenuItemClickListener filterListener = item -> {
+                if (item.getItemId() == R.id.action_filter) {
+                    if (filterBar != null) {
+                        // Ensure SearchView is showing if we clicked from SearchBar
+                        if (!searchView.isShowing()) searchView.show();
+                        
+                        int visibility = (filterBar.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE;
+                        filterBar.setVisibility(visibility);
+                        
+                        if (visibility == View.GONE) {
+                            if (smartFilterChips != null) smartFilterChips.clearCheck();
+                            filterType = null;
+                            filterStatus = null;
+                        }
+                        String currentQuery = (searchView.getEditText() != null) ? searchView.getEditText().getText().toString() : "";
+                        performSearch(currentQuery);
+                    }
+                    return true;
+                }
+                return false;
+            };
+
+            searchBar.setOnMenuItemClickListener(filterListener);
+            searchView.setOnMenuItemClickListener(filterListener);
+        }
+
+        if (smartFilterChips != null) {
+            smartFilterChips.setOnCheckedStateChangeListener((group, checkedIds) -> {
+                if (checkedIds.isEmpty()) {
+                    filterType = null;
+                    filterStatus = null;
+                } else {
+                    int id = checkedIds.get(0);
+                    if (id == R.id.chip_type_invoice) { filterType = "Factures"; filterStatus = null; }
+                    else if (id == R.id.chip_type_order) { filterType = "Bons"; filterStatus = null; }
+                    else if (id == R.id.chip_type_booking) { filterType = "Courses"; filterStatus = null; }
+                    else if (id == R.id.chip_status_paid) { filterStatus = "Payée"; filterType = null; }
+                    else if (id == R.id.chip_status_pending) { filterStatus = "En attente"; filterType = null; }
+                }
+                String currentQuery = (searchView.getEditText() != null) ? searchView.getEditText().getText().toString() : "";
+                performSearch(currentQuery);
+            });
         }
 
         if (imgProfile != null) imgProfile.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SettingsActivity.class)));
@@ -323,25 +376,88 @@ public class MainActivity extends AppCompatActivity {
 
         handleIntent(getIntent());
         askPermissions();
+        setupNotifications();
+    }
+
+    private void setupNotifications() {
+        View layoutNotif = findViewById(R.id.layout_notifications);
+        View badge = findViewById(R.id.notification_badge);
+
+        if (layoutNotif == null) return;
+
+        Executors.newSingleThreadExecutor().execute(() -> {
+            List<AppNotification> notifs = new ArrayList<>();
+            
+            // 1. Check for unpaid invoices (overdue)
+            int overdueCount = db.invoiceDao().getOverdueInvoicesCount();
+            if (overdueCount > 0) {
+                notifs.add(new AppNotification("Factures en retard", 
+                        overdueCount + " facture(s) sont en attente de paiement.", 
+                        AppNotification.Type.ALERT));
+            }
+
+            // 2. Check for today's bookings
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.HOUR_OF_DAY, 0); cal.set(Calendar.MINUTE, 0); cal.set(Calendar.SECOND, 0);
+            Date start = cal.getTime();
+            cal.set(Calendar.HOUR_OF_DAY, 23); cal.set(Calendar.MINUTE, 59); cal.set(Calendar.SECOND, 59);
+            Date end = cal.getTime();
+            
+            List<com.chouchene.factures.entity.Booking> todayBookings = db.bookingDao().getBookingsBetweenDates(start, end);
+            if (!todayBookings.isEmpty()) {
+                notifs.add(new AppNotification("Courses du jour", 
+                        "Vous avez " + todayBookings.size() + " course(s) prévue(s) aujourd'hui.", 
+                        AppNotification.Type.INFO));
+            }
+
+            runOnUiThread(() -> {
+                if (badge != null) {
+                    badge.setVisibility(notifs.isEmpty() ? View.GONE : View.VISIBLE);
+                }
+                layoutNotif.setOnClickListener(v -> {
+                    NotificationBottomSheet sheet = new NotificationBottomSheet();
+                    sheet.setNotifications(notifs);
+                    sheet.show(getSupportFragmentManager(), "NOTIFICATIONS");
+                    if (badge != null) badge.setVisibility(View.GONE);
+                });
+            });
+        });
     }
 
     private void performSearch(String query) {
-        if (query == null || query.trim().isEmpty()) {
-            if (searchAdapter != null) searchAdapter.setResults(new ArrayList<>());
-            return;
-        }
-
-        String finalQuery = query.trim();
+        String finalQuery = (query == null) ? "" : query.trim();
+        
         Executors.newSingleThreadExecutor().execute(() -> {
             List<SearchResult> combinedResults = new ArrayList<>();
-            List<Client> clients = db.clientDao().searchClients(finalQuery);
-            for (Client c : clients) combinedResults.add(new SearchResult(c.getClientName(), c.getEmail(), "Client", null, c.getId(), 0));
-            List<Invoice> invoices = db.invoiceDao().searchInvoices(finalQuery);
-            for (Invoice i : invoices) combinedResults.add(new SearchResult(i.clientName, String.format(Locale.getDefault(), "%.2f €", i.amount), i.type, i.filePath, i.id, 0));
             
-            List<com.chouchene.factures.entity.Booking> bookings = db.bookingDao().searchBookings(finalQuery);
-            for (com.chouchene.factures.entity.Booking b : bookings) {
-                combinedResults.add(new SearchResult(b.clientName, b.pickupLocation + " → " + b.destinationLocation, "Course", null, b.id, b.dateTime.getTime()));
+            // 1. Clients
+            if (filterType == null || "Clients".equalsIgnoreCase(filterType)) {
+                List<Client> clients = db.clientDao().searchClients(finalQuery);
+                for (Client c : clients) combinedResults.add(new SearchResult(c.getClientName(), c.getEmail(), "Client", null, c.getId(), 0));
+            }
+            
+            // 2. Invoices / Bons
+            List<Invoice> invoices = db.invoiceDao().searchInvoices(finalQuery);
+            for (Invoice i : invoices) {
+                // Apply Type Filter
+                if (filterType != null) {
+                    if ("Factures".equalsIgnoreCase(filterType) && !"Facture".equalsIgnoreCase(i.type)) continue;
+                    if ("Bons".equalsIgnoreCase(filterType) && !"Bon".equalsIgnoreCase(i.type)) continue;
+                    if ("Courses".equalsIgnoreCase(filterType)) continue; 
+                }
+                
+                // Apply Status Filter
+                if (filterStatus != null && !filterStatus.equalsIgnoreCase(i.status)) continue;
+
+                combinedResults.add(new SearchResult(i.clientName, String.format(Locale.getDefault(), "%.2f €", i.amount), i.type, i.filePath, i.id, 0));
+            }
+            
+            // 3. Bookings
+            if (filterType == null || "Courses".equalsIgnoreCase(filterType)) {
+                List<com.chouchene.factures.entity.Booking> bookings = db.bookingDao().searchBookings(finalQuery);
+                for (com.chouchene.factures.entity.Booking b : bookings) {
+                    combinedResults.add(new SearchResult(b.clientName, b.pickupLocation + " → " + b.destinationLocation, "Course", null, b.id, b.dateTime.getTime()));
+                }
             }
 
             runOnUiThread(() -> {
