@@ -64,7 +64,7 @@ public class WebViewPdfFragment extends Fragment {
         Button printButton = view.findViewById(R.id.printButton);
         TextView txtPageCount = view.findViewById(R.id.txt_page_count);
         View btnBack = view.findViewById(R.id.btn_back_pdf);
-        
+
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> Navigation.findNavController(v).navigateUp());
         }
