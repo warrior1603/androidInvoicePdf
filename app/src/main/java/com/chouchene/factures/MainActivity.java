@@ -51,6 +51,7 @@ import com.google.android.material.search.SearchView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -255,6 +256,12 @@ public class MainActivity extends AppCompatActivity {
 
             // 1. Handle Selection: Normal tab switching
             bottomNavigationView.setOnItemSelectedListener(item -> {
+                // Pillar 4: Haptic Feedback
+                bottomNavigationView.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
+                
+                // Animated Icon Logic: Bounce effect
+                animateBottomNavigationItem(item.getItemId());
+
                 int itemId = item.getItemId();
                 // Special case for Home: if we are in a sub-page (like Journal), pop back to Home
                 if (itemId == R.id.homeFragment) {
@@ -265,6 +272,12 @@ public class MainActivity extends AppCompatActivity {
 
             // 2. Handle Reselection: Clicking the ALREADY active tab
             bottomNavigationView.setOnItemReselectedListener(item -> {
+                // Pillar 4: Haptic Feedback
+                bottomNavigationView.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
+                
+                // Re-trigger animation on reselect
+                animateBottomNavigationItem(item.getItemId());
+
                 // This is crucial: it forces the tab to go back to its root fragment
                 navController.popBackStack(item.getItemId(), false);
             });
@@ -442,6 +455,55 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateBottomNavBadges();
+    }
+
+    public void updateBottomNavBadges() {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            // 1. Pending Invoices Badge
+            int pendingCount = db.invoiceDao().getCountByStatus("En attente");
+            
+            // 2. Today's Bookings Badge
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.HOUR_OF_DAY, 0);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.SECOND, 0);
+            Date start = cal.getTime();
+            cal.set(Calendar.HOUR_OF_DAY, 23);
+            cal.set(Calendar.MINUTE, 59);
+            cal.set(Calendar.SECOND, 59);
+            Date end = cal.getTime();
+            int todayBookings = db.bookingDao().getUpcomingCount(start, end);
+
+            runOnUiThread(() -> {
+                if (bottomNavigationView == null) return;
+
+                // Documents Badge
+                if (pendingCount > 0) {
+                    com.google.android.material.badge.BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.documentsHubFragment);
+                    badge.setVisible(true);
+                    badge.setNumber(pendingCount);
+                    badge.setBackgroundColor(ContextCompat.getColor(this, R.color.status_pending));
+                } else {
+                    bottomNavigationView.removeBadge(R.id.documentsHubFragment);
+                }
+
+                // Agenda Badge
+                if (todayBookings > 0) {
+                    com.google.android.material.badge.BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.agendaFragment);
+                    badge.setVisible(true);
+                    badge.setNumber(todayBookings);
+                    badge.setBackgroundColor(ContextCompat.getColor(this, R.color.primary));
+                } else {
+                    bottomNavigationView.removeBadge(R.id.agendaFragment);
+                }
+            });
+        });
+    }
+
     public void triggerConfetti() {
         if (konfettiView == null) return;
         
@@ -458,5 +520,34 @@ public class MainActivity extends AppCompatActivity {
                             .build()
             );
         }, 200L);
+    }
+
+    private void animateBottomNavigationItem(int itemId) {
+        // Use a slight delay to let the selection logic finish
+        bottomNavigationView.postDelayed(() -> {
+            View itemView = bottomNavigationView.findViewById(itemId);
+            if (itemView != null) {
+                View iconContainer = itemView.findViewById(com.google.android.material.R.id.navigation_bar_item_icon_container);
+                View target = (iconContainer != null) ? iconContainer : itemView;
+
+                // 1. Reset scale first
+                target.setScaleX(1f);
+                target.setScaleY(1f);
+
+                // 2. Dramatically scale up and then bounce back
+                target.animate()
+                        .scaleX(1.4f)
+                        .scaleY(1.4f)
+                        .setDuration(300) // Slower scale up
+                        .setInterpolator(new android.view.animation.DecelerateInterpolator())
+                        .withEndAction(() -> target.animate()
+                                .scaleX(1.0f)
+                                .scaleY(1.0f)
+                                .setDuration(600) // Much slower bounce back for premium feel
+                                .setInterpolator(new android.view.animation.OvershootInterpolator(5f))
+                                .start())
+                        .start();
+            }
+        }, 50L);
     }
 }

@@ -203,6 +203,9 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
                             if (file.exists()) file.delete();
                         }
                         db.invoiceDao().deleteInvoice(invoice);
+                        if (getActivity() instanceof com.chouchene.factures.MainActivity) {
+                            ((com.chouchene.factures.MainActivity) getActivity()).updateBottomNavBadges();
+                        }
                         if (getActivity() != null) {
                             getActivity().runOnUiThread(() -> {
                                 loadInvoices();
@@ -261,6 +264,9 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
         Executors.newSingleThreadExecutor().execute(() -> {
             invoice.status = newStatus;
             db.invoiceDao().updateInvoice(invoice);
+            if (getActivity() instanceof com.chouchene.factures.MainActivity) {
+                ((com.chouchene.factures.MainActivity) getActivity()).updateBottomNavBadges();
+            }
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
                     if ("Payée".equals(newStatus)) {
@@ -280,6 +286,9 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
         Executors.newSingleThreadExecutor().execute(() -> {
             invoice.status = status;
             db.invoiceDao().updateInvoice(invoice);
+            if (getActivity() instanceof com.chouchene.factures.MainActivity) {
+                ((com.chouchene.factures.MainActivity) getActivity()).updateBottomNavBadges();
+            }
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
                     if (dialog != null) dialog.dismiss();

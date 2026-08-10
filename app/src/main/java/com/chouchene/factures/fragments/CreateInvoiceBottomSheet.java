@@ -573,6 +573,9 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
             
             if (getActivity() != null) {
                 getActivity().runOnUiThread(() -> {
+                    if (getActivity() instanceof com.chouchene.factures.MainActivity) {
+                        ((com.chouchene.factures.MainActivity) getActivity()).updateBottomNavBadges();
+                    }
                     if (listener != null) listener.onInvoiceGenerated();
                     showSuccessSnackbar(path, clientEmail);
                     dismiss();

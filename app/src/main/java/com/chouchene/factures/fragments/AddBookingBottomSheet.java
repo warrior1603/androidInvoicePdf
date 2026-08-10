@@ -370,6 +370,9 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
             
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
+                    if (getActivity() instanceof com.chouchene.factures.MainActivity) {
+                        ((com.chouchene.factures.MainActivity) getActivity()).updateBottomNavBadges();
+                    }
                     if (listener != null) listener.onBookingAdded();
                     dismiss();
                 });
