@@ -110,7 +110,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
         BarChart barChart = view.findViewById(R.id.barChart);
         View chartEmptyState = view.findViewById(R.id.chart_empty_state);
         View cardExpenses = view.findViewById(R.id.cardExpenses);
-        MaterialButton btnExportCsv = view.findViewById(R.id.btnExportCsv);
+        View btnExportCsv = view.findViewById(R.id.btnExportCsv);
 
         cardExpenses.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.expensesFragment));
         btnExportCsv.setOnClickListener(v -> exportToCSV());
@@ -119,6 +119,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
             shimmerContainer.setVisibility(View.VISIBLE);
             shimmerContainer.startShimmer();
             mainContent.setVisibility(View.GONE);
+            btnExportCsv.setVisibility(View.GONE);
         }
 
         final Context context = getContext();
@@ -265,6 +266,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                     shimmerContainer.stopShimmer();
                     shimmerContainer.setVisibility(View.GONE);
                     mainContent.setVisibility(View.VISIBLE);
+                    btnExportCsv.setVisibility(View.VISIBLE);
                 }
                 revenueLabel.setText(finalLabelTop);
                 totalRevenueTxt.setText(String.format(Locale.getDefault(), "%.2f €", finalRev));
@@ -472,7 +474,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             
             for (Invoice invoice : invoices) {
-                csv.append(sdf.format(invoice.date)).append(";")
+                csv.append(invoice.date != null ? sdf.format(invoice.date) : "").append(";")
                    .append(invoice.id).append(";")
                    .append(invoice.clientName != null ? invoice.clientName.replace(";", ",") : "").append(";")
                    .append(String.format(Locale.getDefault(), "%.2f", invoice.amount)).append(";")
@@ -481,33 +483,85 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
             }
 
             try {
+                // 1. Create the temporary file for sharing
                 File cachePath = new File(context.getCacheDir(), "exports");
                 if (!cachePath.exists()) cachePath.mkdirs();
-                File csvFile = new File(cachePath, "export_invoices_" + System.currentTimeMillis() + ".csv");
-                FileWriter writer = new FileWriter(csvFile);
+                String fileName = "export_invoices_" + System.currentTimeMillis() + ".csv";
+                File tempFile = new File(cachePath, fileName);
+                FileWriter writer = new FileWriter(tempFile);
                 writer.write(csv.toString());
                 writer.close();
 
-                Uri contentUri = FileProvider.getUriForFile(context, "com.chouchene.factures.provider", csvFile);
-
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/csv");
-                intent.putExtra(Intent.EXTRA_STREAM, contentUri);
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                
                 activity.runOnUiThread(() -> {
                     if (!isAdded()) return;
-                    startActivity(Intent.createChooser(intent, context.getString(R.string.action_export_csv)));
+                    
+                    // 2. Show choice dialog
+                    String[] options = {getString(R.string.option_download), getString(R.string.option_share)};
+                    new com.google.android.material.dialog.MaterialAlertDialogBuilder(context)
+                            .setTitle(R.string.action_export_csv)
+                            .setItems(options, (dialog, which) -> {
+                                if (which == 0) {
+                                    saveToDownloads(csv.toString(), fileName);
+                                } else {
+                                    shareFile(tempFile);
+                                }
+                            })
+                            .show();
                 });
 
             } catch (IOException e) {
                 e.printStackTrace();
                 activity.runOnUiThread(() -> {
                     if (!isAdded()) return;
-                    Toast.makeText(context, "Erreur lors de l'exportation", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.msg_csv_error, Toast.LENGTH_SHORT).show();
                 });
             }
         });
+    }
+
+    private void saveToDownloads(String content, String fileName) {
+        Context context = getContext();
+        if (context == null) return;
+
+        try {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                android.content.ContentValues values = new android.content.ContentValues();
+                values.put(android.provider.MediaStore.MediaColumns.DISPLAY_NAME, fileName);
+                values.put(android.provider.MediaStore.MediaColumns.MIME_TYPE, "text/csv");
+                values.put(android.provider.MediaStore.MediaColumns.RELATIVE_PATH, android.os.Environment.DIRECTORY_DOWNLOADS);
+
+                Uri uri = context.getContentResolver().insert(android.provider.MediaStore.Downloads.EXTERNAL_CONTENT_URI, values);
+                if (uri != null) {
+                    try (java.io.OutputStream os = context.getContentResolver().openOutputStream(uri)) {
+                        if (os != null) {
+                            os.write(content.getBytes());
+                        }
+                    }
+                    Toast.makeText(context, R.string.msg_csv_saved, Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                File downloadsDir = android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS);
+                File file = new File(downloadsDir, fileName);
+                try (java.io.FileOutputStream fos = new java.io.FileOutputStream(file)) {
+                    fos.write(content.getBytes());
+                }
+                Toast.makeText(context, R.string.msg_csv_saved, Toast.LENGTH_SHORT).show();
+            }
+        } catch (IOException e) {
+            Toast.makeText(context, R.string.msg_csv_error, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void shareFile(File file) {
+        Context context = getContext();
+        if (context == null) return;
+        
+        Uri contentUri = FileProvider.getUriForFile(context, "com.chouchene.factures.provider", file);
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/csv");
+        intent.putExtra(Intent.EXTRA_STREAM, contentUri);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivity(Intent.createChooser(intent, getString(R.string.action_export_csv)));
     }
 
     @ColorInt

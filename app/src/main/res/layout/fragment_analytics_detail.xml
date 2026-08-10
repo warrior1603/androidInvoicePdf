@@ -32,34 +32,22 @@
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnExportCsv"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="wrap_content"
+            <!-- Main Revenue Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_revenue_summary"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="@string/action_export_csv"
-                app:icon="@drawable/rounded_download_24"
-                android:layout_marginBottom="8dp"
-                app:iconTint="?attr/colorPrimary"
-                android:textColor="?attr/colorPrimary"/>
-
-        <!-- Main Revenue Card (Harmonized with Home) -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_revenue_summary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/App.CardView"
-            android:layout_margin="0dp"
-            app:cardBackgroundColor="?attr/colorPrimaryContainer">
+                style="@style/App.CardView"
+                android:layout_margin="0dp"
+                app:cardBackgroundColor="?attr/colorPrimaryContainer">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -86,8 +74,7 @@
                                 android:text="RÉSUMÉ DES REVENUS"
                                 android:textAppearance="?attr/textAppearanceLabelLarge"
                                 android:textColor="?attr/colorOnPrimaryContainer"
-                                android:alpha="0.7"
-                                android:includeFontPadding="false" />
+                                android:alpha="0.7" />
 
                             <TextView
                                 android:id="@+id/totalRevenue"
@@ -96,10 +83,8 @@
                                 android:layout_marginTop="4dp"
                                 android:text="0.00 €"
                                 android:textSize="32sp"
-                                android:fontFamily="sans-serif-black"
                                 android:textStyle="bold"
-                                android:textColor="?attr/colorOnPrimaryContainer"
-                                android:includeFontPadding="false" />
+                                android:textColor="?attr/colorOnPrimaryContainer" />
                         </LinearLayout>
 
                         <com.google.android.material.card.MaterialCardView
@@ -112,7 +97,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:padding="12dp"
-                                android:src="@drawable/ic_wallet_outline"
+                                android:src="@drawable/rounded_payments_24"
                                 app:tint="?attr/colorOnPrimary" />
                         </com.google.android.material.card.MaterialCardView>
                     </LinearLayout>
@@ -142,272 +127,275 @@
                         android:text="Marge réelle: 70%"
                         android:textAppearance="?attr/textAppearanceLabelMedium"
                         android:textColor="?attr/colorOnPrimaryContainer"
-                        android:alpha="0.8"
-                        android:includeFontPadding="false" />
-
-                </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Stats Row -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="16dp">
-
-            <!-- Document Count Card -->
-            <com.google.android.material.card.MaterialCardView
-                style="@style/App.CardView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:src="@drawable/ic_receipt_outline"
-                        app:tint="@color/icon_documents" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginStart="12dp">
-                        <TextView
-                            android:id="@+id/documentCount"
-                            style="@style/App.TextAppearance.TitleMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Documents"
-                            android:textAppearance="?attr/textAppearanceBodySmall"
-                            android:alpha="0.6" />
-                    </LinearLayout>
+                        android:alpha="0.8" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Total Clients Card -->
-            <com.google.android.material.card.MaterialCardView
-                style="@style/App.CardView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="16dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:src="@drawable/ic_nav_user_outline"
-                        app:tint="@color/icon_clients" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginStart="12dp">
-                        <TextView
-                            android:id="@+id/txt_total_clients_val"
-                            style="@style/App.TextAppearance.TitleMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Clients"
-                            android:textAppearance="?attr/textAppearanceBodySmall"
-                            android:alpha="0.6" />
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-        </LinearLayout>
-
-        <!-- Row 2: Growth & Expenses -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="16dp">
-
-            <!-- Growth Card -->
-            <com.google.android.material.card.MaterialCardView
-                style="@style/App.CardView"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/ic_trending_up_outline"
-                    app:tint="?attr/colorPrimary" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginStart="12dp">
-                        <TextView
-                            android:id="@+id/txt_growth_val"
-                            style="@style/App.TextAppearance.TitleMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="+0%"
-                            android:textStyle="bold"
-                            android:textColor="@color/status_paid" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Croissance"
-                            android:textAppearance="?attr/textAppearanceBodySmall"
-                            android:alpha="0.6" />
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Expenses Card -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardExpenses"
-                style="@style/App.CardView"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_marginStart="16dp"
-                android:clickable="true"
-                android:focusable="true">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:src="@drawable/ic_wallet_outline"
-                        app:tint="@color/icon_expenses" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginStart="12dp"
-                        android:layout_weight="1">
-                        <TextView
-                            style="@style/App.TextAppearance.TitleMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Dépenses"
-                            android:textStyle="bold"
-                            android:includeFontPadding="false" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="Gérer"
-                            android:textAppearance="?attr/textAppearanceLabelSmall"
-                            android:textColor="@color/icon_expenses"
-                            android:textStyle="bold"
-                            android:alpha="0.9" />
-                    </LinearLayout>
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/rounded_chevron_right_24"
-                        app:tint="?attr/colorOutlineVariant" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-        </LinearLayout>
-
-        <!-- Analysis Section -->
-        <TextView
-            android:id="@+id/chartTitle"
-            style="@style/App.TextAppearance.TitleMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="TENDANCE DU BÉNÉFICE"
-            android:textColor="?attr/colorPrimary"
-            android:letterSpacing="0.05"
-            android:textStyle="bold" />
-
-        <com.google.android.material.card.MaterialCardView
-            style="@style/App.CardView"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="16dp">
-
-            <FrameLayout
+            <!-- Stats Row -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="16dp">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp">
 
-                <com.github.mikephil.charting.charts.BarChart
-                    android:id="@+id/barChart"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/App.CardView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
 
-                <LinearLayout
-                    android:id="@+id/chart_empty_state"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:gravity="center_vertical">
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/rounded_receipt_long_24"
+                            app:tint="@color/icon_documents" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginStart="12dp">
+                            <TextView
+                                android:id="@+id/documentCount"
+                                style="@style/App.TextAppearance.TitleMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textStyle="bold" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Documents"
+                                android:textAppearance="?attr/textAppearanceBodySmall"
+                                android:alpha="0.6" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/App.CardView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:gravity="center_vertical">
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/rounded_people_24"
+                            app:tint="@color/icon_clients" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginStart="12dp">
+                            <TextView
+                                android:id="@+id/txt_total_clients_val"
+                                style="@style/App.TextAppearance.TitleMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textStyle="bold" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Clients"
+                                android:textAppearance="?attr/textAppearanceBodySmall"
+                                android:alpha="0.6" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- Growth & Expenses Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/App.CardView"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:gravity="center_vertical">
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/rounded_history_24"
+                            app:tint="?attr/colorPrimary" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginStart="12dp">
+                            <TextView
+                                android:id="@+id/txt_growth_val"
+                                style="@style/App.TextAppearance.TitleMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="+0%"
+                                android:textStyle="bold"
+                                android:textColor="@color/status_paid" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Croissance"
+                                android:textAppearance="?attr/textAppearanceBodySmall"
+                                android:alpha="0.6" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardExpenses"
+                    style="@style/App.CardView"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:gravity="center_vertical">
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/rounded_payments_24"
+                            app:tint="@color/status_cancelled" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginStart="12dp"
+                            android:layout_weight="1">
+                            <TextView
+                                style="@style/App.TextAppearance.TitleMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Dépenses"
+                                android:textStyle="bold" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Gérer"
+                                android:textAppearance="?attr/textAppearanceLabelSmall"
+                                android:textColor="@color/status_cancelled"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/rounded_chevron_right_24"
+                            app:tint="?attr/colorOnSurfaceVariant"
+                            android:alpha="0.5" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- Chart Section Header with Inline Export -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/chartTitle"
+                    style="@style/App.TextAppearance.TitleMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TENDANCE DU BÉNÉFICE"
+                    android:textColor="?attr/colorPrimary"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/btnExportCsv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Exporter"
+                    android:textAllCaps="true"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorPrimary"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    app:drawableEndCompat="@drawable/ic_file_type_csv"
+                    app:drawableTint="?attr/colorPrimary"
+                    android:drawablePadding="6dp" />
+
+            </LinearLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/App.CardView"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="32dp">
+
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:visibility="gone"
-                    android:paddingBottom="40dp">
+                    android:padding="16dp">
 
-                    <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:src="@drawable/graph_svgrepo_com"
-                        app:tint="?attr/colorOutline"
-                        android:alpha="0.15" />
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/barChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="Aucune donnée à analyser"
-                        android:alpha="0.4"
-                        android:textStyle="bold"
-                        android:textAppearance="?attr/textAppearanceBodyMedium" />
-                </LinearLayout>
-            </FrameLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    <LinearLayout
+                        android:id="@+id/chart_empty_state"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+                        <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/graph_svgrepo_com"
+                            app:tint="?attr/colorOutline"
+                            android:alpha="0.15" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="Aucune donnée"
+                            android:alpha="0.4"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </FrameLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-    </LinearLayout>
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

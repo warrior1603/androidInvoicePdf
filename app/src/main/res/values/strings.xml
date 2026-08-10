@@ -18,6 +18,10 @@
     <string name="action_edit">Modifier</string>
     <string name="action_delete">Supprimer</string>
     <string name="action_export_csv">Exporter (CSV)</string>
+    <string name="option_share">Partager</string>
+    <string name="option_download">Télécharger</string>
+    <string name="msg_csv_saved">Fichier CSV enregistré dans Téléchargements</string>
+    <string name="msg_csv_error">Erreur lors de l\'exportation CSV</string>
 
     <!-- Preferences -->
     <string name="pref_title_dark_mode">Mode Sombre</string>
