@@ -393,7 +393,9 @@ public class MainActivity extends AppCompatActivity {
             if (overdueCount > 0) {
                 notifs.add(new AppNotification("Factures en retard", 
                         overdueCount + " facture(s) sont en attente de paiement.", 
-                        AppNotification.Type.ALERT));
+                        AppNotification.Type.ALERT, 
+                        R.id.documentsHubFragment,
+                        R.drawable.rounded_access_time_24));
             }
 
             // 2. Check for today's bookings
@@ -407,7 +409,9 @@ public class MainActivity extends AppCompatActivity {
             if (!todayBookings.isEmpty()) {
                 notifs.add(new AppNotification("Courses du jour", 
                         "Vous avez " + todayBookings.size() + " course(s) prévue(s) aujourd'hui.", 
-                        AppNotification.Type.INFO));
+                        AppNotification.Type.INFO, 
+                        R.id.agendaFragment,
+                        R.drawable.rounded_directions_car_24));
             }
 
             runOnUiThread(() -> {

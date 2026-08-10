@@ -338,7 +338,7 @@
                     android:id="@+id/btnExportCsv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Exporter"
+                    android:text="CSV"
                     android:textAllCaps="true"
                     android:textSize="12sp"
                     android:textStyle="bold"
@@ -350,7 +350,26 @@
                     android:gravity="center_vertical"
                     app:drawableEndCompat="@drawable/ic_file_type_csv"
                     app:drawableTint="?attr/colorPrimary"
-                    android:drawablePadding="6dp" />
+                    android:drawablePadding="4dp" />
+
+                <TextView
+                    android:id="@+id/btnGenerateReportPdf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Bilan PDF"
+                    android:textAllCaps="true"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorPrimary"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    app:drawableEndCompat="@drawable/ic_file_type_pdf"
+                    app:drawableTint="?attr/colorPrimary"
+                    android:drawablePadding="4dp" />
 
             </LinearLayout>
 

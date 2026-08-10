@@ -10,6 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,12 +20,14 @@ import com.chouchene.factures.R;
 import com.chouchene.factures.model.AppNotification;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class NotificationBottomSheet extends BottomSheetDialogFragment {
 
     private List<AppNotification> notifications;
+    private NotificationAdapter adapter;
+    private RecyclerView rv;
+    private View emptyState, btnClearAll;
 
     public NotificationBottomSheet() {
         // Required empty public constructor
@@ -42,18 +47,59 @@ public class NotificationBottomSheet extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView rv = view.findViewById(R.id.rv_notifications);
-        View emptyState = view.findViewById(R.id.empty_notifications);
+        rv = view.findViewById(R.id.rv_notifications);
+        emptyState = view.findViewById(R.id.empty_notifications);
+        btnClearAll = view.findViewById(R.id.btn_clear_all);
 
+        btnClearAll.setOnClickListener(v -> {
+            if (notifications != null) {
+                notifications.clear();
+                updateUI();
+            }
+        });
+
+        updateUI();
+    }
+
+    private void updateUI() {
         if (notifications == null || notifications.isEmpty()) {
             emptyState.setVisibility(View.VISIBLE);
             rv.setVisibility(View.GONE);
+            btnClearAll.setVisibility(View.GONE);
         } else {
             emptyState.setVisibility(View.GONE);
             rv.setVisibility(View.VISIBLE);
-            rv.setLayoutManager(new LinearLayoutManager(requireContext()));
-            rv.setAdapter(new NotificationAdapter(notifications));
+            btnClearAll.setVisibility(View.VISIBLE);
+            
+            if (adapter == null) {
+                adapter = new NotificationAdapter(notifications);
+                rv.setLayoutManager(new LinearLayoutManager(requireContext()));
+                rv.setAdapter(adapter);
+                setupSwipeToDismiss();
+            } else {
+                adapter.notifyDataSetChanged();
+            }
         }
+    }
+
+    private void setupSwipeToDismiss() {
+        ItemTouchHelper.SimpleCallback swipeCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAbsoluteAdapterPosition();
+                notifications.remove(position);
+                adapter.notifyItemRemoved(position);
+                if (notifications.isEmpty()) {
+                    updateUI();
+                }
+            }
+        };
+        new ItemTouchHelper(swipeCallback).attachToRecyclerView(rv);
     }
 
     private class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
@@ -76,21 +122,32 @@ public class NotificationBottomSheet extends BottomSheetDialogFragment {
             holder.desc.setText(item.description);
             holder.dot.setVisibility(item.isRead ? View.GONE : View.VISIBLE);
 
-            int iconRes = R.drawable.rounded_info_24;
             int colorRes = R.color.icon_agenda;
-            
             if (item.type == AppNotification.Type.ALERT) {
-                iconRes = R.drawable.rounded_history_24;
                 colorRes = R.color.status_cancelled;
             } else if (item.type == AppNotification.Type.SUCCESS) {
-                iconRes = R.drawable.rounded_receipt_long_24;
                 colorRes = R.color.status_paid;
             }
 
-            holder.icon.setImageResource(iconRes);
+            holder.icon.setImageResource(item.iconRes != 0 ? item.iconRes : R.drawable.rounded_info_24);
             holder.icon.setColorFilter(ContextCompat.getColor(requireContext(), colorRes));
-            holder.iconContainer.setCardBackgroundColor(ContextCompat.getColor(requireContext(), colorRes));
-            holder.iconContainer.setAlpha(0.15f);
+            
+            // Set background color with 15% alpha without affecting the icon visibility
+            int baseColor = ContextCompat.getColor(requireContext(), colorRes);
+            int alphaColor = androidx.core.graphics.ColorUtils.setAlphaComponent(baseColor, 38); // 38 is ~15% of 255
+            holder.iconContainer.setCardBackgroundColor(alphaColor);
+
+            holder.itemView.setOnClickListener(v -> {
+                item.isRead = true;
+                notifyItemChanged(position);
+                
+                if (item.targetFragmentId != 0) {
+                    dismiss();
+                    // Navigate to the target fragment
+                    NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+                    navController.navigate(item.targetFragmentId);
+                }
+            });
         }
 
         @Override

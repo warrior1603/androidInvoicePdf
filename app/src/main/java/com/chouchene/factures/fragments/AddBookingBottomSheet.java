@@ -2,6 +2,8 @@ package com.chouchene.factures.fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +39,10 @@ import java.util.concurrent.Executors;
 public class AddBookingBottomSheet extends BottomSheetDialogFragment {
 
     private TextInputEditText editClientName, editPhone, editPickup, editDestination, editDate, editTime, editPrice;
-    private TextView txtTitle;
+    private TextView txtTitle, txtRouteInfo;
     private MaterialButton btnSave, btnDelete, btnBack, btnNext;
+    private com.google.android.material.progressindicator.CircularProgressIndicator progressRoute;
+    private View cardRoutePreview;
     private MaterialSwitch switchCancelled;
     private ViewFlipper viewFlipper;
     private TextView stepNumber1, stepNumber2, stepNumber3;
@@ -124,6 +128,10 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
         editPrice = view.findViewById(R.id.editPrice);
         btnSave = view.findViewById(R.id.btnSave);
         btnDelete = view.findViewById(R.id.btnDelete);
+        
+        cardRoutePreview = view.findViewById(R.id.cardRoutePreview);
+        txtRouteInfo = view.findViewById(R.id.txtRouteInfo);
+        progressRoute = view.findViewById(R.id.progressRoute);
 
         SimpleDateFormat dateFmt = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         SimpleDateFormat timeFmt = new SimpleDateFormat("HH:mm", Locale.getDefault());
@@ -138,6 +146,32 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
 
         editDate.setOnClickListener(v -> showDatePicker());
         editTime.setOnClickListener(v -> showTimePicker());
+
+        TextWatcher routeWatcher = new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override public void afterTextChanged(Editable s) { updateRoutePreview(); }
+        };
+        editPickup.addTextChangedListener(routeWatcher);
+        editDestination.addTextChangedListener(routeWatcher);
+    }
+
+    private void updateRoutePreview() {
+        String from = editPickup.getText().toString().trim();
+        String to = editDestination.getText().toString().trim();
+        if (from.isEmpty() || to.isEmpty()) return;
+
+        if (progressRoute != null) progressRoute.setVisibility(View.VISIBLE);
+        if (txtRouteInfo != null) txtRouteInfo.setText("Calcul du trajet...");
+
+        // Simulate Maps API call
+        viewFlipper.postDelayed(() -> {
+            if (getActivity() == null) return;
+            if (progressRoute != null) progressRoute.setVisibility(View.GONE);
+            if (txtRouteInfo != null) {
+                txtRouteInfo.setText("Trajet estimé : 12.5 km (22 min)");
+            }
+        }, 1500);
     }
 
     private void setupStepper(View view) {

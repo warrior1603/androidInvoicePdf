@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<style>
+    body { font-family: 'Helvetica', Arial, sans-serif; padding: 20px; color: #333; }
+    .header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 30px; }
+    .title { font-size: 24px; font-weight: bold; text-transform: uppercase; }
+    .subtitle { font-size: 14px; color: #666; margin-top: 5px; }
+
+    .stats-container { display: flex; justify-content: space-between; margin-bottom: 40px; }
+    .stat-box { flex: 1; padding: 15px; background: #f8f9fa; border-radius: 8px; text-align: center; margin: 0 5px; }
+    .stat-label { font-size: 12px; color: #666; text-transform: uppercase; }
+    .stat-value { font-size: 20px; font-weight: bold; margin-top: 5px; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th { background: #000; color: #fff; padding: 10px; text-align: left; font-size: 12px; }
+    td { padding: 10px; border-bottom: 1px solid #eee; font-size: 12px; }
+    .footer { position: absolute; bottom: 20px; width: 100%; text-align: center; font-size: 10px; color: #999; }
+</style>
+</head>
+<body>
+    <div class="header">
+        <div class="title">Bilan Mensuel d'Activité</div>
+        <div class="subtitle">Période : {{reportMonth}}</div>
+    </div>
+
+    <div class="stats-container">
+        <div class="stat-box">
+            <div class="stat-label">Revenu Brut</div>
+            <div class="stat-value" style="color: #2e7d32;">{{totalIncome}} €</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">Dépenses</div>
+            <div class="stat-value" style="color: #c62828;">{{totalExpenses}} €</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">Bénéfice Net</div>
+            <div class="stat-value" style="color: #1565c0;">{{netProfit}} €</div>
+        </div>
+    </div>
+
+    <h3>Détail des documents</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Client</th>
+                <th>Type</th>
+                <th>Montant</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{tableContent}}
+        </tbody>
+    </table>
+
+    <div class="footer">
+        Généré par Mes Factures - {{nomEmetteur}}
+    </div>
+</body>
+</html>

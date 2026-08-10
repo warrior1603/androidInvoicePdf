@@ -5,10 +5,21 @@ import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.os.Looper;
+import android.os.ParcelFileDescriptor;
+import android.print.PageRange;
+import android.print.PrintAttributes;
+import android.print.PrintDocumentAdapter;
+import android.print.PrintDocumentInfo;
+import android.print.PrintResultCallbackShim;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +31,7 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.preference.PreferenceManager;
 
 import com.chouchene.factures.R;
 import com.chouchene.factures.dao.ExpenseDao;
@@ -42,9 +54,11 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,6 +69,8 @@ import java.util.concurrent.Executors;
 
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
+import android.content.SharedPreferences;
+
 import com.google.android.material.button.MaterialButton;
 
 public class AnalyticsDetailFragment extends Fragment implements com.chouchene.factures.adapter.HistoryAdapter.OnHistoryActionListener {
@@ -111,9 +127,11 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
         View chartEmptyState = view.findViewById(R.id.chart_empty_state);
         View cardExpenses = view.findViewById(R.id.cardExpenses);
         View btnExportCsv = view.findViewById(R.id.btnExportCsv);
+        View btnGenerateReportPdf = view.findViewById(R.id.btnGenerateReportPdf);
 
         cardExpenses.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.expensesFragment));
         btnExportCsv.setOnClickListener(v -> exportToCSV());
+        btnGenerateReportPdf.setOnClickListener(v -> generateMonthlyReport());
 
         if (shimmerContainer != null) {
             shimmerContainer.setVisibility(View.VISIBLE);
@@ -562,6 +580,156 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
         intent.putExtra(Intent.EXTRA_STREAM, contentUri);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(Intent.createChooser(intent, getString(R.string.action_export_csv)));
+    }
+
+    private void generateMonthlyReport() {
+        final Context context = getContext();
+        final Activity activity = getActivity();
+        if (context == null || activity == null) return;
+
+        Executors.newSingleThreadExecutor().execute(() -> {
+            List<Invoice> invoices = db.getAllInvoices();
+            Date now = new Date();
+            String currentMonthYear = new SimpleDateFormat("MM-yyyy", Locale.getDefault()).format(now);
+            String displayMonth = new SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(now);
+
+            float totalIncome = 0;
+            float totalExpenses = expenseDb.getMonthlyExpenses(now);
+            StringBuilder tableRows = new StringBuilder();
+            SimpleDateFormat tableSdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+            for (Invoice i : invoices) {
+                String iMonth = new SimpleDateFormat("MM-yyyy", Locale.getDefault()).format(i.date);
+                if (currentMonthYear.equals(iMonth)) {
+                    totalIncome += i.amount;
+                    tableRows.append("<tr>")
+                            .append("<td>").append(tableSdf.format(i.date)).append("</td>")
+                            .append("<td>").append(i.clientName).append("</td>")
+                            .append("<td>").append(i.type).append("</td>")
+                            .append("<td>").append(String.format(Locale.getDefault(), "%.2f €", i.amount)).append("</td>")
+                            .append("<td>").append(i.status).append("</td>")
+                            .append("</tr>");
+                }
+            }
+
+            float netProfit = totalIncome - totalExpenses;
+            
+            try {
+                String html = loadHtmlFromAssets("monthly_report_template.html");
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                String userName = prefs.getString("User", "Utilisateur");
+
+                html = html.replace("{{reportMonth}}", displayMonth)
+                           .replace("{{totalIncome}}", String.format(Locale.getDefault(), "%.2f", totalIncome))
+                           .replace("{{totalExpenses}}", String.format(Locale.getDefault(), "%.2f", totalExpenses))
+                           .replace("{{netProfit}}", String.format(Locale.getDefault(), "%.2f", netProfit))
+                           .replace("{{tableContent}}", tableRows.toString())
+                           .replace("{{nomEmetteur}}", userName);
+
+                File cachePath = new File(context.getCacheDir(), "reports");
+                if (!cachePath.exists()) cachePath.mkdirs();
+                File reportFile = new File(cachePath, "Bilan_" + currentMonthYear + ".pdf");
+                final String finalHtml = html;
+
+                activity.runOnUiThread(() -> {
+                    if (!isAdded()) return;
+                    
+                    String[] options = {getString(R.string.option_download), getString(R.string.option_share)};
+                    new com.google.android.material.dialog.MaterialAlertDialogBuilder(context)
+                            .setTitle("Bilan Mensuel")
+                            .setItems(options, (dialog, which) -> {
+                                if (which == 0) {
+                                    savePdfToDownloads(finalHtml, reportFile.getName());
+                                } else {
+                                    createPdfFromHtml(finalHtml, reportFile);
+                                }
+                            })
+                            .show();
+                });
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void savePdfToDownloads(String html, String fileName) {
+        File downloadsDir = android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS);
+        File outFile = new File(downloadsDir, fileName);
+        createPdfFromHtml(html, outFile, true);
+    }
+
+    private void createPdfFromHtml(String html, File outFile) {
+        createPdfFromHtml(html, outFile, false);
+    }
+
+    private void createPdfFromHtml(String html, File outFile, boolean isSilentDownload) {
+        WebView webView = new WebView(requireContext());
+        webView.layout(0, 0, 1024, 1448);
+        webView.loadDataWithBaseURL("file:///android_asset/", html, "text/html", "UTF-8", null);
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    PrintAttributes attributes = new PrintAttributes.Builder()
+                            .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
+                            .setResolution(new PrintAttributes.Resolution("pdf", "pdf", 600, 600))
+                            .setMinMargins(PrintAttributes.Margins.NO_MARGINS)
+                            .build();
+
+                    PrintDocumentAdapter adapter = webView.createPrintDocumentAdapter("BilanMensuel");
+                    adapter.onLayout(null, attributes, null, new PrintResultCallbackShim.LayoutResultCallbackShim() {
+                        @Override
+                        public void onLayoutFinished(PrintDocumentInfo info, boolean changed) {
+                            try {
+                                ParcelFileDescriptor pfd = ParcelFileDescriptor.open(outFile, ParcelFileDescriptor.MODE_READ_WRITE | ParcelFileDescriptor.MODE_CREATE | ParcelFileDescriptor.MODE_TRUNCATE);
+                                adapter.onWrite(new PageRange[]{PageRange.ALL_PAGES}, pfd, null, new PrintResultCallbackShim.WriteResultCallbackShim() {
+                                    @Override
+                                    public void onWriteFinished(PageRange[] pages) {
+                                        try {
+                                            pfd.close();
+                                            if (isSilentDownload) {
+                                                if (getActivity() != null) {
+                                                    getActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Bilan enregistré dans Téléchargements", Toast.LENGTH_SHORT).show());
+                                                }
+                                            } else {
+                                                shareReport(outFile);
+                                            }
+                                        } catch (IOException e) {
+                                            Log.e("PDF", "Error closing PFD", e);
+                                        }
+                                    }
+                                    @Override
+                                    public void onWriteFailed(CharSequence error) {}
+                                });
+                            } catch (Exception e) {
+                                Log.e("PDF", "Error", e);
+                            }
+                        }
+                    }, null);
+                }, 1000);
+            }
+        });
+    }
+
+    private void shareReport(File file) {
+        Context context = getContext();
+        if (context == null) return;
+        Uri contentUri = FileProvider.getUriForFile(context, "com.chouchene.factures.provider", file);
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("application/pdf");
+        intent.putExtra(Intent.EXTRA_STREAM, contentUri);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivity(Intent.createChooser(intent, "Partager le bilan mensuel"));
+    }
+
+    private String loadHtmlFromAssets(String fileName) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(requireContext().getAssets().open(fileName)))) {
+            String line;
+            while ((line = reader.readLine()) != null) sb.append(line).append("\n");
+        }
+        return sb.toString();
     }
 
     @ColorInt
