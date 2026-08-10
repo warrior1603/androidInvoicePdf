@@ -573,8 +573,14 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
                         ((com.chouchene.factures.MainActivity) getActivity()).updateBottomNavBadges();
                     }
                     if (listener != null) listener.onInvoiceGenerated();
-                    showSuccessSnackbar(path, clientEmail);
-                    dismiss();
+                    
+                    com.chouchene.factures.utils.UIUtils.showSuccessDialog(requireContext(), 
+                        "Facture Générée", 
+                        "Votre facture a été créée avec succès.", 
+                        () -> {
+                            showSuccessSnackbar(path, clientEmail);
+                            dismiss();
+                        });
                 });
             }
         });

@@ -81,11 +81,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         holder.icon.setImageResource(iconRes);
         holder.icon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(holder.itemView.getContext(), iconColor)));
 
-        androidx.core.view.ViewCompat.setTransitionName(holder.itemView, "activity_" + position);
+        // Unique transition name for each icon
+        androidx.core.view.ViewCompat.setTransitionName(holder.icon, "icon_" + activity.type + "_" + activity.id);
+        androidx.core.view.ViewCompat.setTransitionName(holder.itemView, "container_" + activity.type + "_" + activity.id);
 
         holder.itemView.setOnClickListener(v -> {
             v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-            listener.onItemClick(activity, holder.itemView);
+            listener.onItemClick(activity, holder.icon);
         });
         
         String displayStatus = activity.status;

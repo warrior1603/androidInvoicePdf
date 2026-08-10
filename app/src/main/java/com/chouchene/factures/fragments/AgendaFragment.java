@@ -132,7 +132,7 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
 
         Executors.newSingleThreadExecutor().execute(() -> {
             List<Booking> bookings = db.bookingDao().getBookingsBetweenDates(start, end);
-            filterAndDisplay(bookings, false);
+            filterAndDisplay(bookings);
         });
     }
 
@@ -149,11 +149,11 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
 
         Executors.newSingleThreadExecutor().execute(() -> {
             List<Booking> bookings = db.bookingDao().getBookingsBetweenDates(start, end);
-            filterAndDisplay(bookings, true);
+            filterAndDisplay(bookings);
         });
     }
 
-    private void filterAndDisplay(List<Booking> bookings, boolean isMonth) {
+    private void filterAndDisplay(List<Booking> bookings) {
         List<Booking> filtered = new ArrayList<>();
         Date now = new Date();
         
@@ -191,7 +191,6 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
                 if (fragmentView == null) return;
 
                 adapter.setData(filtered, isMonthlyView, selectedDate);
-                if (isMonth) adapter.updateMonthStats(totalCount);
                 
                 // Update Chip Texts with Counts
                 ((com.google.android.material.chip.Chip) fragmentView.findViewById(R.id.chipAll)).setText("Tout (" + totalCount + ")");
@@ -225,7 +224,7 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
     }
 
     @Override
-    public void onBookingClick(Booking booking) {
+    public void onBookingClick(Booking booking, View sharedElement) {
         AddBookingBottomSheet bottomSheet = AddBookingBottomSheet.newInstance(booking.id);
         bottomSheet.setOnBookingAddedListener(this::loadBookings);
         bottomSheet.show(getChildFragmentManager(), "EDIT_BOOKING");

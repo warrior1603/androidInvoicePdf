@@ -25,6 +25,7 @@ import com.chouchene.factures.utils.LottieUtils;
 import com.chouchene.factures.utils.SwipeHistoryCallback;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -179,22 +180,16 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
         Invoice invoice = (Invoice) activity.originalObject;
         Bundle b = new Bundle();
         b.putString("file_path", invoice.filePath);
-        
-        final android.app.Activity fragmentActivity = getActivity();
-        final View fragmentView = getView();
-        Executors.newSingleThreadExecutor().execute(() -> {
-            com.chouchene.factures.entity.Client client = db.clientDao().getClientByName(invoice.clientName);
-            if (fragmentActivity != null) {
-                fragmentActivity.runOnUiThread(() -> {
-                    if (isAdded() && fragmentView != null) {
-                        if (client != null) {
-                            b.putString("mail_client", client.getEmail());
-                        }
-                        Navigation.findNavController(fragmentView).navigate(R.id.webViewPdfFragment, b);
-                    }
-                });
-            }
-        });
+        b.putString("client_name", invoice.clientName);
+        b.putString("doc_type", activity.type.name());
+        String transitionName = androidx.core.view.ViewCompat.getTransitionName(sharedElement);
+        b.putString("transition_name", transitionName);
+
+        androidx.navigation.fragment.FragmentNavigator.Extras extras = new androidx.navigation.fragment.FragmentNavigator.Extras.Builder()
+                .addSharedElement(sharedElement, transitionName != null ? transitionName : "")
+                .build();
+
+        Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, b, null, extras);
     }
 
     @Override
@@ -219,7 +214,8 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
                             fragmentActivity.runOnUiThread(() -> {
                                 if (isAdded() && fragmentView != null) {
                                     loadInvoices();
-                                    com.google.android.material.snackbar.Snackbar.make(fragmentView, "Facture supprimée", com.google.android.material.snackbar.Snackbar.LENGTH_SHORT).show();
+                                    Snackbar snackbar = Snackbar.make(fragmentView, "Facture supprimée", Snackbar.LENGTH_LONG);
+                                    snackbar.show();
                                 }
                             });
                         }

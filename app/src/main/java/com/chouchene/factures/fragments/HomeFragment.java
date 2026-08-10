@@ -295,26 +295,16 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         Invoice invoice = (Invoice) activity.originalObject;
         Bundle b = new Bundle();
         b.putString("file_path", invoice.filePath);
-        b.putString("transition_name", androidx.core.view.ViewCompat.getTransitionName(sharedElement));
+        b.putString("client_name", invoice.clientName);
+        b.putString("doc_type", activity.type.name());
+        String transitionName = androidx.core.view.ViewCompat.getTransitionName(sharedElement);
+        b.putString("transition_name", transitionName);
 
         androidx.navigation.fragment.FragmentNavigator.Extras extras = new androidx.navigation.fragment.FragmentNavigator.Extras.Builder()
-                .addSharedElement(sharedElement, androidx.core.view.ViewCompat.getTransitionName(sharedElement))
+                .addSharedElement(sharedElement, transitionName != null ? transitionName : "")
                 .build();
 
-        Context context = getContext();
-        if (context == null) return;
-
-        Executors.newSingleThreadExecutor().execute(() -> {
-            com.chouchene.factures.entity.Client client = db.clientDao().getClientByName(invoice.clientName);
-            if (getActivity() != null) {
-                requireActivity().runOnUiThread(() -> {
-                    if (client != null) {
-                        b.putString("mail_client", client.getEmail());
-                    }
-                    Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, b, null, extras);
-                });
-            }
-        });
+        Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, b, null, extras);
     }
 
     @Override

@@ -81,6 +81,14 @@
                 app:iconSize="20dp"
                 app:iconTint="?attr/colorOnSurface" />
 
+            <ImageView
+                android:id="@+id/img_header_icon"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_receipt_outline"
+                app:tint="?attr/colorPrimary" />
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

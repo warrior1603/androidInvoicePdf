@@ -14,8 +14,14 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.transition.TransitionInflater;
+import androidx.transition.TransitionSet;
+import androidx.transition.ChangeBounds;
+import androidx.transition.ChangeTransform;
+import androidx.transition.ChangeImageTransform;
 
 import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
@@ -23,10 +29,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chouchene.factures.R;
 import com.chouchene.factures.adapter.PdfDocumentAdapter;
+import com.chouchene.factures.database.AppDatabase;
+import com.chouchene.factures.database.DatabaseClient;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
@@ -34,9 +43,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Executors;
 
 
 public class WebViewPdfFragment extends Fragment {
+
+    private String mailClient = "";
 
     public WebViewPdfFragment() {
         // Required empty public constructor
@@ -45,7 +57,15 @@ public class WebViewPdfFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setSharedElementEnterTransition(new com.google.android.material.transition.MaterialContainerTransform());
+        
+        TransitionSet transitionSet = new TransitionSet();
+        transitionSet.addTransition(new ChangeBounds());
+        transitionSet.addTransition(new ChangeTransform());
+        transitionSet.addTransition(new ChangeImageTransform());
+        transitionSet.setDuration(1000);
+        
+        setSharedElementEnterTransition(transitionSet);
+        postponeEnterTransition();
     }
 
     @Override
@@ -57,7 +77,22 @@ public class WebViewPdfFragment extends Fragment {
             view.setTransitionName(bundle.getString("transition_name"));
         }
         final String filePath = (bundle != null) ? bundle.getString("file_path", "") : "";
-        final String mailClient = (bundle != null) ? bundle.getString("mail_client", "") : "";
+        final String clientName = (bundle != null) ? bundle.getString("client_name", "") : "";
+        final String transitionName = (bundle != null) ? bundle.getString("transition_name", "") : "";
+
+        if (bundle != null && bundle.containsKey("mail_client")) {
+            mailClient = bundle.getString("mail_client", "");
+        }
+
+        if (!clientName.isEmpty()) {
+            Executors.newSingleThreadExecutor().execute(() -> {
+                AppDatabase db = DatabaseClient.getInstance(requireContext().getApplicationContext()).getAppDatabase();
+                com.chouchene.factures.entity.Client client = db.clientDao().getClientByName(clientName);
+                if (client != null) {
+                    mailClient = client.getEmail();
+                }
+            });
+        }
 
         PDFView pdfWebView = view.findViewById(R.id.pdfView);
         Button emailButton = view.findViewById(R.id.emailButton);
@@ -65,6 +100,37 @@ public class WebViewPdfFragment extends Fragment {
         Button printButton = view.findViewById(R.id.printButton);
         TextView txtPageCount = view.findViewById(R.id.txt_page_count);
         View btnBack = view.findViewById(R.id.btn_back_pdf);
+        ImageView headerIcon = view.findViewById(R.id.img_header_icon);
+
+        if (headerIcon != null) {
+            if (!transitionName.isEmpty()) {
+                ViewCompat.setTransitionName(headerIcon, transitionName);
+            }
+
+            // Update icon and tint based on document type
+            String docType = (bundle != null) ? bundle.getString("doc_type", "INVOICE") : "INVOICE";
+            int iconRes;
+            int tintColor;
+
+            switch (docType) {
+                case "ORDER":
+                    iconRes = R.drawable.ic_shopping_cart_outline;
+                    tintColor = androidx.core.content.ContextCompat.getColor(requireContext(), R.color.icon_dashboard);
+                    break;
+                case "BOOKING":
+                    iconRes = R.drawable.ic_calendar_event_outline;
+                    tintColor = androidx.core.content.ContextCompat.getColor(requireContext(), R.color.icon_agenda);
+                    break;
+                case "INVOICE":
+                default:
+                    iconRes = R.drawable.ic_receipt_outline;
+                    tintColor = androidx.core.content.ContextCompat.getColor(requireContext(), R.color.primary);
+                    break;
+            }
+
+            headerIcon.setImageResource(iconRes);
+            headerIcon.setColorFilter(tintColor);
+        }
         
         com.airbnb.lottie.LottieAnimationView lottieLoading = view.findViewById(R.id.lottie_loading_pdf);
         View cardZoom = view.findViewById(R.id.card_zoom_indicator);
@@ -142,6 +208,7 @@ public class WebViewPdfFragment extends Fragment {
                     if (txtPageCount != null) {
                         txtPageCount.setText(String.format(Locale.getDefault(), "1/%d", nbPages));
                     }
+                    startPostponedEnterTransition();
                 })
                 .onRender(nbPages -> {
                     if (lottieLoading != null) {

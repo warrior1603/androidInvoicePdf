@@ -23,18 +23,16 @@ import java.util.Locale;
 public class AgendaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TYPE_HEADER_CALENDAR = 0;
-    private static final int TYPE_HEADER_STATS = 1;
     private static final int TYPE_ITEM = 2;
 
     private List<Booking> bookings = new ArrayList<>();
     private final OnBookingActionListener listener;
     private boolean isMonthlyView = false;
     private Date selectedDate = new Date();
-    private String monthStatsText = "0 courses";
 
     public interface OnBookingActionListener {
         void onCallClient(String phone);
-        void onBookingClick(Booking booking);
+        void onBookingClick(Booking booking, View sharedElement);
         void onDateChanged(Date date);
     }
 
@@ -49,14 +47,9 @@ public class AgendaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         notifyDataSetChanged();
     }
 
-    public void updateMonthStats(int count) {
-        this.monthStatsText = count + " courses";
-        if (isMonthlyView) notifyItemChanged(0);
-    }
-
     @Override
     public int getItemViewType(int position) {
-        if (position == 0) return isMonthlyView ? TYPE_HEADER_STATS : TYPE_HEADER_CALENDAR;
+        if (!isMonthlyView && position == 0) return TYPE_HEADER_CALENDAR;
         return TYPE_ITEM;
     }
 
@@ -66,8 +59,6 @@ public class AgendaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         if (viewType == TYPE_HEADER_CALENDAR) {
             return new CalendarHeaderViewHolder(inflater.inflate(R.layout.header_agenda_calendar, parent, false));
-        } else if (viewType == TYPE_HEADER_STATS) {
-            return new StatsHeaderViewHolder(inflater.inflate(R.layout.header_agenda_stats, parent, false));
         }
         return new ItemViewHolder(inflater.inflate(R.layout.item_booking, parent, false));
     }
@@ -82,13 +73,9 @@ public class AgendaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 cal.set(year, month, dayOfMonth, 0, 0, 0);
                 listener.onDateChanged(cal.getTime());
             });
-        } else if (holder instanceof StatsHeaderViewHolder) {
-            StatsHeaderViewHolder h = (StatsHeaderViewHolder) holder;
-            SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
-            h.txtMonthTitle.setText(sdf.format(selectedDate).toUpperCase());
-            h.txtMonthStats.setText(monthStatsText);
         } else if (holder instanceof ItemViewHolder) {
-            Booking booking = bookings.get(position - 1);
+            int bookingPos = isMonthlyView ? position : position - 1;
+            Booking booking = bookings.get(bookingPos);
             ItemViewHolder h = (ItemViewHolder) holder;
             
             SimpleDateFormat timeFmt = new SimpleDateFormat("HH:mm", Locale.getDefault());
@@ -102,13 +89,16 @@ public class AgendaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             
             setupStatusBadge(h, booking);
 
+            // Unique transition name for booking
+            androidx.core.view.ViewCompat.setTransitionName(h.itemView, "booking_container_" + booking.id);
+
             h.btnCall.setOnClickListener(v -> {
                 if (booking.clientPhone != null && !booking.clientPhone.isEmpty()) {
                     listener.onCallClient(booking.clientPhone);
                 }
             });
 
-            h.itemView.setOnClickListener(v -> listener.onBookingClick(booking));
+            h.itemView.setOnClickListener(v -> listener.onBookingClick(booking, h.itemView));
         }
     }
 
@@ -150,7 +140,7 @@ public class AgendaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        return bookings.size() + 1;
+        return isMonthlyView ? bookings.size() : bookings.size() + 1;
     }
 
     static class CalendarHeaderViewHolder extends RecyclerView.ViewHolder {
@@ -158,15 +148,6 @@ public class AgendaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         CalendarHeaderViewHolder(View v) {
             super(v);
             calendarView = v.findViewById(R.id.calendarView);
-        }
-    }
-
-    static class StatsHeaderViewHolder extends RecyclerView.ViewHolder {
-        TextView txtMonthTitle, txtMonthStats;
-        StatsHeaderViewHolder(View v) {
-            super(v);
-            txtMonthTitle = v.findViewById(R.id.txtMonthTitle);
-            txtMonthStats = v.findViewById(R.id.txtMonthStats);
         }
     }
 
