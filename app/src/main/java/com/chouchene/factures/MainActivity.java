@@ -486,7 +486,7 @@ public class MainActivity extends AppCompatActivity {
                     com.google.android.material.badge.BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.documentsHubFragment);
                     badge.setVisible(true);
                     badge.setNumber(pendingCount);
-                    badge.setBackgroundColor(ContextCompat.getColor(this, R.color.status_pending));
+                    badge.setBackgroundColor(ContextCompat.getColor(this, R.color.error)); // Standard Red
                 } else {
                     bottomNavigationView.removeBadge(R.id.documentsHubFragment);
                 }
@@ -496,7 +496,7 @@ public class MainActivity extends AppCompatActivity {
                     com.google.android.material.badge.BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.agendaFragment);
                     badge.setVisible(true);
                     badge.setNumber(todayBookings);
-                    badge.setBackgroundColor(ContextCompat.getColor(this, R.color.primary));
+                    badge.setBackgroundColor(ContextCompat.getColor(this, R.color.error)); // Standard Red
                 } else {
                     bottomNavigationView.removeBadge(R.id.agendaFragment);
                 }
