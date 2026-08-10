@@ -34,7 +34,6 @@ import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Invoice;
 import com.chouchene.factures.utils.BackupUtils;
-import com.chouchene.factures.utils.GlassUtils;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -108,9 +107,6 @@ public class CreateBonBottomSheet extends BottomSheetDialogFragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (getDialog() != null && getDialog().getWindow() != null) {
-            GlassUtils.applyGlassEffect(getDialog().getWindow(), 80f);
-        }
     }
 
     @Override
