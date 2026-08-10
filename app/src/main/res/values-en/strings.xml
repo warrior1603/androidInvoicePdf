@@ -16,6 +16,7 @@
     <string name="action_cancel">Cancel</string>
     <string name="action_edit">Edit</string>
     <string name="action_delete">Delete</string>
+    <string name="action_export_csv">Export (CSV)</string>
 
     <!-- Preferences -->
     <string name="pref_title_dark_mode">Dark Mode</string>

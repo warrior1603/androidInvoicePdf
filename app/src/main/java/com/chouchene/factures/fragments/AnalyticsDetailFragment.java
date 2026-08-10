@@ -1,17 +1,22 @@
 package com.chouchene.factures.fragments;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -37,6 +42,9 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,6 +54,8 @@ import java.util.Locale;
 import java.util.concurrent.Executors;
 
 import androidx.recyclerview.widget.RecyclerView;
+import android.content.Intent;
+import com.google.android.material.button.MaterialButton;
 
 public class AnalyticsDetailFragment extends Fragment implements com.chouchene.factures.adapter.HistoryAdapter.OnHistoryActionListener {
 
@@ -73,9 +83,12 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
         if (getArguments() != null) {
             timeframe = (Timeframe) getArguments().getSerializable("timeframe");
         }
-        AppDatabase appDb = DatabaseClient.getInstance(requireContext().getApplicationContext()).getAppDatabase();
-        db = appDb.invoiceDao();
-        expenseDb = appDb.expenseDao();
+        Context context = getContext();
+        if (context != null) {
+            AppDatabase appDb = DatabaseClient.getInstance(context.getApplicationContext()).getAppDatabase();
+            db = appDb.invoiceDao();
+            expenseDb = appDb.expenseDao();
+        }
     }
 
     @Nullable
@@ -97,8 +110,10 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
         BarChart barChart = view.findViewById(R.id.barChart);
         View chartEmptyState = view.findViewById(R.id.chart_empty_state);
         View cardExpenses = view.findViewById(R.id.cardExpenses);
+        MaterialButton btnExportCsv = view.findViewById(R.id.btnExportCsv);
 
         cardExpenses.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.expensesFragment));
+        btnExportCsv.setOnClickListener(v -> exportToCSV());
 
         if (shimmerContainer != null) {
             shimmerContainer.setVisibility(View.VISIBLE);
@@ -106,13 +121,17 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
             mainContent.setVisibility(View.GONE);
         }
 
+        final Context context = getContext();
+        final Activity activity = getActivity();
+        if (context == null || activity == null) return view;
+
         Executors.newSingleThreadExecutor().execute(() -> {
             try { Thread.sleep(700); } catch (Exception ignored) {}
             Date today = new Date();
             float revenue = 0;
             float prevRevenue = 0;
             int count = 0;
-            int clientCount = DatabaseClient.getInstance(requireContext()).getAppDatabase().clientDao().getAllClients().size();
+            int clientCount = DatabaseClient.getInstance(context).getAppDatabase().clientDao().getAllClients().size();
             List<BarEntry> chartEntries = new ArrayList<>();
             List<String> labels = new ArrayList<>();
             String labelTop = "";
@@ -239,48 +258,48 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
 
             final float incomeForMargin = totalIncome;
 
-            if (getActivity() != null) {
-                requireActivity().runOnUiThread(() -> {
-                    if (shimmerContainer != null) {
-                        shimmerContainer.stopShimmer();
-                        shimmerContainer.setVisibility(View.GONE);
-                        mainContent.setVisibility(View.VISIBLE);
-                    }
-                    revenueLabel.setText(finalLabelTop);
-                    totalRevenueTxt.setText(String.format(Locale.getDefault(), "%.2f €", finalRev));
-                    documentCountTxt.setText(String.valueOf(finalCount));
-                    totalClientsTxt.setText(String.valueOf(clientCount));
-                    chartTitle.setText(finalLabelChart);
+            activity.runOnUiThread(() -> {
+                if (!isAdded() || getView() == null) return;
+                
+                if (shimmerContainer != null) {
+                    shimmerContainer.stopShimmer();
+                    shimmerContainer.setVisibility(View.GONE);
+                    mainContent.setVisibility(View.VISIBLE);
+                }
+                revenueLabel.setText(finalLabelTop);
+                totalRevenueTxt.setText(String.format(Locale.getDefault(), "%.2f €", finalRev));
+                documentCountTxt.setText(String.valueOf(finalCount));
+                totalClientsTxt.setText(String.valueOf(clientCount));
+                chartTitle.setText(finalLabelChart);
 
-                    // Update Growth
-                    if (finalPrevRev > 0) {
-                        float growth = ((finalRev - finalPrevRev) / finalPrevRev) * 100;
-                        growthValTxt.setText(String.format(Locale.getDefault(), "%+.1f%%", growth));
-                        growthValTxt.setTextColor(growth >= 0 ? 
-                            ContextCompat.getColor(requireContext(), R.color.status_paid) : 
-                            ContextCompat.getColor(requireContext(), R.color.status_cancelled));
-                    } else if (finalRev > 0) {
-                        growthValTxt.setText("+100%");
-                        growthValTxt.setTextColor(ContextCompat.getColor(requireContext(), R.color.status_paid));
-                    } else {
-                        growthValTxt.setText("0%");
-                        growthValTxt.setTextColor(resolveColor(com.google.android.material.R.attr.colorOnSurfaceVariant));
-                    }
+                // Update Growth
+                if (finalPrevRev > 0) {
+                    float growth = ((finalRev - finalPrevRev) / finalPrevRev) * 100;
+                    growthValTxt.setText(String.format(Locale.getDefault(), "%+.1f%%", growth));
+                    growthValTxt.setTextColor(growth >= 0 ? 
+                        ContextCompat.getColor(context, R.color.status_paid) : 
+                        ContextCompat.getColor(context, R.color.status_cancelled));
+                } else if (finalRev > 0) {
+                    growthValTxt.setText("+100%");
+                    growthValTxt.setTextColor(ContextCompat.getColor(context, R.color.status_paid));
+                } else {
+                    growthValTxt.setText("0%");
+                    growthValTxt.setTextColor(resolveColor(context, com.google.android.material.R.attr.colorOnSurfaceVariant));
+                }
 
-                    setupChart(barChart, chartEntries, labels, chartEmptyState);
+                setupChart(barChart, chartEntries, labels, chartEmptyState);
 
-                    // Update Margin
-                    if (incomeForMargin > 0) {
-                        int marginPercent = (int) ((finalRev / incomeForMargin) * 100);
-                        if (marginPercent < 0) marginPercent = 0;
-                        progressMargin.setProgress(marginPercent);
-                        txtMarginLabel.setText("Marge réelle: " + marginPercent + "%");
-                    } else {
-                        progressMargin.setProgress(0);
-                        txtMarginLabel.setText("Marge réelle: 0%");
-                    }
-                });
-            }
+                // Update Margin
+                if (incomeForMargin > 0) {
+                    int marginPercent = (int) ((finalRev / incomeForMargin) * 100);
+                    if (marginPercent < 0) marginPercent = 0;
+                    progressMargin.setProgress(marginPercent);
+                    txtMarginLabel.setText("Marge réelle: " + marginPercent + "%");
+                } else {
+                    progressMargin.setProgress(0);
+                    txtMarginLabel.setText("Marge réelle: 0%");
+                }
+            });
         });
 
         return view;
@@ -304,8 +323,9 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
         emptyState.setVisibility(View.GONE);
         barChart.setVisibility(View.VISIBLE);
 
-        @ColorInt int primaryColor = resolveColor(androidx.appcompat.R.attr.colorPrimary);
-        @ColorInt int onSurfaceVariant = resolveColor(com.google.android.material.R.attr.colorOnSurfaceVariant);
+        Context context = barChart.getContext();
+        @ColorInt int primaryColor = resolveColor(context, androidx.appcompat.R.attr.colorPrimary);
+        @ColorInt int onSurfaceVariant = resolveColor(context, com.google.android.material.R.attr.colorOnSurfaceVariant);
 
         barChart.getDescription().setEnabled(false);
         barChart.getLegend().setEnabled(false);
@@ -365,7 +385,11 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
     }
 
     private void showInvoicesBottomSheet(DocumentsViewModel.Filter filter) {
-        BottomSheetDialog dialog = new BottomSheetDialog(requireContext());
+        final Context context = getContext();
+        final Activity activity = getActivity();
+        if (context == null || activity == null) return;
+        
+        BottomSheetDialog dialog = new BottomSheetDialog(context);
         View view = getLayoutInflater().inflate(R.layout.layout_analytics_invoices_bottom_sheet, null);
         
         TextView title = view.findViewById(R.id.txt_bottom_sheet_title);
@@ -397,14 +421,13 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
             List<RecentActivity> finalActivities = new ArrayList<>();
             for (Invoice i : invoices) finalActivities.add(new RecentActivity(i));
 
-            if (getActivity() != null) {
-                requireActivity().runOnUiThread(() -> {
-                    adapter.setData(finalActivities);
-                    rv.scheduleLayoutAnimation();
-                    dialog.setContentView(view);
-                    dialog.show();
-                });
-            }
+            activity.runOnUiThread(() -> {
+                if (!isAdded()) return;
+                adapter.setData(finalActivities);
+                rv.scheduleLayoutAnimation();
+                dialog.setContentView(view);
+                dialog.show();
+            });
         });
     }
 
@@ -419,7 +442,9 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                 .addSharedElement(sharedElement, androidx.core.view.ViewCompat.getTransitionName(sharedElement))
                 .build();
 
-        Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, b, null, extras);
+        if (getView() != null) {
+            Navigation.findNavController(getView()).navigate(R.id.webViewPdfFragment, b, null, extras);
+        }
     }
 
     @Override
@@ -434,10 +459,62 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
     @Override
     public void onStatusChange(RecentActivity activity, String newStatus) {}
 
+    private void exportToCSV() {
+        final Context context = getContext();
+        final Activity activity = getActivity();
+        if (context == null || activity == null) return;
+
+        Executors.newSingleThreadExecutor().execute(() -> {
+            List<Invoice> invoices = db.getAllInvoices();
+            StringBuilder csv = new StringBuilder();
+            csv.append("Date;Numero;Client;Montant TTC;Statut;Type\n");
+            
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            
+            for (Invoice invoice : invoices) {
+                csv.append(sdf.format(invoice.date)).append(";")
+                   .append(invoice.id).append(";")
+                   .append(invoice.clientName != null ? invoice.clientName.replace(";", ",") : "").append(";")
+                   .append(String.format(Locale.getDefault(), "%.2f", invoice.amount)).append(";")
+                   .append(invoice.status != null ? invoice.status : "").append(";")
+                   .append(invoice.type != null ? invoice.type : "").append("\n");
+            }
+
+            try {
+                File cachePath = new File(context.getCacheDir(), "exports");
+                if (!cachePath.exists()) cachePath.mkdirs();
+                File csvFile = new File(cachePath, "export_invoices_" + System.currentTimeMillis() + ".csv");
+                FileWriter writer = new FileWriter(csvFile);
+                writer.write(csv.toString());
+                writer.close();
+
+                Uri contentUri = FileProvider.getUriForFile(context, "com.chouchene.factures.provider", csvFile);
+
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/csv");
+                intent.putExtra(Intent.EXTRA_STREAM, contentUri);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                
+                activity.runOnUiThread(() -> {
+                    if (!isAdded()) return;
+                    startActivity(Intent.createChooser(intent, context.getString(R.string.action_export_csv)));
+                });
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                activity.runOnUiThread(() -> {
+                    if (!isAdded()) return;
+                    Toast.makeText(context, "Erreur lors de l'exportation", Toast.LENGTH_SHORT).show();
+                });
+            }
+        });
+    }
+
     @ColorInt
-    private int resolveColor(int attr) {
+    private int resolveColor(Context context, int attr) {
+        if (context == null) return Color.TRANSPARENT;
         TypedValue typedValue = new TypedValue();
-        requireContext().getTheme().resolveAttribute(attr, typedValue, true);
+        context.getTheme().resolveAttribute(attr, typedValue, true);
         return typedValue.data;
     }
 }

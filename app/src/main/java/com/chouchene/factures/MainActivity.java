@@ -463,6 +463,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateBottomNavBadges() {
         Executors.newSingleThreadExecutor().execute(() -> {
+            // Check if context is still valid
+            if (isFinishing() || isDestroyed()) return;
+
             // 1. Pending Invoices Badge
             int pendingCount = db.invoiceDao().getCountByStatus("En attente");
             
@@ -479,14 +482,14 @@ public class MainActivity extends AppCompatActivity {
             int todayBookings = db.bookingDao().getUpcomingCount(start, end);
 
             runOnUiThread(() -> {
-                if (bottomNavigationView == null) return;
+                if (bottomNavigationView == null || isFinishing() || isDestroyed()) return;
 
                 // Documents Badge
                 if (pendingCount > 0) {
                     com.google.android.material.badge.BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.documentsHubFragment);
                     badge.setVisible(true);
                     badge.setNumber(pendingCount);
-                    badge.setBackgroundColor(ContextCompat.getColor(this, R.color.error)); // Standard Red
+                    badge.setBackgroundColor(ContextCompat.getColor(this, R.color.error));
                 } else {
                     bottomNavigationView.removeBadge(R.id.documentsHubFragment);
                 }
@@ -496,7 +499,7 @@ public class MainActivity extends AppCompatActivity {
                     com.google.android.material.badge.BadgeDrawable badge = bottomNavigationView.getOrCreateBadge(R.id.agendaFragment);
                     badge.setVisible(true);
                     badge.setNumber(todayBookings);
-                    badge.setBackgroundColor(ContextCompat.getColor(this, R.color.error)); // Standard Red
+                    badge.setBackgroundColor(ContextCompat.getColor(this, R.color.error));
                 } else {
                     bottomNavigationView.removeBadge(R.id.agendaFragment);
                 }

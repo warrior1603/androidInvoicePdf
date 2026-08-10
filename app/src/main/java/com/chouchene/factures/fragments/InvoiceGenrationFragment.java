@@ -109,6 +109,7 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
             emptyState.setVisibility(View.GONE);
         }
 
+        final android.app.Activity fragmentActivity = getActivity();
         Executors.newSingleThreadExecutor().execute(() -> {
             try {
                 Thread.sleep(800);
@@ -140,15 +141,17 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
             List<RecentActivity> finalActivities = new ArrayList<>();
             for (Invoice i : invoices) finalActivities.add(new RecentActivity(i));
 
-            if (getActivity() != null) {
-                requireActivity().runOnUiThread(() -> {
-                    if (shimmerContainer != null) {
-                        shimmerContainer.stopShimmer();
-                        shimmerContainer.setVisibility(View.GONE);
+            if (fragmentActivity != null) {
+                fragmentActivity.runOnUiThread(() -> {
+                    if (isAdded() && getView() != null) {
+                        if (shimmerContainer != null) {
+                            shimmerContainer.stopShimmer();
+                            shimmerContainer.setVisibility(View.GONE);
+                        }
+                        adapter.setData(finalActivities);
+                        recyclerView.scheduleLayoutAnimation();
+                        checkEmptyState();
                     }
-                    adapter.setData(finalActivities);
-                    recyclerView.scheduleLayoutAnimation();
-                    checkEmptyState();
                 });
             }
         });
@@ -177,14 +180,18 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
         Bundle b = new Bundle();
         b.putString("file_path", invoice.filePath);
         
+        final android.app.Activity fragmentActivity = getActivity();
+        final View fragmentView = getView();
         Executors.newSingleThreadExecutor().execute(() -> {
             com.chouchene.factures.entity.Client client = db.clientDao().getClientByName(invoice.clientName);
-            if (getActivity() != null) {
-                requireActivity().runOnUiThread(() -> {
-                    if (client != null) {
-                        b.putString("mail_client", client.getEmail());
+            if (fragmentActivity != null) {
+                fragmentActivity.runOnUiThread(() -> {
+                    if (isAdded() && fragmentView != null) {
+                        if (client != null) {
+                            b.putString("mail_client", client.getEmail());
+                        }
+                        Navigation.findNavController(fragmentView).navigate(R.id.webViewPdfFragment, b);
                     }
-                    Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, b);
                 });
             }
         });
@@ -193,6 +200,8 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
     @Override
     public void onDeleteClick(RecentActivity activity) {
         Invoice invoice = (Invoice) activity.originalObject;
+        final android.app.Activity fragmentActivity = getActivity();
+        final View fragmentView = getView();
         new MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Supprimer")
                 .setMessage("Voulez-vous supprimer cette facture ?")
@@ -203,13 +212,15 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
                             if (file.exists()) file.delete();
                         }
                         db.invoiceDao().deleteInvoice(invoice);
-                        if (getActivity() instanceof com.chouchene.factures.MainActivity) {
-                            ((com.chouchene.factures.MainActivity) getActivity()).updateBottomNavBadges();
+                        if (fragmentActivity instanceof com.chouchene.factures.MainActivity) {
+                            ((com.chouchene.factures.MainActivity) fragmentActivity).updateBottomNavBadges();
                         }
-                        if (getActivity() != null) {
-                            getActivity().runOnUiThread(() -> {
-                                loadInvoices();
-                                com.google.android.material.snackbar.Snackbar.make(requireView(), "Facture supprimée", com.google.android.material.snackbar.Snackbar.LENGTH_SHORT).show();
+                        if (fragmentActivity != null) {
+                            fragmentActivity.runOnUiThread(() -> {
+                                if (isAdded() && fragmentView != null) {
+                                    loadInvoices();
+                                    com.google.android.material.snackbar.Snackbar.make(fragmentView, "Facture supprimée", com.google.android.material.snackbar.Snackbar.LENGTH_SHORT).show();
+                                }
                             });
                         }
                     });
@@ -261,21 +272,27 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
     @Override
     public void onStatusChange(RecentActivity activity, String newStatus) {
         Invoice invoice = (Invoice) activity.originalObject;
+        final android.app.Activity fragmentActivity = getActivity();
+        final android.content.Context context = getContext();
         Executors.newSingleThreadExecutor().execute(() -> {
             invoice.status = newStatus;
             db.invoiceDao().updateInvoice(invoice);
-            if (getActivity() instanceof com.chouchene.factures.MainActivity) {
-                ((com.chouchene.factures.MainActivity) getActivity()).updateBottomNavBadges();
+            if (fragmentActivity instanceof com.chouchene.factures.MainActivity) {
+                ((com.chouchene.factures.MainActivity) fragmentActivity).updateBottomNavBadges();
             }
-            if (getActivity() != null) {
-                requireActivity().runOnUiThread(() -> {
-                    if ("Payée".equals(newStatus)) {
-                        if (getActivity() instanceof com.chouchene.factures.MainActivity) {
-                            ((com.chouchene.factures.MainActivity) getActivity()).triggerConfetti();
+            if (fragmentActivity != null) {
+                fragmentActivity.runOnUiThread(() -> {
+                    if (isAdded() && getView() != null) {
+                        if ("Payée".equals(newStatus)) {
+                            if (fragmentActivity instanceof com.chouchene.factures.MainActivity) {
+                                ((com.chouchene.factures.MainActivity) fragmentActivity).triggerConfetti();
+                            }
+                        }
+                        loadInvoices();
+                        if (context != null) {
+                            android.widget.Toast.makeText(context, "Statut mis à jour: " + newStatus, android.widget.Toast.LENGTH_SHORT).show();
                         }
                     }
-                    loadInvoices();
-                    android.widget.Toast.makeText(requireContext(), "Statut mis à jour: " + newStatus, android.widget.Toast.LENGTH_SHORT).show();
                 });
             }
         });
@@ -283,21 +300,24 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
 
     private void updateStatus(RecentActivity activity, String status, com.google.android.material.bottomsheet.BottomSheetDialog dialog) {
         Invoice invoice = (Invoice) activity.originalObject;
+        final android.app.Activity fragmentActivity = getActivity();
         Executors.newSingleThreadExecutor().execute(() -> {
             invoice.status = status;
             db.invoiceDao().updateInvoice(invoice);
-            if (getActivity() instanceof com.chouchene.factures.MainActivity) {
-                ((com.chouchene.factures.MainActivity) getActivity()).updateBottomNavBadges();
+            if (fragmentActivity instanceof com.chouchene.factures.MainActivity) {
+                ((com.chouchene.factures.MainActivity) fragmentActivity).updateBottomNavBadges();
             }
-            if (getActivity() != null) {
-                requireActivity().runOnUiThread(() -> {
-                    if (dialog != null) dialog.dismiss();
-                    if ("Payée".equals(status)) {
-                        if (getActivity() instanceof com.chouchene.factures.MainActivity) {
-                            ((com.chouchene.factures.MainActivity) getActivity()).triggerConfetti();
+            if (fragmentActivity != null) {
+                fragmentActivity.runOnUiThread(() -> {
+                    if (isAdded() && getView() != null) {
+                        if (dialog != null) dialog.dismiss();
+                        if ("Payée".equals(status)) {
+                            if (fragmentActivity instanceof com.chouchene.factures.MainActivity) {
+                                ((com.chouchene.factures.MainActivity) fragmentActivity).triggerConfetti();
+                            }
                         }
+                        loadInvoices();
                     }
-                    loadInvoices();
                 });
             }
         });

@@ -193,13 +193,16 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
     }
 
     private void loadHomeData(boolean showShimmer) {
+        Context context = getContext();
+        if (context == null) return;
+
         if (showShimmer && shimmerContainer != null) {
             shimmerContainer.setVisibility(View.VISIBLE);
             shimmerContainer.startShimmer();
             rvRecent.setVisibility(View.GONE);
         }
 
-        SharedPreferences userPrefs = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences userPrefs = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String name = userPrefs.getString("User", "");
         if (!name.isEmpty()) {
             txtGreeting.setText("Bonjour, " + name + " !");
@@ -298,6 +301,9 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                 .addSharedElement(sharedElement, androidx.core.view.ViewCompat.getTransitionName(sharedElement))
                 .build();
 
+        Context context = getContext();
+        if (context == null) return;
+
         Executors.newSingleThreadExecutor().execute(() -> {
             com.chouchene.factures.entity.Client client = db.clientDao().getClientByName(invoice.clientName);
             if (getActivity() != null) {
@@ -318,7 +324,10 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                 "Voulez-vous vraiment supprimer cette course ?" : 
                 "Voulez-vous vraiment supprimer ce document ? Cette action est irréversible.";
 
-        new com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
+        Context context = getContext();
+        if (context == null) return;
+
+        new com.google.android.material.dialog.MaterialAlertDialogBuilder(context)
                 .setTitle(title)
                 .setMessage(message)
                 .setNegativeButton("Annuler", (dialog, which) -> adapter.notifyDataSetChanged())
@@ -339,7 +348,10 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                         if (getActivity() != null) {
                             getActivity().runOnUiThread(() -> {
                                 loadHomeData(false);
-                                com.google.android.material.snackbar.Snackbar.make(requireView(), "Supprimé avec succès", com.google.android.material.snackbar.Snackbar.LENGTH_SHORT).show();
+                                View view = getView();
+                                if (view != null) {
+                                    com.google.android.material.snackbar.Snackbar.make(view, "Supprimé avec succès", com.google.android.material.snackbar.Snackbar.LENGTH_SHORT).show();
+                                }
                             });
                         }
                     });

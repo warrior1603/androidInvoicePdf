@@ -40,6 +40,18 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnExportCsv"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="@string/action_export_csv"
+                app:icon="@drawable/rounded_download_24"
+                android:layout_marginBottom="8dp"
+                app:iconTint="?attr/colorPrimary"
+                android:textColor="?attr/colorPrimary"/>
+
         <!-- Main Revenue Card (Harmonized with Home) -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_revenue_summary"
