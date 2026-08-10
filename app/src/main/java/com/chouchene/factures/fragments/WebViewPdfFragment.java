@@ -17,11 +17,8 @@ import androidx.core.content.FileProvider;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-import androidx.transition.TransitionInflater;
-import androidx.transition.TransitionSet;
-import androidx.transition.ChangeBounds;
-import androidx.transition.ChangeTransform;
-import androidx.transition.ChangeImageTransform;
+
+import com.google.android.material.transition.MaterialContainerTransform;
 
 import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
@@ -58,13 +55,10 @@ public class WebViewPdfFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        TransitionSet transitionSet = new TransitionSet();
-        transitionSet.addTransition(new ChangeBounds());
-        transitionSet.addTransition(new ChangeTransform());
-        transitionSet.addTransition(new ChangeImageTransform());
-        transitionSet.setDuration(1000);
+        MaterialContainerTransform transform = new MaterialContainerTransform();
+        transform.setDuration(400);
         
-        setSharedElementEnterTransition(transitionSet);
+        setSharedElementEnterTransition(transform);
         postponeEnterTransition();
     }
 
@@ -72,6 +66,11 @@ public class WebViewPdfFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_webview_pdf_sendmail, container, false);
+        
+        final Context context = getContext();
+        if (context == null) return view;
+        final Context appContext = context.getApplicationContext();
+
         Bundle bundle = getArguments();
         if (bundle != null && bundle.containsKey("transition_name")) {
             view.setTransitionName(bundle.getString("transition_name"));
@@ -86,7 +85,7 @@ public class WebViewPdfFragment extends Fragment {
 
         if (!clientName.isEmpty()) {
             Executors.newSingleThreadExecutor().execute(() -> {
-                AppDatabase db = DatabaseClient.getInstance(requireContext().getApplicationContext()).getAppDatabase();
+                AppDatabase db = DatabaseClient.getInstance(appContext).getAppDatabase();
                 com.chouchene.factures.entity.Client client = db.clientDao().getClientByName(clientName);
                 if (client != null) {
                     mailClient = client.getEmail();
@@ -115,16 +114,16 @@ public class WebViewPdfFragment extends Fragment {
             switch (docType) {
                 case "ORDER":
                     iconRes = R.drawable.ic_shopping_cart_outline;
-                    tintColor = androidx.core.content.ContextCompat.getColor(requireContext(), R.color.icon_dashboard);
+                    tintColor = androidx.core.content.ContextCompat.getColor(context, R.color.icon_dashboard);
                     break;
                 case "BOOKING":
                     iconRes = R.drawable.ic_calendar_event_outline;
-                    tintColor = androidx.core.content.ContextCompat.getColor(requireContext(), R.color.icon_agenda);
+                    tintColor = androidx.core.content.ContextCompat.getColor(context, R.color.icon_agenda);
                     break;
                 case "INVOICE":
                 default:
                     iconRes = R.drawable.ic_receipt_outline;
-                    tintColor = androidx.core.content.ContextCompat.getColor(requireContext(), R.color.primary);
+                    tintColor = androidx.core.content.ContextCompat.getColor(context, R.color.primary);
                     break;
             }
 
@@ -142,105 +141,134 @@ public class WebViewPdfFragment extends Fragment {
 
         // Load Lottie if available
         if (lottieLoading != null) {
-            com.chouchene.factures.utils.LottieUtils.loadLottieWithFallback(lottieLoading, new android.widget.ImageView(getContext()), "anim_onboarding_1.json");
+            com.chouchene.factures.utils.LottieUtils.loadLottieWithFallback(lottieLoading, new android.widget.ImageView(context), "anim_onboarding_1.json");
         }
 
         // Wire up containers
-        view.findViewById(R.id.btn_email_container).setOnClickListener(v -> emailButton.performClick());
-        view.findViewById(R.id.btn_share_container).setOnClickListener(v -> shareButton.performClick());
-        view.findViewById(R.id.btn_print_container).setOnClickListener(v -> printButton.performClick());
+        View emailContainer = view.findViewById(R.id.btn_email_container);
+        if (emailContainer != null && emailButton != null) {
+            emailContainer.setOnClickListener(v -> emailButton.performClick());
+        }
+        
+        View shareContainer = view.findViewById(R.id.btn_share_container);
+        if (shareContainer != null && shareButton != null) {
+            shareContainer.setOnClickListener(v -> shareButton.performClick());
+        }
+        
+        View printContainer = view.findViewById(R.id.btn_print_container);
+        if (printContainer != null && printButton != null) {
+            printContainer.setOnClickListener(v -> printButton.performClick());
+        }
 
         File file = new File(filePath);
         Uri fileUri = FileProvider.getUriForFile(
-                requireContext().getApplicationContext(), "com.chouchene.factures.provider", file
+                appContext, "com.chouchene.factures.provider", file
         );
 
-        printButton.setOnClickListener(v -> {
-            Activity activity = getActivity();
-            if (activity != null) {
-                openPdfForPrinting(activity, fileUri);
-            }
-        });
-
-        emailButton.setOnClickListener(v -> {
-            SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-            String iban = sharedPreferences.getString("Iban", "");
-            String bic = sharedPreferences.getString("Bic", "");
-            String bankAddress = sharedPreferences.getString("Bank_address", "");
-
-            Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", mailClient, null));
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Facture / Bon de commande");
-            List<ResolveInfo> resolveInfos = getActivity().getPackageManager().queryIntentActivities(emailIntent, 0);
-            
-            if (!resolveInfos.isEmpty()) {
-                List<Intent> intents = new ArrayList<>();
-                for (ResolveInfo info : resolveInfos) {
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-                    intent.setPackage(info.activityInfo.packageName);
-                    intent.setType("application/pdf");
-                    intent.putExtra(Intent.EXTRA_EMAIL, new String[]{mailClient});
-                    intent.putExtra(Intent.EXTRA_SUBJECT, "Facture / Bon de commande");
-                    intent.putExtra(Intent.EXTRA_TEXT, "Bonjour, \n\n Veuillez trouver ci-joint votre document. \n\n" +
-                            "Coordonnées bancaires : \n" +
-                            "IBAN : " + iban + " \n" +
-                            "BIC : " + bic + " \n" +
-                            "Adresse du titulaire : " + bankAddress);
-                    intent.putExtra(Intent.EXTRA_STREAM, fileUri);
-                    intents.add(new LabeledIntent(intent, info.activityInfo.packageName, info.loadLabel(getActivity().getPackageManager()), info.icon));
+        if (printButton != null) {
+            printButton.setOnClickListener(v -> {
+                Activity activity = getActivity();
+                if (activity != null) {
+                    openPdfForPrinting(activity, fileUri);
                 }
-                Intent chooser = Intent.createChooser(intents.remove(intents.size() - 1), "Envoyer par email...");
-                chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, intents.toArray(new LabeledIntent[intents.size()]));
-                startActivity(chooser);
-            }
-        });
+            });
+        }
 
-        shareButton.setOnClickListener(v -> {
-            Intent shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.setType("application/pdf");
-            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Partage de facture");
-            shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
-            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            startActivity(Intent.createChooser(shareIntent, "Partager avec"));
-        });
+        if (emailButton != null) {
+            emailButton.setOnClickListener(v -> {
+                Activity activity = getActivity();
+                if (activity == null) return;
+                
+                SharedPreferences sharedPreferences = activity.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                String iban = sharedPreferences.getString("Iban", "");
+                String bic = sharedPreferences.getString("Bic", "");
+                String bankAddress = sharedPreferences.getString("Bank_address", "");
 
-        pdfWebView.fromUri(fileUri)
-                .onLoad(nbPages -> {
-                    if (txtPageCount != null) {
-                        txtPageCount.setText(String.format(Locale.getDefault(), "1/%d", nbPages));
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", mailClient, null));
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Facture / Bon de commande");
+                List<ResolveInfo> resolveInfos = activity.getPackageManager().queryIntentActivities(emailIntent, 0);
+                
+                if (!resolveInfos.isEmpty()) {
+                    List<Intent> intents = new ArrayList<>();
+                    for (ResolveInfo info : resolveInfos) {
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        intent.setPackage(info.activityInfo.packageName);
+                        intent.setType("application/pdf");
+                        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{mailClient});
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "Facture / Bon de commande");
+                        intent.putExtra(Intent.EXTRA_TEXT, "Bonjour, \n\n Veuillez trouver ci-joint votre document. \n\n" +
+                                "Coordonnées bancaires : \n" +
+                                "IBAN : " + iban + " \n" +
+                                "BIC : " + bic + " \n" +
+                                "Adresse du titulaire : " + bankAddress);
+                        intent.putExtra(Intent.EXTRA_STREAM, fileUri);
+                        intents.add(new LabeledIntent(intent, info.activityInfo.packageName, info.loadLabel(activity.getPackageManager()), info.icon));
                     }
-                    startPostponedEnterTransition();
-                })
-                .onRender(nbPages -> {
-                    if (lottieLoading != null) {
-                        lottieLoading.setVisibility(View.GONE);
-                    }
-                })
-                .onPageChange((page, pageCount) -> {
-                    if (txtPageCount != null) {
-                        txtPageCount.setText(String.format(Locale.getDefault(), "%d/%d", page + 1, pageCount));
-                    }
-                })
-                .onPageScroll((page, positionOffset) -> {
-                    updateZoomIndicator(pdfWebView, cardZoom, txtZoom);
-                })
-                .enableSwipe(true)
-                .swipeHorizontal(false)
-                .enableDoubletap(true)
-                .defaultPage(0)
-                .enableAnnotationRendering(true)
-                .password(null)
-                .scrollHandle(new DefaultScrollHandle(getContext()))
-                .enableAntialiasing(true)
-                .spacing(10)
-                .autoSpacing(true)
-                .pageFitPolicy(FitPolicy.WIDTH)
-                .fitEachPage(false)
-                .pageSnap(false)
-                .pageFling(false)
-                .nightMode(false)
-                .load();
+                    Intent chooser = Intent.createChooser(intents.remove(intents.size() - 1), "Envoyer par email...");
+                    chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, intents.toArray(new LabeledIntent[intents.size()]));
+                    startActivity(chooser);
+                }
+            });
+        }
+
+        if (shareButton != null) {
+            shareButton.setOnClickListener(v -> {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("application/pdf");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Partage de facture");
+                shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
+                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                startActivity(Intent.createChooser(shareIntent, "Partager avec"));
+            });
+        }
+
+        if (pdfWebView != null) {
+            pdfWebView.fromUri(fileUri)
+                    .onLoad(nbPages -> {
+                        if (txtPageCount != null) {
+                            txtPageCount.setText(String.format(Locale.getDefault(), "1/%d", nbPages));
+                        }
+                        startPostponedEnterTransition();
+                    })
+                    .onRender(nbPages -> {
+                        if (lottieLoading != null) {
+                            lottieLoading.setVisibility(View.GONE);
+                        }
+                    })
+                    .onPageChange((page, pageCount) -> {
+                        if (txtPageCount != null) {
+                            txtPageCount.setText(String.format(Locale.getDefault(), "%d/%d", page + 1, pageCount));
+                        }
+                    })
+                    .onPageScroll((page, positionOffset) -> {
+                        updateZoomIndicator(pdfWebView, cardZoom, txtZoom);
+                    })
+                    .enableSwipe(true)
+                    .swipeHorizontal(false)
+                    .enableDoubletap(true)
+                    .defaultPage(0)
+                    .enableAnnotationRendering(true)
+                    .password(null)
+                    .scrollHandle(new DefaultScrollHandle(context))
+                    .enableAntialiasing(true)
+                    .spacing(10)
+                    .autoSpacing(true)
+                    .pageFitPolicy(FitPolicy.WIDTH)
+                    .fitEachPage(false)
+                    .pageSnap(false)
+                    .pageFling(false)
+                    .nightMode(false)
+                    .load();
+        }
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // Fallback for transition in case PDF loading fails or takes too long
+        view.postDelayed(this::startPostponedEnterTransition, 500);
     }
 
     private void openPdfForPrinting(Activity activity, Uri fileUri) {

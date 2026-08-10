@@ -398,13 +398,18 @@ public class CreateBonBottomSheet extends BottomSheetDialogFragment {
                 getActivity().runOnUiThread(() -> {
                     if (listener != null) listener.onBonGenerated();
                     
-                    com.chouchene.factures.utils.UIUtils.showSuccessDialog(requireContext(),
-                        "Bon de Commande",
-                        "Le bon de commande a été généré avec succès.",
-                        () -> {
-                            showSuccessSnackbar(path, email);
-                            dismiss();
-                        });
+                    Context context = getContext();
+                    if (context != null && isAdded()) {
+                        com.chouchene.factures.utils.UIUtils.showSuccessDialog(context,
+                            "Bon de Commande",
+                            "Le bon de commande a été généré avec succès.",
+                            () -> {
+                                if (isAdded()) {
+                                    showSuccessSnackbar(path, email);
+                                    dismiss();
+                                }
+                            });
+                    }
                 });
             }
         });

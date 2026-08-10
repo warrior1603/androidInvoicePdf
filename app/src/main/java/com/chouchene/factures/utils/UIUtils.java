@@ -13,6 +13,7 @@ import com.google.android.material.button.MaterialButton;
 public class UIUtils {
 
     public static void showSuccessDialog(Context context, String title, String message, Runnable onDone) {
+        if (context == null) return;
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         View view = LayoutInflater.from(context).inflate(R.layout.layout_success_dialog, null);
