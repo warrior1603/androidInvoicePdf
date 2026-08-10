@@ -28,6 +28,7 @@ import android.widget.TextView;
 import com.chouchene.factures.R;
 import com.chouchene.factures.adapter.PdfDocumentAdapter;
 import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.github.barteksc.pdfviewer.util.FitPolicy;
 import java.io.File;
 import java.util.ArrayList;
@@ -64,9 +65,18 @@ public class WebViewPdfFragment extends Fragment {
         Button printButton = view.findViewById(R.id.printButton);
         TextView txtPageCount = view.findViewById(R.id.txt_page_count);
         View btnBack = view.findViewById(R.id.btn_back_pdf);
+        
+        com.airbnb.lottie.LottieAnimationView lottieLoading = view.findViewById(R.id.lottie_loading_pdf);
+        View cardZoom = view.findViewById(R.id.card_zoom_indicator);
+        TextView txtZoom = view.findViewById(R.id.txt_zoom_level);
 
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> Navigation.findNavController(v).navigateUp());
+        }
+
+        // Load Lottie if available
+        if (lottieLoading != null) {
+            com.chouchene.factures.utils.LottieUtils.loadLottieWithFallback(lottieLoading, new android.widget.ImageView(getContext()), "anim_onboarding_1.json");
         }
 
         // Wire up containers
@@ -133,10 +143,18 @@ public class WebViewPdfFragment extends Fragment {
                         txtPageCount.setText(String.format(Locale.getDefault(), "1/%d", nbPages));
                     }
                 })
+                .onRender(nbPages -> {
+                    if (lottieLoading != null) {
+                        lottieLoading.setVisibility(View.GONE);
+                    }
+                })
                 .onPageChange((page, pageCount) -> {
                     if (txtPageCount != null) {
                         txtPageCount.setText(String.format(Locale.getDefault(), "%d/%d", page + 1, pageCount));
                     }
+                })
+                .onPageScroll((page, positionOffset) -> {
+                    updateZoomIndicator(pdfWebView, cardZoom, txtZoom);
                 })
                 .enableSwipe(true)
                 .swipeHorizontal(false)
@@ -144,7 +162,7 @@ public class WebViewPdfFragment extends Fragment {
                 .defaultPage(0)
                 .enableAnnotationRendering(true)
                 .password(null)
-                .scrollHandle(null)
+                .scrollHandle(new DefaultScrollHandle(getContext()))
                 .enableAntialiasing(true)
                 .spacing(10)
                 .autoSpacing(true)
@@ -167,6 +185,29 @@ public class WebViewPdfFragment extends Fragment {
             startActivity(Intent.createChooser(viewPdfIntent, "Ouvrir pour imprimer"));
         } catch (ActivityNotFoundException e) {
             android.widget.Toast.makeText(activity, "Aucune application PDF disponible", android.widget.Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private final Runnable hideZoomRunnable = () -> {
+        View v = getView();
+        if (v != null) {
+            View card = v.findViewById(R.id.card_zoom_indicator);
+            if (card != null) card.setVisibility(View.GONE);
+        }
+    };
+
+    private void updateZoomIndicator(PDFView pdfView, View cardZoom, TextView txtZoom) {
+        if (pdfView == null || cardZoom == null || txtZoom == null) return;
+        
+        float zoom = pdfView.getZoom();
+        if (zoom > 1.0f) {
+            cardZoom.setVisibility(View.VISIBLE);
+            txtZoom.setText(String.format(Locale.getDefault(), "%d%%", (int) (zoom * 100)));
+            
+            cardZoom.removeCallbacks(hideZoomRunnable);
+            cardZoom.postDelayed(hideZoomRunnable, 1500);
+        } else {
+            cardZoom.setVisibility(View.GONE);
         }
     }
 }
