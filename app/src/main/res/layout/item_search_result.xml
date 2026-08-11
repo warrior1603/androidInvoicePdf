@@ -55,7 +55,7 @@
             android:textColor="@color/white"
             android:paddingHorizontal="8dp"
             android:paddingVertical="2dp"
-            android:textAllCaps="true"
+            android:textAllCaps="false"
             android:textStyle="bold" />
 
     </LinearLayout>

@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp"
+        android:paddingVertical="18dp"
+        android:paddingHorizontal="16dp"
         android:gravity="center_vertical">
 
         <ImageView
@@ -45,6 +46,7 @@
                 android:id="@+id/invoice_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:text="01.08.2026"
                 android:textAppearance="?attr/textAppearanceBodySmall"
                 android:textColor="?attr/colorOnSurfaceVariant" />

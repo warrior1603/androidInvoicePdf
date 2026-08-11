@@ -9,6 +9,6 @@
     android:text="Header"
     android:textAppearance="?attr/textAppearanceLabelLarge"
     android:textColor="?attr/colorPrimary"
-    android:textAllCaps="true"
+    android:textAllCaps="false"
     android:letterSpacing="0.1"
     android:textStyle="bold" />

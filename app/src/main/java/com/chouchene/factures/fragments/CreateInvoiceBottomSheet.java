@@ -103,6 +103,16 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
         return fragment;
     }
 
+    public static CreateInvoiceBottomSheet newInstance(String clientName, String description, double price) {
+        CreateInvoiceBottomSheet fragment = new CreateInvoiceBottomSheet();
+        Bundle args = new Bundle();
+        args.putString("prefill_client", clientName);
+        args.putString("prefill_desc", description);
+        args.putDouble("prefill_price", price);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -147,9 +157,19 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
         setupRadioGroup(view);
         setupPaymentMode(view);
 
-        if (getArguments() != null && getArguments().containsKey("client_id")) {
-            int clientId = getArguments().getInt("client_id");
-            loadClientForInvoice(clientId);
+        if (getArguments() != null) {
+            if (getArguments().containsKey("client_id")) {
+                int clientId = getArguments().getInt("client_id");
+                loadClientForInvoice(clientId);
+            } else if (getArguments().containsKey("prefill_client")) {
+                String clientName = getArguments().getString("prefill_client");
+                String desc = getArguments().getString("prefill_desc");
+                double price = getArguments().getDouble("prefill_price");
+                
+                autoCompleteTextView.setText(clientName, false);
+                txtDescription.setText(desc);
+                txtPrix.setText(String.valueOf(price));
+            }
         }
 
         view.findViewById(R.id.btn_clear_signature).setOnClickListener(v -> signatureView.clear());

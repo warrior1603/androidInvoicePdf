@@ -390,6 +390,17 @@
                             android:alpha="0.7"
                             android:text="Vérifiez les informations avant d'enregistrer." />
 
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnConvertToInvoice"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="Générer la facture"
+                            android:visibility="gone"
+                            app:icon="@drawable/ic_receipt_outline"
+                            app:iconTint="?attr/colorPrimary" />
+
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 

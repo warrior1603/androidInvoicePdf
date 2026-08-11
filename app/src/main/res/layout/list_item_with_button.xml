@@ -16,7 +16,8 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="16dp">
+        android:paddingVertical="18dp"
+        android:paddingHorizontal="16dp">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/avatarContainer"
@@ -57,6 +58,7 @@
                 android:id="@+id/textViewCity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:text="City"
                 android:textAppearance="?attr/textAppearanceBodySmall"
                 android:alpha="0.7" />

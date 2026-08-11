@@ -40,7 +40,7 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
 
     private TextInputEditText editClientName, editPhone, editPickup, editDestination, editDate, editTime, editPrice;
     private TextView txtTitle, txtRouteInfo;
-    private MaterialButton btnSave, btnDelete, btnBack, btnNext;
+    private MaterialButton btnSave, btnDelete, btnBack, btnNext, btnConvertToInvoice;
     private com.google.android.material.progressindicator.CircularProgressIndicator progressRoute;
     private View cardRoutePreview;
     private MaterialSwitch switchCancelled;
@@ -128,6 +128,7 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
         editPrice = view.findViewById(R.id.editPrice);
         btnSave = view.findViewById(R.id.btnSave);
         btnDelete = view.findViewById(R.id.btnDelete);
+        btnConvertToInvoice = view.findViewById(R.id.btnConvertToInvoice);
         
         cardRoutePreview = view.findViewById(R.id.cardRoutePreview);
         txtRouteInfo = view.findViewById(R.id.txtRouteInfo);
@@ -231,6 +232,11 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
         btnBack.setVisibility(currentStep == 0 ? View.GONE : View.VISIBLE);
         btnNext.setVisibility(currentStep == 2 ? View.GONE : View.VISIBLE);
         btnSave.setVisibility(currentStep == 2 ? View.VISIBLE : View.GONE);
+        
+        if (btnConvertToInvoice != null) {
+            btnConvertToInvoice.setVisibility(currentStep == 2 && bookingId != -1 ? View.VISIBLE : View.GONE);
+            btnConvertToInvoice.setOnClickListener(v -> convertToInvoice());
+        }
 
         updateStepIndicator(stepNumber1, stepLabel1, currentStep >= 0);
         updateStepIndicator(stepNumber2, stepLabel2, currentStep >= 1);
@@ -417,6 +423,22 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
                 .setPositiveButton(R.string.action_delete, (dialog, which) -> deleteBooking())
                 .setNegativeButton(R.string.action_cancel, null)
                 .show();
+    }
+
+    private void convertToInvoice() {
+        String name = editClientName.getText().toString();
+        String pickup = editPickup.getText().toString();
+        String dest = editDestination.getText().toString();
+        String priceStr = editPrice.getText().toString();
+        double price = 0;
+        try { price = Double.parseDouble(priceStr); } catch (Exception ignored) {}
+
+        String desc = "Transport VTC: " + pickup + " -> " + dest;
+        
+        dismiss(); // Close booking sheet
+        
+        CreateInvoiceBottomSheet invoiceSheet = CreateInvoiceBottomSheet.newInstance(name, desc, price);
+        invoiceSheet.show(requireActivity().getSupportFragmentManager(), "CONVERT_INVOICE");
     }
 
     private void deleteBooking() {

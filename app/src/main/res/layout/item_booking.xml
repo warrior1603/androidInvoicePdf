@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp"
+        android:paddingVertical="18dp"
+        android:paddingHorizontal="16dp"
         android:gravity="center_vertical">
 
         <!-- Left: Time (replaces Icon weight) -->
@@ -53,46 +54,60 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/txtClientName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-                <TextView
-                    android:id="@+id/txtClientName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Client Name"
-                    android:textAppearance="?attr/textAppearanceTitleMedium"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:includeFontPadding="false" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnCall"
-                    style="?attr/materialIconButtonStyle"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:padding="4dp"
-                    app:icon="@drawable/ic_phone_outline"
-                    app:iconSize="18dp"
-                    app:iconTint="?attr/colorPrimary"
-                    android:contentDescription="Appeler" />
-            </LinearLayout>
+                android:text="Client Name"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:includeFontPadding="false" />
 
             <TextView
                 android:id="@+id/txtRoute"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:text="Pickup → Destination"
                 android:textSize="12sp"
                 android:alpha="0.7"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:includeFontPadding="false" />
+        </LinearLayout>
+
+        <!-- Actions -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="12dp"
+            android:gravity="center">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnGps"
+                style="?attr/materialIconButtonStyle"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:padding="4dp"
+                app:icon="@drawable/ic_map_pin_outline"
+                app:iconSize="18dp"
+                app:iconTint="?attr/colorSecondary"
+                android:contentDescription="GPS" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCall"
+                style="?attr/materialIconButtonStyle"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:padding="4dp"
+                app:icon="@drawable/ic_phone_outline"
+                app:iconSize="18dp"
+                app:iconTint="?attr/colorPrimary"
+                android:contentDescription="Appeler" />
         </LinearLayout>
 
         <!-- Right: Status & Amount -->
@@ -126,7 +141,7 @@
                 android:textSize="10sp"
                 android:textColor="@color/white"
                 android:background="@drawable/bg_status_pending"
-                android:textAllCaps="true"
+                android:textAllCaps="false"
                 android:textStyle="bold"
                 android:maxLines="1"
                 android:ellipsize="none" />

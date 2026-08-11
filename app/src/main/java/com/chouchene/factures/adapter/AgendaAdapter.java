@@ -32,6 +32,7 @@ public class AgendaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public interface OnBookingActionListener {
         void onCallClient(String phone);
+        void onOpenGps(String address);
         void onBookingClick(Booking booking, View sharedElement);
         void onDateChanged(Date date);
     }
@@ -91,6 +92,12 @@ public class AgendaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             // Unique transition name for booking
             androidx.core.view.ViewCompat.setTransitionName(h.itemView, "booking_container_" + booking.id);
+
+            h.btnGps.setOnClickListener(v -> {
+                if (booking.pickupLocation != null && !booking.pickupLocation.isEmpty()) {
+                    listener.onOpenGps(booking.pickupLocation);
+                }
+            });
 
             h.btnCall.setOnClickListener(v -> {
                 if (booking.clientPhone != null && !booking.clientPhone.isEmpty()) {
@@ -153,7 +160,7 @@ public class AgendaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
         View txtTime, txtDate, txtClientName, txtRoute, txtAmount, txtStatus;
-        View btnCall;
+        View btnCall, btnGps;
         ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             txtTime = itemView.findViewById(R.id.txtTime);
@@ -163,6 +170,7 @@ public class AgendaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             txtAmount = itemView.findViewById(R.id.txtAmount);
             txtStatus = itemView.findViewById(R.id.txtStatus);
             btnCall = itemView.findViewById(R.id.btnCall);
+            btnGps = itemView.findViewById(R.id.btnGps);
         }
     }
 }

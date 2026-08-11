@@ -224,6 +224,20 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
     }
 
     @Override
+    public void onOpenGps(String address) {
+        Uri gmmIntentUri = Uri.parse("google.navigation:q=" + Uri.encode(address));
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        if (mapIntent.resolveActivity(requireActivity().getPackageManager()) != null) {
+            startActivity(mapIntent);
+        } else {
+            // Fallback to any app that can handle geo intents
+            Intent fallbackIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=" + Uri.encode(address)));
+            startActivity(fallbackIntent);
+        }
+    }
+
+    @Override
     public void onBookingClick(Booking booking, View sharedElement) {
         AddBookingBottomSheet bottomSheet = AddBookingBottomSheet.newInstance(booking.id);
         bottomSheet.setOnBookingAddedListener(this::loadBookings);

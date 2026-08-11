@@ -367,7 +367,7 @@
                             android:text="Résumé de la commande"
                             android:alpha="0.6"
                             android:textSize="12sp"
-                            android:textAllCaps="true" />
+                            android:textAllCaps="false" />
 
                         <TextView
                             android:id="@+id/summary_text_bon"

@@ -35,7 +35,7 @@
                 android:layout_marginTop="4dp"
                 android:text="Date du jour"
                 android:alpha="0.6"
-                android:textAllCaps="true"
+                android:textAllCaps="false"
                 android:letterSpacing="0.1" />
 
             <!-- Next Upcoming Trip Card (New Focus) -->
@@ -44,7 +44,7 @@
                 style="@style/App.CardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="12dp"
                 android:visibility="gone"
                 app:cardBackgroundColor="@color/icon_agenda_bg"
                 app:strokeWidth="0dp"
@@ -174,14 +174,14 @@
                 style="@style/App.CardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="12dp"
                 app:cardBackgroundColor="?attr/colorPrimaryContainer">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="12dp">
 
                     <!-- Header & Revenue (Modern Horizontal) -->
                     <LinearLayout
@@ -403,7 +403,7 @@
                 style="@style/App.TextAppearance.TitleMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="16dp"
                 android:text="Raccourcis"
                 android:textColor="?attr/colorOnSurface"
                 android:textStyle="bold" />
@@ -411,7 +411,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:orientation="vertical">
 
                 <!-- Row 1 -->
@@ -431,8 +431,8 @@
                             android:id="@+id/card_documents"
                             style="@style/App.CardView"
                             android:layout_width="match_parent"
-                            android:layout_height="80dp"
-                            android:layout_marginBottom="16dp"
+                            android:layout_height="64dp"
+                            android:layout_marginBottom="8dp"
                             android:clickable="true"
                             android:focusable="true">
                             <LinearLayout
@@ -440,14 +440,14 @@
                                 android:layout_height="match_parent"
                                 android:orientation="horizontal"
                                 android:gravity="center_vertical"
-                                android:padding="12dp">
+                                android:padding="8dp">
                                 <ImageView
-                                    android:layout_width="52dp"
-                                    android:layout_height="52dp"
+                                    android:layout_width="44dp"
+                                    android:layout_height="44dp"
                                     android:padding="10dp"
                                     android:background="@drawable/bg_circle_soft"
                                     android:backgroundTint="@color/icon_documents_bg"
-                                    android:src="@drawable/ill_3d_documents"
+                                    android:src="@drawable/ic_receipt_outline"
                                     app:tint="@color/icon_documents" />
                                 <TextView
                                     style="@style/App.TextAppearance.TitleMedium"
@@ -479,10 +479,10 @@
                         android:id="@+id/card_clients"
                         style="@style/App.CardView"
                         android:layout_width="0dp"
-                        android:layout_height="80dp"
+                        android:layout_height="64dp"
                         android:layout_weight="1"
                         android:layout_marginStart="8dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="8dp"
                         android:clickable="true"
                         android:focusable="true">
                         <LinearLayout
@@ -490,14 +490,14 @@
                             android:layout_height="match_parent"
                             android:orientation="horizontal"
                             android:gravity="center_vertical"
-                            android:padding="12dp">
+                            android:padding="8dp">
                             <ImageView
-                                android:layout_width="52dp"
-                                android:layout_height="52dp"
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
                                 android:padding="10dp"
                                 android:background="@drawable/bg_circle_soft"
                                 android:backgroundTint="@color/icon_clients_bg"
-                                android:src="@drawable/ill_3d_clients"
+                                android:src="@drawable/ic_nav_user_outline"
                                 app:tint="@color/icon_clients" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"
@@ -525,10 +525,10 @@
                         android:id="@+id/card_agenda"
                         style="@style/App.CardView"
                         android:layout_width="0dp"
-                        android:layout_height="80dp"
+                        android:layout_height="64dp"
                         android:layout_weight="1"
                         android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="8dp"
                         android:clickable="true"
                         android:focusable="true">
                         <LinearLayout
@@ -536,14 +536,14 @@
                             android:layout_height="match_parent"
                             android:orientation="horizontal"
                             android:gravity="center_vertical"
-                            android:padding="12dp">
+                            android:padding="8dp">
                             <ImageView
-                                android:layout_width="52dp"
-                                android:layout_height="52dp"
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
                                 android:padding="10dp"
                                 android:background="@drawable/bg_circle_soft"
                                 android:backgroundTint="@color/icon_agenda_bg"
-                                android:src="@drawable/ill_3d_agenda"
+                                android:src="@drawable/ic_nav_calendar_outline"
                                 app:tint="@color/icon_agenda" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"
@@ -563,10 +563,10 @@
                         android:id="@+id/card_dashboard"
                         style="@style/App.CardView"
                         android:layout_width="0dp"
-                        android:layout_height="80dp"
+                        android:layout_height="64dp"
                         android:layout_weight="1"
                         android:layout_marginStart="8dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="8dp"
                         android:clickable="true"
                         android:focusable="true">
                         <LinearLayout
@@ -574,14 +574,14 @@
                             android:layout_height="match_parent"
                             android:orientation="horizontal"
                             android:gravity="center_vertical"
-                            android:padding="12dp">
+                            android:padding="8dp">
                             <ImageView
-                                android:layout_width="52dp"
-                                android:layout_height="52dp"
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
                                 android:padding="10dp"
                                 android:background="@drawable/bg_circle_soft"
                                 android:backgroundTint="@color/icon_dashboard_bg"
-                                android:src="@drawable/ill_3d_dashboard"
+                                android:src="@drawable/ic_nav_dashboard_outline"
                                 app:tint="@color/icon_dashboard" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"
@@ -609,10 +609,10 @@
                         android:id="@+id/card_profile"
                         style="@style/App.CardView"
                         android:layout_width="0dp"
-                        android:layout_height="80dp"
+                        android:layout_height="64dp"
                         android:layout_weight="1"
                         android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="8dp"
                         android:clickable="true"
                         android:focusable="true">
                         <LinearLayout
@@ -620,14 +620,14 @@
                             android:layout_height="match_parent"
                             android:orientation="horizontal"
                             android:gravity="center_vertical"
-                            android:padding="12dp">
+                            android:padding="8dp">
                             <ImageView
-                                android:layout_width="52dp"
-                                android:layout_height="52dp"
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
                                 android:padding="10dp"
                                 android:background="@drawable/bg_circle_soft"
                                 android:backgroundTint="@color/icon_profile_bg"
-                                android:src="@drawable/ill_3d_company"
+                                android:src="@drawable/ic_nav_building_outline"
                                 app:tint="@color/icon_profile" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"
@@ -647,10 +647,10 @@
                         android:id="@+id/card_settings"
                         style="@style/App.CardView"
                         android:layout_width="0dp"
-                        android:layout_height="80dp"
+                        android:layout_height="64dp"
                         android:layout_weight="1"
                         android:layout_marginStart="8dp"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="8dp"
                         android:clickable="true"
                         android:focusable="true">
                         <LinearLayout
@@ -658,14 +658,14 @@
                             android:layout_height="match_parent"
                             android:orientation="horizontal"
                             android:gravity="center_vertical"
-                            android:padding="12dp">
+                            android:padding="8dp">
                             <ImageView
-                                android:layout_width="52dp"
-                                android:layout_height="52dp"
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
                                 android:padding="10dp"
                                 android:background="@drawable/bg_circle_soft"
                                 android:backgroundTint="@color/icon_settings_bg"
-                                android:src="@drawable/ill_3d_settings"
+                                android:src="@drawable/ic_nav_settings_outline"
                                 app:tint="@color/icon_settings" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"

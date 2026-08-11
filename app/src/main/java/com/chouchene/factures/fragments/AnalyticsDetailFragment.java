@@ -164,8 +164,8 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                     float dailyExpenses = expenseDb.getDailyExpenses(today);
                     revenue = dailyIncome - dailyExpenses;
                     count = db.getDailyCount(today);
-                    labelTop = "BÉNÉFICE DU JOUR";
-                    labelChart = "DERNIERS 7 JOURS (Profit)";
+                    labelTop = "Bénéfice du jour";
+                    labelChart = "Derniers 7 jours (Profit)";
 
                     cal.setTime(today);
                     cal.add(Calendar.DAY_OF_YEAR, -1);
@@ -191,8 +191,8 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                     float monthlyExpenses = expenseDb.getMonthlyExpenses(today);
                     revenue = monthlyIncome - monthlyExpenses;
                     count = db.getMonthlyCount(today);
-                    labelTop = "BÉNÉFICE DU MOIS";
-                    labelChart = "DERNIERS 6 MOIS (Bénéfice)";
+                    labelTop = "Bénéfice du mois";
+                    labelChart = "Derniers 6 mois (Bénéfice)";
 
                     cal.setTime(today);
                     cal.add(Calendar.MONTH, -1);
@@ -218,8 +218,8 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                     float yearlyExpenses = expenseDb.getYearlyExpenses(today);
                     revenue = yearlyIncome - yearlyExpenses;
                     count = db.getYearlyCount(today);
-                    labelTop = "BÉNÉFICE DE L'ANNÉE";
-                    labelChart = "ÉVOLUTION DU BÉNÉFICE";
+                    labelTop = "Bénéfice de l'année";
+                    labelChart = "Évolution du bénéfice";
 
                     cal.setTime(today);
                     cal.add(Calendar.YEAR, -1);
@@ -245,8 +245,8 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                 case ALL_TIME:
                     revenue = db.getTotalRevenue();
                     count = db.getTotalCount();
-                    labelTop = "REVENU TOTAL";
-                    labelChart = "ÉVOLUTION PAR ANNÉE";
+                    labelTop = "Revenu total";
+                    labelChart = "Évolution par année";
 
                     for (int i = 4; i >= 0; i--) {
                         cal.setTime(new Date());
