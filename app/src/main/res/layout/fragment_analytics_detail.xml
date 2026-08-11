@@ -193,7 +193,7 @@
                         <ImageView
                             android:layout_width="28dp"
                             android:layout_height="28dp"
-                            android:src="@drawable/rounded_people_24"
+                            android:src="@drawable/ic_users_outline"
                             app:tint="@color/icon_clients" />
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -240,7 +240,7 @@
                         <ImageView
                             android:layout_width="28dp"
                             android:layout_height="28dp"
-                            android:src="@drawable/rounded_history_24"
+                            android:src="@drawable/ic_trending_up_outline"
                             app:tint="?attr/colorPrimary" />
                         <LinearLayout
                             android:layout_width="wrap_content"
