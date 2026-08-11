@@ -382,11 +382,14 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
         dataSet.setDrawValues(false);
         dataSet.setHighlightEnabled(true);
         dataSet.setHighLightColor(primaryColor);
+        
+        // Add subtle gradient to bars if supported
+        dataSet.setGradientColor(primaryColor, Color.argb(100, Color.red(primaryColor), Color.green(primaryColor), Color.blue(primaryColor)));
 
         BarData barData = new BarData(dataSet);
-        barData.setBarWidth(0.5f);
+        barData.setBarWidth(0.4f);
         barChart.setData(barData);
-        barChart.animateY(1000);
+        barChart.animateY(800, com.github.mikephil.charting.animation.Easing.EaseOutCubic);
 
         barChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override

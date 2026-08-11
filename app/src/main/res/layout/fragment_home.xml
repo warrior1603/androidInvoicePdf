@@ -62,7 +62,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:padding="12dp"
-                            android:src="@drawable/ic_nav_calendar_outline"
+                            android:src="@drawable/rounded_calendar_today_24"
                             app:tint="@color/icon_agenda" />
                     </com.google.android.material.card.MaterialCardView>
 
@@ -134,7 +134,7 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_alert_circle_outline"
+                        android:src="@drawable/rounded_info_24"
                         app:tint="@color/status_cancelled" />
 
                     <TextView
@@ -220,7 +220,7 @@
                                 android:layout_width="28dp"
                                 android:layout_height="28dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/ic_wallet_outline"
+                                android:src="@drawable/rounded_payments_24"
                                 app:tint="?attr/colorOnPrimary" />
                         </com.google.android.material.card.MaterialCardView>
                     </LinearLayout>
@@ -251,7 +251,7 @@
                         <ImageView
                             android:layout_width="28dp"
                             android:layout_height="28dp"
-                            android:src="@drawable/ic_receipt_outline"
+                            android:src="@drawable/rounded_receipt_long_24"
                             app:tint="@color/icon_documents" />
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -296,7 +296,7 @@
                         <ImageView
                             android:layout_width="28dp"
                             android:layout_height="28dp"
-                            android:src="@drawable/ic_shopping_cart_outline"
+                            android:src="@drawable/rounded_shopping_cart_24"
                             app:tint="#FF9800" />
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -341,7 +341,7 @@
                         <ImageView
                             android:layout_width="28dp"
                             android:layout_height="28dp"
-                            android:src="@drawable/ic_calendar_event_outline"
+                            android:src="@drawable/rounded_calendar_today_24"
                             app:tint="@color/icon_agenda" />
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -417,7 +417,7 @@
                                     android:padding="10dp"
                                     android:background="@drawable/bg_circle_soft"
                                     android:backgroundTint="@color/icon_documents_bg"
-                                    android:src="@drawable/ic_receipt_outline"
+                                    android:src="@drawable/rounded_receipt_long_24"
                                     app:tint="@color/icon_documents" />
                                 <TextView
                                     style="@style/App.TextAppearance.TitleMedium"
@@ -465,7 +465,7 @@
                                 android:padding="10dp"
                                 android:background="@drawable/bg_circle_soft"
                                 android:backgroundTint="@color/icon_clients_bg"
-                                android:src="@drawable/ic_nav_user_outline"
+                                android:src="@drawable/rounded_people_24"
                                 app:tint="@color/icon_clients" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"
@@ -509,7 +509,7 @@
                                 android:padding="10dp"
                                 android:background="@drawable/bg_circle_soft"
                                 android:backgroundTint="@color/icon_agenda_bg"
-                                android:src="@drawable/ic_nav_calendar_outline"
+                                android:src="@drawable/rounded_calendar_today_24"
                                 app:tint="@color/icon_agenda" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"
@@ -545,7 +545,7 @@
                                 android:padding="10dp"
                                 android:background="@drawable/bg_circle_soft"
                                 android:backgroundTint="@color/icon_dashboard_bg"
-                                android:src="@drawable/ic_nav_dashboard_outline"
+                                android:src="@drawable/rounded_dashboard_24"
                                 app:tint="@color/icon_dashboard" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"
@@ -589,7 +589,7 @@
                                 android:padding="10dp"
                                 android:background="@drawable/bg_circle_soft"
                                 android:backgroundTint="@color/icon_profile_bg"
-                                android:src="@drawable/ic_nav_building_outline"
+                                android:src="@drawable/rounded_business_24"
                                 app:tint="@color/icon_profile" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"
@@ -625,7 +625,7 @@
                                 android:padding="10dp"
                                 android:background="@drawable/bg_circle_soft"
                                 android:backgroundTint="@color/icon_settings_bg"
-                                android:src="@drawable/ic_nav_settings_outline"
+                                android:src="@drawable/rounded_settings_24"
                                 app:tint="@color/icon_settings" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"
