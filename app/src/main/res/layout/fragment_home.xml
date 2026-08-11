@@ -431,31 +431,35 @@
                             android:id="@+id/card_documents"
                             style="@style/App.CardView"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="80dp"
                             android:layout_marginBottom="16dp"
                             android:clickable="true"
                             android:focusable="true">
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:orientation="horizontal"
                                 android:gravity="center_vertical"
-                                android:padding="16dp">
+                                android:padding="12dp">
                                 <ImageView
-                                    android:layout_width="48dp"
-                                    android:layout_height="48dp"
+                                    android:layout_width="52dp"
+                                    android:layout_height="52dp"
                                     android:padding="10dp"
                                     android:background="@drawable/bg_circle_soft"
                                     android:backgroundTint="@color/icon_documents_bg"
-                                    android:src="@drawable/ic_receipt_outline"
+                                    android:src="@drawable/ill_3d_documents"
                                     app:tint="@color/icon_documents" />
                                 <TextView
                                     style="@style/App.TextAppearance.TitleMedium"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="12dp"
+                                    android:layout_weight="1"
+                                    android:layout_marginStart="8dp"
                                     android:text="Documents"
-                                    android:textSize="14sp" />
+                                    android:textSize="14sp"
+                                    android:textStyle="bold"
+                                    android:maxLines="2"
+                                    android:ellipsize="end" />
                             </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
 
@@ -475,7 +479,7 @@
                         android:id="@+id/card_clients"
                         style="@style/App.CardView"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="80dp"
                         android:layout_weight="1"
                         android:layout_marginStart="8dp"
                         android:layout_marginBottom="16dp"
@@ -483,25 +487,29 @@
                         android:focusable="true">
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:orientation="horizontal"
                             android:gravity="center_vertical"
-                            android:padding="16dp">
+                            android:padding="12dp">
                             <ImageView
-                                android:layout_width="48dp"
-                                android:layout_height="48dp"
+                                android:layout_width="52dp"
+                                android:layout_height="52dp"
                                 android:padding="10dp"
                                 android:background="@drawable/bg_circle_soft"
                                 android:backgroundTint="@color/icon_clients_bg"
-                                android:src="@drawable/ic_users_outline"
+                                android:src="@drawable/ill_3d_clients"
                                 app:tint="@color/icon_clients" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="12dp"
+                                android:layout_weight="1"
+                                android:layout_marginStart="8dp"
                                 android:text="Clients"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:maxLines="2"
+                                android:ellipsize="end" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
@@ -517,7 +525,7 @@
                         android:id="@+id/card_agenda"
                         style="@style/App.CardView"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="80dp"
                         android:layout_weight="1"
                         android:layout_marginEnd="8dp"
                         android:layout_marginBottom="16dp"
@@ -525,25 +533,29 @@
                         android:focusable="true">
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:orientation="horizontal"
                             android:gravity="center_vertical"
-                            android:padding="16dp">
+                            android:padding="12dp">
                             <ImageView
-                                android:layout_width="48dp"
-                                android:layout_height="48dp"
+                                android:layout_width="52dp"
+                                android:layout_height="52dp"
                                 android:padding="10dp"
                                 android:background="@drawable/bg_circle_soft"
                                 android:backgroundTint="@color/icon_agenda_bg"
-                                android:src="@drawable/ic_nav_calendar_outline"
+                                android:src="@drawable/ill_3d_agenda"
                                 app:tint="@color/icon_agenda" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="12dp"
+                                android:layout_weight="1"
+                                android:layout_marginStart="8dp"
                                 android:text="@string/title_agenda"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:maxLines="2"
+                                android:ellipsize="end" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
 
@@ -551,7 +563,7 @@
                         android:id="@+id/card_dashboard"
                         style="@style/App.CardView"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="80dp"
                         android:layout_weight="1"
                         android:layout_marginStart="8dp"
                         android:layout_marginBottom="16dp"
@@ -559,25 +571,29 @@
                         android:focusable="true">
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:orientation="horizontal"
                             android:gravity="center_vertical"
-                            android:padding="16dp">
+                            android:padding="12dp">
                             <ImageView
-                                android:layout_width="48dp"
-                                android:layout_height="48dp"
+                                android:layout_width="52dp"
+                                android:layout_height="52dp"
                                 android:padding="10dp"
                                 android:background="@drawable/bg_circle_soft"
                                 android:backgroundTint="@color/icon_dashboard_bg"
-                                android:src="@drawable/ic_nav_dashboard_outline"
+                                android:src="@drawable/ill_3d_dashboard"
                                 app:tint="@color/icon_dashboard" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="12dp"
+                                android:layout_weight="1"
+                                android:layout_marginStart="8dp"
                                 android:text="Dashboard"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:maxLines="2"
+                                android:ellipsize="end" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
@@ -593,7 +609,7 @@
                         android:id="@+id/card_profile"
                         style="@style/App.CardView"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="80dp"
                         android:layout_weight="1"
                         android:layout_marginEnd="8dp"
                         android:layout_marginBottom="16dp"
@@ -601,25 +617,29 @@
                         android:focusable="true">
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:orientation="horizontal"
                             android:gravity="center_vertical"
-                            android:padding="16dp">
+                            android:padding="12dp">
                             <ImageView
-                                android:layout_width="48dp"
-                                android:layout_height="48dp"
+                                android:layout_width="52dp"
+                                android:layout_height="52dp"
                                 android:padding="10dp"
                                 android:background="@drawable/bg_circle_soft"
                                 android:backgroundTint="@color/icon_profile_bg"
-                                android:src="@drawable/ic_nav_building_outline"
+                                android:src="@drawable/ill_3d_company"
                                 app:tint="@color/icon_profile" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="12dp"
+                                android:layout_weight="1"
+                                android:layout_marginStart="8dp"
                                 android:text="Entreprise"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:maxLines="2"
+                                android:ellipsize="end" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
 
@@ -627,7 +647,7 @@
                         android:id="@+id/card_settings"
                         style="@style/App.CardView"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="80dp"
                         android:layout_weight="1"
                         android:layout_marginStart="8dp"
                         android:layout_marginBottom="16dp"
@@ -635,25 +655,29 @@
                         android:focusable="true">
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:orientation="horizontal"
                             android:gravity="center_vertical"
-                            android:padding="16dp">
+                            android:padding="12dp">
                             <ImageView
-                                android:layout_width="48dp"
-                                android:layout_height="48dp"
+                                android:layout_width="52dp"
+                                android:layout_height="52dp"
                                 android:padding="10dp"
                                 android:background="@drawable/bg_circle_soft"
                                 android:backgroundTint="@color/icon_settings_bg"
-                                android:src="@drawable/ic_nav_settings_outline"
+                                android:src="@drawable/ill_3d_settings"
                                 app:tint="@color/icon_settings" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"
-                                android:layout_width="wrap_content"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="12dp"
+                                android:layout_weight="1"
+                                android:layout_marginStart="8dp"
                                 android:text="@string/title_settings"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:maxLines="2"
+                                android:ellipsize="end" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
