@@ -251,23 +251,25 @@ public class MainActivity extends AppCompatActivity {
         filterBar = findViewById(R.id.filter_scroll_view);
         smartFilterChips = findViewById(R.id.smart_filter_chips);
 
+        // Wiring external icons
+        View btnNotifications = findViewById(R.id.btn_notifications_top);
+        View btnSettings = findViewById(R.id.btn_settings_top);
+
+        if (btnNotifications != null) btnNotifications.setOnClickListener(v -> triggerNotificationSheet());
+        if (btnSettings != null) btnSettings.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SettingsActivity.class)));
+
         if (searchView != null && searchBar != null) {
             searchView.setupWithSearchBar(searchBar);
             
-            // Inflate menu into SearchView as well
+            // Only keep Filter in the SearchBar menu
             searchView.inflateMenu(R.menu.search_bar_menu);
             
-            // Unified listener for both SearchBar and SearchView menu items
             androidx.appcompat.widget.Toolbar.OnMenuItemClickListener menuListener = item -> {
-                int id = item.getItemId();
-                if (id == R.id.action_filter) {
+                if (item.getItemId() == R.id.action_filter) {
                     if (filterBar != null) {
-                        // Ensure SearchView is showing if we clicked from SearchBar
                         if (!searchView.isShowing()) searchView.show();
-                        
                         int visibility = (filterBar.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE;
                         filterBar.setVisibility(visibility);
-                        
                         if (visibility == View.GONE) {
                             if (smartFilterChips != null) smartFilterChips.clearCheck();
                             filterType = null;
@@ -276,12 +278,6 @@ public class MainActivity extends AppCompatActivity {
                         String currentQuery = (searchView.getEditText() != null) ? searchView.getEditText().getText().toString() : "";
                         performSearch(currentQuery);
                     }
-                    return true;
-                } else if (id == R.id.action_notifications) {
-                    triggerNotificationSheet();
-                    return true;
-                } else if (id == R.id.action_settings) {
-                    startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                     return true;
                 }
                 return false;
