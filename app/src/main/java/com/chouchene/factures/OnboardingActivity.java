@@ -45,8 +45,31 @@ public class OnboardingActivity extends AppCompatActivity {
         setupOnboardingItems();
 
         viewPager.setAdapter(onboardingAdapter);
+        
+        // Add Advanced Page Transformer
+        viewPager.setPageTransformer((page, position) -> {
+            float absPos = Math.abs(position);
+            
+            // 1. Zoom/Scale Effect
+            float scale = absPos > 1 ? 0.8f : 1 - (absPos * 0.2f);
+            page.setScaleX(scale);
+            page.setScaleY(scale);
+            
+            // 2. Parallax Effect on internal elements
+            View title = page.findViewById(R.id.txt_title);
+            View desc = page.findViewById(R.id.txt_desc);
+            View lottie = page.findViewById(R.id.img_onboarding);
+            
+            if (title != null) title.setTranslationX(position * 500);
+            if (desc != null) desc.setTranslationX(position * 300);
+            if (lottie != null) {
+                lottie.setTranslationX(position * -200);
+                lottie.setAlpha(1 - absPos);
+            }
+        });
 
         setupDots();
+
         setCurrentDot(0);
 
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {

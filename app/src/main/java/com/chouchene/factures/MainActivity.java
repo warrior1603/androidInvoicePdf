@@ -130,14 +130,14 @@ public class MainActivity extends AppCompatActivity {
             zoomIn.playTogether(zoomX, zoomY);
 
             // 2. Final Exit (Portal effect)
-            ObjectAnimator scaleX = ObjectAnimator.ofFloat(iconView, View.SCALE_X, 1.4f, 0.1f);
-            ObjectAnimator scaleY = ObjectAnimator.ofFloat(iconView, View.SCALE_Y, 1.4f, 0.1f);
-            ObjectAnimator translationY = ObjectAnimator.ofFloat(iconView, View.TRANSLATION_Y, 0f, -1000f);
+            ObjectAnimator scaleX = ObjectAnimator.ofFloat(iconView, View.SCALE_X, 1.4f, 0.4f);
+            ObjectAnimator scaleY = ObjectAnimator.ofFloat(iconView, View.SCALE_Y, 1.4f, 0.4f);
+            ObjectAnimator translationY = ObjectAnimator.ofFloat(iconView, View.TRANSLATION_Y, 0f, -1200f);
             ObjectAnimator alpha = ObjectAnimator.ofFloat(splashScreenView, View.ALPHA, 1f, 0f);
 
             AnimatorSet exitPortal = new AnimatorSet();
-            exitPortal.setDuration(600L);
-            exitPortal.setInterpolator(new android.view.animation.AnticipateInterpolator(1.2f));
+            exitPortal.setDuration(500L);
+            exitPortal.setInterpolator(new android.view.animation.AnticipateInterpolator(1.5f));
             exitPortal.playTogether(scaleX, scaleY, translationY, alpha);
 
             // Sequence: Zoom -> Portal

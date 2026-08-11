@@ -92,6 +92,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
         holder.itemView.setOnClickListener(v -> {
             v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+            
+            // Add subtle click animation
+            v.animate().scaleX(0.97f).scaleY(0.97f).setDuration(100)
+                    .withEndAction(() -> v.animate().scaleX(1f).scaleY(1f).setDuration(100).start())
+                    .start();
+                    
             listener.onItemClick(activity, holder.icon);
         });
         
@@ -127,18 +133,20 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         androidx.core.widget.TextViewCompat.setCompoundDrawableTintList(holder.txtStatus, ColorStateList.valueOf(statusColor));
 
         holder.txtStatus.setOnClickListener(v -> {
-            v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+            v.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK);
             listener.onStatusClick(activity);
         });
 
         holder.txtStatus.setOnLongClickListener(v -> {
             if (activity.type != RecentActivity.Type.BOOKING && !"Payée".equals(activity.status)) {
+                v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                 com.chouchene.factures.utils.AnimationUtils.popView(v);
                 listener.onStatusChange(activity, "Payée");
                 return true;
             }
             return false;
         });
+
     }
 
     @Override
