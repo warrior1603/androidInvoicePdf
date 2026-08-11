@@ -19,9 +19,10 @@
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:padding="8dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:background="@drawable/bg_circle_soft"
             android:src="@drawable/ic_receipt_outline"
             app:tint="?attr/colorPrimary" />
 

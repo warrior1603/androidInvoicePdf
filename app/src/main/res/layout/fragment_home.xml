@@ -442,8 +442,11 @@
                                 android:gravity="center_vertical"
                                 android:padding="16dp">
                                 <ImageView
-                                    android:layout_width="28dp"
-                                    android:layout_height="28dp"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    android:padding="10dp"
+                                    android:background="@drawable/bg_circle_soft"
+                                    android:backgroundTint="@color/icon_documents_bg"
                                     android:src="@drawable/ic_receipt_outline"
                                     app:tint="@color/icon_documents" />
                                 <TextView
@@ -485,9 +488,12 @@
                             android:gravity="center_vertical"
                             android:padding="16dp">
                             <ImageView
-                                android:layout_width="28dp"
-                                android:layout_height="28dp"
-                                android:src="@drawable/ic_nav_user_outline"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:padding="10dp"
+                                android:background="@drawable/bg_circle_soft"
+                                android:backgroundTint="@color/icon_clients_bg"
+                                android:src="@drawable/ic_users_outline"
                                 app:tint="@color/icon_clients" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"
@@ -524,8 +530,11 @@
                             android:gravity="center_vertical"
                             android:padding="16dp">
                             <ImageView
-                                android:layout_width="28dp"
-                                android:layout_height="28dp"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:padding="10dp"
+                                android:background="@drawable/bg_circle_soft"
+                                android:backgroundTint="@color/icon_agenda_bg"
                                 android:src="@drawable/ic_nav_calendar_outline"
                                 app:tint="@color/icon_agenda" />
                             <TextView
@@ -555,8 +564,11 @@
                             android:gravity="center_vertical"
                             android:padding="16dp">
                             <ImageView
-                                android:layout_width="28dp"
-                                android:layout_height="28dp"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:padding="10dp"
+                                android:background="@drawable/bg_circle_soft"
+                                android:backgroundTint="@color/icon_dashboard_bg"
                                 android:src="@drawable/ic_nav_dashboard_outline"
                                 app:tint="@color/icon_dashboard" />
                             <TextView
@@ -594,8 +606,11 @@
                             android:gravity="center_vertical"
                             android:padding="16dp">
                             <ImageView
-                                android:layout_width="28dp"
-                                android:layout_height="28dp"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:padding="10dp"
+                                android:background="@drawable/bg_circle_soft"
+                                android:backgroundTint="@color/icon_profile_bg"
                                 android:src="@drawable/ic_nav_building_outline"
                                 app:tint="@color/icon_profile" />
                             <TextView
@@ -625,8 +640,11 @@
                             android:gravity="center_vertical"
                             android:padding="16dp">
                             <ImageView
-                                android:layout_width="28dp"
-                                android:layout_height="28dp"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:padding="10dp"
+                                android:background="@drawable/bg_circle_soft"
+                                android:backgroundTint="@color/icon_settings_bg"
                                 android:src="@drawable/ic_nav_settings_outline"
                                 app:tint="@color/icon_settings" />
                             <TextView

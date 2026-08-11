@@ -61,25 +61,30 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
         int iconRes;
         int iconColor;
+        int iconBgColor;
         
         switch (activity.type) {
             case BOOKING:
                 iconRes = R.drawable.ic_calendar_event_outline;
                 iconColor = R.color.icon_agenda;
+                iconBgColor = R.color.icon_agenda_bg;
                 break;
             case ORDER:
                 iconRes = R.drawable.ic_shopping_cart_outline;
                 iconColor = R.color.icon_dashboard;
+                iconBgColor = R.color.icon_dashboard_bg;
                 break;
             case INVOICE:
             default:
                 iconRes = R.drawable.ic_receipt_outline;
                 iconColor = R.color.icon_documents;
+                iconBgColor = R.color.icon_documents_bg;
                 break;
         }
 
         holder.icon.setImageResource(iconRes);
         holder.icon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(holder.itemView.getContext(), iconColor)));
+        holder.icon.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(holder.itemView.getContext(), iconBgColor)));
 
         // Unique transition name for each icon
         androidx.core.view.ViewCompat.setTransitionName(holder.icon, "icon_" + activity.type + "_" + activity.id);
