@@ -88,6 +88,15 @@ public class MainActivity extends AppCompatActivity {
     AppDatabase db;
     private String filterStatus, filterType;
     private KonfettiView konfettiView;
+    private List<AppNotification> currentNotifications = new ArrayList<>();
+
+    private void triggerNotificationSheet() {
+        NotificationBottomSheet sheet = new NotificationBottomSheet();
+        sheet.setNotifications(currentNotifications);
+        sheet.show(getSupportFragmentManager(), "NOTIFICATIONS");
+        View badge = findViewById(R.id.notification_badge);
+        if (badge != null) badge.setVisibility(View.GONE);
+    }
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -241,7 +250,6 @@ public class MainActivity extends AppCompatActivity {
         searchEmptyState = findViewById(R.id.search_empty_state);
         filterBar = findViewById(R.id.filter_scroll_view);
         smartFilterChips = findViewById(R.id.smart_filter_chips);
-        ImageView imgProfile = findViewById(R.id.img_profile_top);
 
         if (searchView != null && searchBar != null) {
             searchView.setupWithSearchBar(searchBar);
@@ -249,9 +257,10 @@ public class MainActivity extends AppCompatActivity {
             // Inflate menu into SearchView as well
             searchView.inflateMenu(R.menu.search_bar_menu);
             
-            // Unified listener for both SearchBar and SearchView menu
-            androidx.appcompat.widget.Toolbar.OnMenuItemClickListener filterListener = item -> {
-                if (item.getItemId() == R.id.action_filter) {
+            // Unified listener for both SearchBar and SearchView menu items
+            androidx.appcompat.widget.Toolbar.OnMenuItemClickListener menuListener = item -> {
+                int id = item.getItemId();
+                if (id == R.id.action_filter) {
                     if (filterBar != null) {
                         // Ensure SearchView is showing if we clicked from SearchBar
                         if (!searchView.isShowing()) searchView.show();
@@ -268,12 +277,18 @@ public class MainActivity extends AppCompatActivity {
                         performSearch(currentQuery);
                     }
                     return true;
+                } else if (id == R.id.action_notifications) {
+                    triggerNotificationSheet();
+                    return true;
+                } else if (id == R.id.action_settings) {
+                    startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                    return true;
                 }
                 return false;
             };
 
-            searchBar.setOnMenuItemClickListener(filterListener);
-            searchView.setOnMenuItemClickListener(filterListener);
+            searchBar.setOnMenuItemClickListener(menuListener);
+            searchView.setOnMenuItemClickListener(menuListener);
         }
 
         if (smartFilterChips != null) {
@@ -293,8 +308,6 @@ public class MainActivity extends AppCompatActivity {
                 performSearch(currentQuery);
             });
         }
-
-        if (imgProfile != null) imgProfile.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SettingsActivity.class)));
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         if (navHostFragment != null) {
@@ -390,10 +403,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupNotifications() {
-        View layoutNotif = findViewById(R.id.layout_notifications);
         View badge = findViewById(R.id.notification_badge);
-
-        if (layoutNotif == null) return;
 
         Executors.newSingleThreadExecutor().execute(() -> {
             List<AppNotification> notifs = new ArrayList<>();
@@ -425,15 +435,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
             runOnUiThread(() -> {
+                this.currentNotifications = notifs;
                 if (badge != null) {
                     badge.setVisibility(notifs.isEmpty() ? View.GONE : View.VISIBLE);
                 }
-                layoutNotif.setOnClickListener(v -> {
-                    NotificationBottomSheet sheet = new NotificationBottomSheet();
-                    sheet.setNotifications(notifs);
-                    sheet.show(getSupportFragmentManager(), "NOTIFICATIONS");
-                    if (badge != null) badge.setVisibility(View.GONE);
-                });
             });
         });
     }

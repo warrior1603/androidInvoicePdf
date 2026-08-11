@@ -3,7 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_filter"
-        android:icon="@drawable/ic_filter_2_outline"
+        android:icon="@drawable/ic_filter_outline"
         android:title="Filtrer"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_notifications"
+        android:icon="@drawable/ic_bell_outline"
+        android:title="Notifications"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/ic_nav_settings_outline"
+        android:title="Paramètres"
         app:showAsAction="always" />
 </menu>
