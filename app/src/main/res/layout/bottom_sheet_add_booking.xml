@@ -257,13 +257,18 @@
                             <FrameLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">
+                                <android.webkit.WebView
+                                    android:id="@+id/webRoutePreview"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:visibility="visible" />
                                 <ImageView
-                                    android:id="@+id/imgRoutePreview"
+                                    android:id="@+id/imgRoutePreviewPlaceholder"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:scaleType="centerCrop"
-                                    android:alpha="0.6"
-                                    android:src="@drawable/ic_map_outline" />
+                                    android:alpha="0.2"
+                                    android:src="@drawable/bg_card_agenda" />
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -281,11 +286,20 @@
                                         android:id="@+id/txtRouteInfo"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="Aperçu du trajet Google Maps"
+                                        android:text="Aperçu du trajet"
                                         android:textAppearance="?attr/textAppearanceLabelSmall"
                                         android:textColor="?attr/colorOnSurfaceVariant"
                                         android:textStyle="bold" />
                                 </LinearLayout>
+                                <!-- Overlay to allow clicking the card instead of interacting with the map directly if needed,
+                                     or we can let the user pan the map. Let's add a transparent view for clicking to maps -->
+                                <View
+                                    android:id="@+id/mapTouchOverlay"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:clickable="true"
+                                    android:focusable="true"
+                                    android:background="@android:color/transparent" />
                             </FrameLayout>
                         </com.google.android.material.card.MaterialCardView>
 

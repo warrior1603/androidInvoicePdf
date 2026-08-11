@@ -16,11 +16,11 @@
     <queries>
         <intent>
             <action android:name="android.intent.action.SENDTO" />
-
             <data android:scheme="mailto" />
-
             <category android:name="android.intent.category.DEFAULT" />
         </intent>
+        <!-- Package visibility for Google Maps -->
+        <package android:name="com.google.android.apps.maps" />
     </queries>
 
     <application

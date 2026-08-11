@@ -1,12 +1,16 @@
 package com.chouchene.factures.fragments;
 
 import android.app.Dialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
@@ -42,7 +46,8 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
     private TextView txtTitle, txtRouteInfo;
     private MaterialButton btnSave, btnDelete, btnBack, btnNext, btnConvertToInvoice;
     private com.google.android.material.progressindicator.CircularProgressIndicator progressRoute;
-    private View cardRoutePreview;
+    private View mapTouchOverlay;
+    private WebView webRoutePreview;
     private MaterialSwitch switchCancelled;
     private ViewFlipper viewFlipper;
     private TextView stepNumber1, stepNumber2, stepNumber3;
@@ -130,9 +135,12 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
         btnDelete = view.findViewById(R.id.btnDelete);
         btnConvertToInvoice = view.findViewById(R.id.btnConvertToInvoice);
         
-        cardRoutePreview = view.findViewById(R.id.cardRoutePreview);
+        webRoutePreview = view.findViewById(R.id.webRoutePreview);
+        mapTouchOverlay = view.findViewById(R.id.mapTouchOverlay);
         txtRouteInfo = view.findViewById(R.id.txtRouteInfo);
         progressRoute = view.findViewById(R.id.progressRoute);
+
+        initMapPreview();
 
         SimpleDateFormat dateFmt = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         SimpleDateFormat timeFmt = new SimpleDateFormat("HH:mm", Locale.getDefault());
@@ -148,6 +156,10 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
         editDate.setOnClickListener(v -> showDatePicker());
         editTime.setOnClickListener(v -> showTimePicker());
 
+        if (mapTouchOverlay != null) {
+            mapTouchOverlay.setOnClickListener(v -> openRouteInMaps());
+        }
+
         TextWatcher routeWatcher = new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
@@ -157,22 +169,108 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
         editDestination.addTextChangedListener(routeWatcher);
     }
 
+    private void initMapPreview() {
+        if (webRoutePreview == null) return;
+        
+        webRoutePreview.getSettings().setJavaScriptEnabled(true);
+        webRoutePreview.getSettings().setDomStorageEnabled(true);
+        webRoutePreview.getSettings().setDatabaseEnabled(true);
+        // Better cache and rendering settings
+        webRoutePreview.getSettings().setCacheMode(android.webkit.WebSettings.LOAD_DEFAULT);
+        webRoutePreview.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+        webRoutePreview.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        
+        webRoutePreview.getSettings().setUserAgentString("Mozilla/5.0 (Linux; Android 10; Mobile) MesFactures/1.1");
+        webRoutePreview.setWebViewClient(new WebViewClient());
+        
+        String html = "<!DOCTYPE html><html><head>" +
+                "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\" />" +
+                "<link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.9.4/dist/leaflet.css\" />" +
+                "<script src=\"https://unpkg.com/leaflet@1.9.4/dist/leaflet.js\"></script>" +
+                "<style>" +
+                "  body, html, #map { height: 100%; margin: 0; padding: 0; background: #F8FAFC; }" +
+                "  .leaflet-container { background: #F8FAFC !important; }" +
+                "  .leaflet-control-attribution { display: none !important; }" + // Clean UI
+                "</style>" +
+                "</head><body><div id=\"map\"></div>" +
+                "<script>" +
+                "var map = L.map('map', {zoomControl: false, attributionControl: false}).setView([46.603354, 1.888334], 5);" + 
+                "L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {" +
+                "    maxZoom: 19" +
+                "}).addTo(map);" +
+                "var markers = [];" +
+                "var routeLayer = null;" +
+                "function updateMarkers(pickup, dest) {" +
+                "    markers.forEach(m => map.removeLayer(m)); markers = [];" +
+                "    if(routeLayer) map.removeLayer(routeLayer); routeLayer = null;" +
+                "    var group = new L.featureGroup();" +
+                "    var p1 = pickup ? fetch('https://nominatim.openstreetmap.org/search?format=json&q='+encodeURIComponent(pickup)).then(r=>r.json()) : Promise.resolve([]);" +
+                "    var p2 = dest ? fetch('https://nominatim.openstreetmap.org/search?format=json&q='+encodeURIComponent(dest)).then(r=>r.json()) : Promise.resolve([]);" +
+                "    Promise.all([p1, p2]).then(results => {" +
+                "        var d1 = results[0][0]; var d2 = results[1][0];" +
+                "        if(d1) { var m = L.marker([d1.lat, d1.lon]).addTo(map); markers.push(m); group.addLayer(m); }" +
+                "        if(d2) { var m = L.marker([d2.lat, d2.lon]).addTo(map); markers.push(m); group.addLayer(m); }" +
+                "        if(d1 && d2) {" +
+                "            fetch('https://router.project-osrm.org/route/v1/driving/' + d1.lon + ',' + d1.lat + ';' + d2.lon + ',' + d2.lat + '?overview=full&geometries=geojson')" +
+                "            .then(r=>r.json()).then(data => {" +
+                "                if(data.routes && data.routes[0]) {" +
+                "                    routeLayer = L.geoJSON(data.routes[0].geometry, {style: {color: '#4F46E5', weight: 5, opacity: 0.8, lineJoin: 'round'}}).addTo(map);" +
+                "                    map.fitBounds(routeLayer.getBounds(), {padding: [40, 40]});" +
+                "                }" +
+                "            });" +
+                "        } else if(markers.length > 0) {" +
+                "            map.fitBounds(group.getBounds(), {padding: [30, 30]});" +
+                "        }" +
+                "    }).catch(e => console.log(e));" +
+                "}" +
+                "</script></body></html>";
+        
+        // Use a dummy HTTPS base URL to allow secure fetching of tiles/JS
+        webRoutePreview.loadDataWithBaseURL("https://app.mesfactures.local", html, "text/html", "UTF-8", null);
+    }
+
     private void updateRoutePreview() {
         String from = editPickup.getText().toString().trim();
         String to = editDestination.getText().toString().trim();
-        if (from.isEmpty() || to.isEmpty()) return;
+        if (from.isEmpty() && to.isEmpty()) return;
+
+        if (webRoutePreview != null) {
+            webRoutePreview.evaluateJavascript("updateMarkers('" + from.replace("'", "\\'") + "', '" + to.replace("'", "\\'") + "')", null);
+        }
 
         if (progressRoute != null) progressRoute.setVisibility(View.VISIBLE);
         if (txtRouteInfo != null) txtRouteInfo.setText("Calcul du trajet...");
 
-        // Simulate Maps API call
+        // Simulate distance/time calculation
         viewFlipper.postDelayed(() -> {
             if (getActivity() == null) return;
             if (progressRoute != null) progressRoute.setVisibility(View.GONE);
-            if (txtRouteInfo != null) {
-                txtRouteInfo.setText("Trajet estimé : 12.5 km (22 min)");
+            if (txtRouteInfo != null && !from.isEmpty() && !to.isEmpty()) {
+                txtRouteInfo.setText("Trajet estimé (Google Maps)");
+            } else if (txtRouteInfo != null) {
+                txtRouteInfo.setText("Saisissez un trajet");
             }
         }, 1500);
+    }
+
+    private void openRouteInMaps() {
+        String from = editPickup.getText().toString().trim();
+        String to = editDestination.getText().toString().trim();
+        
+        if (from.isEmpty() || to.isEmpty()) {
+            android.widget.Toast.makeText(requireContext(), "Veuillez saisir un départ et une destination", android.widget.Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Uri uri = Uri.parse("https://www.google.com/maps/dir/?api=1&origin=" + Uri.encode(from) + "&destination=" + Uri.encode(to) + "&travelmode=driving");
+        android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_VIEW, uri);
+        intent.setPackage("com.google.android.apps.maps");
+        
+        if (intent.resolveActivity(requireActivity().getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            startActivity(new android.content.Intent(android.content.Intent.ACTION_VIEW, uri));
+        }
     }
 
     private void setupStepper(View view) {

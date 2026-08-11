@@ -589,6 +589,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        
+        // Refresh theme if requested by Settings
+        if (sharedPreferences.getBoolean("refresh_theme", false)) {
+            sharedPreferences.edit().putBoolean("refresh_theme", false).apply();
+            recreate();
+            return;
+        }
+        
         updateBottomNavBadges();
     }
 

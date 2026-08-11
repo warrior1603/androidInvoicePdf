@@ -48,9 +48,6 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (sharedPreferences.getBoolean("dynamic_colors", false)) {
-            com.google.android.material.color.DynamicColors.applyToActivityIfAvailable(this);
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
 
@@ -265,11 +262,16 @@ public class SettingsActivity extends AppCompatActivity {
             SwitchPreferenceCompat dynamicColorSwitch = findPreference("dynamic_colors");
             if (dynamicColorSwitch != null) {
                 dynamicColorSwitch.setOnPreferenceChangeListener((preference, newValue) -> {
-                    // Update state manually and THEN recreate
                     boolean isEnabled = (boolean) newValue;
                     PreferenceManager.getDefaultSharedPreferences(requireContext())
                             .edit()
                             .putBoolean("dynamic_colors", isEnabled)
+                            .apply();
+                    
+                    // Mark MainActivity for refresh
+                    PreferenceManager.getDefaultSharedPreferences(requireContext())
+                            .edit()
+                            .putBoolean("refresh_theme", true)
                             .apply();
                     
                     requireActivity().recreate();

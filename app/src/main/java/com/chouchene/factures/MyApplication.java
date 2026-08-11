@@ -29,7 +29,7 @@ public class MyApplication extends Application {
                 isDarkMode ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO
         );
 
-        // 2. Apply dynamic colors globally with a reliable FALSE default
+        // 2. Apply dynamic colors globally
         DynamicColors.applyToActivitiesIfAvailable(this, new DynamicColorsOptions.Builder()
                 .setPrecondition((activity, themeResId) -> {
                     return PreferenceManager.getDefaultSharedPreferences(activity)

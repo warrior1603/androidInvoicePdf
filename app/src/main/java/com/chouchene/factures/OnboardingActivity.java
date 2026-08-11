@@ -29,10 +29,6 @@ public class OnboardingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (sharedPreferences.getBoolean("dynamic_colors", false)) {
-            com.google.android.material.color.DynamicColors.applyToActivityIfAvailable(this);
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onboarding);
 
