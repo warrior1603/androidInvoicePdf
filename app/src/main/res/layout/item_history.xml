@@ -36,20 +36,18 @@
 
             <TextView
                 android:id="@+id/txtClientName"
+                style="@style/App.TextAppearance.TitleMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Client Name"
-                android:textAppearance="?attr/textAppearanceTitleMedium"
-                android:textStyle="bold" />
+                android:text="Client Name" />
 
             <TextView
                 android:id="@+id/txtDate"
+                style="@style/App.TextAppearance.LabelSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="01/01/2024"
-                android:textAppearance="?attr/textAppearanceBodySmall"
-                android:alpha="0.7" />
+                android:text="01/01/2024" />
         </LinearLayout>
 
         <LinearLayout
@@ -61,11 +59,10 @@
 
             <TextView
                 android:id="@+id/txtAmount"
+                style="@style/App.TextAppearance.TitleMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="100.00 €"
-                android:textAppearance="?attr/textAppearanceTitleMedium"
-                android:textStyle="bold"
                 android:textColor="?attr/colorPrimary" />
 
             <TextView

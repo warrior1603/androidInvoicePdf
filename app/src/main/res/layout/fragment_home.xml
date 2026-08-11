@@ -19,24 +19,18 @@
             <!-- Welcome Section -->
             <TextView
                 android:id="@+id/txt_greeting"
-                style="@style/App.TextAppearance.TitleLarge"
+                style="@style/App.TextAppearance.Headline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/label_welcome_back"
-                android:textSize="32sp"
-                android:textStyle="bold"
-                android:textColor="?attr/colorOnSurface" />
+                android:text="@string/label_welcome_back" />
 
             <TextView
                 android:id="@+id/txt_current_date"
-                style="@style/App.TextAppearance.BodyMedium"
+                style="@style/App.TextAppearance.LabelLarge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Date du jour"
-                android:alpha="0.6"
-                android:textAllCaps="false"
-                android:letterSpacing="0.1" />
+                android:text="Date du jour" />
 
             <!-- Next Upcoming Trip Card (New Focus) -->
             <com.google.android.material.card.MaterialCardView
@@ -83,20 +77,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/label_next_trip"
-                            android:textColor="@color/icon_agenda"
-                            android:textSize="10sp"
-                            android:letterSpacing="0.1"
-                            android:textStyle="bold" />
+                            android:textColor="@color/icon_agenda" />
 
                         <TextView
                             android:id="@+id/txt_next_trip_time"
+                            style="@style/App.TextAppearance.TitleLarge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="14:30"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
-                            android:textColor="?attr/colorOnSurface" />
+                            android:text="14:30" />
 
                         <TextView
                             android:id="@+id/txt_next_trip_route"
@@ -196,34 +185,29 @@
                             android:layout_weight="1"
                             android:orientation="vertical">
                             <TextView
+                                style="@style/App.TextAppearance.LabelLarge"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Bénéfice du mois"
-                                android:textAppearance="?attr/textAppearanceLabelLarge"
-                                android:textColor="?attr/colorOnPrimaryContainer"
-                                android:alpha="0.7"
-                                android:includeFontPadding="false" />
+                                android:textColor="?attr/colorOnPrimaryContainer" />
                             <TextView
                                 android:id="@+id/txt_home_revenue"
+                                style="@style/App.TextAppearance.NumberBig"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
                                 android:text="0.00 €"
-                                android:textSize="34sp"
-                                android:fontFamily="sans-serif-black"
-                                android:textStyle="bold"
-                                android:textColor="?attr/colorOnPrimaryContainer"
-                                android:includeFontPadding="false" />
+                                android:textColor="?attr/colorOnPrimaryContainer" />
                             <TextView
                                 android:id="@+id/txt_home_revenue_daily"
+                                style="@style/App.TextAppearance.LabelSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
                                 android:text="Aujourd'hui: 0.00 €"
-                                android:textAppearance="?attr/textAppearanceLabelMedium"
                                 android:textColor="?attr/colorOnPrimaryContainer"
-                                android:alpha="0.7"
-                                android:includeFontPadding="false" />
+                                android:alpha="0.8"
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                         <com.google.android.material.card.MaterialCardView
@@ -277,21 +261,17 @@
                             android:gravity="bottom">
                             <TextView
                                 android:id="@+id/txt_home_invoice_count"
+                                style="@style/App.TextAppearance.TitleMedium"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0"
-                                android:textSize="18sp"
-                                android:textStyle="bold"
-                                android:includeFontPadding="false" />
+                                android:text="0" />
                             <TextView
+                                style="@style/App.TextAppearance.LabelSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="4dp"
                                 android:text="@string/title_invoices"
-                                android:textSize="11sp"
-                                android:alpha="0.9"
-                                android:includeFontPadding="false"
-                                android:layout_marginBottom="2dp"
+                                android:layout_marginBottom="1dp"
                                 android:textColor="?attr/colorOnPrimaryContainer" />
                         </LinearLayout>
                     </LinearLayout>
@@ -326,21 +306,17 @@
                             android:gravity="bottom">
                             <TextView
                                 android:id="@+id/txt_home_bon_count"
+                                style="@style/App.TextAppearance.TitleMedium"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0"
-                                android:textSize="18sp"
-                                android:textStyle="bold"
-                                android:includeFontPadding="false" />
+                                android:text="0" />
                             <TextView
+                                style="@style/App.TextAppearance.LabelSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="4dp"
                                 android:text="@string/title_orders"
-                                android:textSize="11sp"
-                                android:alpha="0.9"
-                                android:includeFontPadding="false"
-                                android:layout_marginBottom="2dp"
+                                android:layout_marginBottom="1dp"
                                 android:textColor="?attr/colorOnPrimaryContainer" />
                         </LinearLayout>
                     </LinearLayout>
@@ -375,21 +351,17 @@
                             android:gravity="bottom">
                             <TextView
                                 android:id="@+id/txt_home_booking_count"
+                                style="@style/App.TextAppearance.TitleMedium"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0"
-                                android:textSize="18sp"
-                                android:textStyle="bold"
-                                android:includeFontPadding="false" />
+                                android:text="0" />
                             <TextView
+                                style="@style/App.TextAppearance.LabelSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="4dp"
                                 android:text="@string/label_bookings"
-                                android:textSize="11sp"
-                                android:alpha="0.9"
-                                android:includeFontPadding="false"
-                                android:layout_marginBottom="2dp"
+                                android:layout_marginBottom="1dp"
                                 android:textColor="?attr/colorOnPrimaryContainer" />
                         </LinearLayout>
                     </LinearLayout>
@@ -400,13 +372,11 @@
 
             <!-- Quick Access Section -->
             <TextView
-                style="@style/App.TextAppearance.TitleMedium"
+                style="@style/App.TextAppearance.TitleLarge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Raccourcis"
-                android:textColor="?attr/colorOnSurface"
-                android:textStyle="bold" />
+                android:layout_marginTop="24dp"
+                android:text="Raccourcis" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -456,8 +426,6 @@
                                     android:layout_weight="1"
                                     android:layout_marginStart="8dp"
                                     android:text="Documents"
-                                    android:textSize="14sp"
-                                    android:textStyle="bold"
                                     android:maxLines="2"
                                     android:ellipsize="end" />
                             </LinearLayout>
@@ -506,8 +474,6 @@
                                 android:layout_weight="1"
                                 android:layout_marginStart="8dp"
                                 android:text="Clients"
-                                android:textSize="14sp"
-                                android:textStyle="bold"
                                 android:maxLines="2"
                                 android:ellipsize="end" />
                         </LinearLayout>
@@ -552,8 +518,6 @@
                                 android:layout_weight="1"
                                 android:layout_marginStart="8dp"
                                 android:text="@string/title_agenda"
-                                android:textSize="14sp"
-                                android:textStyle="bold"
                                 android:maxLines="2"
                                 android:ellipsize="end" />
                         </LinearLayout>
@@ -590,8 +554,6 @@
                                 android:layout_weight="1"
                                 android:layout_marginStart="8dp"
                                 android:text="Dashboard"
-                                android:textSize="14sp"
-                                android:textStyle="bold"
                                 android:maxLines="2"
                                 android:ellipsize="end" />
                         </LinearLayout>
@@ -636,8 +598,6 @@
                                 android:layout_weight="1"
                                 android:layout_marginStart="8dp"
                                 android:text="Entreprise"
-                                android:textSize="14sp"
-                                android:textStyle="bold"
                                 android:maxLines="2"
                                 android:ellipsize="end" />
                         </LinearLayout>
@@ -674,8 +634,6 @@
                                 android:layout_weight="1"
                                 android:layout_marginStart="8dp"
                                 android:text="@string/title_settings"
-                                android:textSize="14sp"
-                                android:textStyle="bold"
                                 android:maxLines="2"
                                 android:ellipsize="end" />
                         </LinearLayout>
@@ -691,21 +649,18 @@
                 android:layout_marginTop="24dp"
                 android:gravity="center_vertical">
                 <TextView
-                    style="@style/App.TextAppearance.TitleMedium"
+                    style="@style/App.TextAppearance.TitleLarge"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Activité Récente"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textStyle="bold" />
+                    android:text="Activité Récente" />
                 <TextView
                     android:id="@+id/btn_view_all_recent"
+                    style="@style/App.TextAppearance.LabelLarge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Voir tout"
                     android:textColor="?attr/colorPrimary"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
                     android:clickable="true"
                     android:focusable="true"
                     android:background="?attr/selectableItemBackgroundBorderless" />

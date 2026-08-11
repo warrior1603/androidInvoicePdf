@@ -107,18 +107,17 @@
         <item name="boxCornerRadiusBottomEnd">12dp</item>
     </style>
 
-    <!-- Typography -->
-    <style name="App.TextAppearance.Headline" parent="TextAppearance.Material3.HeadlineMedium">
-        <item name="android:textSize">22sp</item>
-        <item name="android:textStyle">normal</item>
+    <!-- Typography - Refined Premium Hierarchy -->
+    <style name="App.TextAppearance.Headline" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="android:textSize">28sp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">-0.02</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
     </style>
 
     <style name="App.TextAppearance.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
-        <item name="android:textSize">18sp</item>
-        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
@@ -126,32 +125,30 @@
 
     <style name="App.TextAppearance.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
         <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">normal</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
     </style>
 
     <style name="App.TextAppearance.NumberBig" parent="TextAppearance.Material3.HeadlineLarge">
-        <item name="android:textSize">26sp</item>
-        <item name="android:textStyle">normal</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">34sp</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:includeFontPadding">false</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
     </style>
 
     <style name="App.TextAppearance.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
         <item name="android:textSize">12sp</item>
-        <item name="android:textStyle">normal</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:alpha">0.8</item>
+        <item name="android:letterSpacing">0.05</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
     </style>
 
     <style name="App.TextAppearance.LabelSmall" parent="TextAppearance.Material3.LabelSmall">
         <item name="android:textSize">11sp</item>
-        <item name="android:textStyle">normal</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:alpha">0.6</item>
         <item name="android:textAllCaps">false</item>
@@ -159,16 +156,14 @@
     </style>
 
     <style name="App.TextAppearance.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
     </style>
 
     <style name="App.TextAppearance.BodySmall" parent="TextAppearance.Material3.BodySmall">
-        <item name="android:textSize">12sp</item>
-        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">13sp</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:alpha">0.7</item>
         <item name="android:textAllCaps">false</item>

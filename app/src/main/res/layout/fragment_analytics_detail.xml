@@ -69,21 +69,19 @@
 
                             <TextView
                                 android:id="@+id/revenueLabel"
+                                style="@style/App.TextAppearance.LabelLarge"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="RÉSUMÉ DES REVENUS"
-                                android:textAppearance="?attr/textAppearanceLabelLarge"
-                                android:textColor="?attr/colorOnPrimaryContainer"
-                                android:alpha="0.7" />
+                                android:text="Résumé des revenus"
+                                android:textColor="?attr/colorOnPrimaryContainer" />
 
                             <TextView
                                 android:id="@+id/totalRevenue"
+                                style="@style/App.TextAppearance.NumberBig"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
                                 android:text="0.00 €"
-                                android:textSize="32sp"
-                                android:textStyle="bold"
                                 android:textColor="?attr/colorOnPrimaryContainer" />
                         </LinearLayout>
 
@@ -326,13 +324,12 @@
 
                 <TextView
                     android:id="@+id/chartTitle"
-                    style="@style/App.TextAppearance.TitleMedium"
+                    style="@style/App.TextAppearance.LabelLarge"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TENDANCE DU BÉNÉFICE"
-                    android:textColor="?attr/colorPrimary"
-                    android:textStyle="bold" />
+                    android:text="Tendance du bénéfice"
+                    android:textColor="?attr/colorPrimary" />
 
                 <TextView
                     android:id="@+id/btnExportCsv"

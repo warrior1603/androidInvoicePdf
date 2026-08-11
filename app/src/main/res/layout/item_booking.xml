@@ -26,19 +26,17 @@
             android:orientation="vertical">
             <TextView
                 android:id="@+id/txtTime"
+                style="@style/App.TextAppearance.TitleMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="14:30"
-                android:textSize="16sp"
-                android:textStyle="bold"
                 android:textColor="?attr/colorPrimary" />
             <TextView
                 android:id="@+id/txtDate"
+                style="@style/App.TextAppearance.LabelSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_today"
-                android:textSize="10sp"
-                android:alpha="0.6" />
+                android:text="@string/label_today" />
         </LinearLayout>
 
         <View
@@ -56,24 +54,21 @@
 
             <TextView
                 android:id="@+id/txtClientName"
+                style="@style/App.TextAppearance.TitleMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Client Name"
-                android:textAppearance="?attr/textAppearanceTitleMedium"
-                android:textSize="15sp"
-                android:textStyle="bold"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:includeFontPadding="false" />
 
             <TextView
                 android:id="@+id/txtRoute"
+                style="@style/App.TextAppearance.BodySmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Pickup → Destination"
-                android:textSize="12sp"
-                android:alpha="0.7"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:includeFontPadding="false" />
@@ -120,12 +115,10 @@
 
             <TextView
                 android:id="@+id/txtAmount"
+                style="@style/App.TextAppearance.TitleMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="45.00 €"
-                android:textAppearance="?attr/textAppearanceTitleMedium"
-                android:textSize="15sp"
-                android:textStyle="bold"
                 android:textColor="?attr/colorOnSurface" />
 
             <TextView
