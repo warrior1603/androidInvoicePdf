@@ -199,6 +199,16 @@
                                 android:layout_marginTop="2dp"
                                 android:text="0.00 €"
                                 android:textColor="?attr/colorOnPrimaryContainer" />
+
+                            <!-- Sparkline (New) -->
+                            <ImageView
+                                android:layout_width="80dp"
+                                android:layout_height="24dp"
+                                android:layout_marginTop="4dp"
+                                android:alpha="0.6"
+                                android:src="@drawable/revenue_sparkline"
+                                app:tint="?attr/colorOnPrimaryContainer" />
+
                             <TextView
                                 android:id="@+id/txt_home_revenue_daily"
                                 style="@style/App.TextAppearance.LabelSmall"
