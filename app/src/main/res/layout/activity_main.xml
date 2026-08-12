@@ -59,7 +59,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:contentDescription="@string/label_notifications"
-                    app:icon="@drawable/ic_bell_outline"
+                    app:icon="@drawable/ic_outline_bell"
                     app:iconSize="24dp"
                     app:iconTint="?attr/colorOnSurfaceVariant" />
 
@@ -70,7 +70,7 @@
                     android:layout_height="48dp"
                     android:layout_marginStart="-4dp"
                     android:contentDescription="@string/title_settings"
-                    app:icon="@drawable/ic_nav_settings_outline"
+                    app:icon="@drawable/ic_outline_settings"
                     app:iconSize="24dp"
                     app:iconTint="?attr/colorOnSurfaceVariant" />
 

@@ -7,13 +7,9 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
+        style="@style/App.TabLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabIndicatorFullWidth="false"
-        app:tabSelectedTextColor="?attr/colorPrimary"
-        app:tabTextColor="?attr/colorOnSurfaceVariant"
-        app:tabMode="fixed"
-        app:tabGravity="fill"/>
+        android:layout_height="wrap_content" />
 
     <HorizontalScrollView
         android:layout_width="match_parent"

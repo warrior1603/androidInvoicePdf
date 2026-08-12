@@ -418,7 +418,7 @@
                                     android:padding="10dp"
                                     android:background="@drawable/bg_circle_soft"
                                     android:backgroundTint="@color/icon_documents_bg"
-                                    android:src="@drawable/rounded_receipt_long_24"
+                                    android:src="@drawable/ic_outline_receipt"
                                     app:tint="@color/icon_documents" />
                                 <TextView
                                     style="@style/App.TextAppearance.TitleMedium"
@@ -466,7 +466,7 @@
                                 android:padding="10dp"
                                 android:background="@drawable/bg_circle_soft"
                                 android:backgroundTint="@color/icon_clients_bg"
-                                android:src="@drawable/rounded_people_24"
+                                android:src="@drawable/ic_outline_users"
                                 app:tint="@color/icon_clients" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"
@@ -510,7 +510,7 @@
                                 android:padding="10dp"
                                 android:background="@drawable/bg_circle_soft"
                                 android:backgroundTint="@color/icon_agenda_bg"
-                                android:src="@drawable/rounded_calendar_today_24"
+                                android:src="@drawable/ic_outline_calendar"
                                 app:tint="@color/icon_agenda" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"
@@ -546,7 +546,7 @@
                                 android:padding="10dp"
                                 android:background="@drawable/bg_circle_soft"
                                 android:backgroundTint="@color/icon_dashboard_bg"
-                                android:src="@drawable/rounded_dashboard_24"
+                                android:src="@drawable/ic_outline_dashboard"
                                 app:tint="@color/icon_dashboard" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"
@@ -590,7 +590,7 @@
                                 android:padding="10dp"
                                 android:background="@drawable/bg_circle_soft"
                                 android:backgroundTint="@color/icon_profile_bg"
-                                android:src="@drawable/rounded_business_24"
+                                android:src="@drawable/ic_outline_building"
                                 app:tint="@color/icon_profile" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"
@@ -626,7 +626,7 @@
                                 android:padding="10dp"
                                 android:background="@drawable/bg_circle_soft"
                                 android:backgroundTint="@color/icon_settings_bg"
-                                android:src="@drawable/rounded_settings_24"
+                                android:src="@drawable/ic_outline_settings"
                                 app:tint="@color/icon_settings" />
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"

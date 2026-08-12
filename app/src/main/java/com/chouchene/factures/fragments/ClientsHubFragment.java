@@ -40,8 +40,10 @@ public class ClientsHubFragment extends Fragment {
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             if (position == 0) {
                 tab.setText(R.string.label_all_clients);
+                tab.setIcon(R.drawable.ic_users_outline);
             } else {
                 tab.setText(R.string.label_recent_clients);
+                tab.setIcon(R.drawable.ic_tab_history);
             }
         }).attach();
 

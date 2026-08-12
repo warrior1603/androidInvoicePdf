@@ -8,11 +8,9 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/rapportsTabLayout"
+        style="@style/App.TabLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabMode="fixed"
-        app:tabGravity="fill"
-        app:tabIndicatorFullWidth="false"/>
+        android:layout_height="wrap_content" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/rapportsViewPager"

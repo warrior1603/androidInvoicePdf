@@ -84,8 +84,8 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
     }
 
     private void setupTabs() {
-        tabLayout.addTab(tabLayout.newTab().setText("Jour").setIcon(R.drawable.ic_tab_day_outline));
-        tabLayout.addTab(tabLayout.newTab().setText("Mois").setIcon(R.drawable.ic_tab_month_outline));
+        tabLayout.addTab(tabLayout.newTab().setText("Jour").setIcon(R.drawable.ic_outline_clock));
+        tabLayout.addTab(tabLayout.newTab().setText("Mois").setIcon(R.drawable.ic_outline_calendar));
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
