@@ -113,4 +113,7 @@ public interface InvoiceDao {
 
     @Query("SELECT COUNT(*) FROM invoices WHERE status = 'En attente' AND (date / 1000) < (strftime('%s', 'now') - 30*24*60*60)")
     int getOverdueInvoicesCount();
+
+    @Query("SELECT * FROM invoices WHERE id = :id")
+    Invoice getInvoiceById(int id);
 }

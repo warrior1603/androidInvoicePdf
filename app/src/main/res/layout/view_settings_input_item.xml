@@ -18,8 +18,9 @@
         android:contentDescription="@null" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_marginStart="16dp"
         android:orientation="vertical">
 
@@ -34,7 +35,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/item_input"
-            style="@style/App.TextAppearance.BodySmall"
+            style="@style/App.TextAppearance.BodyMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
@@ -46,4 +47,19 @@
             android:textColor="?attr/colorOnSurfaceVariant" />
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/item_action_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:padding="6dp"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/ic_address_book_outline"
+        app:tint="?attr/colorPrimary"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true"
+        android:contentDescription="@null" />
+
 </LinearLayout>

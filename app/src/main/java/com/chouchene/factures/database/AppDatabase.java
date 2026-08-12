@@ -13,7 +13,7 @@ import com.chouchene.factures.entity.Client;
 import com.chouchene.factures.entity.Expense;
 import com.chouchene.factures.entity.Invoice;
 
-@Database(entities = {Client.class, Invoice.class, Expense.class, Booking.class} ,version = 10,exportSchema = false)
+@Database(entities = {Client.class, Invoice.class, Expense.class, Booking.class} ,version = 11,exportSchema = false)
 @TypeConverters({DateConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract ClientDao clientDao();

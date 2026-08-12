@@ -41,6 +41,12 @@
         tools:ignore="UnusedAttribute"
         tools:targetApi="36">
         <activity
+            android:name=".DocumentStudioActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/AppTheme" />
+
+        <activity
             android:name=".SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings" />

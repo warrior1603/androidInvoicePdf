@@ -32,6 +32,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         void onStatusClick(RecentActivity activity);
         void onShareClick(RecentActivity activity);
         void onStatusChange(RecentActivity activity, String newStatus);
+        void onEditClick(RecentActivity activity);
     }
 
     public HistoryAdapter(OnHistoryActionListener listener) {
@@ -100,6 +101,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
                     
             listener.onItemClick(activity, holder.icon);
         });
+
+        holder.itemView.setOnLongClickListener(v -> {
+            if (activity.type != RecentActivity.Type.BOOKING) {
+                listener.onEditClick(activity);
+                return true;
+            }
+            return false;
+        });
         
         String displayStatus = activity.status;
         if ("Scheduled".equals(displayStatus)) displayStatus = holder.itemView.getContext().getString(R.string.status_scheduled);
@@ -136,6 +145,15 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             v.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK);
             listener.onStatusClick(activity);
         });
+
+        View btnEdit = holder.itemView.findViewById(R.id.btn_edit_item);
+        if (btnEdit != null) {
+            btnEdit.setVisibility(activity.type == RecentActivity.Type.BOOKING ? View.GONE : View.VISIBLE);
+            btnEdit.setOnClickListener(v -> {
+                v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                listener.onEditClick(activity);
+            });
+        }
 
         holder.txtStatus.setOnLongClickListener(v -> {
             if (activity.type != RecentActivity.Type.BOOKING && !"Payée".equals(activity.status)) {

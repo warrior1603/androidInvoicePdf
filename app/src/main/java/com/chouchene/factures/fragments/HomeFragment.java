@@ -170,20 +170,19 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
 
     @Override
     public void onShareClick(RecentActivity activity) {
+        // ... existing code ...
+    }
+
+    @Override
+    public void onEditClick(RecentActivity activity) {
         if (activity.type == RecentActivity.Type.BOOKING) return;
         
         Invoice invoice = (Invoice) activity.originalObject;
-        if (invoice.filePath == null) return;
-        File file = new File(invoice.filePath);
-        if (!file.exists()) return;
-
-        Uri uri = FileProvider.getUriForFile(requireContext(), requireContext().getPackageName() + ".provider", file);
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("application/pdf");
-        intent.putExtra(Intent.EXTRA_STREAM, uri);
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(Intent.createChooser(intent, "Partager le document"));
-        adapter.notifyDataSetChanged();
+        Intent intent = new Intent(requireContext(), com.chouchene.factures.DocumentStudioActivity.class);
+        intent.putExtra(com.chouchene.factures.DocumentStudioActivity.EXTRA_MODE, com.chouchene.factures.DocumentStudioActivity.MODE_EDIT);
+        intent.putExtra(com.chouchene.factures.DocumentStudioActivity.EXTRA_TYPE, invoice.type);
+        intent.putExtra(com.chouchene.factures.DocumentStudioActivity.EXTRA_DOC_ID, invoice.id);
+        startActivity(intent);
     }
 
     @Override
@@ -301,6 +300,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         b.putString("file_path", invoice.filePath);
         b.putString("client_name", invoice.clientName);
         b.putString("doc_type", activity.type.name());
+        b.putInt("EXTRA_DOC_ID", invoice.id);
         String transitionName = androidx.core.view.ViewCompat.getTransitionName(sharedElement);
         b.putString("transition_name", transitionName);
 

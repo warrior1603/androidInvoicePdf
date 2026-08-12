@@ -90,15 +90,10 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
         }
 
         fab.setOnClickListener(v -> {
-            CreateBonBottomSheet bottomSheet = new CreateBonBottomSheet();
-            bottomSheet.setOnBonGeneratedListener(() -> {
-                if (getActivity() instanceof com.chouchene.factures.MainActivity) {
-                    ((com.chouchene.factures.MainActivity) getActivity()).triggerConfetti();
-                }
-                if (viewModel != null) loadBons(viewModel.getCurrentFilter().getValue(), true);
-                else loadBons(null, true);
-            });
-            bottomSheet.show(getChildFragmentManager(), "CREATE_BON");
+            android.content.Intent intent = new android.content.Intent(requireContext(), com.chouchene.factures.DocumentStudioActivity.class);
+            intent.putExtra(com.chouchene.factures.DocumentStudioActivity.EXTRA_MODE, com.chouchene.factures.DocumentStudioActivity.MODE_CREATE);
+            intent.putExtra(com.chouchene.factures.DocumentStudioActivity.EXTRA_TYPE, com.chouchene.factures.DocumentStudioActivity.TYPE_BON);
+            startActivity(intent);
         });
     }
 
@@ -182,6 +177,7 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
         b.putString("file_path", invoice.filePath);
         b.putString("client_name", invoice.clientName);
         b.putString("doc_type", activity.type.name());
+        b.putInt("EXTRA_DOC_ID", invoice.id);
         String transitionName = androidx.core.view.ViewCompat.getTransitionName(sharedElement);
         b.putString("transition_name", transitionName);
 
@@ -249,19 +245,17 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
 
     @Override
     public void onShareClick(RecentActivity activity) {
-        Invoice invoice = (Invoice) activity.originalObject;
-        if (invoice.filePath == null) return;
-        File file = new File(invoice.filePath);
-        if (!file.exists()) return;
+        // ... existing code ...
+    }
 
-        android.net.Uri uri = androidx.core.content.FileProvider.getUriForFile(requireContext(), 
-                requireContext().getPackageName() + ".provider", file);
-        
-        android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_SEND);
-        intent.setType("application/pdf");
-        intent.putExtra(android.content.Intent.EXTRA_STREAM, uri);
-        intent.addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(android.content.Intent.createChooser(intent, "Partager le bon"));
+    @Override
+    public void onEditClick(RecentActivity activity) {
+        Invoice invoice = (Invoice) activity.originalObject;
+        android.content.Intent intent = new android.content.Intent(requireContext(), com.chouchene.factures.DocumentStudioActivity.class);
+        intent.putExtra(com.chouchene.factures.DocumentStudioActivity.EXTRA_MODE, com.chouchene.factures.DocumentStudioActivity.MODE_EDIT);
+        intent.putExtra(com.chouchene.factures.DocumentStudioActivity.EXTRA_TYPE, com.chouchene.factures.DocumentStudioActivity.TYPE_BON);
+        intent.putExtra(com.chouchene.factures.DocumentStudioActivity.EXTRA_DOC_ID, invoice.id);
+        startActivity(intent);
     }
 
     @Override

@@ -157,6 +157,8 @@ public class GlobalHistoryFragment extends Fragment implements HistoryAdapter.On
         Invoice invoice = (Invoice) activity.originalObject;
         Bundle b = new Bundle();
         b.putString("file_path", invoice.filePath);
+        b.putInt("EXTRA_DOC_ID", invoice.id);
+        b.putString("doc_type", activity.type.name());
         Navigation.findNavController(requireView()).navigate(R.id.webViewPdfFragment, b);
     }
 
@@ -204,4 +206,16 @@ public class GlobalHistoryFragment extends Fragment implements HistoryAdapter.On
 
     @Override
     public void onStatusChange(RecentActivity activity, String newStatus) {}
+
+    @Override
+    public void onEditClick(RecentActivity activity) {
+        if (activity.type == RecentActivity.Type.BOOKING) return;
+        android.content.Intent intent = new android.content.Intent(requireContext(), com.chouchene.factures.DocumentStudioActivity.class);
+        intent.putExtra("EXTRA_MODE", "EDIT");
+        intent.putExtra("EXTRA_TYPE", activity.type == RecentActivity.Type.ORDER ? "BON" : "INVOICE");
+        if (activity.originalObject instanceof com.chouchene.factures.entity.Invoice) {
+            intent.putExtra("EXTRA_DOC_ID", ((com.chouchene.factures.entity.Invoice) activity.originalObject).id);
+        }
+        startActivity(intent);
+    }
 }

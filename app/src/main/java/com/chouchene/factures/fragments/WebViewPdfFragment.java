@@ -159,6 +159,24 @@ public class WebViewPdfFragment extends Fragment {
             printContainer.setOnClickListener(v -> printButton.performClick());
         }
 
+        View btnEdit = view.findViewById(R.id.editButton);
+        if (btnEdit != null) {
+            btnEdit.setOnClickListener(v -> {
+                if (bundle != null && bundle.containsKey("EXTRA_DOC_ID")) {
+                    Intent intent = new Intent(requireContext(), com.chouchene.factures.DocumentStudioActivity.class);
+                    intent.putExtra("EXTRA_MODE", "EDIT");
+                    intent.putExtra("EXTRA_TYPE", bundle.getString("doc_type", "INVOICE"));
+                    intent.putExtra("EXTRA_DOC_ID", bundle.getInt("EXTRA_DOC_ID"));
+                    startActivity(intent);
+                }
+            });
+        }
+        
+        View editContainer = view.findViewById(R.id.btn_edit_container);
+        if (editContainer != null && btnEdit != null) {
+            editContainer.setOnClickListener(v -> btnEdit.performClick());
+        }
+
         File file = new File(filePath);
         Uri fileUri = FileProvider.getUriForFile(
                 appContext, "com.chouchene.factures.provider", file

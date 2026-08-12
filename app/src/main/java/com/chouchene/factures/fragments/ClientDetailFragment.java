@@ -184,6 +184,18 @@ public class ClientDetailFragment extends Fragment implements HistoryAdapter.OnH
         updateStatus(activity, newStatus, null);
     }
 
+    @Override
+    public void onEditClick(RecentActivity activity) {
+        if (activity.type == RecentActivity.Type.BOOKING) return;
+        android.content.Intent intent = new android.content.Intent(requireContext(), com.chouchene.factures.DocumentStudioActivity.class);
+        intent.putExtra("EXTRA_MODE", "EDIT");
+        intent.putExtra("EXTRA_TYPE", activity.type == RecentActivity.Type.ORDER ? "BON" : "INVOICE");
+        if (activity.originalObject instanceof com.chouchene.factures.entity.Invoice) {
+            intent.putExtra("EXTRA_DOC_ID", ((com.chouchene.factures.entity.Invoice) activity.originalObject).id);
+        }
+        startActivity(intent);
+    }
+
     private void loadHistory() {
         if (shimmerContainer != null) {
             shimmerContainer.setVisibility(View.VISIBLE);
