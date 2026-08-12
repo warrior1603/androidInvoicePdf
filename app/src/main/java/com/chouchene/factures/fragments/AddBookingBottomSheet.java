@@ -43,15 +43,12 @@ import java.util.concurrent.Executors;
 public class AddBookingBottomSheet extends BottomSheetDialogFragment {
 
     private TextInputEditText editClientName, editPhone, editPickup, editDestination, editDate, editTime, editPrice;
-    private TextView txtTitle, txtRouteInfo;
     private MaterialButton btnSave, btnDelete, btnBack, btnNext, btnConvertToInvoice;
-    private com.google.android.material.progressindicator.CircularProgressIndicator progressRoute;
     private View mapTouchOverlay;
     private WebView webRoutePreview;
     private MaterialSwitch switchCancelled;
     private ViewFlipper viewFlipper;
     private TextView stepNumber1, stepNumber2, stepNumber3;
-    private TextView stepLabel1, stepLabel2, stepLabel3;
     private int currentStep = 0;
 
     private Calendar calendar = Calendar.getInstance();
@@ -116,29 +113,33 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
         setupStepper(view);
 
         if (bookingId != -1) {
+            // Edit mode
+            btnDelete.setVisibility(View.VISIBLE);
             switchCancelled.setVisibility(View.VISIBLE);
             loadExistingBooking();
         }
     }
 
     private void setupInputs(View view) {
-        txtTitle = view.findViewById(R.id.txtSheetTitle);
         switchCancelled = view.findViewById(R.id.switchCancelled);
-        editClientName = view.findViewById(R.id.editClientName);
-        editPhone = view.findViewById(R.id.editPhone);
-        editPickup = view.findViewById(R.id.editPickup);
-        editDestination = view.findViewById(R.id.editDestination);
-        editDate = view.findViewById(R.id.editDate);
-        editTime = view.findViewById(R.id.editTime);
-        editPrice = view.findViewById(R.id.editPrice);
+        
+        editClientName = initItemWithAction(view.findViewById(R.id.item_client_name), R.drawable.ic_nav_user_outline, "Nom du client", android.text.InputType.TYPE_TEXT_VARIATION_PERSON_NAME, this::showClientPicker);
+        editPhone = initItem(view.findViewById(R.id.item_client_phone), R.drawable.ic_outline_phone, "Téléphone", android.text.InputType.TYPE_CLASS_PHONE);
+        
+        editPickup = initItem(view.findViewById(R.id.item_pickup), R.drawable.rounded_location_on_24, "Départ", android.text.InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
+        editDestination = initItem(view.findViewById(R.id.item_destination), R.drawable.rounded_location_on_24, "Arrivée", android.text.InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
+        
+        editDate = initItem(view.findViewById(R.id.item_date), R.drawable.rounded_calendar_today_24, "Date", android.text.InputType.TYPE_NULL);
+        editTime = initItem(view.findViewById(R.id.item_time), R.drawable.ic_clock_outline, "Heure", android.text.InputType.TYPE_NULL);
+        
+        editPrice = initItem(view.findViewById(R.id.item_price), R.drawable.rounded_payments_24, "Tarif TTC (€)", android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
         btnSave = view.findViewById(R.id.btnSave);
         btnDelete = view.findViewById(R.id.btnDelete);
         btnConvertToInvoice = view.findViewById(R.id.btnConvertToInvoice);
         
         webRoutePreview = view.findViewById(R.id.webRoutePreview);
         mapTouchOverlay = view.findViewById(R.id.mapTouchOverlay);
-        txtRouteInfo = view.findViewById(R.id.txtRouteInfo);
-        progressRoute = view.findViewById(R.id.progressRoute);
 
         initMapPreview();
 
@@ -147,11 +148,6 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
 
         editDate.setText(dateFmt.format(calendar.getTime()));
         editTime.setText(timeFmt.format(calendar.getTime()));
-
-        com.google.android.material.textfield.TextInputLayout clientInput = view.findViewById(R.id.client_input_layout);
-        if (clientInput != null) {
-            clientInput.setEndIconOnClickListener(v -> showClientPicker());
-        }
 
         editDate.setOnClickListener(v -> showDatePicker());
         editTime.setOnClickListener(v -> showTimePicker());
@@ -167,6 +163,37 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
         };
         editPickup.addTextChangedListener(routeWatcher);
         editDestination.addTextChangedListener(routeWatcher);
+    }
+
+    private com.google.android.material.textfield.TextInputEditText initItem(View itemView, int iconRes, String label, int inputType) {
+        android.widget.ImageView icon = itemView.findViewById(R.id.item_icon);
+        android.widget.TextView txtLabel = itemView.findViewById(R.id.item_label);
+        com.google.android.material.textfield.TextInputEditText input = itemView.findViewById(R.id.item_input);
+
+        icon.setImageResource(iconRes);
+        txtLabel.setText(label);
+        
+        // Use black for labels to match Document Studio
+        try {
+            android.util.TypedValue typedValue = new android.util.TypedValue();
+            requireContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorOnSurface, typedValue, true);
+            txtLabel.setTextColor(typedValue.data);
+            txtLabel.setAlpha(0.9f);
+        } catch (Exception ignored) {}
+
+        input.setHint(label);
+        input.setInputType(inputType);
+        return input;
+    }
+
+    private com.google.android.material.textfield.TextInputEditText initItemWithAction(View itemView, int iconRes, String label, int inputType, Runnable action) {
+        com.google.android.material.textfield.TextInputEditText input = initItem(itemView, iconRes, label, inputType);
+        View actionIcon = itemView.findViewById(R.id.item_action_icon);
+        if (actionIcon != null) {
+            actionIcon.setVisibility(View.VISIBLE);
+            actionIcon.setOnClickListener(v -> action.run());
+        }
+        return input;
     }
 
     private void initMapPreview() {
@@ -237,20 +264,6 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
         if (webRoutePreview != null) {
             webRoutePreview.evaluateJavascript("updateMarkers('" + from.replace("'", "\\'") + "', '" + to.replace("'", "\\'") + "')", null);
         }
-
-        if (progressRoute != null) progressRoute.setVisibility(View.VISIBLE);
-        if (txtRouteInfo != null) txtRouteInfo.setText("Calcul du trajet...");
-
-        // Simulate distance/time calculation
-        viewFlipper.postDelayed(() -> {
-            if (getActivity() == null) return;
-            if (progressRoute != null) progressRoute.setVisibility(View.GONE);
-            if (txtRouteInfo != null && !from.isEmpty() && !to.isEmpty()) {
-                txtRouteInfo.setText("Trajet estimé (Google Maps)");
-            } else if (txtRouteInfo != null) {
-                txtRouteInfo.setText("Saisissez un trajet");
-            }
-        }, 1500);
     }
 
     private void openRouteInMaps() {
@@ -277,13 +290,11 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
         viewFlipper = view.findViewById(R.id.view_flipper);
         btnBack = view.findViewById(R.id.btn_back_booking);
         btnNext = view.findViewById(R.id.btn_next_booking);
+        btnSave = view.findViewById(R.id.btnSave);
 
         stepNumber1 = view.findViewById(R.id.step_number_1);
         stepNumber2 = view.findViewById(R.id.step_number_2);
         stepNumber3 = view.findViewById(R.id.step_number_3);
-        stepLabel1 = view.findViewById(R.id.step_label_1);
-        stepLabel2 = view.findViewById(R.id.step_label_2);
-        stepLabel3 = view.findViewById(R.id.step_label_3);
 
         btnNext.setOnClickListener(v -> goToNextStep());
         btnBack.setOnClickListener(v -> goToPreviousStep());
@@ -336,28 +347,18 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
             btnConvertToInvoice.setOnClickListener(v -> convertToInvoice());
         }
 
-        updateStepIndicator(stepNumber1, stepLabel1, currentStep >= 0);
-        updateStepIndicator(stepNumber2, stepLabel2, currentStep >= 1);
-        updateStepIndicator(stepNumber3, stepLabel3, currentStep >= 2);
+        updateStepIndicator(stepNumber1, currentStep >= 0);
+        updateStepIndicator(stepNumber2, currentStep >= 1);
+        updateStepIndicator(stepNumber3, currentStep >= 2);
         
         if (currentStep == 2) {
             updateSummary();
         }
     }
 
-    private void updateStepIndicator(TextView number, TextView label, boolean active) {
+    private void updateStepIndicator(TextView number, boolean active) {
         number.setBackgroundResource(active ? R.drawable.circle_stepper_active : R.drawable.circle_stepper_inactive);
         number.setTextColor(active ? android.graphics.Color.WHITE : android.graphics.Color.GRAY);
-        label.setTypeface(null, active ? android.graphics.Typeface.BOLD : android.graphics.Typeface.NORMAL);
-        
-        int activeColor = android.graphics.Color.BLUE;
-        try {
-            android.util.TypedValue typedValue = new android.util.TypedValue();
-            requireContext().getTheme().resolveAttribute(android.R.attr.colorPrimary, typedValue, true);
-            activeColor = typedValue.data;
-        } catch (Exception ignored) {}
-
-        label.setTextColor(active ? activeColor : android.graphics.Color.GRAY);
     }
 
     private void updateSummary() {
@@ -402,7 +403,6 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
         
         if (getActivity() != null) {
             getActivity().runOnUiThread(() -> {
-                if (txtTitle != null) txtTitle.setText(R.string.title_edit_booking);
                 if (btnSave != null) btnSave.setText(R.string.action_update);
                 if (btnDelete != null) btnDelete.setVisibility(View.VISIBLE);
                 

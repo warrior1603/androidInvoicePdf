@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingBottom="16dp">
 
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView
         android:layout_width="match_parent"
@@ -16,109 +16,63 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginBottom="16dp"
-        android:paddingHorizontal="16dp">
+        android:paddingVertical="16dp"
+        android:paddingHorizontal="48dp">
 
-        <LinearLayout
-            android:id="@+id/step_indicator_1"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
-            <TextView
-                android:id="@+id/step_number_1"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:background="@drawable/circle_stepper_active"
-                android:gravity="center"
-                android:text="1"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/step_label_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Passager"
-                android:textSize="11sp"
-                android:textColor="?attr/colorPrimary"
-                android:textStyle="bold" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/step_number_1"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/circle_stepper_active"
+            android:gravity="center"
+            android:text="1"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <View
-            android:layout_width="24dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="-12dp"
+            android:id="@+id/step_line_1"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_weight="1"
             android:background="?attr/colorOutlineVariant" />
 
-        <LinearLayout
-            android:id="@+id/step_indicator_2"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
-            <TextView
-                android:id="@+id/step_number_2"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:background="@drawable/circle_stepper_inactive"
-                android:gravity="center"
-                android:text="2"
-                android:textColor="?attr/colorOnSurfaceVariant" />
-            <TextView
-                android:id="@+id/step_label_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Trajet"
-                android:textSize="11sp"
-                android:textColor="?attr/colorOnSurfaceVariant" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/step_number_2"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/circle_stepper_inactive"
+            android:gravity="center"
+            android:text="2"
+            android:textSize="12sp"
+            android:textColor="?attr/colorOnSurfaceVariant" />
 
         <View
-            android:layout_width="24dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="-12dp"
+            android:id="@+id/step_line_2"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_weight="1"
             android:background="?attr/colorOutlineVariant" />
 
-        <LinearLayout
-            android:id="@+id/step_indicator_3"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
-            <TextView
-                android:id="@+id/step_number_3"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:background="@drawable/circle_stepper_inactive"
-                android:gravity="center"
-                android:text="3"
-                android:textColor="?attr/colorOnSurfaceVariant" />
-            <TextView
-                android:id="@+id/step_label_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Validation"
-                android:textSize="11sp"
-                android:textColor="?attr/colorOnSurfaceVariant" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/step_number_3"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/circle_stepper_inactive"
+            android:gravity="center"
+            android:text="3"
+            android:textSize="12sp"
+            android:textColor="?attr/colorOnSurfaceVariant" />
     </LinearLayout>
 
     <ViewFlipper
         android:id="@+id/view_flipper"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:inAnimation="@android:anim/fade_in"
-        android:outAnimation="@android:anim/fade_out">
+        android:layout_weight="1">
 
         <!-- Step 1: Passenger Info -->
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
@@ -127,91 +81,21 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    style="@style/App.TextAppearance.TitleLarge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:text="Passager" />
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_passenger_name" />
+                <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
 
-                <com.google.android.material.card.MaterialCardView
-                    style="@style/App.CardView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_passenger_phone" />
+                <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:orientation="vertical">
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/passager_input_layout"
-                            style="@style/App.TextInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/label_passenger_name"
-                            app:startIconDrawable="@drawable/ic_nav_user_outline"
-                            app:endIconMode="custom"
-                            app:endIconDrawable="@drawable/ic_address_book_outline"
-                            app:endIconTint="?attr/colorPrimary">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edit_passager"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="textPersonName" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/App.TextInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:hint="@string/label_contact_number"
-                            app:startIconDrawable="@drawable/rounded_local_phone_24">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edit_tel_passager"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="phone" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/App.TextInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:hint="@string/label_issue_date"
-                            app:startIconDrawable="@drawable/rounded_calendar_today_24">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edit_date_commande"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:focusable="false"
-                                android:clickable="true" />
-                        </com.google.android.material.textfield.TextInputLayout>
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/App.TextInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:hint="@string/label_time"
-                            app:startIconDrawable="@drawable/rounded_access_time_24">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edit_heure_commande"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:focusable="false"
-                                android:clickable="true" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:baselineAligned="false">
+                    <include layout="@layout/view_settings_input_item" android:id="@+id/item_order_date" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+                    <include layout="@layout/view_settings_input_item" android:id="@+id/item_order_time" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+                </LinearLayout>
             </LinearLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
-        <!-- Step 2: Trip Details -->
-        <ScrollView
+        <!-- Step 2: Pec & Dest -->
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
@@ -220,106 +104,21 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    style="@style/App.TextAppearance.TitleLarge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:text="Détails du Trajet" />
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:baselineAligned="false">
+                    <include layout="@layout/view_settings_input_item" android:id="@+id/item_pickup_date" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+                    <include layout="@layout/view_settings_input_item" android:id="@+id/item_pickup_time" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+                </LinearLayout>
+                <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
 
-                <com.google.android.material.card.MaterialCardView
-                    style="@style/App.CardView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_pickup_location" />
+                <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-                            <com.google.android.material.textfield.TextInputLayout
-                                style="@style/App.TextInput"
-                                android:layout_width="0dp"
-                                android:layout_weight="1.2"
-                                android:layout_height="wrap_content"
-                                android:hint="Pickup Date"
-                                app:startIconDrawable="@drawable/rounded_calendar_today_24">
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/edit_date_prise"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:focusable="false"
-                                    android:clickable="true" />
-                            </com.google.android.material.textfield.TextInputLayout>
-                            <com.google.android.material.textfield.TextInputLayout
-                                style="@style/App.TextInput"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:hint="Heure"
-                                app:startIconDrawable="@drawable/rounded_access_time_24">
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/edit_heure_prise"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:focusable="false"
-                                    android:clickable="true" />
-                            </com.google.android.material.textfield.TextInputLayout>
-                        </LinearLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/App.TextInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:hint="@string/label_pickup_location"
-                            app:startIconDrawable="@drawable/rounded_location_on_24">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edit_pec"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/App.TextInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:hint="@string/label_destination"
-                            app:startIconDrawable="@drawable/rounded_home_24">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edit_destination"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/App.TextInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:hint="Via"
-                            app:startIconDrawable="@drawable/rounded_directions_24">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edit_via"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="textCapSentences" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_destination" />
             </LinearLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
-        <!-- Step 3: Fare & Validation -->
-        <ScrollView
+        <!-- Step 3: Fare & Save -->
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
@@ -328,82 +127,42 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_via" />
+                <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
+
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_fare" />
+
                 <TextView
-                    style="@style/App.TextAppearance.TitleLarge"
+                    android:id="@+id/summary_text_bon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:text="Tarification et Validation" />
-
-                <com.google.android.material.card.MaterialCardView
-                    style="@style/App.CardView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:orientation="vertical">
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/App.TextInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/label_fare"
-                            app:startIconDrawable="@drawable/rounded_payments_24">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edit_tarif"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="numberDecimal" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <TextView
-                            style="@style/App.TextAppearance.TitleMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="24dp"
-                            android:layout_marginBottom="8dp"
-                            android:text="Résumé de la commande"
-                            android:alpha="0.6"
-                            android:textSize="12sp"
-                            android:textAllCaps="false" />
-
-                        <TextView
-                            android:id="@+id/summary_text_bon"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Vérifiez les détails du voyage."
-                            android:lineSpacingExtra="4dp"
-                            android:textAppearance="?attr/textAppearanceBodyMedium" />
-
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="24dp"
+                    android:alpha="0.7"
+                    android:text="Vérifiez les informations avant de générer le Bon." />
             </LinearLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
     </ViewFlipper>
 
-    <!-- Fixed Navigation Bar -->
+    <!-- Navigation Bar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="16dp"
-        android:paddingBottom="8dp"
-        android:background="@android:color/transparent">
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="12dp">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_back_bon"
-            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:id="@+id/btn_back"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:text="Retour"
             android:visibility="gone" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_next_bon"
+            android:id="@+id/btn_next"
             style="@style/App.Button"
             android:layout_width="0dp"
             android:layout_weight="2"
@@ -411,7 +170,7 @@
             android:text="Suivant" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_save_info_bon"
+            android:id="@+id/btnCreateBon"
             style="@style/App.Button"
             android:layout_width="0dp"
             android:layout_weight="2"

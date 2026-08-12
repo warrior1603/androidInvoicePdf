@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingBottom="16dp">
 
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView
         android:layout_width="match_parent"
@@ -16,109 +16,63 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginBottom="16dp"
-        android:paddingHorizontal="16dp">
+        android:paddingVertical="16dp"
+        android:paddingHorizontal="48dp">
 
-        <LinearLayout
-            android:id="@+id/step_indicator_1"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
-            <TextView
-                android:id="@+id/step_number_1"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:background="@drawable/circle_stepper_active"
-                android:gravity="center"
-                android:text="1"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/step_label_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Client"
-                android:textSize="11sp"
-                android:textColor="?attr/colorPrimary"
-                android:textStyle="bold" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/step_number_1"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/circle_stepper_active"
+            android:gravity="center"
+            android:text="1"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <View
-            android:layout_width="24dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="-12dp"
+            android:id="@+id/step_line_1"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_weight="1"
             android:background="?attr/colorOutlineVariant" />
 
-        <LinearLayout
-            android:id="@+id/step_indicator_2"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
-            <TextView
-                android:id="@+id/step_number_2"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:background="@drawable/circle_stepper_inactive"
-                android:gravity="center"
-                android:text="2"
-                android:textColor="?attr/colorOnSurfaceVariant" />
-            <TextView
-                android:id="@+id/step_label_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Trajet"
-                android:textSize="11sp"
-                android:textColor="?attr/colorOnSurfaceVariant" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/step_number_2"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/circle_stepper_inactive"
+            android:gravity="center"
+            android:text="2"
+            android:textSize="12sp"
+            android:textColor="?attr/colorOnSurfaceVariant" />
 
         <View
-            android:layout_width="24dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="-12dp"
+            android:id="@+id/step_line_2"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_weight="1"
             android:background="?attr/colorOutlineVariant" />
 
-        <LinearLayout
-            android:id="@+id/step_indicator_3"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
-            <TextView
-                android:id="@+id/step_number_3"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:background="@drawable/circle_stepper_inactive"
-                android:gravity="center"
-                android:text="3"
-                android:textColor="?attr/colorOnSurfaceVariant" />
-            <TextView
-                android:id="@+id/step_label_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Détails"
-                android:textSize="11sp"
-                android:textColor="?attr/colorOnSurfaceVariant" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/step_number_3"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/circle_stepper_inactive"
+            android:gravity="center"
+            android:text="3"
+            android:textSize="12sp"
+            android:textColor="?attr/colorOnSurfaceVariant" />
     </LinearLayout>
 
     <ViewFlipper
         android:id="@+id/view_flipper"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:inAnimation="@android:anim/fade_in"
-        android:outAnimation="@android:anim/fade_out">
+        android:layout_weight="1">
 
         <!-- Step 1: Client Info -->
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
@@ -127,63 +81,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/txtSheetTitle"
-                    style="@style/App.TextAppearance.TitleLarge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:text="Informations Client" />
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_client_name" />
+                <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
 
-                <com.google.android.material.card.MaterialCardView
-                    style="@style/App.CardView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:orientation="vertical">
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/client_input_layout"
-                            style="@style/App.TextInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Nom du client"
-                            app:startIconDrawable="@drawable/ic_nav_user_outline"
-                            app:endIconMode="custom"
-                            app:endIconDrawable="@drawable/ic_address_book_outline"
-                            app:endIconTint="?attr/colorPrimary">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/editClientName"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="textPersonName" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/App.TextInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:hint="Téléphone"
-                            app:startIconDrawable="@drawable/rounded_local_phone_24">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/editPhone"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="phone" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_client_phone" />
             </LinearLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
         <!-- Step 2: Trip Details -->
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
@@ -192,163 +98,38 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    style="@style/App.TextAppearance.TitleLarge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:text="Détails du Trajet" />
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_pickup" />
+                <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
 
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_destination" />
+                <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
+
+                <!-- Date & Time Row -->
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:baselineAligned="false">
+                    <include layout="@layout/view_settings_input_item" android:id="@+id/item_date" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+                    <include layout="@layout/view_settings_input_item" android:id="@+id/item_time" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+                </LinearLayout>
+
+                <!-- Route Preview (Minimal Indigo Touch) -->
                 <com.google.android.material.card.MaterialCardView
-                    style="@style/App.CardView"
+                    android:id="@+id/cardRoutePreview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:orientation="vertical">
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/App.TextInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Départ"
-                            app:startIconDrawable="@drawable/rounded_location_on_24"
-                            app:endIconMode="custom"
-                            app:endIconDrawable="@drawable/ic_route_outline"
-                            app:endIconTint="?attr/colorPrimary">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/editPickup"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="textPostalAddress" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/App.TextInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:hint="Arrivée"
-                            app:startIconDrawable="@drawable/rounded_location_on_24"
-                            app:startIconTint="@color/status_cancelled"
-                            app:endIconMode="custom"
-                            app:endIconDrawable="@drawable/ic_route_outline"
-                            app:endIconTint="?attr/colorPrimary">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/editDestination"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="textPostalAddress" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <!-- Google Maps Route Preview Placeholder -->
-                        <com.google.android.material.card.MaterialCardView
-                            android:id="@+id/cardRoutePreview"
-                            style="@style/App.CardView"
-                            android:layout_width="match_parent"
-                            android:layout_height="120dp"
-                            android:layout_marginTop="16dp"
-                            app:cardBackgroundColor="?attr/colorSurfaceVariant"
-                            app:strokeWidth="1dp"
-                            app:strokeColor="?attr/colorOutlineVariant">
-                            <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-                                <android.webkit.WebView
-                                    android:id="@+id/webRoutePreview"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:visibility="visible" />
-                                <ImageView
-                                    android:id="@+id/imgRoutePreviewPlaceholder"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:scaleType="centerCrop"
-                                    android:alpha="0.2"
-                                    android:src="@drawable/bg_card_agenda" />
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:gravity="center"
-                                    android:orientation="vertical">
-                                    <com.google.android.material.progressindicator.CircularProgressIndicator
-                                        android:id="@+id/progressRoute"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:indeterminate="true"
-                                        android:visibility="gone"
-                                        app:indicatorSize="24dp" />
-                                    <TextView
-                                        android:id="@+id/txtRouteInfo"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Aperçu du trajet"
-                                        android:textAppearance="?attr/textAppearanceLabelSmall"
-                                        android:textColor="?attr/colorOnSurfaceVariant"
-                                        android:textStyle="bold" />
-                                </LinearLayout>
-                                <!-- Overlay to allow clicking the card instead of interacting with the map directly if needed,
-                                     or we can let the user pan the map. Let's add a transparent view for clicking to maps -->
-                                <View
-                                    android:id="@+id/mapTouchOverlay"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:clickable="true"
-                                    android:focusable="true"
-                                    android:background="@android:color/transparent" />
-                            </FrameLayout>
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="16dp">
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                style="@style/App.TextInput"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:layout_marginEnd="8dp"
-                                android:hint="Date"
-                                app:startIconDrawable="@drawable/rounded_calendar_today_24">
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/editDate"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:focusable="false"
-                                    android:clickable="true" />
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                style="@style/App.TextInput"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:layout_marginStart="8dp"
-                                android:hint="Heure"
-                                app:startIconDrawable="@drawable/ic_clock_outline">
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/editTime"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:focusable="false"
-                                    android:clickable="true" />
-                            </com.google.android.material.textfield.TextInputLayout>
-                        </LinearLayout>
-
-                    </LinearLayout>
+                    android:layout_height="100dp"
+                    android:layout_margin="16dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="?attr/colorOutlineVariant">
+                    <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+                        <android.webkit.WebView android:id="@+id/webRoutePreview" android:layout_width="match_parent" android:layout_height="match_parent" />
+                        <View android:id="@+id/mapTouchOverlay" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@android:color/transparent" />
+                    </FrameLayout>
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
         <!-- Step 3: Pricing & Status -->
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
@@ -357,72 +138,45 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_price" />
+                <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
+
                 <TextView
-                    style="@style/App.TextAppearance.TitleLarge"
+                    android:id="@+id/summary_text_booking"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:text="Tarif et Validation" />
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="16dp"
+                    android:alpha="0.7"
+                    android:text="Vérifiez les informations avant d'enregistrer." />
 
-                <com.google.android.material.card.MaterialCardView
-                    style="@style/App.CardView"
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/switchCancelled"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="24dp"
+                    android:text="Annuler la course"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:visibility="gone" />
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/App.TextInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Prix estimé (€)"
-                            app:startIconDrawable="@drawable/rounded_payments_24">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/editPrice"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="numberDecimal" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.materialswitch.MaterialSwitch
-                            android:id="@+id/switchCancelled"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="24dp"
-                            android:text="Marquer comme annulée"
-                            android:textAppearance="?attr/textAppearanceTitleMedium"
-                            android:visibility="gone" />
-
-                        <TextView
-                            android:id="@+id/summary_text_booking"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="24dp"
-                            android:alpha="0.7"
-                            android:text="Vérifiez les informations avant d'enregistrer." />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnConvertToInvoice"
-                            style="@style/Widget.Material3.Button.TonalButton"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:text="Générer la facture"
-                            android:visibility="gone"
-                            app:icon="@drawable/ic_receipt_outline"
-                            app:iconTint="?attr/colorPrimary" />
-
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnConvertToInvoice"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="24dp"
+                    android:text="Générer la facture"
+                    android:visibility="gone"
+                    app:icon="@drawable/ic_receipt_outline" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnDelete"
                     style="@style/Widget.Material3.Button.TextButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="24dp"
                     android:layout_marginTop="8dp"
                     android:text="Supprimer la course"
                     android:textColor="?attr/colorError"
@@ -430,25 +184,23 @@
                     app:icon="@drawable/rounded_delete_24"
                     app:iconTint="?attr/colorError" />
             </LinearLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
     </ViewFlipper>
 
-    <!-- Fixed Navigation Bar -->
+    <!-- Navigation Bar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="16dp"
-        android:paddingBottom="8dp"
-        android:background="@android:color/transparent">
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="12dp">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_back_booking"
-            style="@style/Widget.Material3.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:text="Retour"
             android:visibility="gone" />
 

@@ -42,7 +42,7 @@ import java.util.regex.Pattern;
 public class AddExpenseBottomSheet extends BottomSheetDialogFragment {
 
     private TextInputEditText editDescription, editAmount;
-    private com.google.android.material.textfield.MaterialAutoCompleteTextView editCategory;
+    private android.widget.AutoCompleteTextView editCategory;
     private TextView txtTitle;
     private MaterialButton btnSave, btnDelete;
     private OnExpenseAddedListener listener;
@@ -93,9 +93,12 @@ public class AddExpenseBottomSheet extends BottomSheetDialogFragment {
         super.onViewCreated(view, savedInstanceState);
 
         txtTitle = view.findViewById(R.id.txt_title);
-        editDescription = view.findViewById(R.id.edit_description);
-        editAmount = view.findViewById(R.id.edit_amount);
-        editCategory = view.findViewById(R.id.edit_category);
+        editDescription = initItem(view.findViewById(R.id.item_description), R.drawable.rounded_description_24, "Description", android.text.InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        editAmount = initItem(view.findViewById(R.id.item_amount), R.drawable.rounded_payments_24, "Montant (€)", android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        
+        String[] categories = getResources().getStringArray(R.array.expense_categories);
+        editCategory = initDropdownItem(view.findViewById(R.id.item_category), R.drawable.rounded_folder_24, "Catégorie", categories);
+        
         btnSave = view.findViewById(R.id.btn_save);
         btnDelete = view.findViewById(R.id.btn_delete);
         MaterialButton btnScan = view.findViewById(R.id.btn_scan_receipt);
@@ -251,5 +254,47 @@ public class AddExpenseBottomSheet extends BottomSheetDialogFragment {
         }
         
         if (getContext() != null) Toast.makeText(requireContext(), "Analyse terminée !", Toast.LENGTH_SHORT).show();
+    }
+
+    private com.google.android.material.textfield.TextInputEditText initItem(View itemView, int iconRes, String label, int inputType) {
+        android.widget.ImageView icon = itemView.findViewById(R.id.item_icon);
+        android.widget.TextView txtLabel = itemView.findViewById(R.id.item_label);
+        com.google.android.material.textfield.TextInputEditText input = itemView.findViewById(R.id.item_input);
+
+        icon.setImageResource(iconRes);
+        txtLabel.setText(label);
+        
+        // Use black for labels to match Document Studio
+        try {
+            android.util.TypedValue typedValue = new android.util.TypedValue();
+            requireContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorOnSurface, typedValue, true);
+            txtLabel.setTextColor(typedValue.data);
+            txtLabel.setAlpha(0.9f);
+        } catch (Exception ignored) {}
+
+        input.setHint(label);
+        input.setInputType(inputType);
+        return input;
+    }
+
+    private android.widget.AutoCompleteTextView initDropdownItem(View itemView, int iconRes, String label, String[] options) {
+        android.widget.ImageView icon = itemView.findViewById(R.id.item_icon);
+        android.widget.TextView txtLabel = itemView.findViewById(R.id.item_label);
+        android.widget.AutoCompleteTextView dropdown = itemView.findViewById(R.id.item_dropdown);
+
+        icon.setImageResource(iconRes);
+        txtLabel.setText(label);
+        
+        // Use black for labels to match Document Studio
+        try {
+            android.util.TypedValue typedValue = new android.util.TypedValue();
+            requireContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorOnSurface, typedValue, true);
+            txtLabel.setTextColor(typedValue.data);
+            txtLabel.setAlpha(0.9f);
+        } catch (Exception ignored) {}
+        
+        android.widget.ArrayAdapter<String> adapter = new android.widget.ArrayAdapter<>(requireContext(), R.layout.dropdown_menu_popup_item, options);
+        dropdown.setAdapter(adapter);
+        return dropdown;
     }
 }

@@ -1,364 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.PersonalSettingsFragment"
     android:background="?android:attr/colorBackground">
 
-    <ScrollView
-        android:id="@+id/scrollView2"
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/rounded_arrow_back_24"
+            app:title="Profil Entreprise" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:scrollbars="vertical">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="48dp">
+            android:paddingBottom="100dp">
 
-            <TextView
-                android:id="@+id/textViewLogo"
-                style="@style/App.TextAppearance.TitleLarge"
+            <!-- Logo Section -->
+            <LinearLayout
+                android:id="@+id/row_logo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/label_company_logo" />
+                android:orientation="horizontal"
+                android:padding="24dp"
+                android:gravity="center_vertical"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground">
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/App.CardView"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="24dp">
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/img_logo"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/rounded_business_24"
+                    android:background="?attr/colorSurfaceContainerHigh"
+                    app:shapeAppearanceOverlay="@style/App.ShapeAppearance.Circle" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_marginStart="20dp"
                     android:orientation="vertical">
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/img_logo"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/rounded_business_24"
-                        android:padding="16dp"
-                        android:background="?attr/colorSurfaceContainerHigh"
-                        app:shapeAppearanceOverlay="@style/App.ShapeAppearance.Circle" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_pick_logo"
-                        style="@style/Widget.Material3.Button.TextButton"
+                    <TextView
+                        style="@style/App.TextAppearance.TitleLarge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/action_edit_logo"
-                        app:icon="@drawable/rounded_edit_24" />
+                        android:text="Logo de l'entreprise"
+                        android:textSize="18sp"
+                        android:textColor="?attr/colorOnSurface" />
+                    <TextView
+                        style="@style/App.TextAppearance.LabelSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Appuyez pour modifier"
+                        android:alpha="0.7" />
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/textView4"
-                style="@style/App.TextAppearance.TitleLarge"
+            <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/pref_title_profile" />
+                android:layout_marginStart="108dp" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/App.CardView"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="24dp">
+            <TextView style="@style/App.TextAppearance.LabelLarge" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingHorizontal="24dp" android:paddingTop="32dp" android:paddingBottom="8dp" android:text="COORDONNÉES" android:textColor="?attr/colorPrimary" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:orientation="vertical">
+            <include layout="@layout/view_settings_input_item" android:id="@+id/item_name" />
+            <include layout="@layout/view_settings_input_item" android:id="@+id/item_email" />
+            <include layout="@layout/view_settings_input_item" android:id="@+id/item_phone" />
+            <include layout="@layout/view_settings_input_item" android:id="@+id/item_street" />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/edit_user_name"
-                        style="@style/App.TextInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/label_full_name"
-                        app:startIconDrawable="@drawable/ic_outline_users">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </com.google.android.material.textfield.TextInputLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:baselineAligned="false">
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_zip" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_city" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1.2" />
+            </LinearLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/edit_street_name"
-                        style="@style/App.TextInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:hint="@string/label_street"
-                        app:startIconDrawable="@drawable/ic_route_outline">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </com.google.android.material.textfield.TextInputLayout>
+            <include layout="@layout/view_settings_input_item" android:id="@+id/item_country" />
+            <include layout="@layout/view_settings_input_item" android:id="@+id/item_siren" />
+            <include layout="@layout/view_settings_input_item" android:id="@+id/item_tva" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:orientation="horizontal"
-                        android:baselineAligned="false">
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/App.TextInput"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/label_postal_code"
-                            app:startIconDrawable="@drawable/ic_outline_folder">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edit_code_postale"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="number" />
-                        </com.google.android.material.textfield.TextInputLayout>
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/App.TextInput"
-                            android:layout_width="0dp"
-                            android:layout_weight="1.5"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:hint="@string/label_city"
-                            app:startIconDrawable="@drawable/ic_outline_building">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edit_city"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
-                        </com.google.android.material.textfield.TextInputLayout>
-                    </LinearLayout>
+            <TextView style="@style/App.TextAppearance.LabelLarge" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingHorizontal="24dp" android:paddingTop="32dp" android:paddingBottom="8dp" android:text="VÉHICULE" android:textColor="?attr/colorPrimary" />
+            <include layout="@layout/view_settings_input_item" android:id="@+id/item_chauffeur" />
+            <include layout="@layout/view_settings_input_item" android:id="@+id/item_plaque" />
+            <include layout="@layout/view_settings_input_item" android:id="@+id/item_evtc" />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/App.TextInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:hint="@string/label_country"
-                        app:startIconDrawable="@drawable/ic_tab_world">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edit_country"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/edit_siren"
-                        style="@style/App.TextInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:hint="@string/label_siren"
-                        app:startIconDrawable="@drawable/ic_outline_adjustments">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="number" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/edit_tva"
-                        style="@style/App.TextInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:hint="@string/label_tva"
-                        app:startIconDrawable="@drawable/ic_outline_cash">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/edit_tel"
-                        style="@style/App.TextInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:hint="@string/label_contact_number"
-                        app:startIconDrawable="@drawable/ic_phone_outline">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="phone" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/App.TextInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:hint="@string/label_email"
-                        app:startIconDrawable="@drawable/ic_outline_bell">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edit_email"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textEmailAddress" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <TextView
-                android:id="@+id/textView3"
-                style="@style/App.TextAppearance.TitleLarge"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/label_driver_and_vehicle" />
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardView1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/App.CardView"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="24dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/edit_chauffeur"
-                        style="@style/App.TextInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/label_driver_name"
-                        app:startIconDrawable="@drawable/ic_outline_users">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/edit_plaque"
-                        style="@style/App.TextInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:hint="@string/label_plate_number"
-                        app:startIconDrawable="@drawable/ic_route_outline">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/edit_Evtc"
-                        style="@style/App.TextInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:hint="@string/label_evtc_number"
-                        app:startIconDrawable="@drawable/ic_outline_receipt">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <TextView
-                android:id="@+id/textViewBank"
-                style="@style/App.TextAppearance.TitleLarge"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/label_bank_details" />
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardViewBank"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/App.CardView"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="24dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:orientation="vertical">
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/edit_iban"
-                        style="@style/App.TextInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="IBAN"
-                        app:startIconDrawable="@drawable/ic_outline_cash">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/edit_bic"
-                        style="@style/App.TextInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:hint="BIC"
-                        app:startIconDrawable="@drawable/ic_outline_building">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/edit_bank_address"
-                        style="@style/App.TextInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:hint="@string/label_bank_address"
-                        app:startIconDrawable="@drawable/ic_outline_adjustments">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            <TextView style="@style/App.TextAppearance.LabelLarge" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingHorizontal="24dp" android:paddingTop="32dp" android:paddingBottom="8dp" android:text="BANQUE" android:textColor="?attr/colorPrimary" />
+            <include layout="@layout/view_settings_input_item" android:id="@+id/item_iban" />
+            <include layout="@layout/view_settings_input_item" android:id="@+id/item_bic" />
+            <include layout="@layout/view_settings_input_item" android:id="@+id/item_bank_address" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_save_info"
+                style="@style/App.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="32dp"
-                app:icon="@drawable/rounded_save_24"
-                app:iconGravity="textStart"
-                android:text="@string/action_save"
-                style="@style/App.Button"/>
+                android:layout_margin="24dp"
+                android:text="Enregistrer"
+                app:icon="@drawable/rounded_save_24" />
 
         </LinearLayout>
-    </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

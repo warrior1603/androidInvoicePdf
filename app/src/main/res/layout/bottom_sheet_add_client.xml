@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingBottom="16dp">
 
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView
         android:layout_width="match_parent"
@@ -16,78 +16,46 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginBottom="16dp"
-        android:paddingHorizontal="16dp">
+        android:paddingVertical="16dp"
+        android:paddingHorizontal="48dp">
 
-        <LinearLayout
-            android:id="@+id/step_indicator_1"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
-            <TextView
-                android:id="@+id/step_number_1"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:background="@drawable/circle_stepper_active"
-                android:gravity="center"
-                android:text="1"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/step_label_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Identité"
-                android:textSize="11sp"
-                android:textColor="?attr/colorPrimary"
-                android:textStyle="bold" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/step_number_1"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/circle_stepper_active"
+            android:gravity="center"
+            android:text="1"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <View
-            android:layout_width="48dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="-12dp"
+            android:id="@+id/step_line_1"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_weight="1"
             android:background="?attr/colorOutlineVariant" />
 
-        <LinearLayout
-            android:id="@+id/step_indicator_2"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
-            <TextView
-                android:id="@+id/step_number_2"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:background="@drawable/circle_stepper_inactive"
-                android:gravity="center"
-                android:text="2"
-                android:textColor="?attr/colorOnSurfaceVariant" />
-            <TextView
-                android:id="@+id/step_label_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Contact"
-                android:textSize="11sp"
-                android:textColor="?attr/colorOnSurfaceVariant" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/step_number_2"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/circle_stepper_inactive"
+            android:gravity="center"
+            android:text="2"
+            android:textSize="12sp"
+            android:textColor="?attr/colorOnSurfaceVariant" />
     </LinearLayout>
 
     <ViewFlipper
         android:id="@+id/view_flipper"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:inAnimation="@android:anim/fade_in"
-        android:outAnimation="@android:anim/fade_out">
+        android:layout_weight="1">
 
         <!-- Step 1: Identity & Address -->
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
@@ -96,107 +64,24 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/title"
-                    style="@style/App.TextAppearance.TitleLarge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:text="Identité du client" />
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_name" />
+                <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
 
-                <com.google.android.material.card.MaterialCardView
-                    style="@style/App.CardView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_street" />
+                <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:orientation="vertical">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:baselineAligned="false">
+                    <include layout="@layout/view_settings_input_item" android:id="@+id/item_zip" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+                    <include layout="@layout/view_settings_input_item" android:id="@+id/item_city" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1.5" />
+                </LinearLayout>
+                <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/App.TextInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Nom complet"
-                            app:startIconDrawable="@drawable/rounded_badge_24">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edit_user_name_client"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="textPersonName" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/App.TextInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:hint="Rue"
-                            app:startIconDrawable="@drawable/rounded_directions_24">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edit_street"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="textPostalAddress" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:orientation="horizontal">
-                            <com.google.android.material.textfield.TextInputLayout
-                                style="@style/App.TextInput"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="wrap_content"
-                                android:hint="Code Postal"
-                                app:startIconDrawable="@drawable/rounded_email_24">
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/edit_code_postale"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="number" />
-                            </com.google.android.material.textfield.TextInputLayout>
-                            <com.google.android.material.textfield.TextInputLayout
-                                style="@style/App.TextInput"
-                                android:layout_width="0dp"
-                                android:layout_weight="1.5"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:hint="Ville"
-                                app:startIconDrawable="@drawable/rounded_location_city_24">
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/edit_ville"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="textPostalAddress" />
-                            </com.google.android.material.textfield.TextInputLayout>
-                        </LinearLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/App.TextInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:hint="Pays"
-                            app:startIconDrawable="@drawable/rounded_public_24">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edit_pays"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="textPostalAddress" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_country" />
             </LinearLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
         <!-- Step 2: Contact & Legal -->
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
@@ -205,100 +90,34 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    style="@style/App.TextAppearance.TitleLarge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:text="Contact et Légal" />
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_siren" />
+                <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
 
-                <com.google.android.material.card.MaterialCardView
-                    style="@style/App.CardView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_tva" />
+                <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:orientation="vertical">
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_phone" />
+                <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/App.TextInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="SIREN"
-                            app:startIconDrawable="@drawable/rounded_business_24">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edit_siren"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="number" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/App.TextInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:hint="TVA"
-                            app:startIconDrawable="@drawable/rounded_percent_24">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/tva_client"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/App.TextInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:hint="Téléphone"
-                            app:startIconDrawable="@drawable/rounded_local_phone_24">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edit_phone_client"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="phone" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/App.TextInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:hint="Email"
-                            app:startIconDrawable="@drawable/rounded_alternate_email_24">
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/edit_email_client"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="textEmailAddress" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_email" />
             </LinearLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
     </ViewFlipper>
 
-    <!-- Fixed Navigation Bar -->
+    <!-- Navigation Bar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="16dp"
-        android:paddingBottom="8dp"
-        android:background="@android:color/transparent">
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="12dp">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_back_client"
-            style="@style/Widget.Material3.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:text="Retour"
             android:visibility="gone" />
 

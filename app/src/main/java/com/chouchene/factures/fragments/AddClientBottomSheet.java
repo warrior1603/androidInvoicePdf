@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
@@ -40,7 +41,6 @@ public class AddClientBottomSheet extends BottomSheetDialogFragment {
     private ViewFlipper viewFlipper;
     private MaterialButton btnBack, btnNext, btnSave;
     private TextView stepNumber1, stepNumber2;
-    private TextView stepLabel1, stepLabel2;
     private int currentStep = 0;
 
     public interface OnClientSavedListener {
@@ -80,43 +80,51 @@ public class AddClientBottomSheet extends BottomSheetDialogFragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         clientDao = DatabaseClient.getInstance(requireContext().getApplicationContext()).getAppDatabase().clientDao();
         clientRepository = new ClientRepository(clientDao);
-
         setupInputs(view);
         setupStepper(view);
-
-        if (client != null) {
-            populateFields();
-        }
+        if (client != null) populateFields();
+        updateStepperUI();
     }
 
     private void setupInputs(View view) {
-        txtName = view.findViewById(R.id.edit_user_name_client);
-        txtRue = view.findViewById(R.id.edit_street);
-        txtVille = view.findViewById(R.id.edit_ville);
-        txtCodePostale = view.findViewById(R.id.edit_code_postale);
-        txtPays = view.findViewById(R.id.edit_pays);
-        txtSiren = view.findViewById(R.id.edit_siren);
-        txtTva = view.findViewById(R.id.tva_client);
-        txtEmail = view.findViewById(R.id.edit_email_client);
-        txtPhone = view.findViewById(R.id.edit_phone_client);
+        txtName = initItem(view.findViewById(R.id.item_name), R.drawable.ic_nav_user_outline, "Nom complet", android.text.InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+        txtRue = initItem(view.findViewById(R.id.item_street), R.drawable.ic_outline_road, "Rue", android.text.InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
+        txtCodePostale = initItem(view.findViewById(R.id.item_zip), R.drawable.ic_outline_hash, "Code Postal", android.text.InputType.TYPE_CLASS_NUMBER);
+        txtVille = initItem(view.findViewById(R.id.item_city), R.drawable.ic_outline_building, "Ville", android.text.InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        txtPays = initItem(view.findViewById(R.id.item_country), R.drawable.ic_tab_world, "Pays", android.text.InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        txtSiren = initItem(view.findViewById(R.id.item_siren), R.drawable.ic_outline_adjustments, "SIREN", android.text.InputType.TYPE_CLASS_NUMBER);
+        txtTva = initItem(view.findViewById(R.id.item_tva), R.drawable.ic_outline_cash, "TVA", android.text.InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+        txtPhone = initItem(view.findViewById(R.id.item_phone), R.drawable.ic_outline_phone, "Téléphone", android.text.InputType.TYPE_CLASS_PHONE);
+        txtEmail = initItem(view.findViewById(R.id.item_email), R.drawable.ic_outline_mail, "Email", android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 
         txtCodePostale.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
             @Override public void afterTextChanged(Editable s) {
-                FetchVilleFromCodePostale.fetchDataFromApiWithParams(s.toString(), txtVille, txtPays);
+                if (s.length() >= 5) com.chouchene.factures.api.FetchVilleFromCodePostale.fetchDataFromApiWithParams(s.toString(), txtVille, txtPays);
             }
         });
+    }
+
+    private TextInputEditText initItem(View itemView, int iconRes, String label, int inputType) {
+        ImageView icon = itemView.findViewById(R.id.item_icon);
+        TextView txtLabel = itemView.findViewById(R.id.item_label);
+        TextInputEditText input = itemView.findViewById(R.id.item_input);
+        icon.setImageResource(iconRes);
+        txtLabel.setText(label);
+        try {
+            android.util.TypedValue typedValue = new android.util.TypedValue();
+            requireContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorOnSurface, typedValue, true);
+            txtLabel.setTextColor(typedValue.data);
+            txtLabel.setAlpha(0.9f);
+        } catch (Exception ignored) {}
+        input.setHint(label);
+        input.setInputType(inputType);
+        return input;
     }
 
     private void setupStepper(View view) {
@@ -124,31 +132,19 @@ public class AddClientBottomSheet extends BottomSheetDialogFragment {
         btnBack = view.findViewById(R.id.btn_back_client);
         btnNext = view.findViewById(R.id.btn_next_client);
         btnSave = view.findViewById(R.id.btn_save);
-
         stepNumber1 = view.findViewById(R.id.step_number_1);
         stepNumber2 = view.findViewById(R.id.step_number_2);
-        stepLabel1 = view.findViewById(R.id.step_label_1);
-        stepLabel2 = view.findViewById(R.id.step_label_2);
-
         btnNext.setOnClickListener(v -> goToNextStep());
         btnBack.setOnClickListener(v -> goToPreviousStep());
         btnSave.setOnClickListener(v -> handleSaveClient());
-
-        updateStepperUI();
     }
 
     private void goToNextStep() {
-        if (currentStep == 0) {
-            if (txtName.getText().toString().trim().isEmpty()) {
-                txtName.setError(getString(R.string.msg_name_required));
-                return;
-            }
+        if (currentStep == 0 && txtName.getText().toString().trim().isEmpty()) {
+            txtName.setError(getString(R.string.msg_name_required)); return;
         }
-        
         if (currentStep < 1) {
             currentStep++;
-            viewFlipper.setInAnimation(requireContext(), R.anim.slide_in_right);
-            viewFlipper.setOutAnimation(requireContext(), R.anim.slide_out_left);
             viewFlipper.showNext();
             updateStepperUI();
         }
@@ -157,8 +153,6 @@ public class AddClientBottomSheet extends BottomSheetDialogFragment {
     private void goToPreviousStep() {
         if (currentStep > 0) {
             currentStep--;
-            viewFlipper.setInAnimation(requireContext(), android.R.anim.slide_in_left);
-            viewFlipper.setOutAnimation(requireContext(), android.R.anim.slide_out_right);
             viewFlipper.showPrevious();
             updateStepperUI();
         }
@@ -168,24 +162,13 @@ public class AddClientBottomSheet extends BottomSheetDialogFragment {
         btnBack.setVisibility(currentStep == 0 ? View.GONE : View.VISIBLE);
         btnNext.setVisibility(currentStep == 1 ? View.GONE : View.VISIBLE);
         btnSave.setVisibility(currentStep == 1 ? View.VISIBLE : View.GONE);
-
-        updateStepIndicator(stepNumber1, stepLabel1, currentStep >= 0);
-        updateStepIndicator(stepNumber2, stepLabel2, currentStep >= 1);
+        updateStepIndicator(stepNumber1, currentStep >= 0);
+        updateStepIndicator(stepNumber2, currentStep >= 1);
     }
 
-    private void updateStepIndicator(TextView number, TextView label, boolean active) {
+    private void updateStepIndicator(TextView number, boolean active) {
         number.setBackgroundResource(active ? R.drawable.circle_stepper_active : R.drawable.circle_stepper_inactive);
         number.setTextColor(active ? android.graphics.Color.WHITE : android.graphics.Color.GRAY);
-        label.setTypeface(null, active ? android.graphics.Typeface.BOLD : android.graphics.Typeface.NORMAL);
-        
-        int activeColor = android.graphics.Color.BLUE;
-        try {
-            android.util.TypedValue typedValue = new android.util.TypedValue();
-            requireContext().getTheme().resolveAttribute(android.R.attr.colorPrimary, typedValue, true);
-            activeColor = typedValue.data;
-        } catch (Exception ignored) {}
-
-        label.setTextColor(active ? activeColor : android.graphics.Color.GRAY);
     }
 
     private void populateFields() {
@@ -201,7 +184,6 @@ public class AddClientBottomSheet extends BottomSheetDialogFragment {
     }
 
     private void handleSaveClient() {
-        boolean isEdit = client != null && client.getId() != 0;
         String customerName = txtName.getText().toString();
         String rueClient = txtRue.getText().toString();
         String villeClient = txtVille.getText().toString();
@@ -214,19 +196,16 @@ public class AddClientBottomSheet extends BottomSheetDialogFragment {
 
         Executors.newSingleThreadExecutor().execute(() -> {
             Client c = new Client(customerName, rueClient, villeClient, cpClient, paysClient, sirenClient, tvaClient, emailClient, phoneClient);
-            if (isEdit) {
+            if (client != null && client.getId() != 0) {
                 c.setId(client.getId());
                 clientRepository.updateClient(c);
             } else {
                 clientRepository.addClientIfNotExists(c);
             }
-
-            if (getActivity() != null) {
-                getActivity().runOnUiThread(() -> {
-                    if (listener != null) listener.onClientSaved();
-                    dismiss();
-                });
-            }
+            if (getActivity() != null) getActivity().runOnUiThread(() -> {
+                if (listener != null) listener.onClientSaved();
+                dismiss();
+            });
         });
     }
 }

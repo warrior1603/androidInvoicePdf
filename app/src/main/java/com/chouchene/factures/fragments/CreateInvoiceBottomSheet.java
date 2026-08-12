@@ -14,6 +14,7 @@ import android.print.PrintDocumentAdapter;
 import android.print.PrintDocumentInfo;
 import android.print.PrintResultCallbackShim;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -68,14 +70,12 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
 
     private TextInputEditText txtName, txtRue, txtVille, txtCodePostale, txtPays, txtSiren, txtEmail, txtTvaClient;
     private TextInputEditText txtDescription, txtQuantite, txtPrix, txtTva, editDateFactureForm;
-    private TextInputLayout inputClient;
     private AutoCompleteTextView autoCompletePaymentMode, autoCompleteTextView;
     private LinearLayout inputClientProvisoire;
     private SignatureView signatureView;
     private ViewFlipper viewFlipper;
     private MaterialButton btnBack, btnNext, btnCreatePdf;
     private TextView stepNumber1, stepNumber2, stepNumber3;
-    private TextView stepLabel1, stepLabel2, stepLabel3;
     private int currentStep = 0;
 
     private String currentInvoiceNumber;
@@ -184,9 +184,6 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
         stepNumber1 = view.findViewById(R.id.step_number_1);
         stepNumber2 = view.findViewById(R.id.step_number_2);
         stepNumber3 = view.findViewById(R.id.step_number_3);
-        stepLabel1 = view.findViewById(R.id.step_label_1);
-        stepLabel2 = view.findViewById(R.id.step_label_2);
-        stepLabel3 = view.findViewById(R.id.step_label_3);
 
         btnNext.setOnClickListener(v -> goToNextStep());
         btnBack.setOnClickListener(v -> goToPreviousStep());
@@ -206,8 +203,6 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
         
         if (currentStep < 2) {
             currentStep++;
-            viewFlipper.setInAnimation(requireContext(), R.anim.slide_in_right);
-            viewFlipper.setOutAnimation(requireContext(), R.anim.slide_out_left);
             viewFlipper.showNext();
             updateStepperUI();
         }
@@ -216,8 +211,6 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
     private void goToPreviousStep() {
         if (currentStep > 0) {
             currentStep--;
-            viewFlipper.setInAnimation(requireContext(), android.R.anim.slide_in_left);
-            viewFlipper.setOutAnimation(requireContext(), android.R.anim.slide_out_right);
             viewFlipper.showPrevious();
             updateStepperUI();
         }
@@ -228,29 +221,18 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
         btnNext.setVisibility(currentStep == 2 ? View.GONE : View.VISIBLE);
         btnCreatePdf.setVisibility(currentStep == 2 ? View.VISIBLE : View.GONE);
 
-        // Update indicators
-        updateStepIndicator(stepNumber1, stepLabel1, currentStep >= 0);
-        updateStepIndicator(stepNumber2, stepLabel2, currentStep >= 1);
-        updateStepIndicator(stepNumber3, stepLabel3, currentStep >= 2);
+        updateStepIndicator(stepNumber1, currentStep >= 0);
+        updateStepIndicator(stepNumber2, currentStep >= 1);
+        updateStepIndicator(stepNumber3, currentStep >= 2);
         
         if (currentStep == 2) {
             updateSummary();
         }
     }
 
-    private void updateStepIndicator(TextView number, TextView label, boolean active) {
+    private void updateStepIndicator(TextView number, boolean active) {
         number.setBackgroundResource(active ? R.drawable.circle_stepper_active : R.drawable.circle_stepper_inactive);
         number.setTextColor(active ? android.graphics.Color.WHITE : android.graphics.Color.GRAY);
-        label.setTypeface(null, active ? android.graphics.Typeface.BOLD : android.graphics.Typeface.NORMAL);
-        
-        int activeColor = android.graphics.Color.BLUE; // Default
-        try {
-            android.util.TypedValue typedValue = new android.util.TypedValue();
-            requireContext().getTheme().resolveAttribute(android.R.attr.colorPrimary, typedValue, true);
-            activeColor = typedValue.data;
-        } catch (Exception ignored) {}
-
-        label.setTextColor(active ? activeColor : android.graphics.Color.GRAY);
     }
     
     private void updateSummary() {
@@ -292,23 +274,72 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
     }
 
     private void setupPaymentMode(View view) {
-        autoCompletePaymentMode = view.findViewById(R.id.autoCompletePaymentMode);
-        String[] paymentModes = {"Virement", "Carte", "Espèce", "Chèque"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.dropdown_menu_popup_item, paymentModes);
-        autoCompletePaymentMode.setAdapter(adapter);
-        autoCompletePaymentMode.setText(paymentModes[0], false);
+        // Handled in setupInputs
     }
 
     private void setupClientSearch(View view) {
-        autoCompleteTextView = view.findViewById(R.id.autoCompleteTextView);
-        inputClient = view.findViewById(R.id.client_input);
-        inputClient.setEndIconOnClickListener(v -> showClientPicker());
+        // Handled in setupInputs
+    }
 
+    private void setupRadioGroup(View view) {
+        RadioGroup radioGroup = view.findViewById(R.id.radio_group);
+        inputClientProvisoire = view.findViewById(R.id.client_input_provisoire);
+        View clientSearchItem = view.findViewById(R.id.item_search_client);
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            isClientProvisoire = checkedId == R.id.provisoire_selected;
+            inputClientProvisoire.setVisibility(isClientProvisoire ? View.VISIBLE : View.GONE);
+            clientSearchItem.setVisibility(isClientProvisoire ? View.GONE : View.VISIBLE);
+        });
+    }
+
+    private void setupInputs(View view) {
+        autoCompleteTextView = initDropdownItem(view.findViewById(R.id.item_search_client), R.drawable.rounded_person_24, "Rechercher un client", new String[]{});
+        View clientSearchLayout = view.findViewById(R.id.item_search_client);
+        ImageView clientActionIcon = clientSearchLayout.findViewById(R.id.item_action_icon);
+        if (clientActionIcon != null) {
+            clientActionIcon.setVisibility(View.VISIBLE);
+            clientActionIcon.setOnClickListener(v -> showClientPicker());
+        }
+
+        txtName = initItem(view.findViewById(R.id.item_client_name), R.drawable.ic_nav_user_outline, "Nom du client", InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+        txtRue = initItem(view.findViewById(R.id.item_client_street), R.drawable.ic_outline_road, "Rue", InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
+        txtCodePostale = initItem(view.findViewById(R.id.item_client_zip), R.drawable.ic_outline_hash, "Code Postal", InputType.TYPE_CLASS_NUMBER);
+        txtVille = initItem(view.findViewById(R.id.item_client_city), R.drawable.ic_outline_building, "Ville", InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        txtPays = initItem(view.findViewById(R.id.item_client_country), R.drawable.ic_tab_world, "Pays", InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        txtSiren = initItem(view.findViewById(R.id.item_client_siren), R.drawable.ic_outline_adjustments, "SIREN", InputType.TYPE_CLASS_NUMBER);
+        txtTvaClient = initItem(view.findViewById(R.id.item_client_tva), R.drawable.ic_outline_cash, "TVA Client", InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+        txtEmail = initItem(view.findViewById(R.id.item_client_email), R.drawable.ic_outline_mail, "Email", InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+
+        editDateFactureForm = initItem(view.findViewById(R.id.item_date), R.drawable.rounded_calendar_today_24, "Date", InputType.TYPE_NULL);
+        txtDescription = initItem(view.findViewById(R.id.item_description), R.drawable.ic_outline_receipt, "Description", InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        txtQuantite = initItem(view.findViewById(R.id.item_qty), R.drawable.ic_outline_hash, "Quantité", InputType.TYPE_CLASS_NUMBER);
+        txtPrix = initItem(view.findViewById(R.id.item_price), R.drawable.ic_outline_cash, "Prix Unitaire TTC", InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        txtTva = initItem(view.findViewById(R.id.item_tva_rate), R.drawable.ic_outline_adjustments, "Taux TVA (%)", InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
+        autoCompletePaymentMode = initDropdownItem(view.findViewById(R.id.item_payment), R.drawable.ic_outline_cash, "Mode de paiement", new String[]{"Virement", "Carte", "Espèce", "Chèque"});
+        
+        signatureView = view.findViewById(R.id.signature_view);
+        view.findViewById(R.id.btn_clear_signature).setOnClickListener(v -> signatureView.clear());
+
+        txtQuantite.setText("1");
+        txtTva.setText("10");
+        SimpleDateFormat fmt = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        editDateFactureForm.setText(fmt.format(new Date()));
+        editDateFactureForm.setOnClickListener(v -> showDatePickerDialog());
+
+        txtCodePostale.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override public void afterTextChanged(Editable s) {
+                if (s.length() >= 5) com.chouchene.factures.api.FetchVilleFromCodePostale.fetchDataFromApiWithParams(s.toString(), txtVille, txtPays);
+            }
+        });
+
+        // Initialize client search data
         Executors.newSingleThreadExecutor().execute(() -> {
             List<Client> clients = itemDao.getAllClients();
             List<String> names = new ArrayList<>();
             for (Client c : clients) names.add(c.clientName);
-
             if (getActivity() != null) {
                 getActivity().runOnUiThread(() -> {
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.dropdown_menu_popup_item, names);
@@ -322,46 +353,47 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
         });
     }
 
-    private void setupRadioGroup(View view) {
-        RadioGroup radioGroup = view.findViewById(R.id.radio_group);
-        inputClientProvisoire = view.findViewById(R.id.client_input_provisoire);
-        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            isClientProvisoire = checkedId == R.id.provisoire_selected;
-            inputClientProvisoire.setVisibility(isClientProvisoire ? View.VISIBLE : View.GONE);
-            inputClient.setVisibility(isClientProvisoire ? View.GONE : View.VISIBLE);
-        });
+    private TextInputEditText initItem(View itemView, int iconRes, String label, int inputType) {
+        ImageView icon = itemView.findViewById(R.id.item_icon);
+        TextView txtLabel = itemView.findViewById(R.id.item_label);
+        TextInputEditText input = itemView.findViewById(R.id.item_input);
+        icon.setImageResource(iconRes);
+        txtLabel.setText(label);
+        
+        // Use black for labels to match Document Studio
+        try {
+            android.util.TypedValue typedValue = new android.util.TypedValue();
+            requireContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorOnSurface, typedValue, true);
+            txtLabel.setTextColor(typedValue.data);
+            txtLabel.setAlpha(0.9f);
+        } catch (Exception ignored) {}
+
+        input.setHint(label);
+        input.setInputType(inputType);
+        return input;
     }
 
-    private void setupInputs(View view) {
-        txtDescription = view.findViewById(R.id.edit_description);
-        txtQuantite = view.findViewById(R.id.edit_quantite);
-        txtQuantite.setText("1");
-        txtPrix = view.findViewById(R.id.edit_prix);
-        txtTva = view.findViewById(R.id.edit_tva);
-        txtTva.setText("10");
-        editDateFactureForm = view.findViewById(R.id.edit_date_emission);
+    private AutoCompleteTextView initDropdownItem(View itemView, int iconRes, String label, String[] options) {
+        ImageView icon = itemView.findViewById(R.id.item_icon);
+        TextView txtLabel = itemView.findViewById(R.id.item_label);
+        AutoCompleteTextView dropdown = itemView.findViewById(R.id.item_dropdown);
+        icon.setImageResource(iconRes);
+        txtLabel.setText(label);
 
-        txtName = view.findViewById(R.id.edit_user_name_client1);
-        txtRue = view.findViewById(R.id.edit_street1);
-        txtVille = view.findViewById(R.id.edit_ville1);
-        txtCodePostale = view.findViewById(R.id.edit_code_postale1);
-        txtPays = view.findViewById(R.id.edit_pays1);
-        txtSiren = view.findViewById(R.id.edit_siren1);
-        txtEmail = view.findViewById(R.id.edit_email_client1);
-        txtTvaClient = view.findViewById(R.id.edit_tva_client);
-        signatureView = view.findViewById(R.id.signature_view);
+        // Use black for labels to match Document Studio
+        try {
+            android.util.TypedValue typedValue = new android.util.TypedValue();
+            requireContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorOnSurface, typedValue, true);
+            txtLabel.setTextColor(typedValue.data);
+            txtLabel.setAlpha(0.9f);
+        } catch (Exception ignored) {}
 
-        SimpleDateFormat fmt = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-        editDateFactureForm.setText(fmt.format(new Date()));
-        editDateFactureForm.setOnClickListener(v -> showDatePickerDialog());
-
-        txtCodePostale.addTextChangedListener(new TextWatcher() {
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-            public void afterTextChanged(Editable s) {
-                FetchVilleFromCodePostale.fetchDataFromApiWithParams(s.toString(), txtVille, txtPays);
-            }
-        });
+        if (options.length > 0) {
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.dropdown_menu_popup_item, options);
+            dropdown.setAdapter(adapter);
+            dropdown.setText(options[0], false);
+        }
+        return dropdown;
     }
 
     private void showDatePickerDialog() {

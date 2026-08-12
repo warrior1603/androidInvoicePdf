@@ -8,109 +8,67 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-
-import com.google.android.material.snackbar.Snackbar;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.chouchene.factures.R;
-import com.chouchene.factures.api.ApiService;
 import com.chouchene.factures.api.FetchVilleFromCodePostale;
-import com.chouchene.factures.api.VilleDataModel;
-import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+public class PersonalSettingsFragment extends Fragment {
 
-public class PersonalSettingsFragment extends Fragment implements View.OnClickListener {
-    public PersonalSettingsFragment(){
-    }
+    private TextInputEditText txtUserName, txtStreet, txtCity, txtCodePostale, txtCountry, txtSiren, txtTva, txtTel, txtEmail;
+    private TextInputEditText txtChauffeur, txtPlaque, txtEvtc;
+    private TextInputEditText txtIban, txtBic, txtBankAddress;
+    private ShapeableImageView imgLogo;
+    private MaterialButton btnPickLogo, btnSaveInfo;
 
-    TextInputLayout txtUserName;
-    TextInputLayout txtStreet;
-    TextInputEditText txtCity;
-    TextInputEditText txtCodePostale;
-    TextInputEditText txtCountry;
-    TextInputLayout txtSiren;
-    TextInputLayout txtTva;
-    TextInputLayout txtTel;
-    TextInputEditText txtEmail;
-
-    TextInputLayout txtChauffeur;
-    TextInputLayout txtPlaque;
-    TextInputLayout txtEvtc;
-
-    TextInputLayout txtIban;
-    TextInputLayout txtBic;
-    TextInputLayout txtBankAddress;
-
-    ShapeableImageView imgLogo;
-    Button btnPickLogo;
-
-    String logoUri;
-    String userName;
-    String street;
-    String city;
-    String codePostale;
-    String country;
-    String siren;
-    String tva;
-    String tel;
-    String email;
-
-    String chauffeur;
-    String plaque;
-    String evtc;
-
-    String iban;
-    String bic;
-    String bankAddress;
-
-    Button btnSaveInfo;
+    private String logoUri;
+    private SharedPreferences sharedPreferences;
 
     private final ActivityResultLauncher<Intent> pickImageLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                     Uri selectedImageUri = result.getData().getData();
-                    if (selectedImageUri != null) {
-                        saveLogoLocally(selectedImageUri);
-                    }
+                    if (selectedImageUri != null) saveLogoLocally(selectedImageUri);
                 }
             }
     );
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (getActivity() != null) getActivity().setTitle("Entreprise et chauffeur");
-        View myView = inflater.inflate(R.layout.activity_personal_settings, container, false);
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_personal_settings, container, false);
+    }
 
-        imgLogo = myView.findViewById(R.id.img_logo);
-        btnPickLogo = myView.findViewById(R.id.btn_pick_logo);
-        btnPickLogo.setOnClickListener(v -> {
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
+        imgLogo = view.findViewById(R.id.img_logo);
+        view.findViewById(R.id.row_logo).setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             pickImageLauncher.launch(intent);
         });
@@ -121,191 +79,82 @@ public class PersonalSettingsFragment extends Fragment implements View.OnClickLi
             imgLogo.setPadding(0, 0, 0, 0);
         }
 
-        String retrievedUser = sharedPreferences.getString("User", "");
-        txtUserName = myView.findViewById(R.id.edit_user_name);
-        txtUserName.getEditText().setText(retrievedUser);
-        String retrievedStreet = sharedPreferences.getString("Street", "");
-        txtStreet = myView.findViewById(R.id.edit_street_name);
-        txtStreet.getEditText().setText(retrievedStreet);
-        String retrievedCity = sharedPreferences.getString("City", "");
-        txtCity = myView.findViewById(R.id.edit_city);
-        txtCity.setText(retrievedCity);
-        String retrievedCodePostale = sharedPreferences.getString("codePostale", "");
-        txtCodePostale = myView.findViewById(R.id.edit_code_postale);
-        txtCodePostale.setText(retrievedCodePostale);
-        String retrievedCountry = sharedPreferences.getString("Country", "");
-        txtCountry = myView.findViewById(R.id.edit_country);
-        txtCountry.setText(retrievedCountry);
-        String retrievedSiren = sharedPreferences.getString("siren", "");
-        txtSiren = myView.findViewById(R.id.edit_siren);
-        txtSiren.getEditText().setText(retrievedSiren);
-        String retrievedtva = sharedPreferences.getString("tva", "");
-        txtTva = myView.findViewById(R.id.edit_tva);
-        txtTva.getEditText().setText(retrievedtva);
-        String retrievedTel = sharedPreferences.getString("tel", "");
-        txtTel = myView.findViewById(R.id.edit_tel);
-        txtTel.getEditText().setText(retrievedTel);
-        String retrievedEmail = sharedPreferences.getString("email", "");
-        txtEmail = myView.findViewById(R.id.edit_email);
-        txtEmail.setText(retrievedEmail);
+        txtUserName = initItem(view.findViewById(R.id.item_name), "User", R.drawable.ic_outline_users, getString(R.string.label_full_name), InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+        txtStreet = initItem(view.findViewById(R.id.item_street), "Street", R.drawable.ic_route_outline, getString(R.string.label_street), InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
+        txtCodePostale = initItem(view.findViewById(R.id.item_zip), "codePostale", R.drawable.ic_outline_folder, getString(R.string.label_postal_code), InputType.TYPE_CLASS_NUMBER);
+        txtCity = initItem(view.findViewById(R.id.item_city), "City", R.drawable.ic_outline_building, getString(R.string.label_city), InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        txtCountry = initItem(view.findViewById(R.id.item_country), "Country", R.drawable.ic_tab_world, getString(R.string.label_country), InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        txtSiren = initItem(view.findViewById(R.id.item_siren), "siren", R.drawable.ic_outline_adjustments, getString(R.string.label_siren), InputType.TYPE_CLASS_NUMBER);
+        txtTva = initItem(view.findViewById(R.id.item_tva), "tva", R.drawable.ic_outline_cash, getString(R.string.label_tva), InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+        txtTel = initItem(view.findViewById(R.id.item_phone), "tel", R.drawable.ic_phone_outline, getString(R.string.label_contact_number), InputType.TYPE_CLASS_PHONE);
+        txtEmail = initItem(view.findViewById(R.id.item_email), "email", R.drawable.ic_outline_mail, getString(R.string.label_email), InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 
-        String retrievedCauffeur = sharedPreferences.getString("chauffeur", "");
-        txtChauffeur = myView.findViewById(R.id.edit_chauffeur);
-        txtChauffeur.getEditText().setText(retrievedCauffeur);
-        String retrievedPlaque = sharedPreferences.getString("plaque", "");
-        txtPlaque = myView.findViewById(R.id.edit_plaque);
-        txtPlaque.getEditText().setText(retrievedPlaque);
-        String retrievedEvtc = sharedPreferences.getString("evtc", "");
-        txtEvtc = myView.findViewById(R.id.edit_Evtc);
-        txtEvtc.getEditText().setText(retrievedEvtc);
+        txtChauffeur = initItem(view.findViewById(R.id.item_chauffeur), "chauffeur", R.drawable.ic_outline_users, getString(R.string.label_driver_name), InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+        txtPlaque = initItem(view.findViewById(R.id.item_plaque), "plaque", R.drawable.ic_route_outline, getString(R.string.label_plate_number), InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+        txtEvtc = initItem(view.findViewById(R.id.item_evtc), "evtc", R.drawable.ic_outline_receipt, getString(R.string.label_evtc_number), InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
 
-        String retrievedIban = sharedPreferences.getString("iban", "FR7616958000016908274069822");
-        txtIban = myView.findViewById(R.id.edit_iban);
-        txtIban.getEditText().setText(retrievedIban);
-        String retrievedBic = sharedPreferences.getString("bic", "QNTOFRP1XXX");
-        txtBic = myView.findViewById(R.id.edit_bic);
-        txtBic.getEditText().setText(retrievedBic);
-        String retrievedBankAddress = sharedPreferences.getString("bankAddress", "CM3-VTC, 5 RUE AMBOURGET, Chez M chouchene moez, 93600, AULNAY-SOUS-BOIS - FR");
-        txtBankAddress = myView.findViewById(R.id.edit_bank_address);
-        txtBankAddress.getEditText().setText(retrievedBankAddress);
+        txtIban = initItem(view.findViewById(R.id.item_iban), "iban", R.drawable.ic_outline_cash, "IBAN", InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+        txtBic = initItem(view.findViewById(R.id.item_bic), "bic", R.drawable.ic_outline_building, "BIC", InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+        txtBankAddress = initItem(view.findViewById(R.id.item_bank_address), "bankAddress", R.drawable.ic_outline_adjustments, getString(R.string.label_bank_address), InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
+
+        btnSaveInfo = view.findViewById(R.id.btn_save_info);
+        btnSaveInfo.setOnClickListener(v -> {
+            v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
+            saveUserInfo();
+            Snackbar.make(v, "Informations enregistrées avec succès.", Snackbar.LENGTH_LONG).show();
+        });
 
         txtCodePostale.addTextChangedListener(new TextWatcher() {
-                                                  @Override
-                                                  public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                                                  }
-
-                                                  @Override
-                                                  public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                                                  }
-
-                                                  @Override
-                                                  public void afterTextChanged(Editable s) {
-                                                      FetchVilleFromCodePostale.fetchDataFromApiWithParams(txtCodePostale.getText().toString(), txtCity, txtCountry);
-                                                  }
-                                              }
-
-        );
-
-        btnSaveInfo = myView.findViewById(R.id.btn_save_info);
-        btnSaveInfo.setOnClickListener(this);
-        return myView;
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override public void afterTextChanged(Editable s) {
+                if (s.length() >= 5) FetchVilleFromCodePostale.fetchDataFromApiWithParams(s.toString(), txtCity, txtCountry);
+            }
+        });
     }
 
+    private TextInputEditText initItem(View itemView, String key, int iconRes, String label, int inputType) {
+        ImageView icon = itemView.findViewById(R.id.item_icon);
+        TextView txtLabel = itemView.findViewById(R.id.item_label);
+        TextInputEditText input = itemView.findViewById(R.id.item_input);
 
+        icon.setImageResource(iconRes);
+        txtLabel.setText(label);
+        input.setInputType(inputType);
+        input.setText(sharedPreferences.getString(key, ""));
 
-
-    @Override
-    public void onClick(View v) {
-        v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
-        saveUserInfo();
-        Snackbar.make(v, "Informations enregistrées avec succès.", Snackbar.LENGTH_LONG).show();
+        input.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override public void afterTextChanged(Editable s) {
+                sharedPreferences.edit().putString(key, s.toString()).apply();
+            }
+        });
+        return input;
     }
 
-    // Saving user personal information
     private void saveUserInfo() {
-        userName = txtUserName.getEditText().getText().toString();
-        street = txtStreet.getEditText().getText().toString();
-        city = txtCity.getText().toString();
-        codePostale = txtCodePostale.getText().toString();
-        country = txtCountry.getText().toString();
-        siren = txtSiren.getEditText().getText().toString();
-        tva = txtTva.getEditText().getText().toString();
-        tel = txtTel.getEditText().getText().toString();
-        email = txtEmail.getText().toString();
-
-        chauffeur = txtChauffeur.getEditText().getText().toString();
-        plaque = txtPlaque.getEditText().getText().toString();
-        evtc = txtEvtc.getEditText().getText().toString();
-
-        iban = txtIban.getEditText().getText().toString();
-        bic = txtBic.getEditText().getText().toString();
-        bankAddress = txtBankAddress.getEditText().getText().toString();
-
-
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        if (userName != null && !userName.isEmpty()) {
-            editor.putString("User", userName);
-        }
-        if (street != null && !street.isEmpty()) {
-            editor.putString("Street", street);
-        }
-        if (city != null && !city.isEmpty()) {
-            editor.putString("City", city);
-        }
-        if (codePostale != null && !codePostale.isEmpty()) {
-            editor.putString("codePostale", codePostale);
-        }
-        if (country != null && !country.isEmpty()) {
-            editor.putString("Country", country);
-        }
-        if (siren != null && !siren.isEmpty()) {
-            editor.putString("siren", siren);
-        }
-        if (tva != null && !tva.isEmpty()) {
-            editor.putString("tva", tva);
-        }
-        if (tel != null && !tel.isEmpty()) {
-            editor.putString("tel", tel);
-        }
-        if (email != null && !email.isEmpty()) {
-            editor.putString("email", email);
-        }
-        if (chauffeur != null && !chauffeur.isEmpty()) {
-            editor.putString("chauffeur", chauffeur);
-        }
-        if (plaque != null && !plaque.isEmpty()) {
-            editor.putString("plaque", plaque);
-        }
-        if (evtc != null && !evtc.isEmpty()) {
-            editor.putString("evtc", evtc);
-        }
-        if (iban != null && !iban.isEmpty()) {
-            editor.putString("iban", iban);
-        }
-        if (bic != null && !bic.isEmpty()) {
-            editor.putString("bic", bic);
-        }
-        if (bankAddress != null && !bankAddress.isEmpty()) {
-            editor.putString("bankAddress", bankAddress);
-        }
-        editor.apply();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
+        // Already auto-saving via TextWatcher, but we can perform manual sync here if needed.
     }
 
     private void saveLogoLocally(Uri uri) {
         try {
             InputStream inputStream = requireContext().getContentResolver().openInputStream(uri);
             if (inputStream == null) return;
-            
             File file = new File(requireContext().getFilesDir(), "company_logo.png");
             FileOutputStream outputStream = new FileOutputStream(file);
             byte[] buffer = new byte[1024];
             int bytesRead;
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
-            }
-            outputStream.flush();
-            outputStream.close();
-            inputStream.close();
+            while ((bytesRead = inputStream.read(buffer)) != -1) outputStream.write(buffer, 0, bytesRead);
+            outputStream.flush(); outputStream.close(); inputStream.close();
 
             logoUri = file.getAbsolutePath();
             imgLogo.setImageURI(Uri.fromFile(file));
             imgLogo.setPadding(0, 0, 0, 0);
-
-            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
             sharedPreferences.edit().putString("logo_uri", logoUri).apply();
-            
-            Snackbar.make(getView(), "Logo mis à jour", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(requireView(), "Logo mis à jour", Snackbar.LENGTH_SHORT).show();
         } catch (IOException e) {
             Log.e("LOGO_SAVE", "Error saving logo", e);
-            Snackbar.make(getView(), "Erreur lors de l'enregistrement du logo", Snackbar.LENGTH_SHORT).show();
         }
     }
 }
