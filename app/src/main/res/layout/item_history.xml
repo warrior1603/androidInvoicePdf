@@ -59,11 +59,12 @@
 
             <TextView
                 android:id="@+id/txtAmount"
-                style="@style/App.TextAppearance.TitleMedium"
+                style="@style/App.TextAppearance.TitleLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="100.00 €"
-                android:textColor="?attr/colorPrimary" />
+                android:textColor="?attr/colorPrimary"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txtStatus"
