@@ -45,12 +45,12 @@ public class SettingsHubFragment extends Fragment {
                     tab.setIcon(R.drawable.ic_outline_settings);
                     break;
                 case 1:
-                    tab.setText("Entreprise");
-                    tab.setIcon(R.drawable.ic_outline_building);
-                    break;
-                case 2:
                     tab.setText("Gestion");
                     tab.setIcon(R.drawable.ic_outline_database);
+                    break;
+                case 2:
+                    tab.setText("Entreprise");
+                    tab.setIcon(R.drawable.ic_outline_building);
                     break;
             }
         }).attach();
@@ -66,8 +66,8 @@ public class SettingsHubFragment extends Fragment {
         @NonNull @Override public Fragment createFragment(int position) {
             switch (position) {
                 case 0: return new GeneralSettingsFragment();
-                case 1: return new EntrepriseSettingsFragment();
-                case 2: return new ManagementSettingsFragment();
+                case 1: return new ManagementSettingsFragment();
+                case 2: return new EntrepriseSettingsFragment();
                 default: return new GeneralSettingsFragment();
             }
         }
