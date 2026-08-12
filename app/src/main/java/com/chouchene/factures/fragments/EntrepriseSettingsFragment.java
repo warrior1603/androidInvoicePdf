@@ -10,11 +10,13 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -37,6 +39,15 @@ public class EntrepriseSettingsFragment extends Fragment {
     private TextInputEditText editChauffeur, editPlaque, editEvtc, editIban, editBic, editBankAddress;
     private ShapeableImageView imgLogo;
     private TextView txtLogoStatus;
+    
+    private View contentStep1, contentStep2, contentStep3;
+    private TextView indicator1, indicator2, indicator3;
+    private View line1, line2;
+    private TextView summary1, summary2, summary3;
+    
+    private ViewGroup stepperRoot;
+    private int activeStep = 0;
+    
     private SharedPreferences prefs;
 
     private final ActivityResultLauncher<Intent> pickImageLauncher = registerForActivityResult(
@@ -59,6 +70,24 @@ public class EntrepriseSettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         prefs = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
+        stepperRoot = view.findViewById(R.id.stepper_root);
+        
+        // Stepper UI Elements
+        contentStep1 = view.findViewById(R.id.content_step_1);
+        contentStep2 = view.findViewById(R.id.content_step_2);
+        contentStep3 = view.findViewById(R.id.content_step_3);
+        
+        indicator1 = view.findViewById(R.id.step_indicator_1);
+        indicator2 = view.findViewById(R.id.step_indicator_2);
+        indicator3 = view.findViewById(R.id.step_indicator_3);
+        
+        line1 = view.findViewById(R.id.line_1);
+        line2 = view.findViewById(R.id.line_2);
+        
+        summary1 = view.findViewById(R.id.summary_step_1);
+        summary2 = view.findViewById(R.id.summary_step_2);
+        summary3 = view.findViewById(R.id.summary_step_3);
 
         // Binding and initializing items
         initItem(view.findViewById(R.id.item_user), "User", R.drawable.ic_outline_users, getString(R.string.label_full_name), InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
@@ -89,7 +118,75 @@ public class EntrepriseSettingsFragment extends Fragment {
             pickImageLauncher.launch(intent);
         });
 
+        // Stepper Navigation
+        view.findViewById(R.id.header_step_1).setOnClickListener(v -> goToStep(0));
+        view.findViewById(R.id.header_step_2).setOnClickListener(v -> goToStep(1));
+        view.findViewById(R.id.header_step_3).setOnClickListener(v -> goToStep(2));
+        
+        view.findViewById(R.id.btn_next_1).setOnClickListener(v -> goToStep(1));
+        view.findViewById(R.id.btn_next_2).setOnClickListener(v -> goToStep(2));
+        view.findViewById(R.id.btn_finish).setOnClickListener(v -> {
+            Snackbar.make(view, "Configuration terminée et enregistrée", Snackbar.LENGTH_SHORT).show();
+            // Optional: close activity or navigate back
+        });
+
         setupZipCodeLookup();
+        updateSummaries();
+        refreshStepperUI();
+    }
+
+    private void goToStep(int step) {
+        if (activeStep == step) return;
+        activeStep = step;
+        TransitionManager.beginDelayedTransition(stepperRoot);
+        refreshStepperUI();
+    }
+
+    private void refreshStepperUI() {
+        contentStep1.setVisibility(activeStep == 0 ? View.VISIBLE : View.GONE);
+        contentStep2.setVisibility(activeStep == 1 ? View.VISIBLE : View.GONE);
+        contentStep3.setVisibility(activeStep == 2 ? View.VISIBLE : View.GONE);
+        
+        updateIndicator(indicator1, activeStep >= 0);
+        updateIndicator(indicator2, activeStep >= 1);
+        updateIndicator(indicator3, activeStep >= 2);
+        
+        if (line1 != null) line1.setAlpha(activeStep >= 1 ? 1.0f : 0.2f);
+        if (line2 != null) line2.setAlpha(activeStep >= 2 ? 1.0f : 0.2f);
+
+        updateSummaries();
+    }
+
+    private void updateIndicator(TextView indicator, boolean active) {
+        if (active) {
+            indicator.setBackgroundResource(R.drawable.circle_stepper_active);
+            indicator.setTextColor(android.graphics.Color.WHITE);
+            indicator.setAlpha(1.0f);
+        } else {
+            indicator.setBackgroundResource(R.drawable.circle_stepper_inactive);
+            // Use colorOnSurfaceVariant for inactive text
+            try {
+                android.util.TypedValue typedValue = new android.util.TypedValue();
+                requireContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorOnSurfaceVariant, typedValue, true);
+                indicator.setTextColor(typedValue.data);
+            } catch (Exception e) {
+                indicator.setTextColor(android.graphics.Color.GRAY);
+            }
+            indicator.setAlpha(0.6f);
+        }
+    }
+
+    private void updateSummaries() {
+        String name = prefs.getString("User", "");
+        String email = prefs.getString("email", "");
+        summary1.setText(name.isEmpty() ? "Nom, Email, SIREN..." : name + " • " + email);
+
+        String chauffeur = prefs.getString("chauffeur", "");
+        String plaque = prefs.getString("plaque", "");
+        summary2.setText(chauffeur.isEmpty() ? "Chauffeur, Plaque, EVTC..." : chauffeur + " • " + plaque);
+
+        String iban = prefs.getString("iban", "");
+        summary3.setText(iban.isEmpty() ? "IBAN, BIC..." : "IBAN: •••• " + (iban.length() > 4 ? iban.substring(iban.length() - 4) : iban));
     }
 
     private void initItem(View itemView, String key, int iconRes, String label, int inputType) {
@@ -124,6 +221,7 @@ public class EntrepriseSettingsFragment extends Fragment {
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
             @Override public void afterTextChanged(Editable s) {
                 prefs.edit().putString(key, s.toString()).apply();
+                updateSummaries();
             }
         });
     }

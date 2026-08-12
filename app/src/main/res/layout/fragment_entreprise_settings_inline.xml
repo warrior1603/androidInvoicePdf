@@ -7,18 +7,19 @@
     android:background="?android:attr/colorBackground">
 
     <LinearLayout
+        android:id="@+id/stepper_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingBottom="100dp">
 
-        <!-- Logo Row (Settings Style) -->
+        <!-- Logo Header (Subtle Settings Style) -->
         <LinearLayout
             android:id="@+id/row_logo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="16dp"
+            android:padding="24dp"
             android:gravity="center_vertical"
             android:clickable="true"
             android:focusable="true"
@@ -26,8 +27,8 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/img_logo_settings"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_outline_building"
                 android:background="?attr/colorSurfaceContainerHigh"
@@ -37,117 +38,300 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="20dp"
                 android:orientation="vertical">
                 <TextView
-                    style="@style/App.TextAppearance.TitleMedium"
+                    style="@style/App.TextAppearance.TitleLarge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Logo de l'entreprise"
-                    android:textSize="15sp"
+                    android:text="Identité Visuelle"
+                    android:textSize="17sp"
                     android:textColor="?attr/colorOnSurface" />
                 <TextView
                     android:id="@+id/txt_logo_status"
                     style="@style/App.TextAppearance.LabelSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Modifier le logo de votre entreprise"
+                    android:layout_marginTop="2dp"
+                    android:text="Cliquer pour modifier le logo"
                     android:textColor="?attr/colorOnSurfaceVariant"
-                    android:alpha="0.8" />
+                    android:alpha="0.7" />
             </LinearLayout>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/rounded_chevron_right_24"
+                app:tint="?attr/colorOnSurfaceVariant"
+                android:alpha="0.5" />
         </LinearLayout>
 
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <!-- Category: Profile -->
-        <TextView
-            style="@style/App.TextAppearance.LabelLarge"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="56dp"
-            android:paddingTop="24dp"
-            android:paddingBottom="8dp"
-            android:text="PROFIL ENTREPRISE"
-            android:textColor="?attr/colorPrimary"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:letterSpacing="0.05" />
+            android:layout_marginBottom="16dp" />
 
-        <include layout="@layout/view_settings_input_item" android:id="@+id/item_user" />
-        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
-
-        <include layout="@layout/view_settings_input_item" android:id="@+id/item_email" />
-        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
-
-        <include layout="@layout/view_settings_input_item" android:id="@+id/item_tel" />
-        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
-
-        <include layout="@layout/view_settings_input_item" android:id="@+id/item_street" />
-        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
-
+        <!-- Vertical Stepper Container -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
-            <include layout="@layout/view_settings_input_item" android:id="@+id/item_zip" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
-            <include layout="@layout/view_settings_input_item" android:id="@+id/item_city" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1.2" />
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp">
+
+            <!-- STEP 1: Profil -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="28dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
+                    <TextView
+                        android:id="@+id/step_indicator_1"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@drawable/circle_stepper_active"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/white"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                    <View
+                        android:id="@+id/line_1"
+                        android:layout_width="1.5dp"
+                        android:layout_height="match_parent"
+                        android:background="?attr/colorOutlineVariant" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:orientation="vertical"
+                    android:paddingBottom="24dp">
+
+                    <TextView
+                        android:id="@+id/header_step_1"
+                        style="@style/App.TextAppearance.TitleMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Profil &amp; Coordonnées"
+                        android:textColor="?attr/colorOnSurface"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground" />
+
+                    <TextView
+                        android:id="@+id/summary_step_1"
+                        style="@style/App.TextAppearance.BodySmall"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Nom, Email, SIREN..."
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:alpha="0.7" />
+
+                    <LinearLayout
+                        android:id="@+id/content_step_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_user" />
+                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_email" />
+                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_tel" />
+                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_siren" />
+                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_tva" />
+                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_street" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
+                            <include layout="@layout/view_settings_input_item" android:id="@+id/item_zip" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+                            <include layout="@layout/view_settings_input_item" android:id="@+id/item_city" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1.2" />
+                        </LinearLayout>
+
+                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_country" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_next_1"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="16dp"
+                            android:text="Suivant"
+                            app:icon="@drawable/rounded_chevron_right_24"
+                            app:iconGravity="end" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- STEP 2: Véhicule -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="28dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
+                    <TextView
+                        android:id="@+id/step_indicator_2"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@drawable/circle_stepper_inactive"
+                        android:gravity="center"
+                        android:text="2"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                    <View
+                        android:id="@+id/line_2"
+                        android:layout_width="1.5dp"
+                        android:layout_height="match_parent"
+                        android:background="?attr/colorOutlineVariant" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:orientation="vertical"
+                    android:paddingBottom="24dp">
+
+                    <TextView
+                        android:id="@+id/header_step_2"
+                        style="@style/App.TextAppearance.TitleMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Chauffeur &amp; Véhicule"
+                        android:textColor="?attr/colorOnSurface"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground" />
+
+                    <TextView
+                        android:id="@+id/summary_step_2"
+                        style="@style/App.TextAppearance.BodySmall"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Chauffeur, Plaque, EVTC..."
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:alpha="0.7" />
+
+                    <LinearLayout
+                        android:id="@+id/content_step_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_chauffeur" />
+                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_plaque" />
+                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_evtc" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_next_2"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="16dp"
+                            android:text="Suivant"
+                            app:icon="@drawable/rounded_chevron_right_24"
+                            app:iconGravity="end" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- STEP 3: Banque -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="28dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
+                    <TextView
+                        android:id="@+id/step_indicator_3"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@drawable/circle_stepper_inactive"
+                        android:gravity="center"
+                        android:text="3"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/header_step_3"
+                        style="@style/App.TextAppearance.TitleMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Coordonnées Bancaires"
+                        android:textColor="?attr/colorOnSurface"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground" />
+
+                    <TextView
+                        android:id="@+id/summary_step_3"
+                        style="@style/App.TextAppearance.BodySmall"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="IBAN, BIC..."
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:alpha="0.7" />
+
+                    <LinearLayout
+                        android:id="@+id/content_step_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_iban" />
+                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_bic" />
+                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_bank_address" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_finish"
+                            style="@style/App.Button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="16dp"
+                            android:text="Terminer"
+                            app:icon="@drawable/rounded_check_24" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
         </LinearLayout>
-        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
-
-        <include layout="@layout/view_settings_input_item" android:id="@+id/item_country" />
-        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
-
-        <include layout="@layout/view_settings_input_item" android:id="@+id/item_siren" />
-        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
-
-        <include layout="@layout/view_settings_input_item" android:id="@+id/item_tva" />
-
-        <!-- Category: Vehicle -->
-        <TextView
-            style="@style/App.TextAppearance.LabelLarge"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="56dp"
-            android:paddingTop="32dp"
-            android:paddingBottom="8dp"
-            android:text="CHAUFFEUR ET VÉHICULE"
-            android:textColor="?attr/colorPrimary"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:letterSpacing="0.05" />
-
-        <include layout="@layout/view_settings_input_item" android:id="@+id/item_chauffeur" />
-        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
-
-        <include layout="@layout/view_settings_input_item" android:id="@+id/item_plaque" />
-        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
-
-        <include layout="@layout/view_settings_input_item" android:id="@+id/item_evtc" />
-
-        <!-- Category: Bank -->
-        <TextView
-            style="@style/App.TextAppearance.LabelLarge"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="56dp"
-            android:paddingTop="32dp"
-            android:paddingBottom="8dp"
-            android:text="COORDONNÉES BANCAIRES"
-            android:textColor="?attr/colorPrimary"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:letterSpacing="0.05" />
-
-        <include layout="@layout/view_settings_input_item" android:id="@+id/item_iban" />
-        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
-
-        <include layout="@layout/view_settings_input_item" android:id="@+id/item_bic" />
-        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
-
-        <include layout="@layout/view_settings_input_item" android:id="@+id/item_bank_address" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
