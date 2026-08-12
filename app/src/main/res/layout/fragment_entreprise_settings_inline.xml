@@ -13,7 +13,7 @@
         android:orientation="vertical"
         android:paddingBottom="100dp">
 
-        <!-- Logo Header (Subtle Settings Style) -->
+        <!-- Logo Header -->
         <LinearLayout
             android:id="@+id/row_logo"
             android:layout_width="match_parent"
@@ -63,7 +63,8 @@
                 android:layout_height="20dp"
                 android:src="@drawable/rounded_chevron_right_24"
                 app:tint="?attr/colorOnSurfaceVariant"
-                android:alpha="0.5" />
+                android:alpha="0.5"
+                android:contentDescription="@null" />
         </LinearLayout>
 
         <com.google.android.material.divider.MaterialDivider

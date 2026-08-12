@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -35,8 +34,7 @@ import java.io.InputStream;
 
 public class EntrepriseSettingsFragment extends Fragment {
 
-    private TextInputEditText editUser, editEmail, editTel, editStreet, editZip, editCity, editCountry, editSiren, editTva;
-    private TextInputEditText editChauffeur, editPlaque, editEvtc, editIban, editBic, editBankAddress;
+    private TextInputEditText editZip, editCity, editCountry;
     private ShapeableImageView imgLogo;
     private TextView txtLogoStatus;
     
@@ -94,9 +92,11 @@ public class EntrepriseSettingsFragment extends Fragment {
         initItem(view.findViewById(R.id.item_email), "email", R.drawable.ic_outline_mail, getString(R.string.label_email), InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
         initItem(view.findViewById(R.id.item_tel), "tel", R.drawable.ic_outline_phone, getString(R.string.label_contact_number), InputType.TYPE_CLASS_PHONE);
         initItem(view.findViewById(R.id.item_street), "Street", R.drawable.ic_outline_road, getString(R.string.label_street), InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
-        initItem(view.findViewById(R.id.item_zip), "codePostale", R.drawable.ic_outline_hash, getString(R.string.label_postal_code), InputType.TYPE_CLASS_NUMBER);
-        initItem(view.findViewById(R.id.item_city), "City", R.drawable.ic_outline_building, getString(R.string.label_city), InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-        initItem(view.findViewById(R.id.item_country), "Country", R.drawable.ic_tab_world, getString(R.string.label_country), InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        
+        editZip = initItem(view.findViewById(R.id.item_zip), "codePostale", R.drawable.ic_outline_hash, getString(R.string.label_postal_code), InputType.TYPE_CLASS_NUMBER);
+        editCity = initItem(view.findViewById(R.id.item_city), "City", R.drawable.ic_outline_building, getString(R.string.label_city), InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        editCountry = initItem(view.findViewById(R.id.item_country), "Country", R.drawable.ic_tab_world, getString(R.string.label_country), InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        
         initItem(view.findViewById(R.id.item_siren), "siren", R.drawable.ic_outline_adjustments, getString(R.string.label_siren), InputType.TYPE_CLASS_NUMBER);
         initItem(view.findViewById(R.id.item_tva), "tva", R.drawable.ic_outline_cash, getString(R.string.label_tva), InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
         
@@ -127,7 +127,6 @@ public class EntrepriseSettingsFragment extends Fragment {
         view.findViewById(R.id.btn_next_2).setOnClickListener(v -> goToStep(2));
         view.findViewById(R.id.btn_finish).setOnClickListener(v -> {
             Snackbar.make(view, "Configuration terminée et enregistrée", Snackbar.LENGTH_SHORT).show();
-            // Optional: close activity or navigate back
         });
 
         setupZipCodeLookup();
@@ -164,7 +163,6 @@ public class EntrepriseSettingsFragment extends Fragment {
             indicator.setAlpha(1.0f);
         } else {
             indicator.setBackgroundResource(R.drawable.circle_stepper_inactive);
-            // Use colorOnSurfaceVariant for inactive text
             try {
                 android.util.TypedValue typedValue = new android.util.TypedValue();
                 requireContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorOnSurfaceVariant, typedValue, true);
@@ -189,32 +187,21 @@ public class EntrepriseSettingsFragment extends Fragment {
         summary3.setText(iban.isEmpty() ? "IBAN, BIC..." : "IBAN: •••• " + (iban.length() > 4 ? iban.substring(iban.length() - 4) : iban));
     }
 
-    private void initItem(View itemView, String key, int iconRes, String label, int inputType) {
+    private TextInputEditText initItem(View itemView, String key, int iconRes, String label, int inputType) {
         ImageView icon = itemView.findViewById(R.id.item_icon);
         TextView txtLabel = itemView.findViewById(R.id.item_label);
         TextInputEditText input = itemView.findViewById(R.id.item_input);
 
         icon.setImageResource(iconRes);
+        try {
+            android.util.TypedValue typedValue = new android.util.TypedValue();
+            requireContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorOnSurface, typedValue, true);
+            icon.setColorFilter(typedValue.data);
+        } catch (Exception ignored) {}
+
         txtLabel.setText(label);
         input.setInputType(inputType);
         input.setText(prefs.getString(key, ""));
-
-        // Assign to fields for specialized logic if needed
-        if (key.equals("User")) editUser = input;
-        else if (key.equals("email")) editEmail = input;
-        else if (key.equals("tel")) editTel = input;
-        else if (key.equals("Street")) editStreet = input;
-        else if (key.equals("codePostale")) editZip = input;
-        else if (key.equals("City")) editCity = input;
-        else if (key.equals("Country")) editCountry = input;
-        else if (key.equals("siren")) editSiren = input;
-        else if (key.equals("tva")) editTva = input;
-        else if (key.equals("chauffeur")) editChauffeur = input;
-        else if (key.equals("plaque")) editPlaque = input;
-        else if (key.equals("evtc")) editEvtc = input;
-        else if (key.equals("iban")) editIban = input;
-        else if (key.equals("bic")) editBic = input;
-        else if (key.equals("bankAddress")) editBankAddress = input;
 
         input.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -224,6 +211,7 @@ public class EntrepriseSettingsFragment extends Fragment {
                 updateSummaries();
             }
         });
+        return input;
     }
 
     private void loadLogo() {

@@ -13,7 +13,7 @@
         android:id="@+id/item_icon"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:src="@drawable/ic_outline_users"
+        android:src="@drawable/ic_outline_cash"
         app:tint="?attr/colorOnSurface"
         android:contentDescription="@null" />
 
@@ -33,32 +33,29 @@
             android:textSize="15sp"
             android:textColor="?attr/colorOnSurface" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/item_input"
-            style="@style/App.TextAppearance.BodyMedium"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@null"
-            android:paddingVertical="2dp"
-            android:paddingHorizontal="0dp"
-            android:textSize="14sp"
-            android:hint="Saisir..."
-            android:textColor="?attr/colorOnSurfaceVariant" />
+            app:boxBackgroundColor="@android:color/transparent"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:hintEnabled="false">
+
+            <AutoCompleteTextView
+                android:id="@+id/item_dropdown"
+                style="@style/App.TextAppearance.BodyMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:paddingVertical="2dp"
+                android:paddingHorizontal="0dp"
+                android:textSize="14sp"
+                android:inputType="none"
+                android:textColor="?attr/colorOnSurfaceVariant" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/item_action_icon"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:padding="6dp"
-        android:layout_marginStart="8dp"
-        android:src="@drawable/ic_address_book_outline"
-        app:tint="?attr/colorPrimary"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:visibility="gone"
-        android:clickable="true"
-        android:focusable="true"
-        android:contentDescription="@null" />
 
 </LinearLayout>
