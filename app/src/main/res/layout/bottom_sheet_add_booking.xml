@@ -110,7 +110,7 @@
                     <include layout="@layout/view_settings_input_item" android:id="@+id/item_time" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
                 </LinearLayout>
 
-                <!-- Route Preview (Minimal Indigo Touch) -->
+                <!-- Route Preview (Minimal Blue Touch) -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardRoutePreview"
                     android:layout_width="match_parent"

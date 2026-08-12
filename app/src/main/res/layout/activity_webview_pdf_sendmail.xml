@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#F0F2F5">
+    android:background="@color/background">
 
     <!-- PDF Viewer Area (Full Screen) -->
     <com.github.barteksc.pdfviewer.PDFView
