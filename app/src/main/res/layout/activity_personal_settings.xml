@@ -95,7 +95,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/label_full_name"
-                        app:startIconDrawable="@drawable/rounded_badge_24">
+                        app:startIconDrawable="@drawable/ic_outline_users">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -108,7 +108,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:hint="@string/label_street"
-                        app:startIconDrawable="@drawable/rounded_directions_24">
+                        app:startIconDrawable="@drawable/ic_route_outline">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -126,7 +126,7 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:hint="@string/label_postal_code"
-                            app:startIconDrawable="@drawable/rounded_email_24">
+                            app:startIconDrawable="@drawable/ic_outline_folder">
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edit_code_postale"
                                 android:layout_width="match_parent"
@@ -140,7 +140,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:hint="@string/label_city"
-                            app:startIconDrawable="@drawable/rounded_location_city_24">
+                            app:startIconDrawable="@drawable/ic_outline_building">
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/edit_city"
                                 android:layout_width="match_parent"
@@ -154,7 +154,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:hint="@string/label_country"
-                        app:startIconDrawable="@drawable/rounded_public_24">
+                        app:startIconDrawable="@drawable/ic_tab_world">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edit_country"
                             android:layout_width="match_parent"
@@ -168,7 +168,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:hint="@string/label_siren"
-                        app:startIconDrawable="@drawable/baseline_siren">
+                        app:startIconDrawable="@drawable/ic_outline_adjustments">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -182,7 +182,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:hint="@string/label_tva"
-                        app:startIconDrawable="@drawable/rounded_percent_24">
+                        app:startIconDrawable="@drawable/ic_outline_cash">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -195,7 +195,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:hint="@string/label_contact_number"
-                        app:startIconDrawable="@drawable/rounded_local_phone_24">
+                        app:startIconDrawable="@drawable/ic_phone_outline">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -208,7 +208,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:hint="@string/label_email"
-                        app:startIconDrawable="@drawable/rounded_alternate_email_24">
+                        app:startIconDrawable="@drawable/ic_outline_bell">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edit_email"
                             android:layout_width="match_parent"
@@ -248,7 +248,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/label_driver_name"
-                        app:startIconDrawable="@drawable/rounded_person_24">
+                        app:startIconDrawable="@drawable/ic_outline_users">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -261,7 +261,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:hint="@string/label_plate_number"
-                        app:startIconDrawable="@drawable/rounded_directions_car_24">
+                        app:startIconDrawable="@drawable/ic_route_outline">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -274,7 +274,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:hint="@string/label_evtc_number"
-                        app:startIconDrawable="@drawable/rounded_receipt_long_24">
+                        app:startIconDrawable="@drawable/ic_outline_receipt">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -312,7 +312,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="IBAN"
-                        app:startIconDrawable="@drawable/rounded_payments_24">
+                        app:startIconDrawable="@drawable/ic_outline_cash">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -325,7 +325,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:hint="BIC"
-                        app:startIconDrawable="@drawable/rounded_account_balance_24">
+                        app:startIconDrawable="@drawable/ic_outline_building">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -338,7 +338,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:hint="@string/label_bank_address"
-                        app:startIconDrawable="@drawable/rounded_location_on_24">
+                        app:startIconDrawable="@drawable/ic_outline_adjustments">
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />

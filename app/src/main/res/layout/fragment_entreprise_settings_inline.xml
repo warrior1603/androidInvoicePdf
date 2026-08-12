@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="?attr/colorSurface">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="100dp">
+
+        <!-- Logo Row (Settings Style) -->
+        <LinearLayout
+            android:id="@+id/row_logo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/img_logo_settings"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_outline_building"
+                android:background="?attr/colorSurfaceContainerHigh"
+                app:shapeAppearanceOverlay="@style/App.ShapeAppearance.Circle" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/App.TextAppearance.TitleMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Logo de l'entreprise"
+                    android:textSize="15sp"
+                    android:textColor="?attr/colorOnSurface" />
+                <TextView
+                    android:id="@+id/txt_logo_status"
+                    style="@style/App.TextAppearance.LabelSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Modifier le logo de votre entreprise"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:alpha="0.8" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Category: Profile -->
+        <TextView
+            style="@style/App.TextAppearance.LabelLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="56dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="8dp"
+            android:text="PROFIL ENTREPRISE"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.05" />
+
+        <include layout="@layout/view_settings_input_item" android:id="@+id/item_user" />
+        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
+
+        <include layout="@layout/view_settings_input_item" android:id="@+id/item_email" />
+        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
+
+        <include layout="@layout/view_settings_input_item" android:id="@+id/item_tel" />
+        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
+
+        <include layout="@layout/view_settings_input_item" android:id="@+id/item_street" />
+        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false">
+            <include layout="@layout/view_settings_input_item" android:id="@+id/item_zip" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+            <include layout="@layout/view_settings_input_item" android:id="@+id/item_city" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1.2" />
+        </LinearLayout>
+        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
+
+        <include layout="@layout/view_settings_input_item" android:id="@+id/item_country" />
+        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
+
+        <include layout="@layout/view_settings_input_item" android:id="@+id/item_siren" />
+        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
+
+        <include layout="@layout/view_settings_input_item" android:id="@+id/item_tva" />
+
+        <!-- Category: Vehicle -->
+        <TextView
+            style="@style/App.TextAppearance.LabelLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="56dp"
+            android:paddingTop="32dp"
+            android:paddingBottom="8dp"
+            android:text="CHAUFFEUR ET VÉHICULE"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.05" />
+
+        <include layout="@layout/view_settings_input_item" android:id="@+id/item_chauffeur" />
+        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
+
+        <include layout="@layout/view_settings_input_item" android:id="@+id/item_plaque" />
+        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
+
+        <include layout="@layout/view_settings_input_item" android:id="@+id/item_evtc" />
+
+        <!-- Category: Bank -->
+        <TextView
+            style="@style/App.TextAppearance.LabelLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="56dp"
+            android:paddingTop="32dp"
+            android:paddingBottom="8dp"
+            android:text="COORDONNÉES BANCAIRES"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.05" />
+
+        <include layout="@layout/view_settings_input_item" android:id="@+id/item_iban" />
+        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
+
+        <include layout="@layout/view_settings_input_item" android:id="@+id/item_bic" />
+        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
+
+        <include layout="@layout/view_settings_input_item" android:id="@+id/item_bank_address" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

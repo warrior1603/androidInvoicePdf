@@ -1,0 +1,91 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="Profil Entreprise">
+        <Preference
+            android:key="logo_picker"
+            android:title="Logo de l'entreprise"
+            android:summary="Appuyez pour modifier le logo"
+            android:icon="@drawable/ic_outline_building" />
+
+        <EditTextPreference
+            android:key="User"
+            android:title="@string/label_full_name"
+            android:icon="@drawable/ic_outline_users" />
+
+        <EditTextPreference
+            android:key="Street"
+            android:title="@string/label_street"
+            android:icon="@drawable/ic_outline_road" />
+
+        <EditTextPreference
+            android:key="codePostale"
+            android:title="@string/label_postal_code"
+            android:icon="@drawable/ic_outline_hash" />
+
+        <EditTextPreference
+            android:key="City"
+            android:title="@string/label_city"
+            android:icon="@drawable/ic_outline_building" />
+
+        <EditTextPreference
+            android:key="Country"
+            android:title="@string/label_country"
+            android:icon="@drawable/ic_tab_world" />
+
+        <EditTextPreference
+            android:key="siren"
+            android:title="@string/label_siren"
+            android:icon="@drawable/ic_outline_adjustments" />
+
+        <EditTextPreference
+            android:key="tva"
+            android:title="@string/label_tva"
+            android:icon="@drawable/ic_outline_cash" />
+
+        <EditTextPreference
+            android:key="tel"
+            android:title="@string/label_contact_number"
+            android:icon="@drawable/ic_outline_phone" />
+
+        <EditTextPreference
+            android:key="email"
+            android:title="@string/label_email"
+            android:icon="@drawable/ic_outline_mail" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/label_driver_and_vehicle">
+        <EditTextPreference
+            android:key="chauffeur"
+            android:title="@string/label_driver_name"
+            android:icon="@drawable/ic_outline_users" />
+
+        <EditTextPreference
+            android:key="plaque"
+            android:title="@string/label_plate_number"
+            android:icon="@drawable/ic_outline_hash" />
+
+        <EditTextPreference
+            android:key="evtc"
+            android:title="@string/label_evtc_number"
+            android:icon="@drawable/ic_outline_receipt" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/label_bank_details">
+        <EditTextPreference
+            android:key="iban"
+            android:title="IBAN"
+            android:icon="@drawable/ic_outline_cash" />
+
+        <EditTextPreference
+            android:key="bic"
+            android:title="BIC"
+            android:icon="@drawable/ic_outline_building" />
+
+        <EditTextPreference
+            android:key="bankAddress"
+            android:title="@string/label_bank_address"
+            android:icon="@drawable/ic_outline_adjustments" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

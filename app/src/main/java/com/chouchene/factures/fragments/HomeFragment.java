@@ -98,7 +98,11 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         cardClients.setOnClickListener(v -> navView.setSelectedItemId(R.id.clientsHubFragment));
         cardAgenda.setOnClickListener(v -> navView.setSelectedItemId(R.id.agendaFragment));
         cardDashboard.setOnClickListener(v -> navView.setSelectedItemId(R.id.parametresFragment));
-        cardProfile.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.personalSettingsFragment));
+        cardProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), com.chouchene.factures.SettingsActivity.class);
+            intent.putExtra("target_tab", 1);
+            startActivity(intent);
+        });
         cardSettings.setOnClickListener(v -> startActivity(new Intent(requireContext(), com.chouchene.factures.SettingsActivity.class)));
 
         view.findViewById(R.id.stat_invoices).setOnClickListener(v -> {
