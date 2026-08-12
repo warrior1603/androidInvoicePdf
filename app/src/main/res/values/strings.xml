@@ -66,6 +66,7 @@
     <string name="label_clients_desc">Liste de vos clients enregistrés</string>
     <string name="label_reports_desc">Statistiques et revenus</string>
     <string name="label_welcome_back">Bonjour !</string>
+    <string name="label_notifications">Notifications</string>
     <string name="label_tap_to_add">Appuyez sur + pour en ajouter un</string>
     <string name="msg_contact_permission_required">Permission contacts requise</string>
     <string name="label_import_contacts">Importer des contacts</string>

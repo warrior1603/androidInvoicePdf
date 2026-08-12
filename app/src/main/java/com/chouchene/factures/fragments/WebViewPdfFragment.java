@@ -97,7 +97,6 @@ public class WebViewPdfFragment extends Fragment {
         Button emailButton = view.findViewById(R.id.emailButton);
         Button shareButton = view.findViewById(R.id.shareButton);
         Button printButton = view.findViewById(R.id.printButton);
-        TextView txtPageCount = view.findViewById(R.id.txt_page_count);
         View btnBack = view.findViewById(R.id.btn_back_pdf);
         ImageView headerIcon = view.findViewById(R.id.img_header_icon);
 
@@ -225,9 +224,6 @@ public class WebViewPdfFragment extends Fragment {
         if (pdfWebView != null) {
             pdfWebView.fromUri(fileUri)
                     .onLoad(nbPages -> {
-                        if (txtPageCount != null) {
-                            txtPageCount.setText(String.format(Locale.getDefault(), "1/%d", nbPages));
-                        }
                         startPostponedEnterTransition();
                     })
                     .onRender(nbPages -> {
@@ -236,9 +232,6 @@ public class WebViewPdfFragment extends Fragment {
                         }
                     })
                     .onPageChange((page, pageCount) -> {
-                        if (txtPageCount != null) {
-                            txtPageCount.setText(String.format(Locale.getDefault(), "%d/%d", page + 1, pageCount));
-                        }
                     })
                     .onPageScroll((page, positionOffset) -> {
                         updateZoomIndicator(pdfWebView, cardZoom, txtZoom);
@@ -249,7 +242,7 @@ public class WebViewPdfFragment extends Fragment {
                     .defaultPage(0)
                     .enableAnnotationRendering(true)
                     .password(null)
-                    .scrollHandle(new DefaultScrollHandle(context))
+                    .scrollHandle(null)
                     .enableAntialiasing(true)
                     .spacing(10)
                     .autoSpacing(true)

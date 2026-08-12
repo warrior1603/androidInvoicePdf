@@ -13,6 +13,7 @@
         android:layout_height="0dp"
         android:paddingTop="48dp"
         android:clipToPadding="false"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -99,13 +100,6 @@
                 android:textStyle="bold"
                 android:textColor="?attr/colorOnSurface" />
 
-            <TextView
-                android:id="@+id/txt_page_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1/1"
-                android:textSize="14sp"
-                android:alpha="0.6" />
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
