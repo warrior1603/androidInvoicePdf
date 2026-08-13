@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="0dp"
-    android:layout_marginVertical="4dp"
     android:clickable="true"
     android:focusable="true"
-    style="@style/App.CardView">
+    android:background="?attr/selectableItemBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingVertical="14dp"
-        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="4dp"
         android:gravity="center_vertical">
+
 
         <!-- Left: Time (replaces Icon weight) -->
         <LinearLayout
@@ -142,4 +141,12 @@
         </LinearLayout>
     </LinearLayout>
 
-</com.google.android.material.card.MaterialCardView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="72dp"
+        android:background="?attr/colorOutlineVariant"
+        android:alpha="0.3" />
+
+</FrameLayout>

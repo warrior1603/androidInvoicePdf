@@ -85,12 +85,12 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         String dateStr = new SimpleDateFormat("EEEE d MMMM", Locale.getDefault()).format(new java.util.Date());
         txtCurrentDate.setText(dateStr);
 
-        MaterialCardView cardDocuments = view.findViewById(R.id.card_documents);
-        MaterialCardView cardClients = view.findViewById(R.id.card_clients);
-        MaterialCardView cardAgenda = view.findViewById(R.id.card_agenda);
-        MaterialCardView cardDashboard = view.findViewById(R.id.card_dashboard);
-        MaterialCardView cardProfile = view.findViewById(R.id.card_profile);
-        MaterialCardView cardSettings = view.findViewById(R.id.card_settings);
+        View cardDocuments = view.findViewById(R.id.card_documents);
+        View cardClients = view.findViewById(R.id.card_clients);
+        View cardAgenda = view.findViewById(R.id.card_agenda);
+        View cardDashboard = view.findViewById(R.id.card_dashboard);
+        View cardProfile = view.findViewById(R.id.card_profile);
+        View cardSettings = view.findViewById(R.id.card_settings);
 
         BottomNavigationView navView = requireActivity().findViewById(R.id.bottomNavigationView);
 
