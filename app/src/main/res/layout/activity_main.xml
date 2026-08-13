@@ -106,9 +106,17 @@
             app:defaultNavHost="true"
             app:navGraph="@navigation/nav_graph"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+            app:layout_constraintBottom_toTopOf="@id/bottom_nav_divider"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/bottom_nav_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:dividerColor="?attr/colorOutlineVariant"
+            android:alpha="0.4"
+            app:layout_constraintBottom_toTopOf="@id/bottomNavigationView" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
@@ -117,7 +125,8 @@
             style="@style/App.BottomNavigation"
             app:menu="@menu/bottom_nav_menu"
             app:labelVisibilityMode="labeled"
-            android:background="#D9FFFFFF"
+            android:background="?attr/colorSurface"
+            app:elevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
