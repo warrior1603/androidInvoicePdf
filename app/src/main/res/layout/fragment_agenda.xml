@@ -5,143 +5,147 @@
     android:layout_height="match_parent"
     android:background="?attr/colorSurface">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_canvas_header"
-        app:elevation="0dp">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
-            android:visibility="gone"
-            app:navigationIconTint="?attr/colorOnSurface" />
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
-            style="@style/App.TabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent" />
-
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="8dp">
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/statusChipGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:singleSelection="true"
-                app:selectionRequired="true">
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipAll"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tout"
-                    android:checked="true" />
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipScheduled"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="À venir"
-                    app:chipIcon="@drawable/ic_typcn_time"
-                    app:chipIconTint="?attr/colorPrimary"
-                    app:chipIconSize="16dp" />
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipCompleted"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Terminées"
-                    app:chipIcon="@drawable/ic_typcn_tick"
-                    app:chipIconTint="?attr/colorPrimary"
-                    app:chipIconSize="16dp" />
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipCancelled"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Annulées"
-                    app:chipIcon="@drawable/ic_typcn_cancel"
-                    app:chipIconTint="?attr/colorPrimary"
-                    app:chipIconSize="16dp" />
-            </com.google.android.material.chip.ChipGroup>
-        </HorizontalScrollView>
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:orientation="vertical">
 
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmer_view_container"
+        <!-- Canvas Header -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
-            <LinearLayout
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_canvas_header"
+            android:orientation="vertical"
+            android:paddingBottom="24dp">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                style="@style/App.TabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-                <View android:layout_width="match_parent" android:layout_height="300dp" android:background="@drawable/shimmer_rect" android:layout_marginBottom="16dp"/>
-                <include layout="@layout/shimmer_history_item" />
-                <include layout="@layout/shimmer_history_item" />
-            </LinearLayout>
-        </com.facebook.shimmer.ShimmerFrameLayout>
+                android:background="@android:color/transparent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvBookings"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingBottom="88dp"
-            android:layoutAnimation="@anim/layout_animation_fall_down" />
-
-        <LinearLayout
-            android:id="@+id/emptyState"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone"
-            android:paddingBottom="80dp">
-
-            <FrameLayout
-                android:layout_width="120dp"
-                android:layout_height="120dp">
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:alpha="0.05"
-                    android:background="@drawable/bg_circle_soft"
-                    android:backgroundTint="?attr/colorOnSurface" />
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="32dp"
-                    android:src="@drawable/ic_typcn_agenda"
-                    android:alpha="0.2"
-                    app:tint="?attr/colorOnSurface" />
-            </FrameLayout>
-
-            <TextView
-                style="@style/App.TextAppearance.TitleMedium"
-                android:layout_width="wrap_content"
+            <HorizontalScrollView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Aucune course prévue"
-                android:alpha="0.4"
-                android:textStyle="bold" />
+                android:scrollbars="none"
+                android:paddingHorizontal="16dp"
+                android:layout_marginTop="8dp">
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/statusChipGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:singleSelection="true"
+                    app:selectionRequired="true">
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipAll"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tout"
+                        android:checked="true" />
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipScheduled"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="À venir"
+                        app:chipIcon="@drawable/ic_typcn_time"
+                        app:chipIconTint="?attr/colorPrimary"
+                        app:chipIconSize="16dp" />
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipCompleted"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Terminées"
+                        app:chipIcon="@drawable/ic_typcn_tick"
+                        app:chipIconTint="?attr/colorPrimary"
+                        app:chipIconSize="16dp" />
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipCancelled"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Annulées"
+                        app:chipIcon="@drawable/ic_typcn_cancel"
+                        app:chipIconTint="?attr/colorPrimary"
+                        app:chipIconSize="16dp" />
+                </com.google.android.material.chip.ChipGroup>
+            </HorizontalScrollView>
         </LinearLayout>
-    </FrameLayout>
+
+        <!-- Content Sheet -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="-20dp"
+            android:background="@drawable/bg_dashboard_sheet">
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_view_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="24dp"
+                    android:paddingHorizontal="16dp">
+                    <View android:layout_width="match_parent" android:layout_height="300dp" android:background="@drawable/shimmer_rect" android:layout_marginBottom="16dp"/>
+                    <include layout="@layout/shimmer_history_item" />
+                    <include layout="@layout/shimmer_history_item" />
+                </LinearLayout>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvBookings"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingTop="24dp"
+                android:paddingBottom="88dp"
+                android:layoutAnimation="@anim/layout_animation_fall_down" />
+
+            <LinearLayout
+                android:id="@+id/emptyState"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:paddingBottom="80dp">
+
+                <FrameLayout
+                    android:layout_width="120dp"
+                    android:layout_height="120dp">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="0.05"
+                        android:background="@drawable/bg_circle_soft"
+                        android:backgroundTint="?attr/colorOnSurface" />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="32dp"
+                        android:src="@drawable/ic_typcn_agenda"
+                        android:alpha="0.2"
+                        app:tint="?attr/colorOnSurface" />
+                </FrameLayout>
+
+                <TextView
+                    style="@style/App.TextAppearance.TitleMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Aucune course prévue"
+                    android:alpha="0.4"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fabAddBooking"

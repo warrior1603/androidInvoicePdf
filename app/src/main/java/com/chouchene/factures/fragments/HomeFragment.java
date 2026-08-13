@@ -214,6 +214,10 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         String name = userPrefs.getString("User", "");
         if (!name.isEmpty()) {
             txtGreeting.setText("Bonjour, " + name + " !");
+            TextView txtInitials = getView().findViewById(R.id.txt_home_user_initials);
+            if (txtInitials != null) {
+                txtInitials.setText(com.chouchene.factures.utils.AvatarHelper.getInitials(name));
+            }
         }
 
         Executors.newSingleThreadExecutor().execute(() -> {

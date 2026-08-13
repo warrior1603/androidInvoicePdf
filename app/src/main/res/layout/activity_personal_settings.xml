@@ -5,38 +5,40 @@
     android:layout_height="match_parent"
     android:background="?attr/colorSurface">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_canvas_header"
-        app:elevation="0dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="@drawable/rounded_arrow_back_24"
-            app:title="Profil Entreprise"
-            app:titleCentered="true"
-            android:background="@android:color/transparent" />
-
-        <!-- Logo Header Area -->
+        <!-- Canvas Header -->
         <LinearLayout
-            android:id="@+id/row_logo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_canvas_header"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:gravity="center"
-            android:paddingBottom="40dp"
-            android:clickable="true"
-            android:focusable="true">
+            android:paddingBottom="48dp">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:navigationIcon="@drawable/rounded_arrow_back_24"
+                app:navigationIconTint="?attr/colorOnSurface"
+                app:title="Profil Entreprise"
+                app:titleCentered="true"
+                android:background="@android:color/transparent" />
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/row_logo"
                 android:layout_width="88dp"
                 android:layout_height="88dp"
+                android:layout_marginTop="16dp"
                 app:cardCornerRadius="44dp"
                 app:cardElevation="4dp"
-                app:strokeWidth="0dp">
+                app:strokeWidth="0dp"
+                android:clickable="true"
+                android:focusable="true">
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/img_logo"
                     android:layout_width="match_parent"
@@ -53,56 +55,29 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:text="Logo de l'entreprise"
-                android:alpha="0.6"
-                android:letterSpacing="0.1" />
+                android:alpha="0.5"
+                android:letterSpacing="0.1"
+                android:textAllCaps="true" />
         </LinearLayout>
-    </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:fillViewport="true">
-
-        <LinearLayout
+        <!-- Content Sheet -->
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="100dp">
-
-            <!-- Metrics Bar Style Floating Section -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="-20dp"
-                android:background="@drawable/bg_section_flat"
-                android:backgroundTint="?attr/colorSurface"
-                android:elevation="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="16dp"
-                android:outlineProvider="background">
-
-                <TextView
-                    style="@style/App.TextAppearance.LabelLarge"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Configuration du profil"
-                    android:textColor="?attr/colorPrimary"
-                    android:gravity="center"
-                    android:alpha="0.8" />
-            </LinearLayout>
+            android:layout_height="match_parent"
+            android:layout_marginTop="-24dp"
+            android:background="@drawable/bg_dashboard_sheet"
+            android:fillViewport="true"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingHorizontal="16dp"
-                android:paddingTop="24dp">
+                android:paddingHorizontal="24dp"
+                android:paddingTop="32dp"
+                android:paddingBottom="100dp">
 
-                <TextView style="@style/App.TextAppearance.LabelLarge" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="COORDONNÉES" android:textColor="?attr/colorPrimary" android:alpha="0.7" />
+                <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="COORDONNÉES" android:textColor="?attr/colorPrimary" android:alpha="0.6" android:letterSpacing="0.15" />
 
                 <include layout="@layout/view_settings_input_item" android:id="@+id/item_name" />
                 <include layout="@layout/view_settings_input_item" android:id="@+id/item_email" />
@@ -118,12 +93,12 @@
                 <include layout="@layout/view_settings_input_item" android:id="@+id/item_siren" />
                 <include layout="@layout/view_settings_input_item" android:id="@+id/item_tva" />
 
-                <TextView style="@style/App.TextAppearance.LabelLarge" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="32dp" android:text="VÉHICULE" android:textColor="?attr/colorPrimary" android:alpha="0.7" />
+                <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="32dp" android:text="VÉHICULE" android:textColor="?attr/colorPrimary" android:alpha="0.6" android:letterSpacing="0.15" />
                 <include layout="@layout/view_settings_input_item" android:id="@+id/item_chauffeur" />
                 <include layout="@layout/view_settings_input_item" android:id="@+id/item_plaque" />
                 <include layout="@layout/view_settings_input_item" android:id="@+id/item_evtc" />
 
-                <TextView style="@style/App.TextAppearance.LabelLarge" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="32dp" android:text="BANQUE" android:textColor="?attr/colorPrimary" android:alpha="0.7" />
+                <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="32dp" android:text="BANQUE" android:textColor="?attr/colorPrimary" android:alpha="0.6" android:letterSpacing="0.15" />
                 <include layout="@layout/view_settings_input_item" android:id="@+id/item_iban" />
                 <include layout="@layout/view_settings_input_item" android:id="@+id/item_bic" />
                 <include layout="@layout/view_settings_input_item" android:id="@+id/item_bank_address" />
@@ -137,8 +112,7 @@
                     android:text="Enregistrer"
                     app:icon="@drawable/rounded_save_24" />
             </LinearLayout>
-
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

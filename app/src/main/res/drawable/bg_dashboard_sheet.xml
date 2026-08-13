@@ -5,4 +5,8 @@
     <corners
         android:topLeftRadius="32dp"
         android:topRightRadius="32dp" />
+    <!-- Ultra-fine hair-line border for Flat definition -->
+    <stroke
+        android:width="0.5dp"
+        android:color="#1A000000" />
 </shape>

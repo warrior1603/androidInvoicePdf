@@ -95,15 +95,7 @@ public class AgendaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             h.itemView.setOnClickListener(view -> listener.onBookingClick(booking, h.itemView));
 
-            // Micro-interaction: Scale on Touch
-            h.itemView.setOnTouchListener((v, event) -> {
-                if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
-                    v.animate().scaleX(0.98f).scaleY(0.98f).setDuration(100).start();
-                } else if (event.getAction() == android.view.MotionEvent.ACTION_UP || event.getAction() == android.view.MotionEvent.ACTION_CANCEL) {
-                    v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
-                }
-                return false;
-            });
+            com.chouchene.factures.utils.UIUtils.applyClickScale(h.itemView);
         }
     }
 

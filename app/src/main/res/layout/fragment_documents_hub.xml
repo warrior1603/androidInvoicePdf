@@ -6,12 +6,13 @@
     android:orientation="vertical"
     android:background="?attr/colorSurface">
 
+    <!-- Canvas Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/bg_canvas_header"
-        android:paddingBottom="12dp">
+        android:paddingBottom="24dp">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
@@ -25,7 +26,7 @@
             android:layout_height="wrap_content"
             android:scrollbars="none"
             android:paddingHorizontal="16dp"
-            android:paddingTop="8dp">
+            android:layout_marginTop="8dp">
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/statusChipGroup"
@@ -76,23 +77,31 @@
         </HorizontalScrollView>
     </LinearLayout>
 
-    <com.google.android.material.chip.Chip
-        android:id="@+id/filterChip"
-        style="@style/Widget.Material3.Chip.Assist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginVertical="4dp"
-        android:visibility="gone"
-        app:chipIcon="@drawable/ic_outline_adjustments"
-        app:chipIconTint="?attr/colorPrimary"
-        app:closeIconVisible="true"
-        android:text="Filtré par: Juin 2024" />
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
+    <!-- Content Sheet -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="-20dp"
+        android:background="@drawable/bg_dashboard_sheet">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/filterChip"
+            style="@style/Widget.Material3.Chip.Assist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="24dp"
+            android:visibility="gone"
+            app:chipIcon="@drawable/ic_outline_adjustments"
+            app:chipIconTint="?attr/colorPrimary"
+            app:closeIconVisible="true"
+            android:text="Filtré par: Juin 2024" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
 </LinearLayout>

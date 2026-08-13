@@ -5,32 +5,35 @@
     android:layout_height="match_parent"
     android:background="?attr/colorSurface">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_canvas_header"
-        app:elevation="0dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="Journal d'activité"
-            app:titleCentered="true"
-            app:navigationIconTint="?attr/colorOnSurface"
-            android:background="@android:color/transparent" />
-
+        <!-- Canvas Header Area -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_canvas_header"
             android:orientation="vertical"
-            android:paddingHorizontal="16dp"
             android:paddingBottom="24dp">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:navigationIcon="@drawable/rounded_arrow_back_24"
+                app:navigationIconTint="?attr/colorOnSurface"
+                app:title="Journal d'activité"
+                app:titleCentered="true"
+                android:background="@android:color/transparent" />
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="none">
+                android:scrollbars="none"
+                android:paddingHorizontal="16dp"
+                android:layout_marginTop="8dp">
 
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/filter_chip_group"
@@ -71,67 +74,81 @@
                 </com.google.android.material.chip.ChipGroup>
             </HorizontalScrollView>
         </LinearLayout>
-    </com.google.android.material.appbar.AppBarLayout>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmer_view_container"
+        <!-- Content Sheet -->
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
-            app:shimmer_auto_start="true">
-            <LinearLayout
+            android:layout_marginTop="-20dp"
+            android:background="@drawable/bg_dashboard_sheet">
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_view_container"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                app:shimmer_auto_start="true">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="24dp"
+                    android:paddingHorizontal="16dp">
+                    <include layout="@layout/shimmer_history_item" />
+                    <include layout="@layout/shimmer_history_item" />
+                    <include layout="@layout/shimmer_history_item" />
+                    <include layout="@layout/shimmer_history_item" />
+                </LinearLayout>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_global_history"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingHorizontal="16dp"
+                android:paddingTop="24dp"
+                android:paddingBottom="88dp"
+                android:layoutAnimation="@anim/layout_animation_fall_down" />
+
+            <LinearLayout
+                android:id="@+id/empty_state"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <include layout="@layout/shimmer_history_item" />
-                <include layout="@layout/shimmer_history_item" />
-                <include layout="@layout/shimmer_history_item" />
-                <include layout="@layout/shimmer_history_item" />
-                <include layout="@layout/shimmer_history_item" />
-                <include layout="@layout/shimmer_history_item" />
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:paddingBottom="48dp">
+
+                <FrameLayout
+                    android:layout_width="120dp"
+                    android:layout_height="120dp">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="0.05"
+                        android:background="@drawable/bg_circle_soft"
+                        android:backgroundTint="?attr/colorOnSurface" />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="32dp"
+                        android:src="@drawable/ic_typcn_time"
+                        android:alpha="0.2"
+                        app:tint="?attr/colorOnSurface" />
+                </FrameLayout>
+
+                <TextView
+                    style="@style/App.TextAppearance.TitleMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Aucune activité trouvée"
+                    android:alpha="0.4"
+                    android:textStyle="bold" />
             </LinearLayout>
-        </com.facebook.shimmer.ShimmerFrameLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_global_history"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingHorizontal="16dp"
-            android:paddingBottom="32dp"
-            android:layoutAnimation="@anim/layout_animation_fall_down" />
-
-    </FrameLayout>
-
-    <LinearLayout
-        android:id="@+id/empty_state"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/ic_clock_outline"
-            android:alpha="0.15"
-            app:tint="?attr/colorOutline" />
-
-        <TextView
-            style="@style/App.TextAppearance.TitleMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Aucune activité trouvée"
-            android:alpha="0.4"
-            android:textStyle="bold" />
+        </FrameLayout>
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
