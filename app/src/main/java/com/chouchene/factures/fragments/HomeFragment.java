@@ -48,6 +48,9 @@ import android.content.Intent;
 public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryActionListener {
 
     private TextView txtGreeting, txtRevenue, txtRevenueDaily, txtInvoiceCount, txtBonCount, txtBookingCount, txtCurrentDate;
+    private TextView txtIncome, txtExpenses;
+    private ImageView imgRevenueTrend;
+    private com.google.android.material.progressindicator.LinearProgressIndicator progressExpenseRatio;
     private TextView txtOverdueAlert;
     private View badgeOverdue, cardOverdue;
     private com.facebook.shimmer.ShimmerFrameLayout shimmerContainer;
@@ -71,6 +74,10 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         txtGreeting = view.findViewById(R.id.txt_greeting);
         txtCurrentDate = view.findViewById(R.id.txt_current_date);
         txtRevenue = view.findViewById(R.id.txt_home_revenue);
+        txtIncome = view.findViewById(R.id.txt_home_income);
+        txtExpenses = view.findViewById(R.id.txt_home_expenses);
+        imgRevenueTrend = view.findViewById(R.id.img_revenue_trend);
+        progressExpenseRatio = view.findViewById(R.id.progress_expense_ratio);
         txtRevenueDaily = view.findViewById(R.id.txt_home_revenue_daily);
         txtInvoiceCount = view.findViewById(R.id.txt_home_invoice_count);
         txtBonCount = view.findViewById(R.id.txt_home_bon_count);
@@ -104,6 +111,16 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
             startActivity(intent);
         });
         cardSettings.setOnClickListener(v -> startActivity(new Intent(requireContext(), com.chouchene.factures.SettingsActivity.class)));
+
+        // Apply touch animations
+        setupClickAnimations(cardDocuments, cardClients, cardAgenda, cardDashboard, cardProfile, cardSettings);
+
+        // Entrance cascade for services
+        android.view.ViewGroup servicesGrid = view.findViewById(R.id.services_grid);
+        if (servicesGrid != null) {
+            servicesGrid.setLayoutAnimation(android.view.animation.AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_animation_fall_down));
+            servicesGrid.scheduleLayoutAnimation();
+        }
 
         view.findViewById(R.id.stat_invoices).setOnClickListener(v -> {
             Bundle b = new Bundle();
@@ -218,6 +235,10 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
             if (txtInitials != null) {
                 txtInitials.setText(com.chouchene.factures.utils.AvatarHelper.getInitials(name));
             }
+            MaterialCardView cardAvatar = getView().findViewById(R.id.card_home_user_avatar);
+            if (cardAvatar != null) {
+                cardAvatar.setCardBackgroundColor(com.chouchene.factures.utils.AvatarHelper.getColorForName(name));
+            }
         }
 
         Executors.newSingleThreadExecutor().execute(() -> {
@@ -256,8 +277,39 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                     View v = getView();
                     if (v == null) return;
 
-                    txtRevenue.setText(String.format(Locale.getDefault(), "%.2f €", profit));
-                    txtRevenueDaily.setText(String.format(Locale.getDefault(), "Aujourd'hui: %.2f €", dailyProfit));
+                    animateNumber(txtRevenue, profit);
+                    txtIncome.setText(String.format(Locale.getDefault(), "%.2f €", income));
+                    txtExpenses.setText(String.format(Locale.getDefault(), "%.2f €", expenses));
+                    
+                    if (imgRevenueTrend != null) {
+                        imgRevenueTrend.animate().alpha(0).setDuration(200).withEndAction(() -> {
+                            if (profit >= 0) {
+                                imgRevenueTrend.setImageResource(R.drawable.ic_trending_up_outline);
+                                imgRevenueTrend.setRotation(0);
+                                imgRevenueTrend.setImageTintList(android.content.res.ColorStateList.valueOf(context.getColor(R.color.status_paid)));
+                            } else {
+                                imgRevenueTrend.setImageResource(R.drawable.ic_trending_up_outline);
+                                imgRevenueTrend.setRotation(180);
+                                imgRevenueTrend.setImageTintList(android.content.res.ColorStateList.valueOf(context.getColor(R.color.status_cancelled)));
+                            }
+                            imgRevenueTrend.animate().alpha(1).setDuration(400).start();
+                        }).start();
+                    }
+
+                    if (income > 0) {
+                        int ratio = (int) ((expenses / income) * 100);
+                        progressExpenseRatio.setProgress(Math.min(ratio, 100), true);
+                    } else {
+                        progressExpenseRatio.setProgress(0, true);
+                    }
+
+                    String dailyPrefix = dailyProfit >= 0 ? "+" : "";
+                    txtRevenueDaily.setText(String.format(Locale.getDefault(), "Aujourd'hui: %s%.2f €", dailyPrefix, dailyProfit));
+                    if (dailyProfit < 0) {
+                         txtRevenueDaily.setTextColor(context.getColor(R.color.status_cancelled));
+                    } else {
+                         txtRevenueDaily.setTextColor(context.getColor(R.color.status_paid));
+                    }
                     txtInvoiceCount.setText(String.valueOf(invoiceCount));
                     txtBonCount.setText(String.valueOf(bonCount));
                     txtBookingCount.setText(String.valueOf(bookingCount));
@@ -382,6 +434,38 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
     public void onResume() {
         super.onResume();
         loadHomeData(false); // Refresh without shimmer for better UX
+    }
+
+    private void animateNumber(TextView textView, float target) {
+        android.animation.ValueAnimator animator = android.animation.ValueAnimator.ofFloat(0, target);
+        animator.setDuration(1000);
+        animator.setInterpolator(new android.view.animation.DecelerateInterpolator());
+        animator.addUpdateListener(animation -> {
+            float value = (float) animation.getAnimatedValue();
+            textView.setText(String.format(Locale.getDefault(), "%.2f €", value));
+        });
+        animator.start();
+    }
+
+    @android.annotation.SuppressLint("ClickableViewAccessibility")
+    private void setupClickAnimations(View... views) {
+        for (View v : views) {
+            v.setOnTouchListener((view, event) -> {
+                switch (event.getAction()) {
+                    case android.view.MotionEvent.ACTION_DOWN:
+                        view.animate().scaleX(0.92f).scaleY(0.92f).setDuration(120).setInterpolator(new android.view.animation.DecelerateInterpolator()).start();
+                        break;
+                    case android.view.MotionEvent.ACTION_UP:
+                    case android.view.MotionEvent.ACTION_CANCEL:
+                        view.animate().scaleX(1.0f).scaleY(1.0f).setDuration(300).setInterpolator(new android.view.animation.OvershootInterpolator()).start();
+                        if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
+                            view.performClick();
+                        }
+                        break;
+                }
+                return true; // Consume touch to handle animations and click together
+            });
+        }
     }
 
     private void updateStatus(RecentActivity activity, String status, BottomSheetDialog dialog) {

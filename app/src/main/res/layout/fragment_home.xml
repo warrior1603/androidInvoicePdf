@@ -16,398 +16,332 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-                <!-- Personal Greeting Area -->
+            <!-- Section 1: Executive Greeting (Airy Canvas) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="28dp"
+                android:paddingTop="56dp"
+                android:paddingBottom="40dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_home_user_avatar"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:layout_marginEnd="20dp"
+                    app:cardCornerRadius="26dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="0dp"
+                    app:cardBackgroundColor="?attr/colorPrimary">
+                    <TextView
+                        android:id="@+id/txt_home_user_initials"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@android:color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </com.google.android.material.card.MaterialCardView>
+
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="24dp"
-                    android:paddingTop="32dp"
-                    android:paddingBottom="16dp">
-
-                    <FrameLayout
-                        android:layout_width="48dp"
-                        android:layout_height="48dp">
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:alpha="0.15"
-                            android:background="@drawable/bg_circle_soft"
-                            android:backgroundTint="?attr/colorPrimary" />
-                        <TextView
-                            android:id="@+id/txt_home_user_initials"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="U"
-                            android:textColor="?attr/colorPrimary"
-                            android:textStyle="bold"
-                            android:textSize="18sp" />
-                    </FrameLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:orientation="vertical">
-
+                    android:layout_weight="1"
+                    android:orientation="vertical">
                     <TextView
                         android:id="@+id/txt_greeting"
-                        style="@style/App.TextAppearance.TitleLarge"
+                        style="@style/App.TextAppearance.Headline"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/label_welcome_back" />
-
+                        android:text="@string/label_welcome_back"
+                        android:textSize="32sp"
+                        android:letterSpacing="-0.02" />
                     <TextView
                         android:id="@+id/txt_current_date"
                         style="@style/App.TextAppearance.LabelSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:alpha="0.5"
-                        android:letterSpacing="0.1"
-                        android:textAllCaps="true"
-                        android:text="Date du jour" />
+                        android:alpha="0.3"
+                        android:text="14 AOÛT" />
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Unified Dashboard Sheet -->
+            <!-- Section 2: Financial Pulse (Executive Focus + Accent Bar) -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_dashboard_sheet"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <!-- Integrated Canvas Summary Area -->
+                <!-- 6dp Accent Bar -->
+                <View
+                    android:layout_width="6dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="8dp"
+                    android:background="@drawable/bg_vertical_bar_primary" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:paddingHorizontal="24dp"
-                    android:paddingTop="24dp"
-                    android:paddingBottom="12dp">
+                    android:paddingHorizontal="25dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="32dp">
 
-                    <FrameLayout
-                        android:id="@+id/card_monthly_insights"
+                    <TextView
+                        style="@style/App.TextAppearance.LabelSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.4"
+                        android:letterSpacing="0.3"
+                        android:text="BILAN FINANCIER" />
+
+                    <TextView
+                        android:id="@+id/txt_home_revenue"
+                        style="@style/App.TextAppearance.Headline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="0.00 €"
+                        android:textSize="58sp"
+                        android:letterSpacing="-0.04" />
+
+                    <ImageView
+                        android:id="@+id/img_revenue_trend"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_marginTop="12dp"
+                        android:src="@drawable/ic_trending_up_outline"
+                        app:tint="@color/status_paid" />
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="120dp"
-                        android:layout_marginTop="16dp">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:orientation="horizontal">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center_horizontal"
                             android:orientation="vertical">
-
                             <TextView
                                 style="@style/App.TextAppearance.LabelSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:alpha="0.5"
-                                android:letterSpacing="0.1"
-                                android:text="BÉNÉFICE DU MOIS"
-                                android:textAllCaps="true" />
-
+                                android:alpha="0.3"
+                                android:letterSpacing="0.15"
+                                android:text="ENTRÉES" />
                             <TextView
-                                android:id="@+id/txt_home_revenue"
-                                style="@style/App.TextAppearance.NumberBig"
+                                android:id="@+id/txt_home_income"
+                                style="@style/App.TextAppearance.TitleMedium"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
                                 android:text="0.00 €"
-                                android:textColor="?attr/colorPrimary"
-                                android:textSize="44sp" />
+                                android:textColor="@color/status_paid" />
+                        </LinearLayout>
 
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="40dp"
+                            android:orientation="vertical">
                             <TextView
-                                android:id="@+id/txt_home_revenue_daily"
                                 style="@style/App.TextAppearance.LabelSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="2dp"
-                                android:alpha="0.4"
-                                android:text="Aujourd'hui: 0.00 €" />
+                                android:alpha="0.3"
+                                android:letterSpacing="0.15"
+                                android:text="SORTIES" />
+                            <TextView
+                                android:id="@+id/txt_home_expenses"
+                                style="@style/App.TextAppearance.TitleMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="0.00 €"
+                                android:textColor="@color/status_cancelled" />
                         </LinearLayout>
-                    </FrameLayout>
-                </LinearLayout>
-
-                <!-- Full-Width Data Visualization Base (FitXY for no truncation) -->
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_marginTop="-40dp">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:alpha="0.08"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/revenue_sparkline" />
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_gravity="bottom"
-                        android:alpha="0.06"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/activity_sparkline_secondary" />
-                </FrameLayout>
-
-                <!-- Structural Metrics Row -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="24dp"
-                    android:paddingVertical="20dp">
-
-                    <LinearLayout
-                        android:id="@+id/stat_invoices"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/txt_home_invoice_count"
-                            style="@style/App.TextAppearance.TitleMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textColor="?attr/colorOnSurface" />
-
-                        <TextView
-                            style="@style/App.TextAppearance.LabelSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:alpha="0.4"
-                            android:text="Factures"
-                            android:textAllCaps="true"
-                            android:textSize="9sp" />
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="24dp"
-                        android:alpha="0.1"
-                        android:background="?attr/colorOnSurface" />
-
-                    <LinearLayout
-                        android:id="@+id/stat_orders"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/txt_home_bon_count"
-                            style="@style/App.TextAppearance.TitleMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textColor="?attr/colorOnSurface" />
-
-                        <TextView
-                            style="@style/App.TextAppearance.LabelSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:alpha="0.4"
-                            android:text="Devis"
-                            android:textAllCaps="true"
-                            android:textSize="9sp" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="24dp"
-                        android:alpha="0.1"
-                        android:background="?attr/colorOnSurface" />
-
-                    <LinearLayout
-                        android:id="@+id/stat_bookings"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/txt_home_booking_count"
-                            style="@style/App.TextAppearance.TitleMedium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textColor="?attr/colorOnSurface" />
-
-                        <TextView
-                            style="@style/App.TextAppearance.LabelSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:alpha="0.4"
-                            android:text="Courses"
-                            android:textAllCaps="true"
-                            android:textSize="9sp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <!-- Divider -->
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="24dp"
-                    android:alpha="0.05"
-                    android:background="?attr/colorOnSurface" />
-
-                <!-- Secondary Sections in the same sheet -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingHorizontal="24dp"
-                    android:paddingBottom="48dp">
-
-                    <!-- Next Upcoming Trip Section (Soft Badge) -->
-                    <LinearLayout
-                        android:id="@+id/card_next_trip"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:layout_marginTop="24dp"
-                        android:background="@drawable/bg_pill_soft"
-                        android:backgroundTint="@color/icon_agenda_bg"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="8dp"
-                        android:visibility="gone">
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/rounded_calendar_today_24"
-                            app:tint="@color/icon_agenda" />
-
-                        <TextView
-                            android:id="@+id/txt_next_trip_time"
-                            style="@style/App.TextAppearance.LabelLarge"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="14:30"
-                            android:textColor="@color/icon_agenda"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:id="@+id/txt_next_trip_route"
-                            style="@style/App.TextAppearance.LabelSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:alpha="0.7"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:text="Lieu de prise en charge"
-                            android:textColor="@color/icon_agenda" />
-
-                        <ImageView
-                            android:id="@+id/btn_view_trip"
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            android:layout_marginStart="8dp"
-                            android:alpha="0.5"
-                            android:src="@drawable/ic_typcn_chevron_right"
-                            app:tint="@color/icon_agenda" />
-                    </LinearLayout>
-
-                    <!-- Payment Alert Section (Soft Badge) -->
-                    <LinearLayout
-                        android:id="@+id/card_overdue_alert"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:layout_marginTop="12dp"
-                        android:background="@drawable/bg_pill_soft"
-                        android:backgroundTint="@color/status_cancelled_bg"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingHorizontal="12dp"
-                        android:paddingVertical="8dp"
-                        android:visibility="gone">
-
-                        <ImageView
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            android:src="@drawable/rounded_info_24"
-                            app:tint="@color/status_cancelled" />
-
-                        <TextView
-                            android:id="@+id/txt_overdue_count"
-                            style="@style/App.TextAppearance.LabelLarge"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="@string/label_overdue_alert"
-                            android:textColor="@color/status_cancelled"
-                            android:textSize="11sp" />
-
-                        <ImageView
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            android:layout_marginStart="6dp"
-                            android:alpha="0.5"
-                            android:src="@drawable/ic_typcn_chevron_right"
-                            app:tint="@color/status_cancelled" />
-                    </LinearLayout>
-
-                    <!-- Shortcuts Section -->
-                    <LinearLayout
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/progress_expense_ratio"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="32dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        app:trackThickness="1dp"
+                        app:trackColor="?attr/colorOutlineVariant"
+                        app:indicatorColor="@color/status_cancelled"
+                        android:progress="30" />
 
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:alpha="0.3"
-                            android:src="@drawable/ic_typcn_dashboard"
-                            app:tint="?attr/colorOnSurface" />
+                    <TextView
+                        android:id="@+id/txt_home_revenue_daily"
+                        style="@style/App.TextAppearance.LabelSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:alpha="0.4"
+                        android:text="Aujourd'hui: +0.00 €" />
+                </LinearLayout>
+            </LinearLayout>
 
-                        <TextView
-                            style="@style/App.TextAppearance.LabelSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:alpha="0.5"
-                            android:letterSpacing="0.15"
-                            android:text="RACCOURCIS"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+            <!-- Section 2.5: Structural Metrics (Studio Accent Dots) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingHorizontal="28dp"
+                android:paddingVertical="20dp"
+                android:gravity="center_vertical">
 
-                    <GridLayout
-                        android:layout_width="match_parent"
+                <!-- Factures -->
+                <LinearLayout
+                    android:id="@+id/stat_invoices"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="12dp"
+                        android:layout_height="2.5dp"
+                        android:background="@drawable/bg_circle_soft"
+                        android:backgroundTint="@color/icon_documents"
+                        android:alpha="0.8" />
+
+                    <TextView
+                        android:id="@+id/txt_home_invoice_count"
+                        style="@style/App.TextAppearance.TitleMedium"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:alignmentMode="alignMargins"
+                        android:text="0" />
+                    <TextView
+                        style="@style/App.TextAppearance.LabelSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.3"
+                        android:text="Factures" />
+                </LinearLayout>
+
+                <!-- Bons -->
+                <LinearLayout
+                    android:id="@+id/stat_orders"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="12dp"
+                        android:layout_height="2.5dp"
+                        android:background="@drawable/bg_circle_soft"
+                        android:backgroundTint="@color/icon_dashboard"
+                        android:alpha="0.8" />
+
+                    <TextView
+                        android:id="@+id/txt_home_bon_count"
+                        style="@style/App.TextAppearance.TitleMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="0" />
+                    <TextView
+                        style="@style/App.TextAppearance.LabelSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.3"
+                        android:text="Bons" />
+                </LinearLayout>
+
+                <!-- Courses -->
+                <LinearLayout
+                    android:id="@+id/stat_bookings"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="12dp"
+                        android:layout_height="2.5dp"
+                        android:background="@drawable/bg_circle_soft"
+                        android:backgroundTint="@color/icon_agenda"
+                        android:alpha="0.8" />
+
+                    <TextView
+                        android:id="@+id/txt_home_booking_count"
+                        style="@style/App.TextAppearance.TitleMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="0" />
+                    <TextView
+                        style="@style/App.TextAppearance.LabelSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.3"
+                        android:text="Courses" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Visualization Line (Subtle) -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="-20dp">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.03"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/revenue_sparkline" />
+            </FrameLayout>
+
+            <!-- Section 3: Navigation Services (Pure Floating) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="24dp">
+
+                <View
+                    android:layout_width="6dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="8dp"
+                    android:background="@drawable/bg_vertical_bar_green" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/App.TextAppearance.LabelSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:alpha="0.3"
+                        android:letterSpacing="0.3"
+                        android:text="SERVICES" />
+
+                    <GridLayout
+                        android:id="@+id/services_grid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginHorizontal="10dp"
                         android:columnCount="3">
 
-                        <!-- Documents -->
+                        <!-- Documents (Floating) -->
                         <LinearLayout
                             android:id="@+id/card_documents"
                             android:layout_width="0dp"
@@ -418,34 +352,25 @@
                             android:focusable="true"
                             android:gravity="center"
                             android:orientation="vertical"
-                            android:paddingVertical="12dp">
+                            android:paddingVertical="20dp">
 
                             <FrameLayout
-                                android:layout_width="72dp"
-                                android:layout_height="72dp">
-
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:alpha="0.15"
-                                    android:background="@drawable/bg_circle_soft"
-                                    android:backgroundTint="@color/icon_documents_bg" />
-
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
                                 <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:padding="12dp"
+                                    android:layout_width="42dp"
+                                    android:layout_height="42dp"
                                     android:src="@drawable/ic_typcn_document"
                                     app:tint="@color/icon_documents" />
-
                                 <View
                                     android:id="@+id/badge_overdue"
-                                    android:layout_width="12dp"
-                                    android:layout_height="12dp"
+                                    android:layout_width="8dp"
+                                    android:layout_height="8dp"
                                     android:layout_gravity="top|end"
-                                    android:layout_marginTop="8dp"
-                                    android:layout_marginEnd="8dp"
-                                    android:background="@drawable/bg_status_cancelled"
+                                    android:layout_marginTop="-2dp"
+                                    android:layout_marginEnd="-2dp"
+                                    android:background="@drawable/bg_circle_soft"
+                                    android:backgroundTint="@color/status_cancelled"
                                     android:visibility="gone" />
                             </FrameLayout>
 
@@ -453,9 +378,11 @@
                                 style="@style/App.TextAppearance.LabelSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:text="Documents"
-                                android:textColor="?attr/colorOnSurface" />
+                                android:layout_marginTop="10dp"
+                                android:text="DOCUMENTS"
+                                android:alpha="0.25"
+                                android:textSize="9sp"
+                                android:letterSpacing="0.15" />
                         </LinearLayout>
 
                         <!-- Clients -->
@@ -469,34 +396,21 @@
                             android:focusable="true"
                             android:gravity="center"
                             android:orientation="vertical"
-                            android:paddingVertical="12dp">
-
-                            <FrameLayout
-                                android:layout_width="72dp"
-                                android:layout_height="72dp">
-
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:alpha="0.15"
-                                    android:background="@drawable/bg_circle_soft"
-                                    android:backgroundTint="@color/icon_clients_bg" />
-
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:padding="12dp"
-                                    android:src="@drawable/ic_typcn_group_outline"
-                                    app:tint="@color/icon_clients" />
-                            </FrameLayout>
-
+                            android:paddingVertical="20dp">
+                            <ImageView
+                                android:layout_width="42dp"
+                                android:layout_height="42dp"
+                                android:src="@drawable/ic_typcn_group_outline"
+                                app:tint="@color/icon_clients" />
                             <TextView
                                 style="@style/App.TextAppearance.LabelSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:text="Clients"
-                                android:textColor="?attr/colorOnSurface" />
+                                android:layout_marginTop="10dp"
+                                android:text="CLIENTS"
+                                android:alpha="0.25"
+                                android:textSize="9sp"
+                                android:letterSpacing="0.15" />
                         </LinearLayout>
 
                         <!-- Agenda -->
@@ -510,34 +424,21 @@
                             android:focusable="true"
                             android:gravity="center"
                             android:orientation="vertical"
-                            android:paddingVertical="12dp">
-
-                            <FrameLayout
-                                android:layout_width="72dp"
-                                android:layout_height="72dp">
-
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:alpha="0.15"
-                                    android:background="@drawable/bg_circle_soft"
-                                    android:backgroundTint="@color/icon_agenda_bg" />
-
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:padding="12dp"
-                                    android:src="@drawable/ic_typcn_calendar_outline"
-                                    app:tint="@color/icon_agenda" />
-                            </FrameLayout>
-
+                            android:paddingVertical="20dp">
+                            <ImageView
+                                android:layout_width="42dp"
+                                android:layout_height="42dp"
+                                android:src="@drawable/ic_typcn_calendar_outline"
+                                app:tint="@color/icon_agenda" />
                             <TextView
                                 style="@style/App.TextAppearance.LabelSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:text="@string/title_agenda"
-                                android:textColor="?attr/colorOnSurface" />
+                                android:layout_marginTop="10dp"
+                                android:text="AGENDA"
+                                android:alpha="0.25"
+                                android:textSize="9sp"
+                                android:letterSpacing="0.15" />
                         </LinearLayout>
 
                         <!-- Dashboard -->
@@ -551,34 +452,21 @@
                             android:focusable="true"
                             android:gravity="center"
                             android:orientation="vertical"
-                            android:paddingVertical="12dp">
-
-                            <FrameLayout
-                                android:layout_width="72dp"
-                                android:layout_height="72dp">
-
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:alpha="0.15"
-                                    android:background="@drawable/bg_circle_soft"
-                                    android:backgroundTint="@color/icon_dashboard_bg" />
-
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:padding="12dp"
-                                    android:src="@drawable/ic_typcn_chart_pie_outline"
-                                    app:tint="@color/icon_dashboard" />
-                            </FrameLayout>
-
+                            android:paddingVertical="20dp">
+                            <ImageView
+                                android:layout_width="42dp"
+                                android:layout_height="42dp"
+                                android:src="@drawable/ic_typcn_chart_pie_outline"
+                                app:tint="@color/icon_dashboard" />
                             <TextView
                                 style="@style/App.TextAppearance.LabelSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:text="Dashboard"
-                                android:textColor="?attr/colorOnSurface" />
+                                android:layout_marginTop="10dp"
+                                android:text="STATS"
+                                android:alpha="0.25"
+                                android:textSize="9sp"
+                                android:letterSpacing="0.15" />
                         </LinearLayout>
 
                         <!-- Entreprise -->
@@ -592,34 +480,21 @@
                             android:focusable="true"
                             android:gravity="center"
                             android:orientation="vertical"
-                            android:paddingVertical="12dp">
-
-                            <FrameLayout
-                                android:layout_width="72dp"
-                                android:layout_height="72dp">
-
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:alpha="0.15"
-                                    android:background="@drawable/bg_circle_soft"
-                                    android:backgroundTint="@color/icon_profile_bg" />
-
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:padding="12dp"
-                                    android:src="@drawable/ic_typcn_entreprise"
-                                    app:tint="@color/icon_profile" />
-                            </FrameLayout>
-
+                            android:paddingVertical="20dp">
+                            <ImageView
+                                android:layout_width="42dp"
+                                android:layout_height="42dp"
+                                android:src="@drawable/ic_typcn_entreprise"
+                                app:tint="@color/icon_profile" />
                             <TextView
                                 style="@style/App.TextAppearance.LabelSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:text="Entreprise"
-                                android:textColor="?attr/colorOnSurface" />
+                                android:layout_marginTop="10dp"
+                                android:text="PROFIL"
+                                android:alpha="0.25"
+                                android:textSize="9sp"
+                                android:letterSpacing="0.15" />
                         </LinearLayout>
 
                         <!-- Settings -->
@@ -633,83 +508,172 @@
                             android:focusable="true"
                             android:gravity="center"
                             android:orientation="vertical"
-                            android:paddingVertical="12dp">
-
-                            <FrameLayout
-                                android:layout_width="72dp"
-                                android:layout_height="72dp">
-
-                                <View
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:alpha="0.15"
-                                    android:background="@drawable/bg_circle_soft"
-                                    android:backgroundTint="@color/icon_settings_bg" />
-
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:padding="12dp"
-                                    android:src="@drawable/ic_typcn_spanner_outline"
-                                    app:tint="@color/icon_settings" />
-                            </FrameLayout>
-
+                            android:paddingVertical="20dp">
+                            <ImageView
+                                android:layout_width="42dp"
+                                android:layout_height="42dp"
+                                android:src="@drawable/ic_typcn_spanner_outline"
+                                app:tint="@color/icon_settings" />
                             <TextView
                                 style="@style/App.TextAppearance.LabelSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:text="@string/title_settings"
-                                android:textColor="?attr/colorOnSurface" />
+                                android:layout_marginTop="10dp"
+                                android:text="REGLAGES"
+                                android:alpha="0.25"
+                                android:textSize="9sp"
+                                android:letterSpacing="0.15" />
                         </LinearLayout>
 
                     </GridLayout>
+                </LinearLayout>
+            </LinearLayout>
 
-                    <!-- Recent Activity Section -->
+            <!-- Section 4: Upcoming Trip (Soft Badge) -->
+            <LinearLayout
+                android:id="@+id/card_next_trip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="28dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/bg_pill_soft"
+                android:backgroundTint="@color/icon_agenda_bg"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="8dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/rounded_calendar_today_24"
+                    app:tint="@color/icon_agenda" />
+
+                <TextView
+                    android:id="@+id/txt_next_trip_time"
+                    style="@style/App.TextAppearance.LabelLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="14:30"
+                    android:textColor="@color/icon_agenda"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/txt_next_trip_route"
+                    style="@style/App.TextAppearance.LabelSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:alpha="0.7"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="Lieu de prise en charge"
+                    android:textColor="@color/icon_agenda" />
+
+                <ImageView
+                    android:id="@+id/btn_view_trip"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginStart="8dp"
+                    android:alpha="0.5"
+                    android:src="@drawable/ic_typcn_chevron_right"
+                    app:tint="@color/icon_agenda" />
+            </LinearLayout>
+
+            <!-- Payment Alert (Soft Badge) -->
+            <LinearLayout
+                android:id="@+id/card_overdue_alert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="28dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_pill_soft"
+                android:backgroundTint="@color/status_cancelled_bg"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="8dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/rounded_info_24"
+                    app:tint="@color/status_cancelled" />
+
+                <TextView
+                    android:id="@+id/txt_overdue_count"
+                    style="@style/App.TextAppearance.LabelLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/label_overdue_alert"
+                    android:textColor="@color/status_cancelled"
+                    android:textSize="11sp" />
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginStart="6dp"
+                    android:alpha="0.5"
+                    android:src="@drawable/ic_typcn_chevron_right"
+                    app:tint="@color/status_cancelled" />
+            </LinearLayout>
+
+            <!-- Section 5: Activity (Pure List + Accent Bar) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="40dp"
+                android:paddingBottom="48dp">
+
+                <View
+                    android:layout_width="6dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="4dp"
+                    android:background="@drawable/bg_vertical_bar_history" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="48dp"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:alpha="0.3"
-                            android:src="@drawable/rounded_history_24"
-                            app:tint="?attr/colorOnSurface" />
-
+                        android:paddingHorizontal="28dp">
                         <TextView
                             style="@style/App.TextAppearance.LabelSmall"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
                             android:layout_weight="1"
-                            android:alpha="0.5"
-                            android:letterSpacing="0.15"
-                            android:text="ACTIVITÉ RÉCENTE"
-                            android:textStyle="bold" />
-
+                            android:alpha="0.3"
+                            android:letterSpacing="0.3"
+                            android:text="ACTIVITÉ RÉCENTE" />
                         <TextView
                             android:id="@+id/btn_view_all_recent"
-                            style="@style/App.TextAppearance.LabelLarge"
+                            style="@style/App.TextAppearance.LabelSmall"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:text="Voir tout"
-                            android:textColor="?attr/colorPrimary" />
+                            android:text="VOIR TOUT"
+                            android:textColor="?attr/colorPrimary"
+                            android:letterSpacing="0.1" />
                     </LinearLayout>
 
                     <com.facebook.shimmer.ShimmerFrameLayout
                         android:id="@+id/shimmer_view_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="16dp"
                         app:shimmer_auto_start="true">
-
                         <include layout="@layout/shimmer_home_recent" />
                     </com.facebook.shimmer.ShimmerFrameLayout>
 
@@ -717,7 +681,7 @@
                         android:id="@+id/rv_home_recent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="8dp"
                         android:clipToPadding="false"
                         android:layoutAnimation="@anim/layout_animation_fall_down"
                         android:visibility="gone" />

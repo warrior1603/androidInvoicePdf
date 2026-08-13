@@ -140,15 +140,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             listener.onStatusClick(activity);
         });
 
-        View btnEdit = holder.itemView.findViewById(R.id.btn_edit_item);
-        if (btnEdit != null) {
-            btnEdit.setVisibility(View.VISIBLE);
-            btnEdit.setOnClickListener(v -> {
-                v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-                listener.onEditClick(activity);
-            });
-        }
-
         holder.txtStatus.setOnLongClickListener(v -> {
             if (activity.type != RecentActivity.Type.BOOKING && !"Payée".equals(activity.status)) {
                 v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
