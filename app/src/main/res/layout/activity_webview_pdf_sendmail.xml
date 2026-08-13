@@ -220,7 +220,7 @@
                     style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    app:icon="@drawable/baseline_edit_24"
+                    app:icon="@drawable/ic_typcn_pen"
                     app:iconTint="?attr/colorPrimary"
                     app:backgroundTint="@color/primary_container" />
                 <TextView

@@ -303,7 +303,7 @@
         android:layout_margin="16dp"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
-        android:src="@drawable/rounded_edit_24"
+        android:src="@drawable/ic_typcn_pen"
         app:tint="?attr/colorOnPrimary"
         android:backgroundTint="?attr/colorPrimary" />
 

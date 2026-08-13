@@ -162,7 +162,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Factures"
-                        app:chipIcon="@drawable/ic_receipt_outline" />
+                        app:chipIcon="@drawable/ic_typcn_document" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_type_order"
@@ -170,7 +170,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Bons"
-                        app:chipIcon="@drawable/ic_shopping_cart_outline" />
+                        app:chipIcon="@drawable/ic_typcn_cart" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_type_booking"

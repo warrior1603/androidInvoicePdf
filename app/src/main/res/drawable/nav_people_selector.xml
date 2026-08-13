@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/ic_outline_users" android:state_checked="true" />
-    <item android:drawable="@drawable/ic_outline_users" android:state_selected="true" />
-    <item android:drawable="@drawable/ic_outline_users" />
+    <item android:drawable="@drawable/ic_typcn_nav_people_filled" android:state_checked="true" />
+    <item android:drawable="@drawable/ic_typcn_nav_people_filled" android:state_selected="true" />
+    <item android:drawable="@drawable/ic_typcn_nav_people_outline" />
 </selector>

@@ -71,13 +71,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
                 iconBgColor = R.color.icon_agenda_bg;
                 break;
             case ORDER:
-                iconRes = R.drawable.ic_shopping_cart_outline;
+                iconRes = R.drawable.ic_typcn_cart;
                 iconColor = R.color.icon_dashboard;
                 iconBgColor = R.color.icon_dashboard_bg;
                 break;
             case INVOICE:
             default:
-                iconRes = R.drawable.ic_receipt_outline;
+                iconRes = R.drawable.ic_typcn_document;
                 iconColor = R.color.icon_documents;
                 iconBgColor = R.color.icon_documents_bg;
                 break;

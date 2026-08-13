@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Payée"
-                app:chipIcon="@drawable/ic_status_check"
+                app:chipIcon="@drawable/ic_typcn_tick"
                 app:chipIconTint="?attr/colorPrimary"
                 app:chipIconSize="16dp" />
 
@@ -49,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="En attente"
-                app:chipIcon="@drawable/ic_status_clock"
+                app:chipIcon="@drawable/ic_typcn_time"
                 app:chipIconTint="?attr/colorPrimary"
                 app:chipIconSize="16dp" />
 
@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Annulée"
-                app:chipIcon="@drawable/ic_status_x"
+                app:chipIcon="@drawable/ic_typcn_cancel"
                 app:chipIconTint="?attr/colorPrimary"
                 app:chipIconSize="16dp" />
 

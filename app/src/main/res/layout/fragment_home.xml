@@ -361,7 +361,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:padding="20dp"
-                                android:src="@drawable/ic_typcn_folder_open"
+                                android:src="@drawable/ic_typcn_document"
                                 app:tint="@color/icon_documents" />
 
                             <View
@@ -614,8 +614,8 @@
                     <TextView
                         style="@style/App.TextAppearance.TitleLarge"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:text="Activité Récente" />
 
                     <TextView
