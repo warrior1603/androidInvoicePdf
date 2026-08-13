@@ -29,250 +29,191 @@
     </com.facebook.shimmer.ShimmerFrameLayout>
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/main_content"
+        android:id="@+id/main_content_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:fillViewport="true"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:orientation="vertical">
 
-            <!-- Main Revenue Card -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_revenue_summary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/App.CardView"
-                android:layout_margin="0dp"
-                app:cardBackgroundColor="?attr/colorPrimaryContainer">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/revenueLabel"
-                                style="@style/App.TextAppearance.LabelLarge"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Résumé des revenus"
-                                android:textColor="?attr/colorOnPrimaryContainer" />
-
-                            <TextView
-                                android:id="@+id/totalRevenue"
-                                style="@style/App.TextAppearance.NumberBig"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="0.00 €"
-                                android:textColor="?attr/colorOnPrimaryContainer" />
-                        </LinearLayout>
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            app:cardCornerRadius="24dp"
-                            app:cardElevation="0dp"
-                            app:cardBackgroundColor="?attr/colorPrimary">
-                            <ImageView
-                                android:layout_width="28dp"
-                                android:layout_height="28dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_typcn_chart_pie_outline"
-                                app:tint="?attr/colorOnPrimary" />
-                        </com.google.android.material.card.MaterialCardView>
-                    </LinearLayout>
-
-                    <com.google.android.material.divider.MaterialDivider
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="16dp"
-                        app:dividerColor="?attr/colorOnPrimaryContainer"
-                        android:alpha="0.1" />
-
-                    <com.google.android.material.progressindicator.LinearProgressIndicator
-                        android:id="@+id/progress_margin"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:indicatorColor="?attr/colorPrimary"
-                        app:trackColor="?attr/colorSurfaceVariant"
-                        app:trackCornerRadius="4dp"
-                        app:trackThickness="8dp"
-                        android:progress="70" />
-
-                    <TextView
-                        android:id="@+id/txt_margin_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Marge réelle: 70%"
-                        android:textAppearance="?attr/textAppearanceLabelMedium"
-                        android:textColor="?attr/colorOnPrimaryContainer"
-                        android:alpha="0.8" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Stats Row -->
+            <!-- "The Canvas" Header Section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp">
+                android:background="@drawable/bg_canvas_header"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                android:paddingTop="32dp"
+                android:paddingBottom="48dp">
 
-                <com.google.android.material.card.MaterialCardView
-                    style="@style/App.CardView"
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/revenueLabel"
+                    style="@style/App.TextAppearance.LabelLarge"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:alpha="0.5"
+                    android:letterSpacing="0.2"
+                    android:text="BÉNÉFICE DU MOIS"
+                    android:textSize="10sp" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/totalRevenue"
+                    style="@style/App.TextAppearance.NumberBig"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:letterSpacing="-0.04"
+                    android:text="0.00 €"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="56sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_pill_soft"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="6dp">
+
+                    <TextView
+                        android:id="@+id/txt_growth_val"
+                        style="@style/App.TextAppearance.LabelLarge"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="16dp"
-                        android:gravity="center_vertical">
-                        <ImageView
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
-                            android:src="@drawable/ic_typcn_document"
-                            app:tint="@color/icon_documents" />
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_marginStart="12dp">
-                            <TextView
-                                android:id="@+id/documentCount"
-                                style="@style/App.TextAppearance.TitleMedium"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0"
-                                android:textStyle="bold" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Documents"
-                                android:textAppearance="?attr/textAppearanceBodySmall"
-                                android:alpha="0.6" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
+                        android:text="+0%"
+                        android:textStyle="bold" />
 
-                <com.google.android.material.card.MaterialCardView
-                    style="@style/App.CardView"
+                    <TextView
+                        style="@style/App.TextAppearance.LabelSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:alpha="0.6"
+                        android:text="vs période préc." />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Metrics Floating Bar -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="-32dp"
+                android:background="@drawable/bg_section_flat"
+                android:backgroundTint="?attr/colorSurface"
+                android:elevation="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:outlineProvider="background">
+
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="16dp">
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/documentCount"
+                        style="@style/App.TextAppearance.TitleMedium"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="16dp"
-                        android:gravity="center_vertical">
-                        <ImageView
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
-                            android:src="@drawable/ic_typcn_clients"
-                            app:tint="@color/icon_clients" />
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_marginStart="12dp">
-                            <TextView
-                                android:id="@+id/txt_total_clients_val"
-                                style="@style/App.TextAppearance.TitleMedium"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0"
-                                android:textStyle="bold" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Clients"
-                                android:textAppearance="?attr/textAppearanceBodySmall"
-                                android:alpha="0.6" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
+                        android:text="0" />
+
+                    <TextView
+                        style="@style/App.TextAppearance.LabelSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.5"
+                        android:text="DOCUMENTS"
+                        android:textSize="9sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="24dp"
+                    android:alpha="0.1"
+                    android:background="?attr/colorOnSurface" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txt_total_clients_val"
+                        style="@style/App.TextAppearance.TitleMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0" />
+
+                    <TextView
+                        style="@style/App.TextAppearance.LabelSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.5"
+                        android:text="CLIENTS"
+                        android:textSize="9sp" />
+                </LinearLayout>
             </LinearLayout>
 
-            <!-- Growth & Expenses Row -->
             <LinearLayout
+                android:id="@+id/main_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp">
+                android:orientation="vertical"
+                android:padding="16dp">
 
                 <com.google.android.material.card.MaterialCardView
                     style="@style/App.CardView"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="16dp"
-                        android:gravity="center_vertical">
-                        <ImageView
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
-                            android:src="@drawable/ic_typcn_chart_line"
-                            app:tint="?attr/colorPrimary" />
-                        <LinearLayout
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:id="@+id/txt_margin_label"
+                            style="@style/App.TextAppearance.LabelLarge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_marginStart="12dp">
-                            <TextView
-                                android:id="@+id/txt_growth_val"
-                                style="@style/App.TextAppearance.TitleMedium"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="+0%"
-                                android:textStyle="bold"
-                                android:textColor="@color/status_paid" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Croissance"
-                                android:textAppearance="?attr/textAppearanceBodySmall"
-                                android:alpha="0.6" />
-                        </LinearLayout>
+                            android:text="Marge réelle: 0%"
+                            android:alpha="0.7" />
+
+                        <com.google.android.material.progressindicator.LinearProgressIndicator
+                            android:id="@+id/progress_margin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            app:indicatorColor="?attr/colorPrimary"
+                            app:trackColor="?attr/colorSurfaceVariant"
+                            app:trackCornerRadius="4dp"
+                            app:trackThickness="8dp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardExpenses"
                     style="@style/App.CardView"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginStart="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:clickable="true"
                     android:focusable="true">
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -280,16 +221,18 @@
                         android:padding="16dp"
                         android:gravity="center_vertical">
                         <ImageView
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:padding="10dp"
+                            android:background="@drawable/bg_circle_soft"
                             android:src="@drawable/ic_typcn_cart"
                             app:tint="@color/status_cancelled" />
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_marginStart="12dp"
-                            android:layout_weight="1">
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
                             <TextView
                                 style="@style/App.TextAppearance.TitleMedium"
                                 android:layout_width="wrap_content"
@@ -299,118 +242,114 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Gérer"
-                                android:textAppearance="?attr/textAppearanceLabelSmall"
-                                android:textColor="@color/status_cancelled"
-                                android:textStyle="bold" />
+                                android:text="Gérer vos frais"
+                                android:textAppearance="?attr/textAppearanceBodySmall"
+                                android:alpha="0.6" />
                         </LinearLayout>
                         <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:src="@drawable/ic_typcn_chevron_right"
                             app:tint="?attr/colorOnSurfaceVariant"
                             android:alpha="0.5" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
-            </LinearLayout>
 
-            <!-- Chart Section Header with Inline Export -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/chartTitle"
-                    style="@style/App.TextAppearance.LabelLarge"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Tendance du bénéfice"
-                    android:textColor="?attr/colorPrimary" />
-
-                <TextView
-                    android:id="@+id/btnExportCsv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="CSV"
-                    android:textAllCaps="false"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:textColor="?attr/colorPrimary"
-                    android:background="?attr/selectableItemBackground"
-                    android:padding="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center_vertical"
-                    app:drawableEndCompat="@drawable/ic_file_type_csv"
-                    app:drawableTint="?attr/colorPrimary"
-                    android:drawablePadding="4dp" />
-
-                <TextView
-                    android:id="@+id/btnGenerateReportPdf"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="Bilan PDF"
-                    android:textAllCaps="false"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:textColor="?attr/colorPrimary"
-                    android:background="?attr/selectableItemBackground"
-                    android:padding="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center_vertical"
-                    app:drawableEndCompat="@drawable/ic_file_type_pdf"
-                    app:drawableTint="?attr/colorPrimary"
-                    android:drawablePadding="4dp" />
-
-            </LinearLayout>
-
-            <com.google.android.material.card.MaterialCardView
-                style="@style/App.CardView"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="32dp">
-
-                <FrameLayout
+                <!-- Chart Section -->
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="16dp">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                    <com.github.mikephil.charting.charts.BarChart
-                        android:id="@+id/barChart"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                    <TextView
+                        android:id="@+id/chartTitle"
+                        style="@style/App.TextAppearance.LabelLarge"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Tendance du bénéfice"
+                        android:textColor="?attr/colorPrimary" />
 
-                    <LinearLayout
-                        android:id="@+id/chart_empty_state"
+                    <TextView
+                        android:id="@+id/btnExportCsv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CSV"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/colorPrimary"
+                        android:background="?attr/selectableItemBackground"
+                        android:padding="8dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        app:drawableEndCompat="@drawable/ic_file_type_csv"
+                        app:drawableTint="?attr/colorPrimary"
+                        android:drawablePadding="4dp" />
+
+                    <TextView
+                        android:id="@+id/btnGenerateReportPdf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Bilan"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/colorPrimary"
+                        android:background="?attr/selectableItemBackground"
+                        android:padding="8dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        app:drawableEndCompat="@drawable/ic_file_type_pdf"
+                        app:drawableTint="?attr/colorPrimary"
+                        android:drawablePadding="4dp" />
+                </LinearLayout>
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/App.CardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="280dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="32dp">
+
+                    <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-                        <ImageView
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:src="@drawable/graph_svgrepo_com"
-                            app:tint="?attr/colorOutline"
-                            android:alpha="0.15" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:text="Aucune donnée"
-                            android:alpha="0.4"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </FrameLayout>
-            </com.google.android.material.card.MaterialCardView>
+                        android:padding="16dp">
 
+                        <com.github.mikephil.charting.charts.BarChart
+                            android:id="@+id/barChart"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                        <LinearLayout
+                            android:id="@+id/chart_empty_state"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+                            <ImageView
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                android:src="@drawable/graph_svgrepo_com"
+                                app:tint="?attr/colorOutline"
+                                android:alpha="0.2" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:text="Aucune donnée"
+                                android:alpha="0.4"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </FrameLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

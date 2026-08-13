@@ -3,68 +3,78 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="?attr/colorSurface">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        style="@style/App.TabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <HorizontalScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="8dp">
+        android:orientation="vertical"
+        android:background="@drawable/bg_canvas_header"
+        android:paddingBottom="12dp">
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/statusChipGroup"
-            android:layout_width="wrap_content"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            style="@style/App.TabLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:singleSelection="true"
-            app:selectionRequired="false">
+            android:background="@android:color/transparent" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipAll"
-                style="@style/Widget.Material3.Chip.Filter"
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="8dp">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/statusChipGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tous"
-                android:checked="true" />
+                app:singleSelection="true"
+                app:selectionRequired="false">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipPaid"
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Payée"
-                app:chipIcon="@drawable/ic_typcn_tick"
-                app:chipIconTint="?attr/colorPrimary"
-                app:chipIconSize="16dp" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipAll"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tous"
+                    android:checked="true" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipPending"
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="En attente"
-                app:chipIcon="@drawable/ic_typcn_time"
-                app:chipIconTint="?attr/colorPrimary"
-                app:chipIconSize="16dp" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipPaid"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Payée"
+                    app:chipIcon="@drawable/ic_typcn_tick"
+                    app:chipIconTint="?attr/colorPrimary"
+                    app:chipIconSize="16dp" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipCancelled"
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Annulée"
-                app:chipIcon="@drawable/ic_typcn_cancel"
-                app:chipIconTint="?attr/colorPrimary"
-                app:chipIconSize="16dp" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipPending"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="En attente"
+                    app:chipIcon="@drawable/ic_typcn_time"
+                    app:chipIconTint="?attr/colorPrimary"
+                    app:chipIconSize="16dp" />
 
-        </com.google.android.material.chip.ChipGroup>
-    </HorizontalScrollView>
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipCancelled"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Annulée"
+                    app:chipIcon="@drawable/ic_typcn_cancel"
+                    app:chipIconTint="?attr/colorPrimary"
+                    app:chipIconSize="16dp" />
+
+            </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
+    </LinearLayout>
 
     <com.google.android.material.chip.Chip
         android:id="@+id/filterChip"

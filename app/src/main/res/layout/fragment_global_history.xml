@@ -8,7 +8,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorSurface"
+        android:background="@drawable/bg_canvas_header"
         app:elevation="0dp">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -17,14 +17,15 @@
             android:layout_height="?attr/actionBarSize"
             app:title="Journal d'activité"
             app:titleCentered="true"
-            app:navigationIconTint="?attr/colorOnSurface" />
+            app:navigationIconTint="?attr/colorOnSurface"
+            android:background="@android:color/transparent" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingHorizontal="16dp"
-            android:paddingBottom="16dp">
+            android:paddingBottom="24dp">
 
             <HorizontalScrollView
                 android:layout_width="match_parent"

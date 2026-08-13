@@ -81,8 +81,11 @@ public class ClientDetailFragment extends Fragment implements HistoryAdapter.OnH
             return;
         }
 
-        com.google.android.material.appbar.CollapsingToolbarLayout collapsingToolbarLayout = view.findViewById(R.id.toolbar_layout);
-        collapsingToolbarLayout.setTitle(client.getClientName());
+        TextView txtClientNameHeader = view.findViewById(R.id.txt_client_name_header);
+        if (txtClientNameHeader != null) txtClientNameHeader.setText(client.getClientName());
+
+        View btnBack = view.findViewById(R.id.btn_back);
+        if (btnBack != null) btnBack.setOnClickListener(v -> Navigation.findNavController(v).popBackStack());
 
         TextView txtInitials = view.findViewById(R.id.detail_initials);
         MaterialCardView avatarContainer = view.findViewById(R.id.avatar_container);
@@ -130,11 +133,14 @@ public class ClientDetailFragment extends Fragment implements HistoryAdapter.OnH
             bottomSheet.show(getChildFragmentManager(), "EDIT_CLIENT");
         });
 
-        view.findViewById(R.id.btn_create_invoice_for_client).setOnClickListener(v -> {
+        View.OnClickListener createInvoiceAction = v -> {
             CreateInvoiceBottomSheet bottomSheet = CreateInvoiceBottomSheet.newInstance(client.getId());
             bottomSheet.setOnInvoiceGeneratedListener(this::loadHistory);
             bottomSheet.show(getChildFragmentManager(), "CREATE_INVOICE_FOR_CLIENT");
-        });
+        };
+
+        View btnCreateHeader = view.findViewById(R.id.btn_create_invoice_for_client_header);
+        if (btnCreateHeader != null) btnCreateHeader.setOnClickListener(createInvoiceAction);
 
         rvHistory = view.findViewById(R.id.rv_client_history);
         shimmerContainer = view.findViewById(R.id.shimmer_view_container);

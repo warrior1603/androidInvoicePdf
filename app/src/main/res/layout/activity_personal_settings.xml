@@ -3,19 +3,59 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:attr/colorBackground">
+    android:background="?attr/colorSurface">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
+        android:background="@drawable/bg_canvas_header"
         app:elevation="0dp">
+
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/rounded_arrow_back_24"
-            app:title="Profil Entreprise" />
+            app:title="Profil Entreprise"
+            app:titleCentered="true"
+            android:background="@android:color/transparent" />
+
+        <!-- Logo Header Area -->
+        <LinearLayout
+            android:id="@+id/row_logo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingBottom="40dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="88dp"
+                android:layout_height="88dp"
+                app:cardCornerRadius="44dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="0dp">
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/img_logo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/rounded_business_24"
+                    android:padding="16dp"
+                    android:background="?attr/colorSurfaceContainerHigh" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                style="@style/App.TextAppearance.LabelSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Logo de l'entreprise"
+                android:alpha="0.6"
+                android:letterSpacing="0.1" />
+        </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -30,88 +70,73 @@
             android:orientation="vertical"
             android:paddingBottom="100dp">
 
-            <!-- Logo Section -->
+            <!-- Metrics Bar Style Floating Section -->
             <LinearLayout
-                android:id="@+id/row_logo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="24dp"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="-20dp"
+                android:background="@drawable/bg_section_flat"
+                android:backgroundTint="?attr/colorSurface"
+                android:elevation="8dp"
                 android:gravity="center_vertical"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?attr/selectableItemBackground">
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:outlineProvider="background">
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/img_logo"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/rounded_business_24"
-                    android:background="?attr/colorSurfaceContainerHigh"
-                    app:shapeAppearanceOverlay="@style/App.ShapeAppearance.Circle" />
-
-                <LinearLayout
+                <TextView
+                    style="@style/App.TextAppearance.LabelLarge"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="20dp"
-                    android:orientation="vertical">
-                    <TextView
-                        style="@style/App.TextAppearance.TitleLarge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Logo de l'entreprise"
-                        android:textSize="18sp"
-                        android:textColor="?attr/colorOnSurface" />
-                    <TextView
-                        style="@style/App.TextAppearance.LabelSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Appuyez pour modifier"
-                        android:alpha="0.7" />
+                    android:text="Configuration du profil"
+                    android:textColor="?attr/colorPrimary"
+                    android:gravity="center"
+                    android:alpha="0.8" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                android:paddingTop="24dp">
+
+                <TextView style="@style/App.TextAppearance.LabelLarge" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="COORDONNÉES" android:textColor="?attr/colorPrimary" android:alpha="0.7" />
+
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_name" />
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_email" />
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_phone" />
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_street" />
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:baselineAligned="false">
+                    <include layout="@layout/view_settings_input_item" android:id="@+id/item_zip" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+                    <include layout="@layout/view_settings_input_item" android:id="@+id/item_city" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1.2" />
                 </LinearLayout>
+
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_country" />
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_siren" />
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_tva" />
+
+                <TextView style="@style/App.TextAppearance.LabelLarge" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="32dp" android:text="VÉHICULE" android:textColor="?attr/colorPrimary" android:alpha="0.7" />
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_chauffeur" />
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_plaque" />
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_evtc" />
+
+                <TextView style="@style/App.TextAppearance.LabelLarge" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="32dp" android:text="BANQUE" android:textColor="?attr/colorPrimary" android:alpha="0.7" />
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_iban" />
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_bic" />
+                <include layout="@layout/view_settings_input_item" android:id="@+id/item_bank_address" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_save_info"
+                    style="@style/App.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="48dp"
+                    android:text="Enregistrer"
+                    app:icon="@drawable/rounded_save_24" />
             </LinearLayout>
-
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="108dp" />
-
-            <TextView style="@style/App.TextAppearance.LabelLarge" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingHorizontal="24dp" android:paddingTop="32dp" android:paddingBottom="8dp" android:text="COORDONNÉES" android:textColor="?attr/colorPrimary" />
-
-            <include layout="@layout/view_settings_input_item" android:id="@+id/item_name" />
-            <include layout="@layout/view_settings_input_item" android:id="@+id/item_email" />
-            <include layout="@layout/view_settings_input_item" android:id="@+id/item_phone" />
-            <include layout="@layout/view_settings_input_item" android:id="@+id/item_street" />
-
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:baselineAligned="false">
-                <include layout="@layout/view_settings_input_item" android:id="@+id/item_zip" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
-                <include layout="@layout/view_settings_input_item" android:id="@+id/item_city" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1.2" />
-            </LinearLayout>
-
-            <include layout="@layout/view_settings_input_item" android:id="@+id/item_country" />
-            <include layout="@layout/view_settings_input_item" android:id="@+id/item_siren" />
-            <include layout="@layout/view_settings_input_item" android:id="@+id/item_tva" />
-
-            <TextView style="@style/App.TextAppearance.LabelLarge" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingHorizontal="24dp" android:paddingTop="32dp" android:paddingBottom="8dp" android:text="VÉHICULE" android:textColor="?attr/colorPrimary" />
-            <include layout="@layout/view_settings_input_item" android:id="@+id/item_chauffeur" />
-            <include layout="@layout/view_settings_input_item" android:id="@+id/item_plaque" />
-            <include layout="@layout/view_settings_input_item" android:id="@+id/item_evtc" />
-
-            <TextView style="@style/App.TextAppearance.LabelLarge" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingHorizontal="24dp" android:paddingTop="32dp" android:paddingBottom="8dp" android:text="BANQUE" android:textColor="?attr/colorPrimary" />
-            <include layout="@layout/view_settings_input_item" android:id="@+id/item_iban" />
-            <include layout="@layout/view_settings_input_item" android:id="@+id/item_bic" />
-            <include layout="@layout/view_settings_input_item" android:id="@+id/item_bank_address" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_save_info"
-                style="@style/App.Button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="24dp"
-                android:text="Enregistrer"
-                app:icon="@drawable/rounded_save_24" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

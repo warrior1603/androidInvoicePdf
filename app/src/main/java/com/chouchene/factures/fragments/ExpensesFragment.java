@@ -73,12 +73,19 @@ public class ExpensesFragment extends Fragment implements ExpenseAdapter.OnExpen
 
         Executors.newSingleThreadExecutor().execute(() -> {
             List<Expense> expenses = db.expenseDao().getAllExpenses();
+            double total = 0;
+            for (Expense e : expenses) total += e.amount;
+            final String totalStr = String.format(java.util.Locale.getDefault(), "Total: %.2f €", total);
+
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
                     if (shimmerContainer != null) {
                         shimmerContainer.stopShimmer();
                         shimmerContainer.setVisibility(View.GONE);
                     }
+                    android.widget.TextView txtTotal = getView().findViewById(R.id.txt_total_expenses_header);
+                    if (txtTotal != null) txtTotal.setText(totalStr);
+
                     adapter.setData(expenses);
                     recyclerView.scheduleLayoutAnimation();
                     checkEmptyState();
