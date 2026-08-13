@@ -23,7 +23,7 @@
             android:layout_height="44dp"
             android:padding="10dp"
             android:background="@drawable/bg_circle_soft"
-            android:src="@drawable/ic_receipt_outline"
+            android:src="@drawable/ic_typcn_document"
             app:tint="?attr/colorPrimary" />
 
         <LinearLayout
@@ -47,6 +47,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="01/01/2024" />
+
+            <TextView
+                android:id="@+id/txtSubtitle"
+                style="@style/App.TextAppearance.LabelSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:alpha="0.5"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="Subtitle" />
         </LinearLayout>
 
         <LinearLayout

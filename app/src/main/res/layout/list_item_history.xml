@@ -23,7 +23,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="4dp"
-            android:src="@drawable/ic_receipt_outline"
+            android:src="@drawable/ic_typcn_document"
             app:tint="?attr/colorPrimary" />
 
         <LinearLayout

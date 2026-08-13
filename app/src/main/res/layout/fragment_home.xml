@@ -272,7 +272,7 @@
                         android:layout_height="14dp"
                         android:layout_marginStart="8dp"
                         android:alpha="0.5"
-                        android:src="@drawable/rounded_chevron_right_24"
+                        android:src="@drawable/ic_typcn_chevron_right"
                         app:tint="@color/icon_agenda" />
                 </LinearLayout>
 
@@ -314,7 +314,7 @@
                         android:layout_height="14dp"
                         android:layout_marginStart="6dp"
                         android:alpha="0.5"
-                        android:src="@drawable/rounded_chevron_right_24"
+                        android:src="@drawable/ic_typcn_chevron_right"
                         app:tint="@color/status_cancelled" />
                 </LinearLayout>
 

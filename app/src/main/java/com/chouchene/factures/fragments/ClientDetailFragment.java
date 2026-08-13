@@ -186,7 +186,12 @@ public class ClientDetailFragment extends Fragment implements HistoryAdapter.OnH
 
     @Override
     public void onEditClick(RecentActivity activity) {
-        if (activity.type == RecentActivity.Type.BOOKING) return;
+        if (activity.type == RecentActivity.Type.BOOKING) {
+            AddBookingBottomSheet sheet = AddBookingBottomSheet.newInstance(activity.id);
+            sheet.setOnBookingAddedListener(this::loadHistory);
+            sheet.show(getChildFragmentManager(), "edit_booking");
+            return;
+        }
         android.content.Intent intent = new android.content.Intent(requireContext(), com.chouchene.factures.DocumentStudioActivity.class);
         intent.putExtra("EXTRA_MODE", "EDIT");
         intent.putExtra("EXTRA_TYPE", activity.type == RecentActivity.Type.ORDER ? "BON" : "INVOICE");

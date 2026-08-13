@@ -61,7 +61,7 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/rounded_chevron_right_24"
+                android:src="@drawable/ic_typcn_chevron_right"
                 app:tint="?attr/colorOnSurfaceVariant"
                 android:alpha="0.5"
                 android:contentDescription="@null" />
@@ -169,7 +169,7 @@
                             android:layout_gravity="end"
                             android:layout_marginTop="16dp"
                             android:text="Suivant"
-                            app:icon="@drawable/rounded_chevron_right_24"
+                            app:icon="@drawable/ic_typcn_chevron_right"
                             app:iconGravity="end" />
                     </LinearLayout>
                 </LinearLayout>
@@ -251,7 +251,7 @@
                             android:layout_gravity="end"
                             android:layout_marginTop="16dp"
                             android:text="Suivant"
-                            app:icon="@drawable/rounded_chevron_right_24"
+                            app:icon="@drawable/ic_typcn_chevron_right"
                             app:iconGravity="end" />
                     </LinearLayout>
                 </LinearLayout>

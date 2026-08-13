@@ -75,7 +75,7 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/rounded_chevron_right_24"
+            android:src="@drawable/ic_typcn_chevron_right"
             app:tint="?attr/colorOutline"
             android:layout_marginStart="4dp" />
 

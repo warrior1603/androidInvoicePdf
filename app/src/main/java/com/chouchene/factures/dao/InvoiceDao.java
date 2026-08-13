@@ -93,7 +93,7 @@ public interface InvoiceDao {
     @Query("SELECT * FROM invoices WHERE strftime('%Y', date / 1000, 'unixepoch', 'localtime') = :year ORDER BY date DESC")
     List<Invoice> getInvoicesByYear(String year);
 
-    @Query("SELECT * FROM invoices ORDER BY date DESC LIMIT 3")
+    @Query("SELECT * FROM invoices ORDER BY date DESC LIMIT 10")
     List<Invoice> getLatestInvoices();
 
     @Query("SELECT SUM(amount) FROM invoices")

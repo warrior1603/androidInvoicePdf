@@ -169,7 +169,7 @@
                     android:layout_marginTop="24dp"
                     android:text="Générer la facture"
                     android:visibility="gone"
-                    app:icon="@drawable/ic_receipt_outline" />
+                    app:icon="@drawable/ic_typcn_document" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnDelete"

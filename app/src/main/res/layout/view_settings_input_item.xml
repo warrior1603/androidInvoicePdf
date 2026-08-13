@@ -13,7 +13,7 @@
         android:id="@+id/item_icon"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:src="@drawable/ic_outline_users"
+        android:src="@drawable/ic_typcn_clients"
         app:tint="?attr/colorOnSurface"
         android:contentDescription="@null" />
 

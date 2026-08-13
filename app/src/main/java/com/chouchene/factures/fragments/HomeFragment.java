@@ -175,7 +175,12 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
 
     @Override
     public void onEditClick(RecentActivity activity) {
-        if (activity.type == RecentActivity.Type.BOOKING) return;
+        if (activity.type == RecentActivity.Type.BOOKING) {
+            AddBookingBottomSheet sheet = AddBookingBottomSheet.newInstance(activity.id);
+            sheet.setOnBookingAddedListener(() -> loadHomeData(false));
+            sheet.show(getChildFragmentManager(), "edit_booking");
+            return;
+        }
         
         Invoice invoice = (Invoice) activity.originalObject;
         Intent intent = new Intent(requireContext(), com.chouchene.factures.DocumentStudioActivity.class);
@@ -227,17 +232,17 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
             Booking nextBooking = db.bookingDao().getNextUpcomingBooking(new Date());
 
             List<Invoice> latestInvoices = db.invoiceDao().getLatestInvoices();
-            List<Booking> activeBookings = db.bookingDao().getActiveUpcomingBookings(new java.util.Date());
+            List<Booking> latestBookings = db.bookingDao().getLatestBookings();
             
             List<RecentActivity> allActivity = new ArrayList<>();
             for (Invoice i : latestInvoices) allActivity.add(new RecentActivity(i));
-            for (Booking b : activeBookings) allActivity.add(new RecentActivity(b));
+            for (Booking b : latestBookings) allActivity.add(new RecentActivity(b));
             
             // Sort by date descending
             Collections.sort(allActivity, (a1, a2) -> a2.date.compareTo(a1.date));
             
-            // Keep only latest 5 if needed, or all
-            if (allActivity.size() > 5) allActivity = allActivity.subList(0, 5);
+            // Keep only latest 8 if needed, or all
+            if (allActivity.size() > 8) allActivity = allActivity.subList(0, 8);
 
             int overdueCount = db.invoiceDao().getOverdueInvoicesCount();
 

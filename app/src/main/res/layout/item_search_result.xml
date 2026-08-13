@@ -19,7 +19,7 @@
             android:layout_height="40dp"
             android:padding="8dp"
             app:tint="?attr/colorPrimary"
-            android:src="@drawable/ic_receipt_outline" />
+            android:src="@drawable/ic_typcn_document" />
 
         <LinearLayout
             android:layout_width="0dp"

@@ -215,7 +215,12 @@ public class GlobalHistoryFragment extends Fragment implements HistoryAdapter.On
 
     @Override
     public void onEditClick(RecentActivity activity) {
-        if (activity.type == RecentActivity.Type.BOOKING) return;
+        if (activity.type == RecentActivity.Type.BOOKING) {
+            AddBookingBottomSheet sheet = AddBookingBottomSheet.newInstance(activity.id);
+            sheet.setOnBookingAddedListener(this::loadData);
+            sheet.show(getChildFragmentManager(), "edit_booking");
+            return;
+        }
         android.content.Intent intent = new android.content.Intent(requireContext(), com.chouchene.factures.DocumentStudioActivity.class);
         intent.putExtra("EXTRA_MODE", "EDIT");
         intent.putExtra("EXTRA_TYPE", activity.type == RecentActivity.Type.ORDER ? "BON" : "INVOICE");

@@ -178,7 +178,7 @@ public class DocumentStudioActivity extends AppCompatActivity {
 
     private void setupInputs() {
         // Facture
-        editInvName = initItemWithAction(findViewById(R.id.item_inv_name), R.drawable.ic_outline_users, "Nom du Client", InputType.TYPE_TEXT_VARIATION_PERSON_NAME, this::showClientPicker);
+        editInvName = initItemWithAction(findViewById(R.id.item_inv_name), R.drawable.ic_typcn_clients, "Nom du Client", InputType.TYPE_TEXT_VARIATION_PERSON_NAME, this::showClientPicker);
         editInvEmail = initItem(findViewById(R.id.item_inv_email), R.drawable.ic_outline_mail, "Email du Client", InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
         editInvTel = initItem(findViewById(R.id.item_inv_tel), R.drawable.ic_outline_phone, "Téléphone du Client", InputType.TYPE_CLASS_PHONE);
         editInvStreet = initItem(findViewById(R.id.item_inv_street), R.drawable.ic_outline_road, "Rue / Adresse", InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
@@ -201,7 +201,7 @@ public class DocumentStudioActivity extends AppCompatActivity {
         editInvTvaRate = initItem(findViewById(R.id.item_inv_tva_rate), R.drawable.ic_outline_adjustments, "Taux TVA (%)", InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
         // Bon
-        editBonPassenger = initItemWithAction(findViewById(R.id.item_bon_passenger), R.drawable.ic_outline_users, "Nom du Passager", InputType.TYPE_TEXT_VARIATION_PERSON_NAME, this::showClientPicker);
+        editBonPassenger = initItemWithAction(findViewById(R.id.item_bon_passenger), R.drawable.ic_typcn_clients, "Nom du Passager", InputType.TYPE_TEXT_VARIATION_PERSON_NAME, this::showClientPicker);
         editBonTel = initItem(findViewById(R.id.item_bon_tel), R.drawable.ic_outline_phone, "Téléphone du Passager", InputType.TYPE_CLASS_PHONE);
         editBonOrderDate = initItem(findViewById(R.id.item_bon_order_date), R.drawable.ic_outline_calendar, "Date de Commande", InputType.TYPE_NULL);
         editBonOrderDate.setOnClickListener(v -> showDatePicker(editBonOrderDate));

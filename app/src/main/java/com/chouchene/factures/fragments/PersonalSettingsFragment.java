@@ -79,7 +79,7 @@ public class PersonalSettingsFragment extends Fragment {
             imgLogo.setPadding(0, 0, 0, 0);
         }
 
-        txtUserName = initItem(view.findViewById(R.id.item_name), "User", R.drawable.ic_outline_users, getString(R.string.label_full_name), InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+        txtUserName = initItem(view.findViewById(R.id.item_name), "User", R.drawable.ic_typcn_clients, getString(R.string.label_full_name), InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
         txtStreet = initItem(view.findViewById(R.id.item_street), "Street", R.drawable.ic_route_outline, getString(R.string.label_street), InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
         txtCodePostale = initItem(view.findViewById(R.id.item_zip), "codePostale", R.drawable.ic_outline_folder, getString(R.string.label_postal_code), InputType.TYPE_CLASS_NUMBER);
         txtCity = initItem(view.findViewById(R.id.item_city), "City", R.drawable.ic_outline_building, getString(R.string.label_city), InputType.TYPE_TEXT_FLAG_CAP_WORDS);
@@ -89,7 +89,7 @@ public class PersonalSettingsFragment extends Fragment {
         txtTel = initItem(view.findViewById(R.id.item_phone), "tel", R.drawable.ic_phone_outline, getString(R.string.label_contact_number), InputType.TYPE_CLASS_PHONE);
         txtEmail = initItem(view.findViewById(R.id.item_email), "email", R.drawable.ic_outline_mail, getString(R.string.label_email), InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 
-        txtChauffeur = initItem(view.findViewById(R.id.item_chauffeur), "chauffeur", R.drawable.ic_outline_users, getString(R.string.label_driver_name), InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+        txtChauffeur = initItem(view.findViewById(R.id.item_chauffeur), "chauffeur", R.drawable.ic_typcn_clients, getString(R.string.label_driver_name), InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
         txtPlaque = initItem(view.findViewById(R.id.item_plaque), "plaque", R.drawable.ic_route_outline, getString(R.string.label_plate_number), InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
         txtEvtc = initItem(view.findViewById(R.id.item_evtc), "evtc", R.drawable.ic_outline_receipt, getString(R.string.label_evtc_number), InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
 

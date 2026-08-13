@@ -55,6 +55,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         RecentActivity activity = activities.get(position);
         holder.txtClientName.setText(activity.title);
+        holder.txtSubtitle.setText(activity.subtitle);
         holder.txtAmount.setText(String.format(Locale.getDefault(), "%.2f €", activity.amount));
         
         SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
@@ -66,7 +67,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         
         switch (activity.type) {
             case BOOKING:
-                iconRes = R.drawable.ic_calendar_event_outline;
+                iconRes = R.drawable.ic_typcn_agenda;
                 iconColor = R.color.icon_agenda;
                 iconBgColor = R.color.icon_agenda_bg;
                 break;
@@ -103,11 +104,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         });
 
         holder.itemView.setOnLongClickListener(v -> {
-            if (activity.type != RecentActivity.Type.BOOKING) {
-                listener.onEditClick(activity);
-                return true;
-            }
-            return false;
+            listener.onEditClick(activity);
+            return true;
         });
         
         String displayStatus = activity.status;
@@ -148,7 +146,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
         View btnEdit = holder.itemView.findViewById(R.id.btn_edit_item);
         if (btnEdit != null) {
-            btnEdit.setVisibility(activity.type == RecentActivity.Type.BOOKING ? View.GONE : View.VISIBLE);
+            btnEdit.setVisibility(View.VISIBLE);
             btnEdit.setOnClickListener(v -> {
                 v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
                 listener.onEditClick(activity);
@@ -177,13 +175,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txtClientName, txtDate, txtAmount, txtStatus;
+        TextView txtClientName, txtDate, txtAmount, txtStatus, txtSubtitle;
         ImageView icon;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtClientName = itemView.findViewById(R.id.txtClientName);
             txtDate = itemView.findViewById(R.id.txtDate);
+            txtSubtitle = itemView.findViewById(R.id.txtSubtitle);
             txtAmount = itemView.findViewById(R.id.txtAmount);
             txtStatus = itemView.findViewById(R.id.txtStatus);
             icon = itemView.findViewById(R.id.icon);

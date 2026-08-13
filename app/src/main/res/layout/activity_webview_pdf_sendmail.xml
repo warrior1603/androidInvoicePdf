@@ -87,7 +87,7 @@
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_marginStart="8dp"
-                android:src="@drawable/ic_receipt_outline"
+                android:src="@drawable/ic_typcn_document"
                 app:tint="?attr/colorPrimary" />
 
             <TextView

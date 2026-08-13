@@ -31,19 +31,19 @@ public class RapportsFragment extends Fragment {
             switch (position) {
                 case 0:
                     tab.setText(getString(R.string.label_today));
-                    tab.setIcon(R.drawable.ic_outline_clock);
+                    tab.setIcon(R.drawable.ic_typcn_time);
                     break;
                 case 1:
                     tab.setText(getString(R.string.label_this_month));
-                    tab.setIcon(R.drawable.ic_outline_calendar);
+                    tab.setIcon(R.drawable.ic_typcn_calendar_outline);
                     break;
                 case 2:
                     tab.setText(getString(R.string.label_this_year));
-                    tab.setIcon(R.drawable.ic_outline_calendar_stats);
+                    tab.setIcon(R.drawable.ic_typcn_chart_line);
                     break;
                 case 3:
                     tab.setText("Global");
-                    tab.setIcon(R.drawable.ic_tab_world);
+                    tab.setIcon(R.drawable.ic_typcn_world);
                     break;
             }
         }).attach();

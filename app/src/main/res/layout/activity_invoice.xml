@@ -274,7 +274,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:hint="@string/label_price_ttc"
-                    app:startIconDrawable="@drawable/rounded_payments_24">
+                    app:startIconDrawable="@drawable/ic_typcn_cart">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_prix"
                         android:layout_width="match_parent"
@@ -304,7 +304,7 @@
                     android:layout_marginTop="12dp"
                     android:id="@+id/dropdown_input"
                     android:hint="@string/label_payment_method"
-                    app:startIconDrawable="@drawable/rounded_payments_24">
+                    app:startIconDrawable="@drawable/ic_typcn_cart">
                     <AutoCompleteTextView
                         android:id="@+id/filled_exposed_dropdown"
                         android:layout_width="match_parent"

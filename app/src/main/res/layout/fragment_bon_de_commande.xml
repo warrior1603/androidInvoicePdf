@@ -172,7 +172,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:hint="@string/label_fare"
-                    app:startIconDrawable="@drawable/rounded_payments_24">
+                    app:startIconDrawable="@drawable/ic_typcn_cart">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_tarif"
                         android:layout_width="match_parent"

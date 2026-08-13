@@ -508,7 +508,7 @@ public class MainActivity extends AppCompatActivity {
             holder.subtitle.setText(result.subtitle);
             holder.type.setText(result.type);
             
-            int iconRes = R.drawable.ic_receipt_outline;
+            int iconRes = R.drawable.ic_typcn_document;
             int typeColor;
             int typeBg;
 
@@ -525,7 +525,7 @@ public class MainActivity extends AppCompatActivity {
                 typeColor = ContextCompat.getColor(MainActivity.this, R.color.white);
                 typeBg = R.drawable.bg_badge_purple;
             } else {
-                iconRes = R.drawable.ic_receipt_outline;
+                iconRes = R.drawable.ic_typcn_document;
                 typeColor = ContextCompat.getColor(MainActivity.this, R.color.white);
                 typeBg = R.drawable.bg_badge_blue;
             }

@@ -47,7 +47,7 @@
             android:id="@+id/img_empty_state"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/rounded_receipt_long_24"
+            android:src="@drawable/ic_typcn_document"
             android:alpha="0.15"
             app:tint="?attr/colorOutline"
             android:contentDescription="@null" />

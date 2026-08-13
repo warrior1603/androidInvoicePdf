@@ -88,7 +88,7 @@ public class EntrepriseSettingsFragment extends Fragment {
         summary3 = view.findViewById(R.id.summary_step_3);
 
         // Binding and initializing items
-        initItem(view.findViewById(R.id.item_user), "User", R.drawable.ic_outline_users, getString(R.string.label_full_name), InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+        initItem(view.findViewById(R.id.item_user), "User", R.drawable.ic_typcn_clients, getString(R.string.label_full_name), InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
         initItem(view.findViewById(R.id.item_email), "email", R.drawable.ic_outline_mail, getString(R.string.label_email), InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
         initItem(view.findViewById(R.id.item_tel), "tel", R.drawable.ic_outline_phone, getString(R.string.label_contact_number), InputType.TYPE_CLASS_PHONE);
         initItem(view.findViewById(R.id.item_street), "Street", R.drawable.ic_outline_road, getString(R.string.label_street), InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
@@ -100,7 +100,7 @@ public class EntrepriseSettingsFragment extends Fragment {
         initItem(view.findViewById(R.id.item_siren), "siren", R.drawable.ic_outline_adjustments, getString(R.string.label_siren), InputType.TYPE_CLASS_NUMBER);
         initItem(view.findViewById(R.id.item_tva), "tva", R.drawable.ic_outline_cash, getString(R.string.label_tva), InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
         
-        initItem(view.findViewById(R.id.item_chauffeur), "chauffeur", R.drawable.ic_outline_users, getString(R.string.label_driver_name), InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+        initItem(view.findViewById(R.id.item_chauffeur), "chauffeur", R.drawable.ic_typcn_clients, getString(R.string.label_driver_name), InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
         initItem(view.findViewById(R.id.item_plaque), "plaque", R.drawable.ic_outline_hash, getString(R.string.label_plate_number), InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
         initItem(view.findViewById(R.id.item_evtc), "evtc", R.drawable.ic_outline_receipt, getString(R.string.label_evtc_number), InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
         

@@ -11,7 +11,7 @@
         <EditTextPreference
             android:key="User"
             android:title="@string/label_full_name"
-            android:icon="@drawable/ic_outline_users" />
+            android:icon="@drawable/ic_typcn_clients" />
 
         <EditTextPreference
             android:key="Street"
@@ -58,7 +58,7 @@
         <EditTextPreference
             android:key="chauffeur"
             android:title="@string/label_driver_name"
-            android:icon="@drawable/ic_outline_users" />
+            android:icon="@drawable/ic_typcn_clients" />
 
         <EditTextPreference
             android:key="plaque"

@@ -121,7 +121,7 @@ public class WebViewPdfFragment extends Fragment {
                     break;
                 case "INVOICE":
                 default:
-                    iconRes = R.drawable.ic_receipt_outline;
+                    iconRes = R.drawable.ic_typcn_document;
                     tintColor = androidx.core.content.ContextCompat.getColor(context, R.color.primary);
                     break;
             }

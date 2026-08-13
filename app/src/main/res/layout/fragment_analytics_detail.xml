@@ -95,7 +95,7 @@
                                 android:layout_width="28dp"
                                 android:layout_height="28dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/rounded_payments_24"
+                                android:src="@drawable/ic_typcn_chart_pie_outline"
                                 app:tint="?attr/colorOnPrimary" />
                         </com.google.android.material.card.MaterialCardView>
                     </LinearLayout>
@@ -151,7 +151,7 @@
                         <ImageView
                             android:layout_width="28dp"
                             android:layout_height="28dp"
-                            android:src="@drawable/rounded_receipt_long_24"
+                            android:src="@drawable/ic_typcn_document"
                             app:tint="@color/icon_documents" />
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -191,7 +191,7 @@
                         <ImageView
                             android:layout_width="28dp"
                             android:layout_height="28dp"
-                            android:src="@drawable/ic_users_outline"
+                            android:src="@drawable/ic_typcn_clients"
                             app:tint="@color/icon_clients" />
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -238,7 +238,7 @@
                         <ImageView
                             android:layout_width="28dp"
                             android:layout_height="28dp"
-                            android:src="@drawable/ic_trending_up_outline"
+                            android:src="@drawable/ic_typcn_chart_line"
                             app:tint="?attr/colorPrimary" />
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -282,7 +282,7 @@
                         <ImageView
                             android:layout_width="28dp"
                             android:layout_height="28dp"
-                            android:src="@drawable/rounded_payments_24"
+                            android:src="@drawable/ic_typcn_cart"
                             app:tint="@color/status_cancelled" />
                         <LinearLayout
                             android:layout_width="0dp"
@@ -307,7 +307,7 @@
                         <ImageView
                             android:layout_width="16dp"
                             android:layout_height="16dp"
-                            android:src="@drawable/rounded_chevron_right_24"
+                            android:src="@drawable/ic_typcn_chevron_right"
                             app:tint="?attr/colorOnSurfaceVariant"
                             android:alpha="0.5" />
                     </LinearLayout>
