@@ -32,18 +32,14 @@
                     style="@style/App.TextAppearance.LabelLarge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:alpha="0.6"
-                    android:letterSpacing="0.05"
-                    android:text="@string/label_welcome_back"
-                    android:textSize="13sp" />
+                    android:text="@string/label_welcome_back" />
 
                 <TextView
                     android:id="@+id/txt_current_date"
                     style="@style/App.TextAppearance.LabelSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:alpha="0.4"
+                    android:layout_marginTop="2dp"
                     android:text="Date du jour" />
 
                 <FrameLayout
@@ -70,24 +66,21 @@
                         android:orientation="vertical">
 
                         <TextView
-                            style="@style/App.TextAppearance.LabelLarge"
+                            style="@style/App.TextAppearance.LabelSmall"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:alpha="0.5"
-                            android:letterSpacing="0.2"
+                            android:letterSpacing="0.1"
                             android:text="BÉNÉFICE DU MOIS"
-                            android:textSize="10sp" />
+                            android:textAllCaps="true" />
 
                         <TextView
                             android:id="@+id/txt_home_revenue"
                             style="@style/App.TextAppearance.NumberBig"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:includeFontPadding="false"
-                            android:letterSpacing="-0.04"
                             android:text="0.00 €"
                             android:textColor="?attr/colorPrimary"
-                            android:textSize="48sp" />
+                            android:textSize="44sp" />
 
                         <TextView
                             android:id="@+id/txt_home_revenue_daily"
@@ -95,10 +88,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:alpha="0.6"
-                            android:text="Aujourd'hui: 0.00 €"
-                            android:textColor="?attr/colorOnSurfaceVariant"
-                            android:textSize="12sp" />
+                            android:text="Aujourd'hui: 0.00 €" />
                     </LinearLayout>
                 </FrameLayout>
             </LinearLayout>
@@ -380,10 +370,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:alpha="0.9"
                             android:text="Documents"
-                            android:textColor="?attr/colorOnSurface"
-                            android:textSize="13sp" />
+                            android:textColor="?attr/colorOnSurface" />
                     </LinearLayout>
 
                     <!-- Clients -->
@@ -423,10 +411,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:alpha="0.9"
                             android:text="Clients"
-                            android:textColor="?attr/colorOnSurface"
-                            android:textSize="13sp" />
+                            android:textColor="?attr/colorOnSurface" />
                     </LinearLayout>
 
                     <!-- Agenda -->
@@ -466,10 +452,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:alpha="0.9"
                             android:text="@string/title_agenda"
-                            android:textColor="?attr/colorOnSurface"
-                            android:textSize="13sp" />
+                            android:textColor="?attr/colorOnSurface" />
                     </LinearLayout>
 
                     <!-- Dashboard -->
@@ -509,10 +493,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:alpha="0.9"
                             android:text="Dashboard"
-                            android:textColor="?attr/colorOnSurface"
-                            android:textSize="13sp" />
+                            android:textColor="?attr/colorOnSurface" />
                     </LinearLayout>
 
                     <!-- Entreprise -->
@@ -552,10 +534,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:alpha="0.9"
                             android:text="Entreprise"
-                            android:textColor="?attr/colorOnSurface"
-                            android:textSize="13sp" />
+                            android:textColor="?attr/colorOnSurface" />
                     </LinearLayout>
 
                     <!-- Settings -->
@@ -595,10 +575,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
-                            android:alpha="0.9"
                             android:text="@string/title_settings"
-                            android:textColor="?attr/colorOnSurface"
-                            android:textSize="13sp" />
+                            android:textColor="?attr/colorOnSurface" />
                     </LinearLayout>
 
                 </GridLayout>

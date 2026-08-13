@@ -42,21 +42,18 @@
 
             <TextView
                 android:id="@+id/textViewItem"
+                style="@style/App.TextAppearance.TitleMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Client Name"
-                android:textAppearance="?attr/textAppearanceTitleMedium"
-                android:textStyle="bold"
-                android:textColor="?attr/colorOnSurface" />
+                android:text="Client Name" />
 
             <TextView
                 android:id="@+id/textViewCity"
+                style="@style/App.TextAppearance.BodySmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="City"
-                android:textAppearance="?attr/textAppearanceBodySmall"
-                android:alpha="0.7" />
+                android:layout_marginTop="2dp"
+                android:text="City" />
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton

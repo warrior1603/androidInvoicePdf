@@ -47,7 +47,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:text="Détail Client"
-                        android:alpha="0.5"
+                        android:textAllCaps="true"
                         android:letterSpacing="0.1" />
                 </RelativeLayout>
 
@@ -76,9 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="Client Name"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textStyle="bold" />
+                    android:text="Client Name" />
             </LinearLayout>
 
             <!-- Metrics Floating Bar (Integrated Design) -->
@@ -107,14 +105,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0.00 €"
-                        android:textColor="?attr/colorPrimary"
-                        android:textStyle="bold" />
+                        android:textColor="?attr/colorPrimary" />
                     <TextView
                         style="@style/App.TextAppearance.LabelSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:alpha="0.5"
                         android:text="VALEUR TOTALE"
+                        android:textAllCaps="true"
                         android:textSize="9sp" />
                 </LinearLayout>
 
@@ -144,7 +141,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:alpha="0.8"
                         android:text="FACTURE"
                         android:textColor="?attr/colorPrimary"
                         android:textSize="9sp" />
@@ -160,7 +156,7 @@
                 android:paddingBottom="48dp">
 
                 <!-- Details List -->
-                <TextView style="@style/App.TextAppearance.LabelLarge" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="COORDONNÉES" android:textColor="?attr/colorPrimary" android:alpha="0.7" />
+                <TextView style="@style/App.TextAppearance.LabelLarge" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="COORDONNÉES" android:textColor="?attr/colorPrimary" android:textAllCaps="true" />
 
                 <com.google.android.material.card.MaterialCardView
                     style="@style/App.CardView"
@@ -189,12 +185,12 @@
                                 app:tint="?attr/colorOnSurfaceVariant" />
                             <TextView
                                 android:id="@+id/detail_phone"
+                                style="@style/App.TextAppearance.BodyMedium"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="16dp"
-                                android:text="Phone"
-                                android:textAppearance="?attr/textAppearanceBodyMedium" />
+                                android:text="Phone" />
                         </LinearLayout>
                         <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.1" />
                         <LinearLayout
@@ -214,12 +210,12 @@
                                 app:tint="?attr/colorOnSurfaceVariant" />
                             <TextView
                                 android:id="@+id/detail_email"
+                                style="@style/App.TextAppearance.BodyMedium"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="16dp"
-                                android:text="Email"
-                                android:textAppearance="?attr/textAppearanceBodyMedium" />
+                                android:text="Email" />
                         </LinearLayout>
                         <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.1" />
                         <LinearLayout
@@ -235,17 +231,17 @@
                                 app:tint="?attr/colorOnSurfaceVariant" />
                             <TextView
                                 android:id="@+id/detail_address"
+                                style="@style/App.TextAppearance.BodyMedium"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="16dp"
-                                android:text="Address"
-                                android:textAppearance="?attr/textAppearanceBodyMedium" />
+                                android:text="Address" />
                         </LinearLayout>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <TextView style="@style/App.TextAppearance.LabelLarge" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:text="INFORMATIONS LÉGALES" android:textColor="?attr/colorPrimary" android:alpha="0.7" />
+                <TextView style="@style/App.TextAppearance.LabelLarge" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:text="INFORMATIONS LÉGALES" android:textColor="?attr/colorPrimary" android:textAllCaps="true" />
 
                 <com.google.android.material.card.MaterialCardView
                     style="@style/App.CardView"
@@ -259,19 +255,17 @@
                         android:padding="16dp">
                         <TextView
                             android:id="@+id/detail_siren"
+                            style="@style/App.TextAppearance.BodyMedium"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="SIREN"
-                            android:textAppearance="?attr/textAppearanceBodyMedium"
-                            android:textColor="?attr/colorOnSurfaceVariant" />
+                            android:text="SIREN" />
                         <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginVertical="12dp" android:alpha="0.1" />
                         <TextView
                             android:id="@+id/detail_tva"
+                            style="@style/App.TextAppearance.BodyMedium"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="TVA"
-                            android:textAppearance="?attr/textAppearanceBodyMedium"
-                            android:textColor="?attr/colorOnSurfaceVariant" />
+                            android:text="TVA" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
@@ -280,9 +274,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
-                    android:text="Historique des documents"
-                    android:textColor="?attr/colorOnSurface"
-                    android:textStyle="bold" />
+                    android:text="Historique des documents" />
 
                 <com.facebook.shimmer.ShimmerFrameLayout
                     android:id="@+id/shimmer_view_container"
