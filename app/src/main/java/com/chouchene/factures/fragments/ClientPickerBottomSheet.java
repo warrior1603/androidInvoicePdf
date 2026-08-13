@@ -56,7 +56,25 @@ public class ClientPickerBottomSheet extends BottomSheetDialogFragment {
 
         db = DatabaseClient.getInstance(requireContext()).getAppDatabase();
         RecyclerView rvClients = view.findViewById(R.id.rvClients);
-        editSearch = view.findViewById(R.id.editSearch);
+        
+        // Initialize Search Field with Settings Style
+        View searchItemView = view.findViewById(R.id.item_search);
+        android.widget.ImageView icon = searchItemView.findViewById(R.id.item_icon);
+        TextView txtLabel = searchItemView.findViewById(R.id.item_label);
+        editSearch = searchItemView.findViewById(R.id.item_input);
+
+        icon.setImageResource(R.drawable.ic_search_outline);
+        txtLabel.setText("Rechercher");
+        
+        try {
+            android.util.TypedValue typedValue = new android.util.TypedValue();
+            requireContext().getTheme().resolveAttribute(com.google.android.material.R.attr.colorOnSurface, typedValue, true);
+            txtLabel.setTextColor(typedValue.data);
+            txtLabel.setAlpha(0.9f);
+            icon.setColorFilter(typedValue.data);
+        } catch (Exception ignored) {}
+
+        editSearch.setHint("Nom, Téléphone...");
 
         rvClients.setLayoutManager(new LinearLayoutManager(requireContext()));
         adapter = new ClientAdapter();

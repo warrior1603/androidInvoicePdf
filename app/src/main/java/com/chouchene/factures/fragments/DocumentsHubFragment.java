@@ -120,6 +120,7 @@ public class DocumentsHubFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        updateChipsCounts();
     }
 
     private static class DocumentsPagerAdapter extends FragmentStateAdapter {

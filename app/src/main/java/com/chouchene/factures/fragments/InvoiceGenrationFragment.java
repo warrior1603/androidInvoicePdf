@@ -97,6 +97,12 @@ public class InvoiceGenrationFragment extends Fragment implements HistoryAdapter
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadInvoices(viewModel != null ? viewModel.getCurrentFilter().getValue() : null, false);
+    }
+
     private void loadInvoices(DocumentsViewModel.Filter filter, boolean showShimmer) {
         if (showShimmer && shimmerContainer != null) {
             shimmerContainer.setVisibility(View.VISIBLE);

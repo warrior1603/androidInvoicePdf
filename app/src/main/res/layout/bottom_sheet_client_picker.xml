@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
     android:minHeight="500dp">
 
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView
@@ -16,23 +16,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sélectionner un client"
-        android:paddingHorizontal="16dp"
+        android:paddingHorizontal="24dp"
         android:layout_marginBottom="16dp" />
 
-    <com.google.android.material.textfield.TextInputLayout
-            style="@style/App.TextInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Rechercher un client..."
-            app:startIconDrawable="@drawable/ic_search_outline"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="8dp">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editSearch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text" />
-    </com.google.android.material.textfield.TextInputLayout>
+    <include layout="@layout/view_settings_input_item" android:id="@+id/item_search" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:alpha="0.3" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvClients"
@@ -40,6 +33,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:paddingTop="8dp"
+        android:clipToPadding="false"
         android:layoutAnimation="@anim/layout_animation_fall_down" />
 
 </LinearLayout>

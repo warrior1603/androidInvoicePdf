@@ -88,6 +88,12 @@ public class GlobalHistoryFragment extends Fragment implements HistoryAdapter.On
         loadData();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
+    }
+
     private void loadData() {
         if (shimmerContainer != null) {
             shimmerContainer.setVisibility(View.VISIBLE);

@@ -117,14 +117,6 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
         progressMargin = view.findViewById(R.id.progress_margin);
         txtMarginLabel = view.findViewById(R.id.txt_margin_label);
         
-        TextView revenueLabel = view.findViewById(R.id.revenueLabel);
-        TextView totalRevenueTxt = view.findViewById(R.id.totalRevenue);
-        TextView documentCountTxt = view.findViewById(R.id.documentCount);
-        TextView totalClientsTxt = view.findViewById(R.id.txt_total_clients_val);
-        TextView chartTitle = view.findViewById(R.id.chartTitle);
-        TextView growthValTxt = view.findViewById(R.id.txt_growth_val);
-        BarChart barChart = view.findViewById(R.id.barChart);
-        View chartEmptyState = view.findViewById(R.id.chart_empty_state);
         View cardExpenses = view.findViewById(R.id.cardExpenses);
         View btnExportCsv = view.findViewById(R.id.btnExportCsv);
         View btnGenerateReportPdf = view.findViewById(R.id.btnGenerateReportPdf);
@@ -133,7 +125,31 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
         btnExportCsv.setOnClickListener(v -> exportToCSV());
         btnGenerateReportPdf.setOnClickListener(v -> generateMonthlyReport());
 
-        if (shimmerContainer != null) {
+        loadAnalyticsData(true);
+
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadAnalyticsData(false);
+    }
+
+    private void loadAnalyticsData(boolean showShimmer) {
+        if (getView() == null) return;
+        
+        TextView revenueLabel = getView().findViewById(R.id.revenueLabel);
+        TextView totalRevenueTxt = getView().findViewById(R.id.totalRevenue);
+        TextView documentCountTxt = getView().findViewById(R.id.documentCount);
+        TextView totalClientsTxt = getView().findViewById(R.id.txt_total_clients_val);
+        TextView chartTitle = getView().findViewById(R.id.chartTitle);
+        TextView growthValTxt = getView().findViewById(R.id.txt_growth_val);
+        BarChart barChart = getView().findViewById(R.id.barChart);
+        View chartEmptyState = getView().findViewById(R.id.chart_empty_state);
+        View btnExportCsv = getView().findViewById(R.id.btnExportCsv);
+
+        if (showShimmer && shimmerContainer != null) {
             shimmerContainer.setVisibility(View.VISIBLE);
             shimmerContainer.startShimmer();
             mainContent.setVisibility(View.GONE);
@@ -142,10 +158,9 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
 
         final Context context = getContext();
         final Activity activity = getActivity();
-        if (context == null || activity == null) return view;
+        if (context == null || activity == null) return;
 
         Executors.newSingleThreadExecutor().execute(() -> {
-            try { Thread.sleep(700); } catch (Exception ignored) {}
             Date today = new Date();
             float revenue = 0;
             float prevRevenue = 0;
@@ -268,6 +283,9 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
             final int finalCount = count;
             final String finalLabelTop = labelTop;
             final String finalLabelChart = labelChart;
+            final int finalClientCount = clientCount;
+            final List<BarEntry> finalChartEntries = chartEntries;
+            final List<String> finalLabels = labels;
 
             float totalIncome = 0;
             if (timeframe == Timeframe.DAILY) totalIncome = db.getDailyIncome(today);
@@ -289,7 +307,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                 revenueLabel.setText(finalLabelTop);
                 totalRevenueTxt.setText(String.format(Locale.getDefault(), "%.2f €", finalRev));
                 documentCountTxt.setText(String.valueOf(finalCount));
-                totalClientsTxt.setText(String.valueOf(clientCount));
+                totalClientsTxt.setText(String.valueOf(finalClientCount));
                 chartTitle.setText(finalLabelChart);
 
                 // Update Growth
@@ -307,7 +325,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                     growthValTxt.setTextColor(resolveColor(context, com.google.android.material.R.attr.colorOnSurfaceVariant));
                 }
 
-                setupChart(barChart, chartEntries, labels, chartEmptyState);
+                setupChart(barChart, finalChartEntries, finalLabels, chartEmptyState);
 
                 // Update Margin
                 if (incomeForMargin > 0) {
@@ -321,8 +339,6 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                 }
             });
         });
-
-        return view;
     }
 
     private void setupChart(BarChart barChart, List<BarEntry> entries, List<String> labels, View emptyState) {

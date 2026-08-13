@@ -97,6 +97,12 @@ public class BonDeCommandeFragment extends Fragment implements HistoryAdapter.On
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadBons(viewModel != null ? viewModel.getCurrentFilter().getValue() : null, false);
+    }
+
     private void loadBons(DocumentsViewModel.Filter filter, boolean showShimmer) {
         if (showShimmer && shimmerContainer != null) {
             shimmerContainer.setVisibility(View.VISIBLE);

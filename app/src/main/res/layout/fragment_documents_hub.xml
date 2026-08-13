@@ -74,7 +74,8 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="4dp"
         android:visibility="gone"
-        app:chipIcon="@drawable/baseline_history_24"
+        app:chipIcon="@drawable/ic_outline_adjustments"
+        app:chipIconTint="?attr/colorPrimary"
         app:closeIconVisible="true"
         android:text="Filtré par: Juin 2024" />
 

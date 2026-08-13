@@ -265,6 +265,12 @@ public class ClientDetailFragment extends Fragment implements HistoryAdapter.OnH
         dialog.show();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadHistory();
+    }
+
     private void updateStatus(RecentActivity activity, String status, BottomSheetDialog dialog) {
         Invoice invoice = (Invoice) activity.originalObject;
         Executors.newSingleThreadExecutor().execute(() -> {

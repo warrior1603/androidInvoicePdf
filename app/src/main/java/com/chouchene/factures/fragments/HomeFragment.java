@@ -369,6 +369,12 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         dialog.show();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadHomeData(false); // Refresh without shimmer for better UX
+    }
+
     private void updateStatus(RecentActivity activity, String status, BottomSheetDialog dialog) {
         if (activity.type == RecentActivity.Type.BOOKING) return;
         
