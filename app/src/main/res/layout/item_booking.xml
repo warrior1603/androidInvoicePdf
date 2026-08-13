@@ -12,12 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingVertical="12dp"
-        android:paddingHorizontal="4dp"
+        android:paddingVertical="14dp"
+        android:paddingHorizontal="16dp"
         android:gravity="center_vertical">
 
-
-        <!-- Left: Time (replaces Icon weight) -->
+        <!-- Left: Time -->
         <LinearLayout
             android:layout_width="52dp"
             android:layout_height="wrap_content"
@@ -42,7 +41,8 @@
             android:layout_width="1dp"
             android:layout_height="32dp"
             android:background="?attr/colorOutlineVariant"
-            android:layout_marginHorizontal="12dp" />
+            android:layout_marginHorizontal="12dp"
+            android:alpha="0.3" />
 
         <!-- Center: Name & Route -->
         <LinearLayout
@@ -73,37 +73,6 @@
                 android:includeFontPadding="false" />
         </LinearLayout>
 
-        <!-- Actions -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginStart="12dp"
-            android:gravity="center">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnGps"
-                style="?attr/materialIconButtonStyle"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:padding="4dp"
-                app:icon="@drawable/ic_map_pin_outline"
-                app:iconSize="18dp"
-                app:iconTint="?attr/colorSecondary"
-                android:contentDescription="GPS" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnCall"
-                style="?attr/materialIconButtonStyle"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:padding="4dp"
-                app:icon="@drawable/ic_phone_outline"
-                app:iconSize="18dp"
-                app:iconTint="?attr/colorPrimary"
-                android:contentDescription="Appeler" />
-        </LinearLayout>
-
         <!-- Right: Status & Amount -->
         <LinearLayout
             android:layout_width="wrap_content"
@@ -114,18 +83,19 @@
 
             <TextView
                 android:id="@+id/txtAmount"
-                style="@style/App.TextAppearance.TitleLarge"
+                style="@style/App.TextAppearance.TitleMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="45.00 €"
                 android:textColor="?attr/colorOnSurface"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/txtStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="6dp"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="4dp"
                 android:minWidth="85dp"

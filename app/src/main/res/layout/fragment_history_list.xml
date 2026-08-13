@@ -30,7 +30,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingHorizontal="16dp"
         android:paddingBottom="88dp"
         android:layoutAnimation="@anim/layout_animation_fall_down" />
 
@@ -43,24 +42,24 @@
         android:visibility="gone"
         android:paddingBottom="80dp">
 
-        <ImageView
-            android:id="@+id/img_empty_state"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/ic_typcn_document"
-            android:alpha="0.15"
-            app:tint="?attr/colorOutline"
-            android:contentDescription="@null" />
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lottie_empty_state"
+        <FrameLayout
             android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:visibility="gone"
-            android:saveEnabled="false"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            android:alpha="0.6" />
+            android:layout_height="120dp">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.05"
+                android:background="@drawable/bg_circle_soft"
+                android:backgroundTint="?attr/colorOnSurface" />
+            <ImageView
+                android:id="@+id/img_empty_state"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="32dp"
+                android:src="@drawable/ic_typcn_document"
+                android:alpha="0.2"
+                app:tint="?attr/colorOnSurface" />
+        </FrameLayout>
 
         <TextView
             style="@style/App.TextAppearance.TitleMedium"

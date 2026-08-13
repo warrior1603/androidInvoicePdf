@@ -52,7 +52,20 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
         SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         holder.txtDate.setText(fmt.format(expense.date));
 
-        holder.itemView.setOnClickListener(v -> listener.onEditClick(expense));
+        holder.itemView.setOnClickListener(v -> {
+            v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
+            listener.onEditClick(expense);
+        });
+
+        // Micro-interaction: Scale on Touch
+        holder.itemView.setOnTouchListener((v, event) -> {
+            if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                v.animate().scaleX(0.98f).scaleY(0.98f).setDuration(100).start();
+            } else if (event.getAction() == android.view.MotionEvent.ACTION_UP || event.getAction() == android.view.MotionEvent.ACTION_CANCEL) {
+                v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+            }
+            return false;
+        });
         holder.itemView.setOnLongClickListener(v -> {
             listener.onDeleteClick(expense);
             return true;

@@ -93,19 +93,17 @@ public class AgendaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             // Unique transition name for booking
             androidx.core.view.ViewCompat.setTransitionName(h.itemView, "booking_container_" + booking.id);
 
-            h.btnGps.setOnClickListener(v -> {
-                if (booking.pickupLocation != null && !booking.pickupLocation.isEmpty()) {
-                    listener.onOpenGps(booking.pickupLocation);
-                }
-            });
+            h.itemView.setOnClickListener(view -> listener.onBookingClick(booking, h.itemView));
 
-            h.btnCall.setOnClickListener(v -> {
-                if (booking.clientPhone != null && !booking.clientPhone.isEmpty()) {
-                    listener.onCallClient(booking.clientPhone);
+            // Micro-interaction: Scale on Touch
+            h.itemView.setOnTouchListener((v, event) -> {
+                if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                    v.animate().scaleX(0.98f).scaleY(0.98f).setDuration(100).start();
+                } else if (event.getAction() == android.view.MotionEvent.ACTION_UP || event.getAction() == android.view.MotionEvent.ACTION_CANCEL) {
+                    v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
                 }
+                return false;
             });
-
-            h.itemView.setOnClickListener(v -> listener.onBookingClick(booking, h.itemView));
         }
     }
 
@@ -160,7 +158,6 @@ public class AgendaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
         View txtTime, txtDate, txtClientName, txtRoute, txtAmount, txtStatus;
-        View btnCall, btnGps;
         ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             txtTime = itemView.findViewById(R.id.txtTime);
@@ -169,8 +166,6 @@ public class AgendaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             txtRoute = itemView.findViewById(R.id.txtRoute);
             txtAmount = itemView.findViewById(R.id.txtAmount);
             txtStatus = itemView.findViewById(R.id.txtStatus);
-            btnCall = itemView.findViewById(R.id.btnCall);
-            btnGps = itemView.findViewById(R.id.btnGps);
         }
     }
 }

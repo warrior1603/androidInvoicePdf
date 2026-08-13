@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingVertical="12dp"
-        android:paddingHorizontal="4dp"
+        android:paddingHorizontal="16dp"
         android:gravity="center_vertical">
 
 
@@ -88,12 +88,13 @@
 
                 <TextView
                     android:id="@+id/txtAmount"
-                    style="@style/App.TextAppearance.TitleLarge"
+                    style="@style/App.TextAppearance.TitleMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="100.00 €"
                     android:textColor="?attr/colorPrimary"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textSize="17sp" />
             </LinearLayout>
 
             <TextView

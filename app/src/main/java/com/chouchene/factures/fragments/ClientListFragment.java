@@ -33,7 +33,6 @@ import com.chouchene.factures.dao.ClientDao;
 import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Client;
-import com.chouchene.factures.utils.LottieUtils;
 import com.chouchene.factures.utils.SwipeToDeleteCallback;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -129,25 +128,9 @@ public class ClientListFragment extends Fragment {
         recyclerView.setAdapter(listAdapter);
 
         // Start transition once data is loaded and laid out
-        recyclerView.post(() -> {
-            startPostponedEnterTransition();
-        });
+        recyclerView.post(this::startPostponedEnterTransition);
 
-        // Speed Dial logic
-        speedDialLayout = view.findViewById(R.id.speedDialLayout);
-        fab.setOnClickListener(v -> {
-            toggleSpeedDial();
-        });
-
-        view.findViewById(R.id.optionManual).setOnClickListener(v -> {
-            toggleSpeedDial();
-            showAddClientDialog(false);
-        });
-
-        view.findViewById(R.id.optionImport).setOnClickListener(v -> {
-            toggleSpeedDial();
-            showAddClientDialog(true);
-        });
+        fab.setOnClickListener(v -> showAddClientDialog(false));
 
         new ItemTouchHelper(new SwipeToDeleteCallback(requireContext()) {
             @Override
@@ -337,10 +320,6 @@ public class ClientListFragment extends Fragment {
         if (listAdapter.getItemCount() == 0) {
             emptyState.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
-
-            com.airbnb.lottie.LottieAnimationView lottie = emptyState.findViewById(R.id.lottie_empty_state);
-            android.widget.ImageView staticImg = emptyState.findViewById(R.id.img_empty_state);
-            LottieUtils.loadLottieWithFallback(lottie, staticImg, "anim_empty_invoices.json");
         } else {
             emptyState.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);

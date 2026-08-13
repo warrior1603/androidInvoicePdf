@@ -58,7 +58,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         holder.textViewCity.setText(client.getVille());
 
         holder.textViewInitials.setText(AvatarHelper.getInitials(client.getClientName()));
-        holder.avatarContainer.setCardBackgroundColor(AvatarHelper.getColorForName(client.getClientName()));
+        holder.avatarContainer.setBackgroundTintList(android.content.res.ColorStateList.valueOf(AvatarHelper.getColorForName(client.getClientName())));
 
         holder.cardview.setTransitionName("client_card_" + client.getId());
 
@@ -71,6 +71,16 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                     .build();
 
             Navigation.findNavController(v).navigate(R.id.clientDetailFragment, args, null, extras);
+        });
+
+        // Micro-interaction: Scale on Touch
+        holder.cardview.setOnTouchListener((v, event) -> {
+            if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                v.animate().scaleX(0.98f).scaleY(0.98f).setDuration(100).start();
+            } else if (event.getAction() == android.view.MotionEvent.ACTION_UP || event.getAction() == android.view.MotionEvent.ACTION_CANCEL) {
+                v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+            }
+            return false;
         });
 
         holder.buttonCall.setOnClickListener(v -> {
@@ -124,7 +134,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         TextView textView, textViewCity, textViewInitials;
         MaterialButton buttonCall;
         View cardview;
-        MaterialCardView avatarContainer;
+        View avatarContainer;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

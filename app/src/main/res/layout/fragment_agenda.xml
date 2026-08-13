@@ -23,7 +23,8 @@
             android:id="@+id/tabLayout"
             style="@style/App.TabLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent" />
 
         <HorizontalScrollView
             android:layout_width="match_parent"
@@ -50,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="À venir"
-                    app:chipIcon="@drawable/ic_status_clock"
+                    app:chipIcon="@drawable/ic_typcn_time"
                     app:chipIconTint="?attr/colorPrimary"
                     app:chipIconSize="16dp" />
                 <com.google.android.material.chip.Chip
@@ -59,7 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Terminées"
-                    app:chipIcon="@drawable/ic_status_check"
+                    app:chipIcon="@drawable/ic_typcn_tick"
                     app:chipIconTint="?attr/colorPrimary"
                     app:chipIconSize="16dp" />
                 <com.google.android.material.chip.Chip
@@ -68,62 +69,79 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Annulées"
-                    app:chipIcon="@drawable/ic_status_x"
+                    app:chipIcon="@drawable/ic_typcn_cancel"
                     app:chipIconTint="?attr/colorPrimary"
                     app:chipIconSize="16dp" />
             </com.google.android.material.chip.ChipGroup>
         </HorizontalScrollView>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvBookings"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingHorizontal="16dp"
-        android:paddingBottom="88dp"
-        android:layoutAnimation="@anim/layout_animation_fall_down"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer_view_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-            <View android:layout_width="match_parent" android:layout_height="300dp" android:background="@drawable/shimmer_rect" android:layout_marginBottom="16dp"/>
-            <include layout="@layout/shimmer_booking_item" />
-            <include layout="@layout/shimmer_booking_item" />
-        </LinearLayout>
-    </com.facebook.shimmer.ShimmerFrameLayout>
 
-    <LinearLayout
-        android:id="@+id/emptyState"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/ic_nav_calendar_outline"
-            android:alpha="0.15"
-            app:tint="@color/icon_agenda" />
-        <TextView
-            style="@style/App.TextAppearance.TitleMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Aucune course trouvée"
-            android:alpha="0.4" />
-    </LinearLayout>
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+                <View android:layout_width="match_parent" android:layout_height="300dp" android:background="@drawable/shimmer_rect" android:layout_marginBottom="16dp"/>
+                <include layout="@layout/shimmer_history_item" />
+                <include layout="@layout/shimmer_history_item" />
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvBookings"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="88dp"
+            android:layoutAnimation="@anim/layout_animation_fall_down" />
+
+        <LinearLayout
+            android:id="@+id/emptyState"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:paddingBottom="80dp">
+
+            <FrameLayout
+                android:layout_width="120dp"
+                android:layout_height="120dp">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.05"
+                    android:background="@drawable/bg_circle_soft"
+                    android:backgroundTint="?attr/colorOnSurface" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="32dp"
+                    android:src="@drawable/ic_typcn_agenda"
+                    android:alpha="0.2"
+                    app:tint="?attr/colorOnSurface" />
+            </FrameLayout>
+
+            <TextView
+                style="@style/App.TextAppearance.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Aucune course prévue"
+                android:alpha="0.4"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </FrameLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fabAddBooking"

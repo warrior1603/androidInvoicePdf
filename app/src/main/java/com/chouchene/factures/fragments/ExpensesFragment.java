@@ -17,7 +17,6 @@ import com.chouchene.factures.adapter.ExpenseAdapter;
 import com.chouchene.factures.database.AppDatabase;
 import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Expense;
-import com.chouchene.factures.utils.LottieUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
@@ -98,12 +97,6 @@ public class ExpensesFragment extends Fragment implements ExpenseAdapter.OnExpen
         boolean isEmpty = adapter.getItemCount() == 0;
         emptyState.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
         recyclerView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
-        
-        if (isEmpty) {
-            com.airbnb.lottie.LottieAnimationView lottie = emptyState.findViewById(R.id.lottie_empty_state);
-            android.widget.ImageView staticImg = emptyState.findViewById(R.id.img_empty_state);
-            LottieUtils.loadLottieWithFallback(lottie, staticImg, "anim_empty_invoices.json");
-        }
     }
 
     @Override

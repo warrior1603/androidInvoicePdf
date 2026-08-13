@@ -93,14 +93,18 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         androidx.core.view.ViewCompat.setTransitionName(holder.itemView, "container_" + activity.type + "_" + activity.id);
 
         holder.itemView.setOnClickListener(v -> {
-            v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-            
-            // Add subtle click animation
-            v.animate().scaleX(0.97f).scaleY(0.97f).setDuration(100)
-                    .withEndAction(() -> v.animate().scaleX(1f).scaleY(1f).setDuration(100).start())
-                    .start();
-                    
+            v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
             listener.onItemClick(activity, holder.icon);
+        });
+
+        // Micro-interaction: Scale on Touch
+        holder.itemView.setOnTouchListener((v, event) -> {
+            if (event.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                v.animate().scaleX(0.98f).scaleY(0.98f).setDuration(100).start();
+            } else if (event.getAction() == android.view.MotionEvent.ACTION_UP || event.getAction() == android.view.MotionEvent.ACTION_CANCEL) {
+                v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+            }
+            return false;
         });
 
         holder.itemView.setOnLongClickListener(v -> {

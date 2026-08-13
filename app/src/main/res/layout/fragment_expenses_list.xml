@@ -53,79 +53,73 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer_view_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-        <LinearLayout
+            android:id="@+id/shimmer_view_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <include layout="@layout/shimmer_history_item" />
-            <include layout="@layout/shimmer_history_item" />
-            <include layout="@layout/shimmer_history_item" />
-            <include layout="@layout/shimmer_history_item" />
-            <include layout="@layout/shimmer_history_item" />
-            <include layout="@layout/shimmer_history_item" />
-            <include layout="@layout/shimmer_history_item" />
-            <include layout="@layout/shimmer_history_item" />
-        </LinearLayout>
-    </com.facebook.shimmer.ShimmerFrameLayout>
+            android:layout_height="match_parent"
+            android:visibility="gone">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <include layout="@layout/shimmer_history_item" />
+                <include layout="@layout/shimmer_history_item" />
+                <include layout="@layout/shimmer_history_item" />
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingHorizontal="16dp"
-        android:paddingBottom="88dp"
-        android:layoutAnimation="@anim/layout_animation_fall_down" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="88dp"
+            android:layoutAnimation="@anim/layout_animation_fall_down" />
 
-    <LinearLayout
-        android:id="@+id/empty_state"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/img_empty_state"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:src="@drawable/ic_typcn_document"
-            android:alpha="0.2"
-            app:tint="?attr/colorOutline"
-            android:contentDescription="@null" />
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lottie_empty_state"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
+        <LinearLayout
+            android:id="@+id/empty_state"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
             android:visibility="gone"
-            android:saveEnabled="false"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            android:alpha="0.8" />
+            android:paddingBottom="80dp">
 
-        <TextView
-            style="@style/App.TextAppearance.TitleMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@string/empty_expenses"
-            android:textColor="?attr/colorOnSurface" />
+            <FrameLayout
+                android:layout_width="120dp"
+                android:layout_height="120dp">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.05"
+                    android:background="@drawable/bg_circle_soft"
+                    android:backgroundTint="?attr/colorOnSurface" />
+                <ImageView
+                    android:id="@+id/img_empty_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="32dp"
+                    android:src="@drawable/ic_typcn_cart"
+                    android:alpha="0.2"
+                    app:tint="?attr/colorOnSurface" />
+            </FrameLayout>
 
-        <TextView
-            style="@style/App.TextAppearance.BodyMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/empty_expenses_sub"
-            android:alpha="0.7" />
-    </LinearLayout>
+            <TextView
+                style="@style/App.TextAppearance.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/empty_expenses"
+                android:alpha="0.4"
+                android:textStyle="bold" />
 
+            <TextView
+                style="@style/App.TextAppearance.BodyMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/empty_expenses_sub"
+                android:alpha="0.4" />
+        </LinearLayout>
     </FrameLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -136,7 +130,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:text="@string/add_expense"
-        app:icon="@drawable/rounded_add_24"
-        android:contentDescription="@string/add_expense" />
+        app:icon="@drawable/rounded_add_24" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
