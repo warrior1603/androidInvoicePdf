@@ -118,7 +118,12 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         cardSettings.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.settingsActivity));
 
         // Apply touch animations
-        setupClickAnimations(cardDocuments, cardClients, cardAgenda, cardDashboard, cardProfile, cardSettings);
+        setupClickAnimations(
+                cardDocuments, cardClients, cardAgenda, cardDashboard, cardProfile, cardSettings,
+                view.findViewById(R.id.stat_invoices),
+                view.findViewById(R.id.stat_orders),
+                view.findViewById(R.id.stat_bookings)
+        );
 
         // Entrance cascade for services
         android.view.ViewGroup servicesGrid = view.findViewById(R.id.services_grid);
