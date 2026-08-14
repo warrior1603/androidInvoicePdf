@@ -112,11 +112,11 @@ public class WebViewPdfFragment extends Fragment {
 
             switch (docType) {
                 case "ORDER":
-                    iconRes = R.drawable.ic_shopping_cart_outline;
+                    iconRes = R.drawable.ic_typcn_cart;
                     tintColor = androidx.core.content.ContextCompat.getColor(context, R.color.icon_dashboard);
                     break;
                 case "BOOKING":
-                    iconRes = R.drawable.ic_calendar_event_outline;
+                    iconRes = R.drawable.ic_typcn_agenda;
                     tintColor = androidx.core.content.ContextCompat.getColor(context, R.color.icon_agenda);
                     break;
                 case "INVOICE":
