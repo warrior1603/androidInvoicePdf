@@ -54,7 +54,13 @@ public class GlobalHistoryFragment extends Fragment implements HistoryAdapter.On
 
         View btnBack = view.findViewById(R.id.btn_back_header);
         if (btnBack != null) {
-            btnBack.setOnClickListener(v -> Navigation.findNavController(v).popBackStack());
+            if (btnBack != null) {
+            btnBack.setOnClickListener(v -> {
+                if (isAdded()) {
+                    requireActivity().getOnBackPressedDispatcher().onBackPressed();
+                }
+            });
+        }
         }
 
         recyclerView = view.findViewById(R.id.rv_global_history);

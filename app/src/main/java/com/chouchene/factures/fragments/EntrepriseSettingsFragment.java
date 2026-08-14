@@ -67,8 +67,8 @@ public class EntrepriseSettingsFragment extends Fragment {
         View btnBack = view.findViewById(R.id.btn_back_header);
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> {
-                if (!Navigation.findNavController(v).popBackStack()) {
-                    requireActivity().finish();
+                if (isAdded()) {
+                    requireActivity().getOnBackPressedDispatcher().onBackPressed();
                 }
             });
         }
@@ -106,13 +106,7 @@ public class EntrepriseSettingsFragment extends Fragment {
         view.findViewById(R.id.btn_save_info).setOnClickListener(v -> {
             if (isAdded() && getContext() != null) {
                 Toast.makeText(getContext(), "Informations enregistrées", Toast.LENGTH_SHORT).show();
-                try {
-                    if (!Navigation.findNavController(v).popBackStack()) {
-                        requireActivity().finish();
-                    }
-                } catch (Exception e) {
-                    requireActivity().finish();
-                }
+                requireActivity().getOnBackPressedDispatcher().onBackPressed();
             }
         });
 

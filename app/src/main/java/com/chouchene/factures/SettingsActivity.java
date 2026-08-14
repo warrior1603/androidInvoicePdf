@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import com.chouchene.factures.fragments.SettingsHubFragment;
+import com.chouchene.factures.fragments.SettingsFragment;
 import com.chouchene.factures.utils.LocaleHelper;
 import com.google.android.material.appbar.MaterialToolbar;
 
@@ -21,10 +21,9 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.settings_activity);
 
         if (savedInstanceState == null) {
-            int targetTab = getIntent().getIntExtra("target_tab", 0);
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.settings, SettingsHubFragment.newInstance(targetTab))
+                    .replace(R.id.settings, new SettingsFragment())
                     .commit();
         }
 
@@ -32,11 +31,7 @@ public class SettingsActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         
         myToolbar.setNavigationOnClickListener(v -> {
-            if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-                getSupportFragmentManager().popBackStack();
-            } else {
-                getOnBackPressedDispatcher().onBackPressed();
-            }
+            onBackPressed();
         });
 
         updateToolbar();
@@ -46,7 +41,7 @@ public class SettingsActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle(R.string.title_settings);
+            actionBar.setTitle("Paramètres");
         }
     }
 }
