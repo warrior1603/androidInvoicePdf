@@ -75,7 +75,6 @@ public class DocumentsHubFragment extends Fragment {
                 filterChip.setVisibility(View.GONE);
             }
             
-            // Sync chips if filter changed from outside (e.g. cleared)
             if (filter == null || filter.status == null) {
                 statusChipGroup.check(R.id.chipAll);
             }
@@ -100,6 +99,7 @@ public class DocumentsHubFragment extends Fragment {
 
     private void updateChipsCounts() {
         Executors.newSingleThreadExecutor().execute(() -> {
+            if (!isAdded()) return;
             com.chouchene.factures.dao.InvoiceDao dao = DatabaseClient.getInstance(requireContext()).getAppDatabase().invoiceDao();
             int all = dao.getTotalCount();
             int paid = dao.getCountByStatus("Payée");
@@ -108,10 +108,12 @@ public class DocumentsHubFragment extends Fragment {
 
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
-                    ((Chip) getView().findViewById(R.id.chipAll)).setText("Tous (" + all + ")");
-                    ((Chip) getView().findViewById(R.id.chipPaid)).setText("Payée (" + paid + ")");
-                    ((Chip) getView().findViewById(R.id.chipPending)).setText("Attente (" + pending + ")");
-                    ((Chip) getView().findViewById(R.id.chipCancelled)).setText("Annulée (" + cancelled + ")");
+                    if (getView() != null) {
+                        ((Chip) getView().findViewById(R.id.chipAll)).setText("Tous (" + all + ")");
+                        ((Chip) getView().findViewById(R.id.chipPaid)).setText("Payée (" + paid + ")");
+                        ((Chip) getView().findViewById(R.id.chipPending)).setText("Attente (" + pending + ")");
+                        ((Chip) getView().findViewById(R.id.chipCancelled)).setText("Annulée (" + cancelled + ")");
+                    }
                 });
             }
         });
@@ -124,23 +126,11 @@ public class DocumentsHubFragment extends Fragment {
     }
 
     private static class DocumentsPagerAdapter extends FragmentStateAdapter {
-
-        public DocumentsPagerAdapter(@NonNull Fragment fragment) {
-            super(fragment);
-        }
-
-        @NonNull
-        @Override
-        public Fragment createFragment(int position) {
-            if (position == 1) {
-                return new BonDeCommandeFragment();
-            }
+        public DocumentsPagerAdapter(@NonNull Fragment fragment) { super(fragment); }
+        @NonNull @Override public Fragment createFragment(int position) {
+            if (position == 1) return new BonDeCommandeFragment();
             return new InvoiceGenrationFragment();
         }
-
-        @Override
-        public int getItemCount() {
-            return 2;
-        }
+        @Override public int getItemCount() { return 2; }
     }
 }

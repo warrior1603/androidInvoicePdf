@@ -135,6 +135,27 @@ public class SettingsFragment extends Fragment {
                 "Importer les données", "Restaurer depuis une sauvegarde", v -> {
             importLauncher.launch(new String[]{"application/zip", "application/x-zip-compressed", "application/octet-stream"});
         });
+
+        // --- SECTION: SUPPORT & INFO ---
+        setupClickable(view.findViewById(R.id.item_help), R.drawable.ic_typcn_info_large, 
+                "Aide & Support", "Consulter la documentation", v -> {
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                    .replace(R.id.settings, new HelpFragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        setupClickable(view.findViewById(R.id.item_about), R.drawable.ic_typcn_news, 
+                "À Propos", "Version de l'application et infos", v -> {
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                    .replace(R.id.settings, new AboutFragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
     }
 
     private void setupSwitch(View view, String key, int iconRes, String title, String summary, MaterialSwitch.OnCheckedChangeListener customListener) {

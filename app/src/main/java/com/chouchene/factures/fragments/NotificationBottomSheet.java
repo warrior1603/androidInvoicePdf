@@ -135,7 +135,7 @@ public class NotificationBottomSheet extends BottomSheetDialogFragment {
             // Set background color with 15% alpha without affecting the icon visibility
             int baseColor = ContextCompat.getColor(requireContext(), colorRes);
             int alphaColor = androidx.core.graphics.ColorUtils.setAlphaComponent(baseColor, 38); // 38 is ~15% of 255
-            holder.iconContainer.setCardBackgroundColor(alphaColor);
+            holder.iconContainer.setBackgroundTintList(android.content.res.ColorStateList.valueOf(alphaColor));
 
             com.chouchene.factures.utils.UIUtils.applyClickScale(holder.itemView);
 
@@ -162,7 +162,7 @@ public class NotificationBottomSheet extends BottomSheetDialogFragment {
             TextView title, desc;
             ImageView icon;
             View dot;
-            com.google.android.material.card.MaterialCardView iconContainer;
+            View iconContainer;
             ViewHolder(View v) {
                 super(v);
                 title = v.findViewById(R.id.notif_title);

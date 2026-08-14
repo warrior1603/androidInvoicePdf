@@ -90,9 +90,9 @@ public class MainActivity extends AppCompatActivity {
     AppDatabase db;
 
     // Floating Dock Views
-    View dockHome, dockCreate, dockSearch, dockCreateBg;
-    ImageView imgDockHome, imgDockSearch, imgDockCreate;
-    View indicatorHome, indicatorSearch;
+    View dockHome, dockCreate, dockDocs, dockCreateBg;
+    ImageView imgDockHome, imgDockDocs, imgDockCreate;
+    View indicatorHome, indicatorDocs;
 
     private String filterStatus, filterType;
     private KonfettiView konfettiView;
@@ -274,18 +274,20 @@ public class MainActivity extends AppCompatActivity {
             
             androidx.appcompat.widget.Toolbar.OnMenuItemClickListener menuListener = item -> {
                 if (item.getItemId() == R.id.action_filter) {
-                    if (filterBar != null) {
-                        if (!searchView.isShowing()) searchView.show();
-                        int visibility = (filterBar.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE;
-                        filterBar.setVisibility(visibility);
-                        if (visibility == View.GONE) {
-                            if (smartFilterChips != null) smartFilterChips.clearCheck();
-                            filterType = null;
-                            filterStatus = null;
+                    FilterBottomSheet filterSheet = new FilterBottomSheet();
+                    filterSheet.setOnFilterAppliedListener((period, status, type) -> {
+                        filterType = type;
+                        filterStatus = status;
+                        // For period, we could add date logic in performSearch
+                        String query = (searchView.getEditText() != null) ? searchView.getEditText().getText().toString() : "";
+                        performSearch(query);
+                        
+                        // Show/Hide filter bar if any filter is active
+                        if (filterBar != null) {
+                            filterBar.setVisibility((type != null || status != null || period != null) ? View.VISIBLE : View.GONE);
                         }
-                        String currentQuery = (searchView.getEditText() != null) ? searchView.getEditText().getText().toString() : "";
-                        performSearch(currentQuery);
-                    }
+                    });
+                    filterSheet.show(getSupportFragmentManager(), "ADVANCED_FILTER");
                     return true;
                 }
                 return false;
@@ -679,13 +681,13 @@ public class MainActivity extends AppCompatActivity {
     private void setupFloatingDock() {
         dockHome = findViewById(R.id.dock_home);
         dockCreate = findViewById(R.id.dock_create);
-        dockSearch = findViewById(R.id.dock_search);
+        dockDocs = findViewById(R.id.dock_documents);
         
         imgDockHome = findViewById(R.id.dock_home_icon);
-        imgDockSearch = findViewById(R.id.dock_search_icon);
+        imgDockDocs = findViewById(R.id.dock_documents_icon);
         
         indicatorHome = findViewById(R.id.dock_home_indicator);
-        indicatorSearch = findViewById(R.id.dock_search_indicator);
+        indicatorDocs = findViewById(R.id.dock_documents_indicator);
         
         dockCreateBg = findViewById(R.id.dock_create_bg);
         imgDockCreate = findViewById(R.id.dock_create_icon);
@@ -698,11 +700,11 @@ public class MainActivity extends AppCompatActivity {
             UIUtils.applyClickScale(dockHome);
         }
 
-        if (dockSearch != null) {
-            dockSearch.setOnClickListener(v -> {
-                if (searchBar != null) searchBar.performClick();
+        if (dockDocs != null) {
+            dockDocs.setOnClickListener(v -> {
+                navController.navigate(R.id.documentsHubFragment);
             });
-            UIUtils.applyClickScale(dockSearch);
+            UIUtils.applyClickScale(dockDocs);
         }
 
         if (dockCreate != null) {
@@ -721,6 +723,14 @@ public class MainActivity extends AppCompatActivity {
         imgDockHome.setAlpha(isHome ? 1.0f : 0.3f);
         imgDockHome.setImageResource(isHome ? R.drawable.ic_nav_home_filled : R.drawable.ic_nav_home_outline);
 
+        boolean isDocs = destinationId == R.id.documentsHubFragment;
+        if (indicatorDocs != null) {
+            indicatorDocs.setVisibility(isDocs ? View.VISIBLE : View.GONE);
+        }
+        if (imgDockDocs != null) {
+            imgDockDocs.setAlpha(isDocs ? 1.0f : 0.3f);
+        }
+
         // Contextual Center Icon & Color (Executive Soft Pill)
         if (destinationId == R.id.clientsHubFragment) {
             imgDockCreate.setImageResource(R.drawable.baseline_person_add_alt_1_24);
@@ -735,10 +745,6 @@ public class MainActivity extends AppCompatActivity {
             imgDockCreate.setImageResource(R.drawable.rounded_add_24);
             dockCreateBg.setBackgroundTintList(android.content.res.ColorStateList.valueOf(getThemeColor(androidx.appcompat.R.attr.colorPrimary)));
         }
-
-        // Search Inactive Style
-        imgDockSearch.setAlpha(0.3f);
-        if (indicatorSearch != null) indicatorSearch.setVisibility(View.GONE);
     }
 
     private int getThemeColor(int attr) {

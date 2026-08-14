@@ -11,39 +11,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingVertical="14dp"
-        android:paddingHorizontal="24dp"
+        android:paddingVertical="16dp"
+        android:paddingHorizontal="28dp"
         android:gravity="center_vertical">
 
-        <com.google.android.material.card.MaterialCardView
+        <FrameLayout
             android:id="@+id/notif_icon_container"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="0dp"
-            app:strokeWidth="0dp">
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/bg_circle_soft"
+            android:backgroundTint="?attr/colorSurfaceVariant">
             <ImageView
                 android:id="@+id/notif_icon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="10dp"
-                android:src="@drawable/rounded_info_24"
+                android:padding="11dp"
+                android:src="@drawable/ic_typcn_bell"
+                app:tint="?attr/colorPrimary"
                 android:contentDescription="@null" />
-        </com.google.android.material.card.MaterialCardView>
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:layout_marginStart="16dp">
+            android:layout_marginStart="20dp">
 
             <TextView
                 android:id="@+id/notif_title"
                 style="@style/App.TextAppearance.TitleMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Titre" />
+                android:text="Titre"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/notif_desc"
@@ -51,7 +52,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:text="Description" />
+                android:text="Description"
+                android:alpha="0.5" />
         </LinearLayout>
 
         <View
@@ -67,8 +69,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_gravity="bottom"
-        android:layout_marginStart="80dp"
-        android:background="?attr/colorOutlineVariant"
-        android:alpha="0.3" />
+        android:layout_marginStart="92dp"
+        android:background="?attr/colorOutline"
+        android:alpha="0.06" />
 
 </FrameLayout>

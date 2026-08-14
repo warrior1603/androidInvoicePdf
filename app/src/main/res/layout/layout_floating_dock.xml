@@ -65,24 +65,24 @@
                 app:tint="@color/white" />
         </FrameLayout>
 
-        <!-- Search / History -->
+        <!-- Documents Hub -->
         <FrameLayout
-            android:id="@+id/dock_search"
+            android:id="@+id/dock_documents"
             android:layout_width="52dp"
             android:layout_height="52dp"
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackgroundBorderless">
             <ImageView
-                android:id="@+id/dock_search_icon"
+                android:id="@+id/dock_documents_icon"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_gravity="center"
-                android:src="@drawable/baseline_search_24"
-                app:tint="?attr/colorOnSurface"
+                android:src="@drawable/ic_typcn_document"
+                app:tint="?attr/colorPrimary"
                 android:alpha="0.3" />
             <View
-                android:id="@+id/dock_search_indicator"
+                android:id="@+id/dock_documents_indicator"
                 android:layout_width="12dp"
                 android:layout_height="2dp"
                 android:layout_gravity="bottom|center_horizontal"
