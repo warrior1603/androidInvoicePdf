@@ -99,16 +99,17 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         View cardProfile = view.findViewById(R.id.card_profile);
         View cardSettings = view.findViewById(R.id.card_settings);
 
+        MaterialCardView cardAvatar = view.findViewById(R.id.card_home_user_avatar);
+        if (cardAvatar != null) {
+            cardAvatar.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.entrepriseSettingsFragment));
+        }
+
         cardDocuments.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.documentsHubFragment));
         cardClients.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.clientsHubFragment));
         cardAgenda.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.agendaFragment));
         cardDashboard.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.parametresFragment));
-        cardProfile.setOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), com.chouchene.factures.SettingsActivity.class);
-            intent.putExtra("target_tab", 2);
-            startActivity(intent);
-        });
-        cardSettings.setOnClickListener(v -> startActivity(new Intent(requireContext(), com.chouchene.factures.SettingsActivity.class)));
+        cardProfile.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.entrepriseSettingsFragment));
+        cardSettings.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.settingsActivity));
 
         // Apply touch animations
         setupClickAnimations(cardDocuments, cardClients, cardAgenda, cardDashboard, cardProfile, cardSettings);

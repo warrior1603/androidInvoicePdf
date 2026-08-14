@@ -423,7 +423,7 @@ public class MainActivity extends AppCompatActivity {
                         overdueCount + " facture(s) sont en attente de paiement.", 
                         AppNotification.Type.ALERT, 
                         R.id.documentsHubFragment,
-                        R.drawable.rounded_access_time_24));
+                        R.drawable.ic_typcn_time));
             }
 
             // 2. Check for today's bookings
@@ -439,7 +439,7 @@ public class MainActivity extends AppCompatActivity {
                         "Vous avez " + todayBookings.size() + " course(s) prévue(s) aujourd'hui.", 
                         AppNotification.Type.INFO, 
                         R.id.agendaFragment,
-                        R.drawable.rounded_directions_car_24));
+                        R.drawable.ic_typcn_agenda));
             }
 
             runOnUiThread(() -> {
@@ -525,15 +525,15 @@ public class MainActivity extends AppCompatActivity {
             int typeBg;
 
             if ("Client".equals(result.type)) {
-                iconRes = R.drawable.ic_nav_user_outline;
+                iconRes = R.drawable.ic_typcn_user;
                 typeColor = ContextCompat.getColor(MainActivity.this, R.color.white);
                 typeBg = R.drawable.bg_badge_green;
             } else if ("Bon".equals(result.type)) {
-                iconRes = R.drawable.ic_shopping_cart_outline;
+                iconRes = R.drawable.ic_typcn_cart;
                 typeColor = ContextCompat.getColor(MainActivity.this, R.color.white);
                 typeBg = R.drawable.bg_badge_orange;
             } else if ("Course".equals(result.type)) {
-                iconRes = R.drawable.ic_calendar_event_outline;
+                iconRes = R.drawable.ic_typcn_agenda;
                 typeColor = ContextCompat.getColor(MainActivity.this, R.color.white);
                 typeBg = R.drawable.bg_badge_purple;
             } else {

@@ -4,14 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="?android:attr/colorBackground">
+    android:background="?attr/colorSurface">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/settingsTabLayout"
         style="@style/App.TabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/colorBackground" />
+        android:background="@android:color/transparent"
+        app:tabIndicatorHeight="2dp" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/settingsViewPager"

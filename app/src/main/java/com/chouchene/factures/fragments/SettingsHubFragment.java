@@ -48,16 +48,14 @@ public class SettingsHubFragment extends Fragment {
                     tab.setText("Gestion");
                     tab.setIcon(R.drawable.ic_outline_database);
                     break;
-                case 2:
-                    tab.setText("Entreprise");
-                    tab.setIcon(R.drawable.ic_outline_building);
-                    break;
             }
         }).attach();
 
         if (getArguments() != null) {
             int target = getArguments().getInt("target_tab", 0);
-            viewPager.setCurrentItem(target, false);
+            if (target >= 0 && target < 2) {
+                viewPager.setCurrentItem(target, false);
+            }
         }
     }
 
@@ -67,10 +65,9 @@ public class SettingsHubFragment extends Fragment {
             switch (position) {
                 case 0: return new GeneralSettingsFragment();
                 case 1: return new ManagementSettingsFragment();
-                case 2: return new EntrepriseSettingsFragment();
                 default: return new GeneralSettingsFragment();
             }
         }
-        @Override public int getItemCount() { return 3; }
+        @Override public int getItemCount() { return 2; }
     }
 }

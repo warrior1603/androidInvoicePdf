@@ -72,11 +72,13 @@
         android:label="@string/title_help"
         tools:layout="@layout/fragment_help" />
 
+
+
     <fragment
-        android:id="@+id/personalSettingsFragment"
-        android:name="com.chouchene.factures.fragments.PersonalSettingsFragment"
-        android:label="@string/pref_title_profile"
-        tools:layout="@layout/activity_personal_settings" />
+        android:id="@+id/entrepriseSettingsFragment"
+        android:name="com.chouchene.factures.fragments.EntrepriseSettingsFragment"
+        android:label="Profil Entreprise"
+        tools:layout="@layout/fragment_entreprise_settings_inline" />
 
     <fragment
         android:id="@+id/clientDetailFragment"

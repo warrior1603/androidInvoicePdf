@@ -59,59 +59,11 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Section 2: Filters (Clean Flat) -->
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none"
-                android:paddingHorizontal="28dp"
-                android:layout_marginBottom="24dp">
-
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/filter_chip_group"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:singleSelection="true"
-                    app:selectionRequired="true">
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_all"
-                        style="@style/Widget.Material3.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tout"
-                        android:checked="true" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_invoices"
-                        style="@style/Widget.Material3.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Factures" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_orders"
-                        style="@style/Widget.Material3.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Bons" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_bookings"
-                        style="@style/Widget.Material3.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Courses" />
-
-                </com.google.android.material.chip.ChipGroup>
-            </HorizontalScrollView>
-
-            <!-- Section 3: Main Activity List (Accent Bar Style) -->
+            <!-- Section 2: Main Content (Filters + Activity List) -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="8dp"
                 android:paddingBottom="48dp">
 
                 <View
@@ -126,6 +78,52 @@
                     android:orientation="vertical"
                     android:paddingStart="22dp"
                     android:paddingEnd="28dp">
+
+                    <!-- Filters (Now covered by the vertical line) -->
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="none"
+                        android:layout_marginBottom="16dp">
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/filter_chip_group"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:singleSelection="true"
+                            app:selectionRequired="true">
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_all"
+                                style="@style/Widget.Material3.Chip.Filter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tout"
+                                android:checked="true" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_invoices"
+                                style="@style/Widget.Material3.Chip.Filter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Factures" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_orders"
+                                style="@style/Widget.Material3.Chip.Filter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Bons" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_bookings"
+                                style="@style/Widget.Material3.Chip.Filter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Courses" />
+
+                        </com.google.android.material.chip.ChipGroup>
+                    </HorizontalScrollView>
 
                     <com.facebook.shimmer.ShimmerFrameLayout
                         android:id="@+id/shimmer_view_container"
