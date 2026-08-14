@@ -42,8 +42,14 @@ import java.util.concurrent.Executors;
 
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.core.content.FileProvider;
+import androidx.core.content.ContextCompat;
 import android.net.Uri;
 import android.content.Intent;
+import android.graphics.Color;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 
 public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryActionListener {
 
@@ -52,6 +58,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
     private ImageView imgRevenueTrend;
     private com.google.android.material.progressindicator.LinearProgressIndicator progressExpenseRatio;
     private TextView txtOverdueAlert;
+    private PieChart distributionChart;
     private View badgeOverdue, cardOverdue;
     private com.facebook.shimmer.ShimmerFrameLayout shimmerContainer;
     private RecyclerView rvRecent;
@@ -76,12 +83,11 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         txtRevenue = view.findViewById(R.id.txt_home_revenue);
         txtIncome = view.findViewById(R.id.txt_home_income);
         txtExpenses = view.findViewById(R.id.txt_home_expenses);
-        imgRevenueTrend = view.findViewById(R.id.img_revenue_trend);
         progressExpenseRatio = view.findViewById(R.id.progress_expense_ratio);
-        txtRevenueDaily = view.findViewById(R.id.txt_home_revenue_daily);
         txtInvoiceCount = view.findViewById(R.id.txt_home_invoice_count);
         txtBonCount = view.findViewById(R.id.txt_home_bon_count);
         txtBookingCount = view.findViewById(R.id.txt_home_booking_count);
+        distributionChart = view.findViewById(R.id.chart_distribution);
         rvRecent = view.findViewById(R.id.rv_home_recent);
         badgeOverdue = view.findViewById(R.id.badge_overdue);
         cardOverdue = view.findViewById(R.id.card_overdue_alert);
@@ -279,21 +285,6 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                     animateNumber(txtRevenue, profit);
                     txtIncome.setText(String.format(Locale.getDefault(), "%.2f €", income));
                     txtExpenses.setText(String.format(Locale.getDefault(), "%.2f €", expenses));
-                    
-                    if (imgRevenueTrend != null) {
-                        imgRevenueTrend.animate().alpha(0).setDuration(200).withEndAction(() -> {
-                            if (profit >= 0) {
-                                imgRevenueTrend.setImageResource(R.drawable.ic_trending_up_outline);
-                                imgRevenueTrend.setRotation(0);
-                                imgRevenueTrend.setImageTintList(android.content.res.ColorStateList.valueOf(context.getColor(R.color.status_paid)));
-                            } else {
-                                imgRevenueTrend.setImageResource(R.drawable.ic_trending_up_outline);
-                                imgRevenueTrend.setRotation(180);
-                                imgRevenueTrend.setImageTintList(android.content.res.ColorStateList.valueOf(context.getColor(R.color.status_cancelled)));
-                            }
-                            imgRevenueTrend.animate().alpha(1).setDuration(400).start();
-                        }).start();
-                    }
 
                     if (income > 0) {
                         int ratio = (int) ((expenses / income) * 100);
@@ -301,17 +292,12 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                     } else {
                         progressExpenseRatio.setProgress(0, true);
                     }
-
-                    String dailyPrefix = dailyProfit >= 0 ? "+" : "";
-                    txtRevenueDaily.setText(String.format(Locale.getDefault(), "Aujourd'hui: %s%.2f €", dailyPrefix, dailyProfit));
-                    if (dailyProfit < 0) {
-                         txtRevenueDaily.setTextColor(context.getColor(R.color.status_cancelled));
-                    } else {
-                         txtRevenueDaily.setTextColor(context.getColor(R.color.status_paid));
-                    }
                     txtInvoiceCount.setText(String.valueOf(invoiceCount));
                     txtBonCount.setText(String.valueOf(bonCount));
                     txtBookingCount.setText(String.valueOf(bookingCount));
+
+                    updateDistributionChart(invoiceCount, bonCount, bookingCount);
+
                     adapter.setData(finalActivity);
                     rvRecent.scheduleLayoutAnimation();
 
@@ -344,6 +330,61 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                 });
             }
         });
+    }
+
+    private void updateDistributionChart(int invoices, int bons, int bookings) {
+        if (distributionChart == null) return;
+
+        ArrayList<PieEntry> entries = new ArrayList<>();
+        if (invoices > 0) entries.add(new PieEntry(invoices, ""));
+        if (bons > 0) entries.add(new PieEntry(bons, ""));
+        if (bookings > 0) entries.add(new PieEntry(bookings, ""));
+
+        if (entries.isEmpty()) {
+            distributionChart.setVisibility(View.INVISIBLE);
+            return;
+        }
+
+        distributionChart.setVisibility(View.VISIBLE);
+
+        PieDataSet dataSet = new PieDataSet(entries, "");
+        ArrayList<Integer> colors = new ArrayList<>();
+        colors.add(ContextCompat.getColor(requireContext(), R.color.icon_documents)); // Blue
+        colors.add(ContextCompat.getColor(requireContext(), R.color.icon_dashboard)); // Orange
+        colors.add(ContextCompat.getColor(requireContext(), R.color.icon_agenda));    // Purple
+        
+        dataSet.setColors(colors);
+        dataSet.setDrawValues(false);
+        dataSet.setSliceSpace(4f); // Slightly more space for "Flat" definition
+
+        PieData data = new PieData(dataSet);
+        distributionChart.setData(data);
+        
+        // Styling the "Technical" Donut
+        distributionChart.setDrawHoleEnabled(true);
+        distributionChart.setHoleColor(Color.TRANSPARENT);
+        distributionChart.setTransparentCircleRadius(0f);
+        distributionChart.setHoleRadius(88f); // Even thinner ring for premium look
+        
+        // Total count in the center
+        int total = invoices + bons + bookings;
+        distributionChart.setCenterText(String.valueOf(total));
+        distributionChart.setCenterTextSize(14f);
+        distributionChart.setCenterTextColor(getThemeColor(com.google.android.material.R.attr.colorOnSurface));
+        
+        distributionChart.getLegend().setEnabled(false);
+        distributionChart.getDescription().setEnabled(false);
+        distributionChart.setRotationEnabled(false);
+        distributionChart.setTouchEnabled(false);
+        
+        distributionChart.animateY(1400, com.github.mikephil.charting.animation.Easing.EaseInOutQuart);
+        distributionChart.invalidate();
+    }
+
+    private int getThemeColor(int attr) {
+        android.util.TypedValue typedValue = new android.util.TypedValue();
+        requireContext().getTheme().resolveAttribute(attr, typedValue, true);
+        return typedValue.data;
     }
 
     @Override
