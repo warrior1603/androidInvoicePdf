@@ -229,6 +229,8 @@
                         android:text="Factures" />
                 </LinearLayout>
 
+                <View android:layout_width="1dp" android:layout_height="24dp" android:background="?attr/colorOutline" android:alpha="0.15" android:layout_marginHorizontal="8dp" />
+
                 <!-- Bons -->
                 <LinearLayout
                     android:id="@+id/stat_orders"
@@ -260,6 +262,8 @@
                         android:alpha="0.3"
                         android:text="Bons" />
                 </LinearLayout>
+
+                <View android:layout_width="1dp" android:layout_height="24dp" android:background="?attr/colorOutline" android:alpha="0.15" android:layout_marginHorizontal="8dp" />
 
                 <!-- Courses -->
                 <LinearLayout
@@ -293,6 +297,8 @@
                         android:text="Courses" />
                 </LinearLayout>
             </LinearLayout>
+
+            <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="20dp" android:alpha="0.15" />
 
             <!-- Visualization Line (Subtle) -->
             <FrameLayout

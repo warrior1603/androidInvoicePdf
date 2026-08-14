@@ -146,28 +146,28 @@
                         android:layout_marginTop="16dp">
 
                         <include layout="@layout/view_settings_input_item" android:id="@+id/item_name" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.05" />
+                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.12" />
 
                         <include layout="@layout/view_settings_input_item" android:id="@+id/item_email" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.05" />
+                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.12" />
 
                         <include layout="@layout/view_settings_input_item" android:id="@+id/item_phone" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.05" />
+                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.12" />
 
                         <include layout="@layout/view_settings_input_item" android:id="@+id/item_street" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.05" />
+                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.12" />
 
                         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:baselineAligned="false">
                             <include layout="@layout/view_settings_input_item" android:id="@+id/item_zip" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
                             <include layout="@layout/view_settings_input_item" android:id="@+id/item_city" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1.2" />
                         </LinearLayout>
 
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.05" />
+                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.12" />
                         <include layout="@layout/view_settings_input_item" android:id="@+id/item_country" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.05" />
+                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.12" />
 
                         <include layout="@layout/view_settings_input_item" android:id="@+id/item_siren" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.05" />
+                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.12" />
 
                         <include layout="@layout/view_settings_input_item" android:id="@+id/item_tva" />
                     </LinearLayout>
@@ -202,10 +202,10 @@
                         android:orientation="vertical"
                         android:layout_marginTop="16dp">
                         <include layout="@layout/view_settings_input_item" android:id="@+id/item_chauffeur" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.05" />
+                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.12" />
 
                         <include layout="@layout/view_settings_input_item" android:id="@+id/item_plaque" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.05" />
+                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.12" />
 
                         <include layout="@layout/view_settings_input_item" android:id="@+id/item_evtc" />
                     </LinearLayout>
@@ -241,10 +241,10 @@
                         android:orientation="vertical"
                         android:layout_marginTop="16dp">
                         <include layout="@layout/view_settings_input_item" android:id="@+id/item_iban" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.05" />
+                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.12" />
 
                         <include layout="@layout/view_settings_input_item" android:id="@+id/item_bic" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.05" />
+                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.12" />
 
                         <include layout="@layout/view_settings_input_item" android:id="@+id/item_bank_address" />
                     </LinearLayout>

@@ -114,6 +114,6 @@
         android:layout_gravity="bottom"
         android:layout_marginStart="104dp"
         android:background="?attr/colorOutline"
-        android:alpha="0.06" />
+        android:alpha="0.12" />
 
 </FrameLayout>

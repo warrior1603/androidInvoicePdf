@@ -88,13 +88,13 @@
                         android:layout_marginTop="16dp">
 
                         <include layout="@layout/view_settings_switch_item" android:id="@+id/item_theme" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.05" />
+                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.12" />
 
                         <include layout="@layout/view_settings_switch_item" android:id="@+id/item_dynamic_colors" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.05" />
+                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.12" />
 
                         <include layout="@layout/view_settings_clickable_item" android:id="@+id/item_language" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.05" />
+                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.12" />
 
                         <include layout="@layout/view_settings_clickable_item" android:id="@+id/item_currency" />
                     </LinearLayout>
@@ -162,13 +162,13 @@
                         android:layout_marginTop="16dp">
 
                         <include layout="@layout/view_settings_clickable_item" android:id="@+id/item_directory" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.05" />
+                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.12" />
 
                         <include layout="@layout/view_settings_clickable_item" android:id="@+id/item_templates" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.05" />
+                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.12" />
 
                         <include layout="@layout/view_settings_clickable_item" android:id="@+id/item_export" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.05" />
+                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.12" />
 
                         <include layout="@layout/view_settings_clickable_item" android:id="@+id/item_import" />
                     </LinearLayout>
@@ -205,7 +205,7 @@
                         android:layout_marginTop="16dp">
 
                         <include layout="@layout/view_settings_clickable_item" android:id="@+id/item_help" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.05" />
+                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.12" />
 
                         <include layout="@layout/view_settings_clickable_item" android:id="@+id/item_about" />
                     </LinearLayout>
