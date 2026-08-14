@@ -40,7 +40,7 @@ public class AddClientBottomSheet extends BottomSheetDialogFragment {
     private TextInputEditText txtName, txtEmail, txtPhone, txtRue, txtVille, txtCodePostale, txtPays, txtSiren, txtTva;
     private ViewFlipper viewFlipper;
     private MaterialButton btnBack, btnNext, btnSave;
-    private TextView stepNumber1, stepNumber2;
+    private View stepIndicator1, stepIndicator2;
     private int currentStep = 0;
 
     public interface OnClientSavedListener {
@@ -132,8 +132,8 @@ public class AddClientBottomSheet extends BottomSheetDialogFragment {
         btnBack = view.findViewById(R.id.btn_back_client);
         btnNext = view.findViewById(R.id.btn_next_client);
         btnSave = view.findViewById(R.id.btn_save);
-        stepNumber1 = view.findViewById(R.id.step_number_1);
-        stepNumber2 = view.findViewById(R.id.step_number_2);
+        stepIndicator1 = view.findViewById(R.id.step_indicator_1);
+        stepIndicator2 = view.findViewById(R.id.step_indicator_2);
         btnNext.setOnClickListener(v -> goToNextStep());
         btnBack.setOnClickListener(v -> goToPreviousStep());
         btnSave.setOnClickListener(v -> handleSaveClient());
@@ -162,13 +162,12 @@ public class AddClientBottomSheet extends BottomSheetDialogFragment {
         btnBack.setVisibility(currentStep == 0 ? View.GONE : View.VISIBLE);
         btnNext.setVisibility(currentStep == 1 ? View.GONE : View.VISIBLE);
         btnSave.setVisibility(currentStep == 1 ? View.VISIBLE : View.GONE);
-        updateStepIndicator(stepNumber1, currentStep >= 0);
-        updateStepIndicator(stepNumber2, currentStep >= 1);
+        updateIndicator(stepIndicator1, currentStep >= 0);
+        updateIndicator(stepIndicator2, currentStep >= 1);
     }
 
-    private void updateStepIndicator(TextView number, boolean active) {
-        number.setBackgroundResource(active ? R.drawable.circle_stepper_active : R.drawable.circle_stepper_inactive);
-        number.setTextColor(active ? android.graphics.Color.WHITE : android.graphics.Color.GRAY);
+    private void updateIndicator(View bar, boolean active) {
+        bar.setAlpha(active ? 1.0f : 0.2f);
     }
 
     private void populateFields() {

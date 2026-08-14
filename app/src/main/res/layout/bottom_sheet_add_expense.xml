@@ -3,67 +3,108 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingBottom="24dp">
+    android:orientation="horizontal"
+    android:background="?attr/colorSurface">
 
-    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <!-- Executive Vertical Accent (Red for Expense) -->
+    <View
+        android:layout_width="6dp"
+        android:layout_height="match_parent"
+        android:layout_marginVertical="24dp"
+        android:background="@drawable/bg_vertical_bar_history"
+        android:backgroundTint="@color/status_cancelled" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="24dp"
-        android:layout_marginBottom="16dp">
+        android:orientation="vertical"
+        android:paddingBottom="24dp">
 
-        <TextView
-            android:id="@+id/txt_title"
-            style="@style/App.TextAppearance.TitleLarge"
-            android:layout_width="0dp"
+        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Header Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Nouvelle dépense" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="24dp"
+            android:paddingBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/App.TextAppearance.LabelSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.3"
+                    android:letterSpacing="0.3"
+                    android:text="STUDIO DE TRÉSORERIE" />
+
+                <TextView
+                    android:id="@+id/txt_title"
+                    style="@style/App.TextAppearance.Headline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Nouvelle dépense"
+                    android:textSize="26sp"
+                    android:letterSpacing="-0.02" />
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_scan_receipt"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Scanner"
+                app:icon="@drawable/ic_camera_outline"
+                app:iconSize="18dp"
+                app:iconTint="@color/status_cancelled"
+                android:textColor="@color/status_cancelled"
+                app:backgroundTint="@color/status_cancelled_bg" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="8dp"
+            android:layout_marginTop="16dp">
+
+            <include layout="@layout/view_settings_input_item" android:id="@+id/item_description" />
+            <include layout="@layout/view_settings_input_item" android:id="@+id/item_amount" />
+            <include layout="@layout/view_settings_dropdown_item" android:id="@+id/item_category" />
+
+        </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_scan_receipt"
-            style="@style/Widget.Material3.Button.TonalButton"
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_save"
+            style="@style/App.Button"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Scanner"
-            app:icon="@drawable/ic_camera_outline"
-            app:iconSize="18dp" />
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="32dp"
+            android:text="Enregistrer"
+            app:backgroundTint="@color/status_cancelled" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_delete"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="8dp"
+            android:text="Supprimer"
+            android:textColor="?attr/colorError"
+            android:visibility="gone"
+            app:icon="@drawable/rounded_delete_24"
+            app:iconTint="?attr/colorError" />
+
     </LinearLayout>
-
-    <include layout="@layout/view_settings_input_item" android:id="@+id/item_description" />
-    <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
-
-    <include layout="@layout/view_settings_input_item" android:id="@+id/item_amount" />
-    <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
-
-    <include layout="@layout/view_settings_dropdown_item" android:id="@+id/item_category" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_save"
-        style="@style/App.Button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="24dp"
-        android:text="Enregistrer" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_delete"
-        style="@style/Widget.Material3.Button.TextButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="8dp"
-        android:text="Supprimer"
-        android:textColor="?attr/colorError"
-        android:visibility="gone"
-        app:icon="@drawable/rounded_delete_24"
-        app:iconTint="?attr/colorError" />
-
 </LinearLayout>

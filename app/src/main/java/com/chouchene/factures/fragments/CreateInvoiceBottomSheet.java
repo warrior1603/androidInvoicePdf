@@ -75,7 +75,7 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
     private SignatureView signatureView;
     private ViewFlipper viewFlipper;
     private MaterialButton btnBack, btnNext, btnCreatePdf;
-    private TextView stepNumber1, stepNumber2, stepNumber3;
+    private View stepIndicator1, stepIndicator2, stepIndicator3;
     private int currentStep = 0;
 
     private String currentInvoiceNumber;
@@ -181,9 +181,9 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
         btnNext = view.findViewById(R.id.btn_next);
         btnCreatePdf = view.findViewById(R.id.btnCreatePdf);
 
-        stepNumber1 = view.findViewById(R.id.step_number_1);
-        stepNumber2 = view.findViewById(R.id.step_number_2);
-        stepNumber3 = view.findViewById(R.id.step_number_3);
+        stepIndicator1 = view.findViewById(R.id.step_indicator_1);
+        stepIndicator2 = view.findViewById(R.id.step_indicator_2);
+        stepIndicator3 = view.findViewById(R.id.step_indicator_3);
 
         btnNext.setOnClickListener(v -> goToNextStep());
         btnBack.setOnClickListener(v -> goToPreviousStep());
@@ -221,18 +221,17 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
         btnNext.setVisibility(currentStep == 2 ? View.GONE : View.VISIBLE);
         btnCreatePdf.setVisibility(currentStep == 2 ? View.VISIBLE : View.GONE);
 
-        updateStepIndicator(stepNumber1, currentStep >= 0);
-        updateStepIndicator(stepNumber2, currentStep >= 1);
-        updateStepIndicator(stepNumber3, currentStep >= 2);
+        updateIndicator(stepIndicator1, currentStep >= 0);
+        updateIndicator(stepIndicator2, currentStep >= 1);
+        updateIndicator(stepIndicator3, currentStep >= 2);
         
         if (currentStep == 2) {
             updateSummary();
         }
     }
 
-    private void updateStepIndicator(TextView number, boolean active) {
-        number.setBackgroundResource(active ? R.drawable.circle_stepper_active : R.drawable.circle_stepper_inactive);
-        number.setTextColor(active ? android.graphics.Color.WHITE : android.graphics.Color.GRAY);
+    private void updateIndicator(View bar, boolean active) {
+        bar.setAlpha(active ? 1.0f : 0.2f);
     }
     
     private void updateSummary() {

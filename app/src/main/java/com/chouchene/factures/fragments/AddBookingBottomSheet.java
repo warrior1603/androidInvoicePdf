@@ -48,7 +48,7 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
     private WebView webRoutePreview;
     private MaterialSwitch switchCancelled;
     private ViewFlipper viewFlipper;
-    private TextView stepNumber1, stepNumber2, stepNumber3;
+    private View stepIndicator1, stepIndicator2, stepIndicator3;
     private int currentStep = 0;
 
     private Calendar calendar = Calendar.getInstance();
@@ -202,7 +202,6 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
         webRoutePreview.getSettings().setJavaScriptEnabled(true);
         webRoutePreview.getSettings().setDomStorageEnabled(true);
         webRoutePreview.getSettings().setDatabaseEnabled(true);
-        // Better cache and rendering settings
         webRoutePreview.getSettings().setCacheMode(android.webkit.WebSettings.LOAD_DEFAULT);
         webRoutePreview.setBackgroundColor(android.graphics.Color.TRANSPARENT);
         webRoutePreview.setLayerType(View.LAYER_TYPE_HARDWARE, null);
@@ -217,7 +216,7 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
                 "<style>" +
                 "  body, html, #map { height: 100%; margin: 0; padding: 0; background: #F8FAFC; }" +
                 "  .leaflet-container { background: #F8FAFC !important; }" +
-                "  .leaflet-control-attribution { display: none !important; }" + // Clean UI
+                "  .leaflet-control-attribution { display: none !important; }" +
                 "</style>" +
                 "</head><body><div id=\"map\"></div>" +
                 "<script>" +
@@ -252,7 +251,6 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
                 "}" +
                 "</script></body></html>";
         
-        // Use a dummy HTTPS base URL to allow secure fetching of tiles/JS
         webRoutePreview.loadDataWithBaseURL("https://app.mesfactures.local", html, "text/html", "UTF-8", null);
     }
 
@@ -269,21 +267,12 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
     private void openRouteInMaps() {
         String from = editPickup.getText().toString().trim();
         String to = editDestination.getText().toString().trim();
-        
-        if (from.isEmpty() || to.isEmpty()) {
-            android.widget.Toast.makeText(requireContext(), "Veuillez saisir un départ et une destination", android.widget.Toast.LENGTH_SHORT).show();
-            return;
-        }
-
+        if (from.isEmpty() || to.isEmpty()) return;
         Uri uri = Uri.parse("https://www.google.com/maps/dir/?api=1&origin=" + Uri.encode(from) + "&destination=" + Uri.encode(to) + "&travelmode=driving");
         android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_VIEW, uri);
         intent.setPackage("com.google.android.apps.maps");
-        
-        if (intent.resolveActivity(requireActivity().getPackageManager()) != null) {
-            startActivity(intent);
-        } else {
-            startActivity(new android.content.Intent(android.content.Intent.ACTION_VIEW, uri));
-        }
+        if (intent.resolveActivity(requireActivity().getPackageManager()) != null) startActivity(intent);
+        else startActivity(new android.content.Intent(android.content.Intent.ACTION_VIEW, uri));
     }
 
     private void setupStepper(View view) {
@@ -292,9 +281,9 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
         btnNext = view.findViewById(R.id.btn_next_booking);
         btnSave = view.findViewById(R.id.btnSave);
 
-        stepNumber1 = view.findViewById(R.id.step_number_1);
-        stepNumber2 = view.findViewById(R.id.step_number_2);
-        stepNumber3 = view.findViewById(R.id.step_number_3);
+        stepIndicator1 = view.findViewById(R.id.step_indicator_1);
+        stepIndicator2 = view.findViewById(R.id.step_indicator_2);
+        stepIndicator3 = view.findViewById(R.id.step_indicator_3);
 
         btnNext.setOnClickListener(v -> goToNextStep());
         btnBack.setOnClickListener(v -> goToPreviousStep());
@@ -347,18 +336,17 @@ public class AddBookingBottomSheet extends BottomSheetDialogFragment {
             btnConvertToInvoice.setOnClickListener(v -> convertToInvoice());
         }
 
-        updateStepIndicator(stepNumber1, currentStep >= 0);
-        updateStepIndicator(stepNumber2, currentStep >= 1);
-        updateStepIndicator(stepNumber3, currentStep >= 2);
+        updateIndicator(stepIndicator1, currentStep >= 0);
+        updateIndicator(stepIndicator2, currentStep >= 1);
+        updateIndicator(stepIndicator3, currentStep >= 2);
         
         if (currentStep == 2) {
             updateSummary();
         }
     }
 
-    private void updateStepIndicator(TextView number, boolean active) {
-        number.setBackgroundResource(active ? R.drawable.circle_stepper_active : R.drawable.circle_stepper_inactive);
-        number.setTextColor(active ? android.graphics.Color.WHITE : android.graphics.Color.GRAY);
+    private void updateIndicator(View bar, boolean active) {
+        bar.setAlpha(active ? 1.0f : 0.2f);
     }
 
     private void updateSummary() {

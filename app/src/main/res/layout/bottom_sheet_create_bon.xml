@@ -2,181 +2,178 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="16dp">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="?attr/colorSurface">
 
-    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <!-- Executive Vertical Accent (Orange/Yellow for Bon) -->
+    <View
+        android:layout_width="6dp"
+        android:layout_height="match_parent"
+        android:layout_marginVertical="24dp"
+        android:background="@drawable/bg_vertical_bar_primary"
+        android:backgroundTint="@color/icon_dashboard" />
 
-    <!-- Stepper Indicator -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:paddingVertical="16dp"
-        android:paddingHorizontal="48dp">
+        android:orientation="vertical"
+        android:paddingBottom="24dp">
 
-        <TextView
-            android:id="@+id/step_number_1"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:background="@drawable/circle_stepper_active"
-            android:gravity="center"
-            android:text="1"
-            android:textSize="12sp"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
-
-        <View
-            android:id="@+id/step_line_1"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_weight="1"
-            android:background="?attr/colorOutlineVariant" />
-
-        <TextView
-            android:id="@+id/step_number_2"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:background="@drawable/circle_stepper_inactive"
-            android:gravity="center"
-            android:text="2"
-            android:textSize="12sp"
-            android:textColor="?attr/colorOnSurfaceVariant" />
-
-        <View
-            android:id="@+id/step_line_2"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_weight="1"
-            android:background="?attr/colorOutlineVariant" />
-
-        <TextView
-            android:id="@+id/step_number_3"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:background="@drawable/circle_stepper_inactive"
-            android:gravity="center"
-            android:text="3"
-            android:textSize="12sp"
-            android:textColor="?attr/colorOnSurfaceVariant" />
-    </LinearLayout>
-
-    <ViewFlipper
-        android:id="@+id/view_flipper"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <!-- Step 1: Passenger Info -->
-        <androidx.core.widget.NestedScrollView
+        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:layout_height="wrap_content" />
+
+        <!-- Header Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="24dp"
+            android:paddingBottom="16dp">
+
+            <TextView
+                style="@style/App.TextAppearance.LabelSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.3"
+                android:letterSpacing="0.3"
+                android:text="STUDIO DE RÉSERVATION" />
+
+            <TextView
+                style="@style/App.TextAppearance.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Nouveau Bon"
+                android:textSize="28sp"
+                android:letterSpacing="-0.02" />
+
+            <!-- Stepper Indicators (Minimal Bars) -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal"
+                android:paddingHorizontal="40dp">
+                <View
+                    android:id="@+id/step_indicator_1"
+                    android:layout_width="0dp"
+                    android:layout_height="3dp"
+                    android:layout_weight="1"
+                    android:background="@color/icon_dashboard" />
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="match_parent" />
+                <View
+                    android:id="@+id/step_indicator_2"
+                    android:layout_width="0dp"
+                    android:layout_height="3dp"
+                    android:layout_weight="1"
+                    android:background="?attr/colorOutlineVariant"
+                    android:alpha="0.3" />
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="match_parent" />
+                <View
+                    android:id="@+id/step_indicator_3"
+                    android:layout_width="0dp"
+                    android:layout_height="3dp"
+                    android:layout_weight="1"
+                    android:background="?attr/colorOutlineVariant"
+                    android:alpha="0.3" />
+            </LinearLayout>
+        </LinearLayout>
 
+        <ViewFlipper
+            android:id="@+id/view_flipper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="300dp">
+
+            <!-- Step 1: Passenger Info -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="8dp">
                 <include layout="@layout/view_settings_input_item" android:id="@+id/item_passenger_name" />
-                <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
-
                 <include layout="@layout/view_settings_input_item" android:id="@+id/item_passenger_phone" />
-                <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
-
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:baselineAligned="false">
                     <include layout="@layout/view_settings_input_item" android:id="@+id/item_order_date" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
                     <include layout="@layout/view_settings_input_item" android:id="@+id/item_order_time" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
                 </LinearLayout>
             </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
 
-        <!-- Step 2: Pec & Dest -->
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
+            <!-- Step 2: Pec & Dest -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
+                android:orientation="vertical"
+                android:paddingHorizontal="8dp">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:baselineAligned="false">
                     <include layout="@layout/view_settings_input_item" android:id="@+id/item_pickup_date" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
                     <include layout="@layout/view_settings_input_item" android:id="@+id/item_pickup_time" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
                 </LinearLayout>
-                <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
-
                 <include layout="@layout/view_settings_input_item" android:id="@+id/item_pickup_location" />
-                <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
-
                 <include layout="@layout/view_settings_input_item" android:id="@+id/item_destination" />
             </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
 
-        <!-- Step 3: Fare & Save -->
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
+            <!-- Step 3: Fare & Save -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
+                android:orientation="vertical"
+                android:paddingHorizontal="8dp">
                 <include layout="@layout/view_settings_input_item" android:id="@+id/item_via" />
-                <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.3" />
-
                 <include layout="@layout/view_settings_input_item" android:id="@+id/item_fare" />
-
                 <TextView
                     android:id="@+id/summary_text_bon"
+                    style="@style/App.TextAppearance.BodySmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginHorizontal="20dp"
                     android:layout_marginTop="24dp"
-                    android:alpha="0.7"
+                    android:alpha="0.5"
                     android:text="Vérifiez les informations avant de générer le Bon." />
             </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
-    </ViewFlipper>
+        </ViewFlipper>
 
-    <!-- Navigation Bar -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingHorizontal="24dp"
-        android:paddingVertical="12dp">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_back"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        <!-- Navigation Bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Retour"
-            android:visibility="gone" />
+            android:orientation="horizontal"
+            android:paddingHorizontal="24dp"
+            android:paddingTop="24dp">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_next"
-            style="@style/App.Button"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:text="Suivant" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_back"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Retour"
+                android:visibility="gone" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnCreateBon"
-            style="@style/App.Button"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:text="@string/action_generate_order"
-            android:visibility="gone" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_next"
+                style="@style/App.Button"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:text="Suivant"
+                app:backgroundTint="@color/icon_dashboard" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCreateBon"
+                style="@style/App.Button"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:text="@string/action_generate_order"
+                android:visibility="gone"
+                app:backgroundTint="@color/icon_dashboard" />
+        </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>
