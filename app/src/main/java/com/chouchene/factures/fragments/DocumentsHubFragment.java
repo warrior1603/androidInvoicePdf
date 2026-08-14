@@ -49,6 +49,16 @@ public class DocumentsHubFragment extends Fragment {
 
         viewPager.setAdapter(new DocumentsPagerAdapter(this));
 
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                if (getActivity() instanceof com.chouchene.factures.MainActivity) {
+                    ((com.chouchene.factures.MainActivity) getActivity()).refreshDock();
+                }
+            }
+        });
+
         if (getArguments() != null && getArguments().containsKey("start_tab")) {
             int startTab = getArguments().getInt("start_tab");
             viewPager.setCurrentItem(startTab, false);

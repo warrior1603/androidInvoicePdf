@@ -715,13 +715,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void refreshDock() {
+        if (navController != null && navController.getCurrentDestination() != null) {
+            updateDockIndicators(navController.getCurrentDestination().getId());
+        }
+    }
+
     private void updateDockIndicators(int destinationId) {
         if (indicatorHome == null || imgDockCreate == null) return;
 
         boolean isHome = destinationId == R.id.homeFragment;
         indicatorHome.setVisibility(isHome ? View.VISIBLE : View.GONE);
         imgDockHome.setAlpha(isHome ? 1.0f : 0.3f);
-        imgDockHome.setImageResource(isHome ? R.drawable.ic_nav_home_filled : R.drawable.ic_nav_home_outline);
+        imgDockHome.setImageResource(isHome ? R.drawable.ic_typcn_nav_home_filled : R.drawable.ic_typcn_nav_home_outline);
 
         boolean isDocs = destinationId == R.id.documentsHubFragment;
         if (indicatorDocs != null) {
@@ -729,20 +735,39 @@ public class MainActivity extends AppCompatActivity {
         }
         if (imgDockDocs != null) {
             imgDockDocs.setAlpha(isDocs ? 1.0f : 0.3f);
+            imgDockDocs.setImageResource(R.drawable.ic_typcn_document);
         }
 
-        // Contextual Center Icon & Color (Executive Soft Pill)
+        // Contextual Center Icon & Color (Executive Typicons)
         if (destinationId == R.id.clientsHubFragment) {
-            imgDockCreate.setImageResource(R.drawable.baseline_person_add_alt_1_24);
-            dockCreateBg.setBackgroundTintList(android.content.res.ColorStateList.valueOf(ContextCompat.getColor(this, R.color.status_paid)));
+            imgDockCreate.setImageResource(R.drawable.ic_typcn_user_add);
+            dockCreateBg.setBackgroundTintList(android.content.res.ColorStateList.valueOf(ContextCompat.getColor(this, R.color.icon_clients)));
         } else if (destinationId == R.id.agendaFragment) {
-            imgDockCreate.setImageResource(R.drawable.baseline_add_24);
+            imgDockCreate.setImageResource(R.drawable.ic_typcn_calendar_add);
             dockCreateBg.setBackgroundTintList(android.content.res.ColorStateList.valueOf(ContextCompat.getColor(this, R.color.icon_agenda)));
         } else if (destinationId == R.id.expensesFragment) {
-            imgDockCreate.setImageResource(R.drawable.baseline_add_24);
+            imgDockCreate.setImageResource(R.drawable.ic_typcn_plus);
             dockCreateBg.setBackgroundTintList(android.content.res.ColorStateList.valueOf(ContextCompat.getColor(this, R.color.status_cancelled)));
+        } else if (destinationId == R.id.documentsHubFragment) {
+            // Check active tab
+            androidx.fragment.app.Fragment navHost = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+            if (navHost != null && !navHost.getChildFragmentManager().getFragments().isEmpty()) {
+                androidx.fragment.app.Fragment current = navHost.getChildFragmentManager().getFragments().get(0);
+                if (current instanceof com.chouchene.factures.fragments.DocumentsHubFragment) {
+                    int tab = ((com.chouchene.factures.fragments.DocumentsHubFragment) current).getSelectedTab();
+                    imgDockCreate.setImageResource(tab == 0 ? R.drawable.ic_typcn_document_add : R.drawable.ic_typcn_cart_add);
+                    dockCreateBg.setBackgroundTintList(android.content.res.ColorStateList.valueOf(tab == 0 ? 
+                            ContextCompat.getColor(this, R.color.icon_documents) : ContextCompat.getColor(this, R.color.icon_dashboard)));
+                } else {
+                    imgDockCreate.setImageResource(R.drawable.ic_typcn_plus);
+                    dockCreateBg.setBackgroundTintList(android.content.res.ColorStateList.valueOf(getThemeColor(androidx.appcompat.R.attr.colorPrimary)));
+                }
+            } else {
+                imgDockCreate.setImageResource(R.drawable.ic_typcn_plus);
+                dockCreateBg.setBackgroundTintList(android.content.res.ColorStateList.valueOf(getThemeColor(androidx.appcompat.R.attr.colorPrimary)));
+            }
         } else {
-            imgDockCreate.setImageResource(R.drawable.rounded_add_24);
+            imgDockCreate.setImageResource(R.drawable.ic_typcn_plus);
             dockCreateBg.setBackgroundTintList(android.content.res.ColorStateList.valueOf(getThemeColor(androidx.appcompat.R.attr.colorPrimary)));
         }
     }
