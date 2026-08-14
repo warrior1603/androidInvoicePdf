@@ -3,53 +3,38 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingVertical="14dp"
-    android:paddingHorizontal="16dp"
-    android:layout_marginHorizontal="0dp"
-    android:layout_marginVertical="4dp"
-    android:gravity="center_vertical"
-    android:background="@drawable/bg_shimmer_item">
+    android:paddingVertical="18dp"
+    android:paddingHorizontal="28dp"
+    android:gravity="center_vertical">
 
     <View
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/shimmer_rect" />
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:background="@drawable/bg_circle_soft"
+        android:backgroundTint="#F1F5F9" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="20dp"
         android:orientation="vertical">
 
         <View
             android:layout_width="140dp"
-            android:layout_height="16dp"
-            android:background="@drawable/shimmer_rect" />
+            android:layout_height="14dp"
+            android:background="#F1F5F9" />
 
         <View
-            android:layout_width="80dp"
-            android:layout_height="12dp"
+            android:layout_width="90dp"
+            android:layout_height="10dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/shimmer_rect" />
+            android:background="#F1F5F9" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="end">
-
-        <View
-            android:layout_width="60dp"
-            android:layout_height="16dp"
-            android:background="@drawable/shimmer_rect" />
-
-        <View
-            android:layout_width="70dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="6dp"
-            android:background="@drawable/shimmer_rect" />
-    </LinearLayout>
+    <View
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:background="#F1F5F9" />
 
 </LinearLayout>

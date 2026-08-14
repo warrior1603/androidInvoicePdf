@@ -10,27 +10,49 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!-- Canvas Header -->
+        <!-- Executive Header Section -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_canvas_header"
             android:orientation="vertical"
+            android:paddingHorizontal="28dp"
+            android:paddingTop="48dp"
             android:paddingBottom="24dp">
 
+            <TextView
+                style="@style/App.TextAppearance.LabelSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.3"
+                android:letterSpacing="0.3"
+                android:text="GESTION DU TEMPS" />
+
+            <TextView
+                style="@style/App.TextAppearance.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Agenda"
+                android:textSize="32sp"
+                android:letterSpacing="-0.02" />
+
+            <!-- Sub Navigation / Tabs (Flat) -->
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
                 style="@style/App.TabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent" />
+                android:layout_marginTop="20dp"
+                android:background="@android:color/transparent"
+                app:tabIndicatorHeight="2dp"
+                app:tabSelectedTextColor="@color/icon_agenda" />
 
+            <!-- Filters (Minimal Chips) -->
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scrollbars="none"
-                android:paddingHorizontal="16dp"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="16dp">
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/statusChipGroup"
                     android:layout_width="wrap_content"
@@ -43,108 +65,126 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Tout"
-                        android:checked="true" />
+                        android:checked="true"
+                        app:chipBackgroundColor="@android:color/transparent"
+                        app:chipStrokeColor="?attr/colorOutline"
+                        app:chipStrokeWidth="1dp" />
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipScheduled"
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="À venir"
-                        app:chipIcon="@drawable/ic_typcn_time"
-                        app:chipIconTint="?attr/colorPrimary"
-                        app:chipIconSize="16dp" />
+                        app:chipIcon="@drawable/ic_status_clock"
+                        app:chipIconTint="@color/status_pending"
+                        app:chipBackgroundColor="@android:color/transparent"
+                        app:chipStrokeColor="?attr/colorOutline"
+                        app:chipStrokeWidth="1dp" />
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipCompleted"
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Terminées"
-                        app:chipIcon="@drawable/ic_typcn_tick"
-                        app:chipIconTint="?attr/colorPrimary"
-                        app:chipIconSize="16dp" />
+                        app:chipIcon="@drawable/ic_status_check"
+                        app:chipIconTint="@color/status_paid"
+                        app:chipBackgroundColor="@android:color/transparent"
+                        app:chipStrokeColor="?attr/colorOutline"
+                        app:chipStrokeWidth="1dp" />
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipCancelled"
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Annulées"
-                        app:chipIcon="@drawable/ic_typcn_cancel"
-                        app:chipIconTint="?attr/colorPrimary"
-                        app:chipIconSize="16dp" />
+                        app:chipIcon="@drawable/ic_status_x"
+                        app:chipIconTint="@color/status_cancelled"
+                        app:chipBackgroundColor="@android:color/transparent"
+                        app:chipStrokeColor="?attr/colorOutline"
+                        app:chipStrokeWidth="1dp" />
                 </com.google.android.material.chip.ChipGroup>
             </HorizontalScrollView>
         </LinearLayout>
 
-        <!-- Content Sheet -->
-        <FrameLayout
+        <!-- Main Content Area with Vertical Accent -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="-20dp"
-            android:background="@drawable/bg_dashboard_sheet">
+            android:orientation="horizontal">
 
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/shimmer_view_container"
-                android:layout_width="match_parent"
+            <View
+                android:layout_width="6dp"
                 android:layout_height="match_parent"
-                android:visibility="gone">
-                <LinearLayout
+                android:layout_marginVertical="12dp"
+                android:background="@drawable/bg_vertical_bar_history" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_view_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:visibility="gone">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <include layout="@layout/shimmer_history_item" />
+                        <include layout="@layout/shimmer_history_item" />
+                        <include layout="@layout/shimmer_history_item" />
+                        <include layout="@layout/shimmer_history_item" />
+                    </LinearLayout>
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvBookings"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingBottom="88dp"
+                    android:layoutAnimation="@anim/layout_animation_fall_down" />
+
+                <LinearLayout
+                    android:id="@+id/emptyState"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
                     android:orientation="vertical"
-                    android:paddingTop="24dp"
-                    android:paddingHorizontal="16dp">
-                    <View android:layout_width="match_parent" android:layout_height="300dp" android:background="@drawable/shimmer_rect" android:layout_marginBottom="16dp"/>
-                    <include layout="@layout/shimmer_history_item" />
-                    <include layout="@layout/shimmer_history_item" />
+                    android:visibility="gone"
+                    android:paddingBottom="80dp">
+
+                    <FrameLayout
+                        android:layout_width="120dp"
+                        android:layout_height="120dp">
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:alpha="0.05"
+                            android:background="@drawable/bg_circle_soft"
+                            android:backgroundTint="?attr/colorOnSurface" />
+                        <ImageView
+                            android:id="@+id/img_empty_state"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="32dp"
+                            android:src="@drawable/ic_typcn_agenda"
+                            android:alpha="0.2"
+                            app:tint="?attr/colorOnSurface" />
+                    </FrameLayout>
+
+                    <TextView
+                        style="@style/App.TextAppearance.TitleMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="Aucune course prévue"
+                        android:alpha="0.4"
+                        android:textStyle="bold" />
                 </LinearLayout>
-            </com.facebook.shimmer.ShimmerFrameLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvBookings"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:paddingTop="24dp"
-                android:paddingBottom="88dp"
-                android:layoutAnimation="@anim/layout_animation_fall_down" />
-
-            <LinearLayout
-                android:id="@+id/emptyState"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:visibility="gone"
-                android:paddingBottom="80dp">
-
-                <FrameLayout
-                    android:layout_width="120dp"
-                    android:layout_height="120dp">
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:alpha="0.05"
-                        android:background="@drawable/bg_circle_soft"
-                        android:backgroundTint="?attr/colorOnSurface" />
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:padding="32dp"
-                        android:src="@drawable/ic_typcn_agenda"
-                        android:alpha="0.2"
-                        app:tint="?attr/colorOnSurface" />
-                </FrameLayout>
-
-                <TextView
-                    style="@style/App.TextAppearance.TitleMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="Aucune course prévue"
-                    android:alpha="0.4"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </FrameLayout>
+            </FrameLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton

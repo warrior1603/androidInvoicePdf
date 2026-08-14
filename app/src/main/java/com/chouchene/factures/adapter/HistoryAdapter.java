@@ -111,20 +111,21 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         
         holder.txtStatus.setText(displayStatus != null ? displayStatus : "En attente");
         int statusColor;
-        int statusBg;
+        int statusBgTint;
         
         if ("Payée".equals(activity.status) || "Completed".equals(activity.status) || "Terminée".equals(activity.status)) {
-            statusBg = R.drawable.bg_status_paid;
+            statusBgTint = R.color.status_paid_bg;
             statusColor = ContextCompat.getColor(holder.itemView.getContext(), R.color.status_paid);
         } else if ("Annulée".equals(activity.status) || "Cancelled".equals(activity.status)) {
-            statusBg = R.drawable.bg_status_cancelled;
+            statusBgTint = R.color.status_cancelled_bg;
             statusColor = ContextCompat.getColor(holder.itemView.getContext(), R.color.status_cancelled);
         } else {
-            statusBg = R.drawable.bg_status_pending;
+            statusBgTint = R.color.status_pending_bg;
             statusColor = ContextCompat.getColor(holder.itemView.getContext(), R.color.status_pending);
         }
         
-        holder.txtStatus.setBackgroundResource(statusBg);
+        holder.txtStatus.setBackgroundResource(R.drawable.bg_pill_soft);
+        holder.txtStatus.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(holder.itemView.getContext(), statusBgTint)));
         holder.txtStatus.setTextColor(statusColor);
 
         // Add Icon to Badge

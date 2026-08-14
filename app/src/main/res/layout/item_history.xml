@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -12,7 +13,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingVertical="18dp"
-        android:paddingHorizontal="28dp"
+        android:paddingHorizontal="24dp"
         android:gravity="center_vertical">
 
         <ImageView
@@ -96,12 +97,10 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_gravity="bottom"
-        android:layout_marginStart="92dp"
+        android:layout_marginStart="88dp"
         android:background="?attr/colorOutline"
         android:alpha="0.06" />
 
-    <!-- Hidden date for logic but unused in flat layout if desired,
-         actually txtDate is used in adapter -->
     <TextView
         android:id="@+id/txtDate"
         android:layout_width="0dp"

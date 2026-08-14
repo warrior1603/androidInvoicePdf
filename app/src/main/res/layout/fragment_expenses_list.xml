@@ -5,122 +5,132 @@
     android:layout_height="match_parent"
     android:background="?attr/colorSurface">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_canvas_header"
-        app:elevation="0dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="Mes Dépenses"
-            app:titleCentered="true"
-            app:navigationIconTint="?attr/colorOnSurface"
-            android:background="@android:color/transparent" />
-
+        <!-- Executive Header Section -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="24dp"
-            android:paddingBottom="24dp"
-            android:gravity="center">
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:cardBackgroundColor="@color/white"
-                android:alpha="0.8">
-                <TextView
-                    android:id="@+id/txt_total_expenses_header"
-                    style="@style/App.TextAppearance.TitleMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="8dp"
-                    android:text="Total: 0.00 €"
-                    android:textColor="?attr/colorPrimary" />
-            </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmer_view_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <include layout="@layout/shimmer_history_item" />
-                <include layout="@layout/shimmer_history_item" />
-                <include layout="@layout/shimmer_history_item" />
-            </LinearLayout>
-        </com.facebook.shimmer.ShimmerFrameLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingBottom="88dp"
-            android:layoutAnimation="@anim/layout_animation_fall_down" />
-
-        <LinearLayout
-            android:id="@+id/empty_state"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
             android:orientation="vertical"
-            android:visibility="gone"
-            android:paddingBottom="80dp">
-
-            <FrameLayout
-                android:layout_width="120dp"
-                android:layout_height="120dp">
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:alpha="0.05"
-                    android:background="@drawable/bg_circle_soft"
-                    android:backgroundTint="?attr/colorOnSurface" />
-                <ImageView
-                    android:id="@+id/img_empty_state"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="32dp"
-                    android:src="@drawable/ic_typcn_cart"
-                    android:alpha="0.2"
-                    app:tint="?attr/colorOnSurface" />
-            </FrameLayout>
+            android:paddingHorizontal="28dp"
+            android:paddingTop="48dp"
+            android:paddingBottom="24dp">
 
             <TextView
-                style="@style/App.TextAppearance.TitleMedium"
+                style="@style/App.TextAppearance.LabelSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="@string/empty_expenses"
-                android:alpha="0.4"
-                android:textStyle="bold" />
+                android:alpha="0.3"
+                android:letterSpacing="0.3"
+                android:text="FLUX DE SORTIE" />
 
             <TextView
-                style="@style/App.TextAppearance.BodyMedium"
+                style="@style/App.TextAppearance.Headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@string/empty_expenses_sub"
-                android:alpha="0.4" />
+                android:text="Dépenses"
+                android:textSize="32sp"
+                android:letterSpacing="-0.02" />
+
+            <!-- Large Total Display -->
+            <TextView
+                android:id="@+id/txt_total_expenses_header"
+                style="@style/App.TextAppearance.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="0.00 €"
+                android:textSize="44sp"
+                android:textColor="@color/status_cancelled"
+                android:letterSpacing="-0.03" />
         </LinearLayout>
-    </FrameLayout>
+
+        <!-- Main Content Area with Vertical Accent -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="6dp"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="12dp"
+                android:background="@drawable/bg_vertical_bar_history"
+                android:backgroundTint="@color/status_cancelled" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_view_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    app:shimmer_auto_start="true">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <include layout="@layout/shimmer_history_item" />
+                        <include layout="@layout/shimmer_history_item" />
+                        <include layout="@layout/shimmer_history_item" />
+                        <include layout="@layout/shimmer_history_item" />
+                    </LinearLayout>
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingBottom="88dp"
+                    android:layoutAnimation="@anim/layout_animation_fall_down" />
+
+                <LinearLayout
+                    android:id="@+id/empty_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:paddingBottom="80dp">
+
+                    <FrameLayout
+                        android:layout_width="120dp"
+                        android:layout_height="120dp">
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:alpha="0.05"
+                            android:background="@drawable/bg_circle_soft"
+                            android:backgroundTint="?attr/colorOnSurface" />
+                        <ImageView
+                            android:id="@+id/img_empty_state"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="32dp"
+                            android:src="@drawable/ic_outline_cash"
+                            android:alpha="0.2"
+                            app:tint="?attr/colorOnSurface" />
+                    </FrameLayout>
+
+                    <TextView
+                        style="@style/App.TextAppearance.TitleMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="Aucune dépense"
+                        android:alpha="0.4"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab"
@@ -129,7 +139,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:text="@string/add_expense"
-        app:icon="@drawable/rounded_add_24" />
+        android:text="Ajouter"
+        app:icon="@drawable/rounded_add_24"
+        app:elevation="0dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

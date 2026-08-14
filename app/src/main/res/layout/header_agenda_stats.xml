@@ -4,64 +4,65 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingTop="16dp"
-    android:paddingBottom="8dp">
+    android:paddingVertical="24dp"
+    android:paddingHorizontal="28dp">
 
-    <com.google.android.material.card.MaterialCardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/App.CardView"
-        app:cardElevation="0dp"
-        app:strokeWidth="1dp"
-        app:strokeColor="?attr/colorOutlineVariant"
-        app:cardBackgroundColor="?attr/colorSurface">
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <FrameLayout
+            android:layout_width="48dp"
+            android:layout_height="48dp">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.1"
+                android:background="@drawable/bg_circle_soft"
+                android:backgroundTint="@color/icon_agenda" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="12dp"
+                android:src="@drawable/ic_tab_month_outline"
+                app:tint="@color/icon_agenda" />
+        </FrameLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="20dp"
-            android:gravity="center_vertical">
+            android:layout_weight="1"
+            android:layout_marginStart="20dp"
+            android:orientation="vertical">
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="0dp"
-                app:cardBackgroundColor="@color/icon_agenda_bg">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="12dp"
-                    android:src="@drawable/ic_tab_month_outline"
-                    app:tint="@color/icon_agenda"
-                    android:contentDescription="Stats" />
-            </com.google.android.material.card.MaterialCardView>
-
-            <LinearLayout
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/txtMonthTitle"
+                style="@style/App.TextAppearance.LabelSmall"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="16dp"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/txtMonthTitle"
-                    style="@style/App.TextAppearance.LabelLarge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="AOÛT 2024"
-                    android:textColor="?attr/colorPrimary"
-                    android:textStyle="bold" />
-                <TextView
-                    android:id="@+id/txtMonthStats"
-                    style="@style/App.TextAppearance.TitleLarge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="0 courses"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                android:text="AOÛT 2024"
+                android:textColor="@color/icon_agenda"
+                android:letterSpacing="0.2"
+                android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/txtMonthStats"
+                style="@style/App.TextAppearance.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="0 courses"
+                android:textSize="24sp" />
         </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="24dp"
+        android:background="?attr/colorOutline"
+        android:alpha="0.1" />
+
 </LinearLayout>

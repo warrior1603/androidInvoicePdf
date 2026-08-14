@@ -72,9 +72,9 @@ public class ExpensesFragment extends Fragment implements ExpenseAdapter.OnExpen
 
         Executors.newSingleThreadExecutor().execute(() -> {
             List<Expense> expenses = db.expenseDao().getAllExpenses();
-            double total = 0;
+            float total = 0;
             for (Expense e : expenses) total += e.amount;
-            final String totalStr = String.format(java.util.Locale.getDefault(), "Total: %.2f €", total);
+            final float finalTotal = total;
 
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
@@ -83,7 +83,7 @@ public class ExpensesFragment extends Fragment implements ExpenseAdapter.OnExpen
                         shimmerContainer.setVisibility(View.GONE);
                     }
                     android.widget.TextView txtTotal = getView().findViewById(R.id.txt_total_expenses_header);
-                    if (txtTotal != null) txtTotal.setText(totalStr);
+                    if (txtTotal != null) animateNumber(txtTotal, finalTotal);
 
                     adapter.setData(expenses);
                     recyclerView.scheduleLayoutAnimation();
@@ -112,6 +112,17 @@ public class ExpensesFragment extends Fragment implements ExpenseAdapter.OnExpen
                 })
                 .setNegativeButton("Annuler", null)
                 .show();
+    }
+
+    private void animateNumber(android.widget.TextView textView, float target) {
+        android.animation.ValueAnimator animator = android.animation.ValueAnimator.ofFloat(0, target);
+        animator.setDuration(1000);
+        animator.setInterpolator(new android.view.animation.DecelerateInterpolator());
+        animator.addUpdateListener(animation -> {
+            float value = (float) animation.getAnimatedValue();
+            textView.setText(String.format(java.util.Locale.getDefault(), "%.2f €", value));
+        });
+        animator.start();
     }
 
     @Override

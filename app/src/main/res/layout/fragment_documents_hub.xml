@@ -6,27 +6,38 @@
     android:orientation="vertical"
     android:background="?attr/colorSurface">
 
-    <!-- Canvas Header -->
+    <!-- Executive Header Section -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/bg_canvas_header"
+        android:paddingHorizontal="28dp"
+        android:paddingTop="48dp"
         android:paddingBottom="24dp">
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
-            style="@style/App.TabLayout"
-            android:layout_width="match_parent"
+        <TextView
+            style="@style/App.TextAppearance.LabelSmall"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent" />
+            android:alpha="0.3"
+            android:letterSpacing="0.3"
+            android:text="CENTRE DE GESTION" />
 
+        <TextView
+            style="@style/App.TextAppearance.Headline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Documents"
+            android:textSize="32sp"
+            android:letterSpacing="-0.02" />
+
+        <!-- Status Filter Chips (Flat & Minimal) -->
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
-            android:paddingHorizontal="16dp"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="28dp">
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/statusChipGroup"
@@ -41,7 +52,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tous"
-                    android:checked="true" />
+                    android:checked="true"
+                    app:chipBackgroundColor="@android:color/transparent"
+                    app:chipStrokeColor="?attr/colorOutline"
+                    app:chipStrokeWidth="1dp" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipPaid"
@@ -49,19 +63,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Payée"
-                    app:chipIcon="@drawable/ic_typcn_tick"
-                    app:chipIconTint="?attr/colorPrimary"
-                    app:chipIconSize="16dp" />
+                    app:chipIcon="@drawable/ic_status_check"
+                    app:chipIconTint="@color/status_paid"
+                    app:chipBackgroundColor="@android:color/transparent"
+                    app:chipStrokeColor="?attr/colorOutline"
+                    app:chipStrokeWidth="1dp" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipPending"
                     style="@style/Widget.Material3.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="En attente"
-                    app:chipIcon="@drawable/ic_typcn_time"
-                    app:chipIconTint="?attr/colorPrimary"
-                    app:chipIconSize="16dp" />
+                    android:text="Attente"
+                    app:chipIcon="@drawable/ic_status_clock"
+                    app:chipIconTint="@color/status_pending"
+                    app:chipBackgroundColor="@android:color/transparent"
+                    app:chipStrokeColor="?attr/colorOutline"
+                    app:chipStrokeWidth="1dp" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipCancelled"
@@ -69,39 +87,62 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Annulée"
-                    app:chipIcon="@drawable/ic_typcn_cancel"
-                    app:chipIconTint="?attr/colorPrimary"
-                    app:chipIconSize="16dp" />
+                    app:chipIcon="@drawable/ic_status_x"
+                    app:chipIconTint="@color/status_cancelled"
+                    app:chipBackgroundColor="@android:color/transparent"
+                    app:chipStrokeColor="?attr/colorOutline"
+                    app:chipStrokeWidth="1dp" />
 
             </com.google.android.material.chip.ChipGroup>
         </HorizontalScrollView>
     </LinearLayout>
 
-    <!-- Content Sheet -->
+    <!-- Main Content Area with Vertical Accent -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="-20dp"
-        android:background="@drawable/bg_dashboard_sheet">
+        android:orientation="horizontal">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/filterChip"
-            style="@style/Widget.Material3.Chip.Assist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="24dp"
-            android:visibility="gone"
-            app:chipIcon="@drawable/ic_outline_adjustments"
-            app:chipIconTint="?attr/colorPrimary"
-            app:closeIconVisible="true"
-            android:text="Filtré par: Juin 2024" />
+        <View
+            android:layout_width="6dp"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="12dp"
+            android:background="@drawable/bg_vertical_bar_primary" />
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                style="@style/App.TabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/transparent"
+                app:tabIndicatorHeight="2dp"
+                app:tabSelectedTextColor="?attr/colorPrimary" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/filterChip"
+                style="@style/Widget.Material3.Chip.Assist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                app:chipIcon="@drawable/ic_outline_adjustments"
+                app:chipIconTint="?attr/colorPrimary"
+                app:closeIconVisible="true"
+                android:text="Filtré par: Juin 2024" />
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

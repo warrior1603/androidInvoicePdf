@@ -4,13 +4,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="?android:attr/colorBackground">
+    android:background="?attr/colorSurface">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/rapportsTabLayout"
-        style="@style/App.TabLayout"
+    <!-- Executive Header Section -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="28dp"
+        android:paddingTop="48dp"
+        android:paddingBottom="24dp">
+
+        <TextView
+            style="@style/App.TextAppearance.LabelSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.3"
+            android:letterSpacing="0.3"
+            android:text="ANALYSE &amp; RAPPORTS" />
+
+        <TextView
+            style="@style/App.TextAppearance.Headline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Dashboard"
+            android:textSize="32sp"
+            android:letterSpacing="-0.02" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/rapportsTabLayout"
+            style="@style/App.TabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@android:color/transparent"
+            app:tabIndicatorHeight="2dp"
+            app:tabSelectedTextColor="?attr/colorPrimary" />
+    </LinearLayout>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/rapportsViewPager"

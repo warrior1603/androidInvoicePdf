@@ -53,7 +53,7 @@ public class ClientListFragment extends Fragment {
     private RecyclerView recyclerView;
     private LinearLayout emptyState;
     private com.facebook.shimmer.ShimmerFrameLayout shimmerContainer;
-    private FloatingActionButton fab;
+    private com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton fab;
     private View speedDialLayout;
 
     private final ActivityResultLauncher<String> requestPermissionLauncher =
@@ -235,10 +235,10 @@ public class ClientListFragment extends Fragment {
     private void toggleSpeedDial() {
         if (speedDialLayout.getVisibility() == View.GONE) {
             speedDialLayout.setVisibility(View.VISIBLE);
-            fab.setImageResource(R.drawable.baseline_cancel_24);
+            fab.setIconResource(R.drawable.baseline_cancel_24);
         } else {
             speedDialLayout.setVisibility(View.GONE);
-            fab.setImageResource(R.drawable.rounded_add_24);
+            fab.setIconResource(R.drawable.rounded_add_24);
         }
     }
 

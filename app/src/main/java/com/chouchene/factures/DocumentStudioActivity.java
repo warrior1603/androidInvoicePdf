@@ -74,8 +74,8 @@ public class DocumentStudioActivity extends AppCompatActivity {
     private ViewFlipper viewFlipper;
     private MaterialButton btnBack, btnNext, btnGenerate;
 
-    private TextView stepNumber1, stepNumber2, stepNumber3;
-    private View stepLine1, stepLine2;
+    private View stepIndicator1, stepIndicator2, stepIndicator3;
+    private View studioAccentBar;
 
     // Facture Fields
     private TextInputEditText editInvName, editInvEmail, editInvTel, editInvStreet, editInvZip, editInvCity, editInvCountry, editInvSiren, editInvTva;
@@ -143,11 +143,10 @@ public class DocumentStudioActivity extends AppCompatActivity {
         btnNext = findViewById(R.id.btn_next_studio);
         btnGenerate = findViewById(R.id.btn_generate_studio);
 
-        stepNumber1 = findViewById(R.id.step_number_1);
-        stepNumber2 = findViewById(R.id.step_number_2);
-        stepNumber3 = findViewById(R.id.step_number_3);
-        stepLine1 = findViewById(R.id.step_line_1);
-        stepLine2 = findViewById(R.id.step_line_2);
+        stepIndicator1 = findViewById(R.id.step_indicator_1);
+        stepIndicator2 = findViewById(R.id.step_indicator_2);
+        stepIndicator3 = findViewById(R.id.step_indicator_3);
+        studioAccentBar = findViewById(R.id.studio_accent_bar);
 
         containerInvoiceClient = findViewById(R.id.container_invoice_client);
         containerInvoiceDetails = findViewById(R.id.container_invoice_details);
@@ -168,6 +167,11 @@ public class DocumentStudioActivity extends AppCompatActivity {
         containerBonClient.setVisibility(!isInvoice ? View.VISIBLE : View.GONE);
         containerBonDetails.setVisibility(!isInvoice ? View.VISIBLE : View.GONE);
         containerBonPrices.setVisibility(!isInvoice ? View.VISIBLE : View.GONE);
+
+        if (studioAccentBar != null) {
+            int accentColor = isInvoice ? getThemeColor(androidx.appcompat.R.attr.colorPrimary) : ContextCompat.getColor(this, R.color.icon_dashboard);
+            studioAccentBar.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accentColor));
+        }
 
         webViewPreview.getSettings().setJavaScriptEnabled(true);
         webViewPreview.setWebViewClient(new WebViewClient() {
@@ -272,6 +276,7 @@ public class DocumentStudioActivity extends AppCompatActivity {
         
         input.setHint(label);
         input.setInputType(inputType);
+        
         input.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
@@ -315,9 +320,9 @@ public class DocumentStudioActivity extends AppCompatActivity {
         });
         btnGenerate.setOnClickListener(v -> handleGenerate());
 
-        stepNumber1.setOnClickListener(v -> goToStep(0));
-        stepNumber2.setOnClickListener(v -> goToStep(1));
-        stepNumber3.setOnClickListener(v -> goToStep(2));
+        stepIndicator1.setOnClickListener(v -> goToStep(0));
+        stepIndicator2.setOnClickListener(v -> goToStep(1));
+        stepIndicator3.setOnClickListener(v -> goToStep(2));
 
         goToStep(0);
     }
@@ -328,23 +333,17 @@ public class DocumentStudioActivity extends AppCompatActivity {
         btnNext.setVisibility(step == 2 ? View.GONE : View.VISIBLE);
         btnGenerate.setVisibility(step == 2 ? View.VISIBLE : View.GONE);
 
-        updateStepIndicator(stepNumber1, step == 0);
-        updateStepIndicator(stepNumber2, step == 1);
-        updateStepIndicator(stepNumber3, step == 2);
+        int activeColor = type.equals(TYPE_INVOICE) ? getThemeColor(androidx.appcompat.R.attr.colorPrimary) : ContextCompat.getColor(this, R.color.icon_dashboard);
+        int inactiveColor = getThemeColor(com.google.android.material.R.attr.colorOutlineVariant);
 
-        // Update lines
-        if (stepLine1 != null) {
-            stepLine1.setBackgroundColor(step >= 1 ? getThemeColor(androidx.appcompat.R.attr.colorPrimary) : getThemeColor(com.google.android.material.R.attr.colorOutlineVariant));
-        }
-        if (stepLine2 != null) {
-            stepLine2.setBackgroundColor(step >= 2 ? getThemeColor(androidx.appcompat.R.attr.colorPrimary) : getThemeColor(com.google.android.material.R.attr.colorOutlineVariant));
-        }
-    }
+        stepIndicator1.setBackgroundTintList(android.content.res.ColorStateList.valueOf(step >= 0 ? activeColor : inactiveColor));
+        stepIndicator1.setAlpha(step == 0 ? 1.0f : 0.4f);
 
-    private void updateStepIndicator(TextView indicator, boolean active) {
-        indicator.setBackgroundResource(active ? R.drawable.circle_stepper_active : R.drawable.circle_stepper_inactive);
-        indicator.setTextColor(active ? Color.WHITE : getThemeColor(com.google.android.material.R.attr.colorOnSurfaceVariant));
-        indicator.setTypeface(null, active ? Typeface.BOLD : Typeface.NORMAL);
+        stepIndicator2.setBackgroundTintList(android.content.res.ColorStateList.valueOf(step >= 1 ? activeColor : inactiveColor));
+        stepIndicator2.setAlpha(step == 1 ? 1.0f : 0.4f);
+
+        stepIndicator3.setBackgroundTintList(android.content.res.ColorStateList.valueOf(step >= 2 ? activeColor : inactiveColor));
+        stepIndicator3.setAlpha(step == 2 ? 1.0f : 0.4f);
     }
 
     private int getThemeColor(int attr) {

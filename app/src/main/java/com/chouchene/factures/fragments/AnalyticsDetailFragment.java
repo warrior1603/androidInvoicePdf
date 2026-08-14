@@ -125,6 +125,10 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
         btnExportCsv.setOnClickListener(v -> exportToCSV());
         btnGenerateReportPdf.setOnClickListener(v -> generateMonthlyReport());
 
+        com.chouchene.factures.utils.UIUtils.applyClickScale(cardExpenses);
+        com.chouchene.factures.utils.UIUtils.applyClickScale(btnExportCsv);
+        com.chouchene.factures.utils.UIUtils.applyClickScale(btnGenerateReportPdf);
+
         loadAnalyticsData(true);
 
         return view;
@@ -304,8 +308,8 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                     mainContent.setVisibility(View.VISIBLE);
                     btnExportCsv.setVisibility(View.VISIBLE);
                 }
-                revenueLabel.setText(finalLabelTop);
-                totalRevenueTxt.setText(String.format(Locale.getDefault(), "%.2f €", finalRev));
+                revenueLabel.setText(finalLabelTop.toUpperCase());
+                animateNumber(totalRevenueTxt, finalRev);
                 documentCountTxt.setText(String.valueOf(finalCount));
                 totalClientsTxt.setText(String.valueOf(finalClientCount));
                 chartTitle.setText(finalLabelChart);
@@ -322,7 +326,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                     growthValTxt.setTextColor(ContextCompat.getColor(context, R.color.status_paid));
                 } else {
                     growthValTxt.setText("0%");
-                    growthValTxt.setTextColor(resolveColor(context, com.google.android.material.R.attr.colorOnSurfaceVariant));
+                    growthValTxt.setTextColor(ContextCompat.getColor(context, R.color.status_paid));
                 }
 
                 setupChart(barChart, finalChartEntries, finalLabels, chartEmptyState);
@@ -331,11 +335,11 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                 if (incomeForMargin > 0) {
                     int marginPercent = (int) ((finalRev / incomeForMargin) * 100);
                     if (marginPercent < 0) marginPercent = 0;
-                    progressMargin.setProgress(marginPercent);
-                    txtMarginLabel.setText("Marge réelle: " + marginPercent + "%");
+                    progressMargin.setProgress(marginPercent, true);
+                    txtMarginLabel.setText("MARGE RÉELLE: " + marginPercent + "%");
                 } else {
-                    progressMargin.setProgress(0);
-                    txtMarginLabel.setText("Marge réelle: 0%");
+                    progressMargin.setProgress(0, true);
+                    txtMarginLabel.setText("MARGE RÉELLE: 0%");
                 }
             });
         });
@@ -468,6 +472,17 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                 dialog.show();
             });
         });
+    }
+
+    private void animateNumber(TextView textView, float target) {
+        android.animation.ValueAnimator animator = android.animation.ValueAnimator.ofFloat(0, target);
+        animator.setDuration(1000);
+        animator.setInterpolator(new android.view.animation.DecelerateInterpolator());
+        animator.addUpdateListener(animation -> {
+            float value = (float) animation.getAnimatedValue();
+            textView.setText(String.format(Locale.getDefault(), "%.2f €", value));
+        });
+        animator.start();
     }
 
     @Override

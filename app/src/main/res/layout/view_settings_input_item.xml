@@ -4,34 +4,35 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingHorizontal="16dp"
-    android:paddingVertical="12dp"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="16dp"
     android:gravity="center_vertical"
     android:background="?attr/selectableItemBackground">
 
     <ImageView
         android:id="@+id/item_icon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:src="@drawable/ic_typcn_clients"
         app:tint="?attr/colorOnSurface"
+        android:alpha="0.2"
         android:contentDescription="@null" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="20dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/item_label"
-            style="@style/App.TextAppearance.TitleMedium"
+            style="@style/App.TextAppearance.LabelSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Label"
-            android:textSize="15sp"
-            android:textColor="?attr/colorOnSurface" />
+            android:alpha="0.3"
+            android:letterSpacing="0.2" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/item_input"
@@ -39,11 +40,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:paddingVertical="2dp"
+            android:paddingVertical="4dp"
             android:paddingHorizontal="0dp"
-            android:textSize="14sp"
+            android:textSize="15sp"
             android:hint="Saisir..."
-            android:textColor="?attr/colorOnSurfaceVariant" />
+            android:textColor="?attr/colorOnSurface" />
 
     </LinearLayout>
 
