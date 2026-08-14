@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:text="Label"
             android:alpha="0.3"
-            android:letterSpacing="0.2" />
+            android:letterSpacing="0.02" />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"

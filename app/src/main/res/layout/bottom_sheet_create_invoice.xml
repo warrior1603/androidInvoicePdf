@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha="0.3"
-                android:letterSpacing="0.3"
+                android:letterSpacing="0.02"
                 android:text="STUDIO DE FACTURATION" />
 
             <TextView
@@ -155,7 +155,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingHorizontal="8dp">
-                <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="20dp" android:text="SIGNATURE (OPTIONNELLE)" android:alpha="0.3" android:letterSpacing="0.1" />
+                <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="20dp" android:text="SIGNATURE (OPTIONNELLE)" android:alpha="0.3" android:letterSpacing="0.02" />
                 <FrameLayout android:layout_width="match_parent" android:layout_height="140dp" android:layout_marginHorizontal="20dp" android:background="@drawable/bg_section_flat" android:backgroundTint="?attr/colorSurfaceVariant">
                     <com.chouchene.factures.utils.SignatureView android:id="@+id/signature_view" android:layout_width="match_parent" android:layout_height="match_parent" />
                 </FrameLayout>

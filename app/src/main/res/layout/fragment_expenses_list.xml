@@ -14,27 +14,48 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="28dp"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_canvas_header"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:paddingEnd="16dp"
             android:paddingTop="20dp"
             android:paddingBottom="16dp">
 
-            <TextView
-                style="@style/App.TextAppearance.LabelSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.3"
-                android:letterSpacing="0.3"
-                android:text="FLUX DE SORTIE" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_back_header"
+                style="?attr/materialIconButtonStyle"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="-12dp"
+                app:icon="@drawable/ic_typcn_chevron_right"
+                android:rotation="180"
+                app:iconTint="?attr/colorOnSurface" />
 
-            <TextView
-                style="@style/App.TextAppearance.Headline"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Dépenses"
-                android:textSize="32sp"
-                android:letterSpacing="-0.02" />
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/App.TextAppearance.LabelSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.5"
+                    android:letterSpacing="0.02"
+                    android:text="FLUX DE SORTIE" />
+
+                <TextView
+                    style="@style/App.TextAppearance.Headline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Dépenses"
+                    android:textSize="32sp"
+                    android:letterSpacing="-0.02" />
+            </LinearLayout>
         </LinearLayout>
 
         <!-- Main Content Area with Vertical Accent -->
@@ -51,21 +72,22 @@
                 android:backgroundTint="@color/status_cancelled" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:orientation="vertical"
-                android:paddingStart="22dp"
-                android:paddingEnd="28dp">
+                android:paddingStart="12dp"
+                android:paddingEnd="16dp">
 
-                <!-- Large Total Display (Now inside content area) -->
+                <!-- Large Total Display -->
                 <TextView
                     android:id="@+id/txt_total_expenses_header"
                     style="@style/App.TextAppearance.Headline"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:text="0.00 €"
-                    android:textSize="44sp"
+                    android:textSize="40sp"
                     android:textColor="@color/status_cancelled"
                     android:letterSpacing="-0.03" />
 
@@ -84,7 +106,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
-                            <include layout="@layout/shimmer_history_item" />
                             <include layout="@layout/shimmer_history_item" />
                             <include layout="@layout/shimmer_history_item" />
                             <include layout="@layout/shimmer_history_item" />

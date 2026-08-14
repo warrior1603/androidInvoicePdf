@@ -63,7 +63,7 @@
             android:textSize="9sp"
             android:textStyle="bold"
             android:textAllCaps="true"
-            android:letterSpacing="0.1"
+            android:letterSpacing="0.02"
             android:textColor="@color/white"
             android:background="@drawable/bg_pill_soft"
             android:backgroundTint="?attr/colorPrimary" />

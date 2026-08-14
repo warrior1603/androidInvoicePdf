@@ -155,7 +155,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha="0.5"
-                        android:letterSpacing="0.3"
+                        android:letterSpacing="0.02"
                         android:text="COORDONNÉES" />
 
                     <LinearLayout
@@ -260,7 +260,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha="0.5"
-                        android:letterSpacing="0.3"
+                        android:letterSpacing="0.02"
                         android:text="INFORMATIONS LÉGALES" />
 
                     <LinearLayout
@@ -312,7 +312,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:alpha="0.5"
-                        android:letterSpacing="0.3"
+                        android:letterSpacing="0.02"
                         android:text="HISTORIQUE DES DOCUMENTS" />
 
                     <com.facebook.shimmer.ShimmerFrameLayout

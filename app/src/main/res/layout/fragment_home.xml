@@ -2,14 +2,14 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/colorSurface">
+    android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        android:background="?attr/colorSurface">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,10 +22,11 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
+                android:background="@drawable/bg_canvas_header"
                 android:paddingStart="12dp"
                 android:paddingEnd="16dp"
-                android:paddingTop="24dp"
-                android:paddingBottom="32dp">
+                android:paddingTop="16dp"
+                android:paddingBottom="20dp">
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_home_user_avatar"
@@ -83,8 +84,9 @@
                     android:background="@drawable/bg_vertical_bar_primary" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:orientation="horizontal"
                     android:paddingStart="12dp"
                     android:paddingEnd="16dp"
@@ -102,7 +104,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:alpha="0.4"
-                            android:letterSpacing="0.1"
+                            android:letterSpacing="0.02"
                             android:textSize="14sp"
                             android:text="BILAN FINANCIER" />
 
@@ -131,7 +133,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:alpha="0.5"
-                                    android:letterSpacing="0.1"
+                                    android:letterSpacing="0.02"
                                     android:text="ENTRÉES" />
                                 <TextView
                                     android:id="@+id/txt_home_income"
@@ -153,7 +155,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:alpha="0.5"
-                                    android:letterSpacing="0.1"
+                                    android:letterSpacing="0.02"
                                     android:text="SORTIES" />
                                 <TextView
                                     android:id="@+id/txt_home_expenses"
@@ -292,8 +294,9 @@
                     android:background="@drawable/bg_vertical_bar_green" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:orientation="vertical"
                     android:paddingStart="12dp"
                     android:paddingEnd="16dp">
@@ -303,7 +306,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha="0.4"
-                        android:letterSpacing="0.1"
+                        android:letterSpacing="0.02"
                         android:textSize="14sp"
                         android:text="SERVICES" />
 
@@ -509,13 +512,14 @@
                 android:paddingBottom="48dp">
                 <View android:layout_width="6dp" android:layout_height="match_parent" android:layout_marginVertical="12dp" android:background="@drawable/bg_vertical_bar_history" />
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:orientation="vertical"
                     android:paddingStart="12dp"
                     android:paddingEnd="16dp">
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
-                        <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:alpha="0.4" android:letterSpacing="0.1" android:textSize="14sp" android:text="ACTIVITÉ RÉCENTE" />
+                        <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:alpha="0.4" android:letterSpacing="0.02" android:textSize="14sp" android:text="ACTIVITÉ RÉCENTE" />
                         <TextView android:id="@+id/btn_view_all_recent" style="@style/App.TextAppearance.LabelSmall" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="VOIR TOUT" android:textColor="?attr/colorPrimary" />
                     </LinearLayout>
                     <com.facebook.shimmer.ShimmerFrameLayout android:id="@+id/shimmer_view_container" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" app:shimmer_auto_start="true">

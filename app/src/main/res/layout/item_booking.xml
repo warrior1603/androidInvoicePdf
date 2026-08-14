@@ -101,7 +101,7 @@
                 android:backgroundTint="@color/status_pending_bg"
                 android:fontFamily="@font/inter"
                 android:textAllCaps="true"
-                android:letterSpacing="0.1"
+                android:letterSpacing="0.02"
                 android:textStyle="bold"
                 android:maxLines="1" />
         </LinearLayout>

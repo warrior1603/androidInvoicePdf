@@ -2,8 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/colorSurface">
+    android:layout_height="match_parent">
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_view_container"
@@ -34,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="8dp"
+            android:paddingTop="24dp"
             android:paddingBottom="48dp">
 
             <TextView
@@ -42,8 +41,9 @@
                 style="@style/App.TextAppearance.LabelSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:alpha="0.6"
-                android:letterSpacing="0.3"
+                android:alpha="0.4"
+                android:letterSpacing="0.02"
+                android:textSize="14sp"
                 android:text="RÉSULTAT NET"
                 android:textAllCaps="true" />
 
@@ -52,10 +52,10 @@
                 style="@style/App.TextAppearance.Headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:text="0.00 €"
-                android:textSize="58sp"
-                android:letterSpacing="-0.04"
+                android:textSize="44sp"
+                android:letterSpacing="-0.03"
                 android:textColor="?attr/colorPrimary" />
 
             <LinearLayout
@@ -108,7 +108,7 @@
                         android:alpha="0.5"
                         android:text="DOCUMENTS"
                         android:textSize="9sp"
-                        android:letterSpacing="0.1" />
+                        android:letterSpacing="0.02" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -129,7 +129,7 @@
                         android:alpha="0.5"
                         android:text="CLIENTS"
                         android:textSize="9sp"
-                        android:letterSpacing="0.1" />
+                        android:letterSpacing="0.02" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -152,7 +152,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     app:indicatorColor="?attr/colorPrimary"
-                    app:trackColor="?attr/colorOutlineVariant"
+                    app:trackColor="?attr/colorSurfaceVariant"
                     app:trackThickness="2dp"
                     android:progress="0" />
             </LinearLayout>
@@ -207,8 +207,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="TENDANCE"
-                    android:alpha="0.5"
-                    android:letterSpacing="0.3" />
+                    android:alpha="0.4"
+                    android:textSize="14sp"
+                    android:letterSpacing="0.02" />
 
                 <TextView
                     android:id="@+id/btnExportCsv"

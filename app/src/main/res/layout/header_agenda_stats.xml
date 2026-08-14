@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:text="AOÛT 2024"
                 android:textColor="@color/icon_agenda"
-                android:letterSpacing="0.2"
+                android:letterSpacing="0.02"
                 android:textStyle="bold" />
 
             <TextView

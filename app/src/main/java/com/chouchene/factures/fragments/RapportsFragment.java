@@ -30,20 +30,16 @@ public class RapportsFragment extends Fragment {
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             switch (position) {
                 case 0:
-                    tab.setText(getString(R.string.label_today));
-                    tab.setIcon(R.drawable.ic_typcn_time);
+                    tab.setText("Jour");
                     break;
                 case 1:
-                    tab.setText(getString(R.string.label_this_month));
-                    tab.setIcon(R.drawable.ic_typcn_calendar_outline);
+                    tab.setText("Mois");
                     break;
                 case 2:
-                    tab.setText(getString(R.string.label_this_year));
-                    tab.setIcon(R.drawable.ic_typcn_chart_line);
+                    tab.setText("Année");
                     break;
                 case 3:
                     tab.setText("Global");
-                    tab.setIcon(R.drawable.ic_typcn_world);
                     break;
             }
         }).attach();

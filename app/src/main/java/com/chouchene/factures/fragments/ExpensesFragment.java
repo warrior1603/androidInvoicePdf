@@ -49,6 +49,11 @@ public class ExpensesFragment extends Fragment implements ExpenseAdapter.OnExpen
         shimmerContainer = view.findViewById(R.id.shimmer_view_container);
         ExtendedFloatingActionButton fab = view.findViewById(R.id.fab);
 
+        View btnBack = view.findViewById(R.id.btn_back_header);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> androidx.navigation.Navigation.findNavController(v).navigateUp());
+        }
+
         adapter = new ExpenseAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerView.setAdapter(adapter);

@@ -10,5 +10,5 @@
     android:textAppearance="?attr/textAppearanceLabelLarge"
     android:textColor="?attr/colorPrimary"
     android:textAllCaps="false"
-    android:letterSpacing="0.1"
+    android:letterSpacing="0.02"
     android:textStyle="bold" />
