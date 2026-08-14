@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -48,6 +49,7 @@ import com.chouchene.factures.fragments.FilterBottomSheet;
 import com.chouchene.factures.fragments.NotificationBottomSheet;
 import com.chouchene.factures.model.AppNotification;
 import com.chouchene.factures.utils.LocaleHelper;
+import com.chouchene.factures.utils.UIUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.search.SearchBar;
 import com.google.android.material.search.SearchView;
@@ -86,6 +88,12 @@ public class MainActivity extends AppCompatActivity {
     com.google.android.material.chip.ChipGroup smartFilterChips;
     SearchResultAdapter searchAdapter;
     AppDatabase db;
+
+    // Floating Dock Views
+    View dockHome, dockCreate, dockSearch, dockCreateBg;
+    ImageView imgDockHome, imgDockSearch, imgDockCreate;
+    View indicatorHome, indicatorSearch;
+
     private String filterStatus, filterType;
     private KonfettiView konfettiView;
     private List<AppNotification> currentNotifications = new ArrayList<>();
@@ -319,14 +327,18 @@ public class MainActivity extends AppCompatActivity {
             // Hide/Show BottomNav based on destination
             navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
                 int id = destination.getId();
+                View dock = findViewById(R.id.floating_dock);
                 if (id == R.id.webViewPdfFragment) {
-                    bottomNavigationView.setVisibility(View.GONE);
+                    if (dock != null) dock.setVisibility(View.GONE);
                 } else {
-                    bottomNavigationView.setVisibility(View.VISIBLE);
+                    if (dock != null) dock.setVisibility(View.VISIBLE);
                 }
+                updateDockIndicators(id);
             });
 
-            // 1. Handle Selection: Normal tab switching
+            setupFloatingDock();
+
+            // Robust Back Navigation
             bottomNavigationView.setOnItemSelectedListener(item -> {
                 // Pillar 4: Haptic Feedback
                 bottomNavigationView.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
@@ -662,6 +674,124 @@ public class MainActivity extends AppCompatActivity {
                             .build()
             );
         }, 200L);
+    }
+
+    private void setupFloatingDock() {
+        dockHome = findViewById(R.id.dock_home);
+        dockCreate = findViewById(R.id.dock_create);
+        dockSearch = findViewById(R.id.dock_search);
+        
+        imgDockHome = findViewById(R.id.dock_home_icon);
+        imgDockSearch = findViewById(R.id.dock_search_icon);
+        
+        indicatorHome = findViewById(R.id.dock_home_indicator);
+        indicatorSearch = findViewById(R.id.dock_search_indicator);
+        
+        dockCreateBg = findViewById(R.id.dock_create_bg);
+        imgDockCreate = findViewById(R.id.dock_create_icon);
+
+        if (dockHome != null) {
+            dockHome.setOnClickListener(v -> {
+                navController.popBackStack(R.id.homeFragment, false);
+                navController.navigate(R.id.homeFragment);
+            });
+            UIUtils.applyClickScale(dockHome);
+        }
+
+        if (dockSearch != null) {
+            dockSearch.setOnClickListener(v -> {
+                if (searchBar != null) searchBar.performClick();
+            });
+            UIUtils.applyClickScale(dockSearch);
+        }
+
+        if (dockCreate != null) {
+            dockCreate.setOnClickListener(v -> {
+                handleContextualCreate();
+            });
+            UIUtils.applyClickScale(dockCreate);
+        }
+    }
+
+    private void updateDockIndicators(int destinationId) {
+        if (indicatorHome == null || imgDockCreate == null) return;
+
+        boolean isHome = destinationId == R.id.homeFragment;
+        indicatorHome.setVisibility(isHome ? View.VISIBLE : View.GONE);
+        imgDockHome.setAlpha(isHome ? 1.0f : 0.3f);
+        imgDockHome.setImageResource(isHome ? R.drawable.ic_nav_home_filled : R.drawable.ic_nav_home_outline);
+
+        // Contextual Center Icon & Color (Executive Soft Pill)
+        if (destinationId == R.id.clientsHubFragment) {
+            imgDockCreate.setImageResource(R.drawable.baseline_person_add_alt_1_24);
+            dockCreateBg.setBackgroundTintList(android.content.res.ColorStateList.valueOf(ContextCompat.getColor(this, R.color.status_paid)));
+        } else if (destinationId == R.id.agendaFragment) {
+            imgDockCreate.setImageResource(R.drawable.baseline_add_24);
+            dockCreateBg.setBackgroundTintList(android.content.res.ColorStateList.valueOf(ContextCompat.getColor(this, R.color.icon_agenda)));
+        } else if (destinationId == R.id.expensesFragment) {
+            imgDockCreate.setImageResource(R.drawable.baseline_add_24);
+            dockCreateBg.setBackgroundTintList(android.content.res.ColorStateList.valueOf(ContextCompat.getColor(this, R.color.status_cancelled)));
+        } else {
+            imgDockCreate.setImageResource(R.drawable.rounded_add_24);
+            dockCreateBg.setBackgroundTintList(android.content.res.ColorStateList.valueOf(getThemeColor(androidx.appcompat.R.attr.colorPrimary)));
+        }
+
+        // Search Inactive Style
+        imgDockSearch.setAlpha(0.3f);
+        if (indicatorSearch != null) indicatorSearch.setVisibility(View.GONE);
+    }
+
+    private int getThemeColor(int attr) {
+        TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(attr, typedValue, true);
+        return typedValue.data;
+    }
+
+    private void handleContextualCreate() {
+        int destinationId = navController.getCurrentDestination() != null ? navController.getCurrentDestination().getId() : -1;
+
+        if (destinationId == R.id.homeFragment || destinationId == R.id.documentsHubFragment) {
+            showQuickCreateMenu();
+        } else if (destinationId == R.id.clientsHubFragment) {
+            // Trigger Add Client
+            com.chouchene.factures.fragments.AddClientBottomSheet sheet = com.chouchene.factures.fragments.AddClientBottomSheet.newInstance(null);
+            sheet.show(getSupportFragmentManager(), "ADD_CLIENT");
+        } else if (destinationId == R.id.agendaFragment) {
+            com.chouchene.factures.fragments.AddBookingBottomSheet sheet = com.chouchene.factures.fragments.AddBookingBottomSheet.newInstance(null);
+            sheet.show(getSupportFragmentManager(), "ADD_BOOKING");
+        } else if (destinationId == R.id.expensesFragment) {
+            com.chouchene.factures.fragments.AddExpenseBottomSheet sheet = new com.chouchene.factures.fragments.AddExpenseBottomSheet();
+            sheet.show(getSupportFragmentManager(), "ADD_EXPENSE");
+        } else {
+            showQuickCreateMenu();
+        }
+    }
+
+    private void showQuickCreateMenu() {
+        com.google.android.material.bottomsheet.BottomSheetDialog dialog = new com.google.android.material.bottomsheet.BottomSheetDialog(this);
+        View view = getLayoutInflater().inflate(R.layout.layout_quick_create_menu, null);
+
+        // Add "Add Client" and "Add Course" to the quick menu too for convenience
+        // But for now, let's keep it simple or just make it truly contextual
+        
+        view.findViewById(R.id.btn_create_invoice).setOnClickListener(v -> {
+            dialog.dismiss();
+            Intent intent = new Intent(this, DocumentStudioActivity.class);
+            intent.putExtra(DocumentStudioActivity.EXTRA_MODE, DocumentStudioActivity.MODE_CREATE);
+            intent.putExtra(DocumentStudioActivity.EXTRA_TYPE, DocumentStudioActivity.TYPE_INVOICE);
+            startActivity(intent);
+        });
+
+        view.findViewById(R.id.btn_create_bon).setOnClickListener(v -> {
+            dialog.dismiss();
+            Intent intent = new Intent(this, DocumentStudioActivity.class);
+            intent.putExtra(DocumentStudioActivity.EXTRA_MODE, DocumentStudioActivity.MODE_CREATE);
+            intent.putExtra(DocumentStudioActivity.EXTRA_TYPE, DocumentStudioActivity.TYPE_BON);
+            startActivity(intent);
+        });
+
+        dialog.setContentView(view);
+        dialog.show();
     }
 
     private void animateBottomNavigationItem(int itemId) {

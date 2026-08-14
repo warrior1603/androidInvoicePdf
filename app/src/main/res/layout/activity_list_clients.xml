@@ -90,6 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="Ajouter"
+        android:visibility="gone"
         app:icon="@drawable/rounded_add_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

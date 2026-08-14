@@ -87,6 +87,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:text="Ajouter"
+        android:visibility="gone"
         app:icon="@drawable/rounded_add_24"
         android:contentDescription="Ajouter" />
 

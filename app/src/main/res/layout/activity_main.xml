@@ -106,26 +106,25 @@
             app:defaultNavHost="true"
             app:navGraph="@navigation/nav_graph"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/bottom_nav_divider"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <com.google.android.material.divider.MaterialDivider
-            android:id="@+id/bottom_nav_divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            app:dividerColor="?attr/colorOutline"
-            app:layout_constraintBottom_toTopOf="@id/bottomNavigationView" />
+        <include
+            layout="@layout/layout_floating_dock"
+            android:id="@+id/floating_dock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            style="@style/App.BottomNavigation"
-            app:menu="@menu/bottom_nav_menu"
-            app:labelVisibilityMode="labeled"
-            android:background="?attr/colorSurface"
-            app:elevation="0dp"
+            android:layout_height="1dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

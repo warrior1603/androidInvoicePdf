@@ -99,12 +99,10 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         View cardProfile = view.findViewById(R.id.card_profile);
         View cardSettings = view.findViewById(R.id.card_settings);
 
-        BottomNavigationView navView = requireActivity().findViewById(R.id.bottomNavigationView);
-
-        cardDocuments.setOnClickListener(v -> navView.setSelectedItemId(R.id.documentsHubFragment));
-        cardClients.setOnClickListener(v -> navView.setSelectedItemId(R.id.clientsHubFragment));
-        cardAgenda.setOnClickListener(v -> navView.setSelectedItemId(R.id.agendaFragment));
-        cardDashboard.setOnClickListener(v -> navView.setSelectedItemId(R.id.parametresFragment));
+        cardDocuments.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.documentsHubFragment));
+        cardClients.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.clientsHubFragment));
+        cardAgenda.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.agendaFragment));
+        cardDashboard.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.parametresFragment));
         cardProfile.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), com.chouchene.factures.SettingsActivity.class);
             intent.putExtra("target_tab", 2);
@@ -132,7 +130,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
             b.putInt("start_tab", 1);
             Navigation.findNavController(v).navigate(R.id.documentsHubFragment, b);
         });
-        view.findViewById(R.id.stat_bookings).setOnClickListener(v -> navView.setSelectedItemId(R.id.agendaFragment));
+        view.findViewById(R.id.stat_bookings).setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.agendaFragment));
 
         view.findViewById(R.id.btn_view_all_recent).setOnClickListener(v -> 
             Navigation.findNavController(v).navigate(R.id.globalHistoryFragment)
@@ -230,7 +228,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         SharedPreferences userPrefs = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String name = userPrefs.getString("User", "");
         if (!name.isEmpty()) {
-            txtGreeting.setText("Bonjour, " + name + " !");
+            txtGreeting.setText("Bonjour, " + name);
             TextView txtInitials = getView().findViewById(R.id.txt_home_user_initials);
             if (txtInitials != null) {
                 txtInitials.setText(com.chouchene.factures.utils.AvatarHelper.getInitials(name));

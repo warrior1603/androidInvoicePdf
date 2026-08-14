@@ -67,6 +67,9 @@ public class PersonalSettingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
+        // One-time emergency cleanup for corrupted data
+        cleanCorruptedData();
+
         imgLogo = view.findViewById(R.id.img_logo);
         view.findViewById(R.id.row_logo).setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -111,6 +114,31 @@ public class PersonalSettingsFragment extends Fragment {
                 if (s.length() >= 5) FetchVilleFromCodePostale.fetchDataFromApiWithParams(s.toString(), txtCity, txtCountry);
             }
         });
+    }
+
+    private void cleanCorruptedData() {
+        String userName = sharedPreferences.getString("User", "");
+        String email = sharedPreferences.getString("email", "");
+        
+        // If multiple distinct fields have the exact same long string, it's corrupted
+        if (!userName.isEmpty() && userName.equals(email) && userName.length() > 20) {
+            sharedPreferences.edit()
+                .remove("User")
+                .remove("email")
+                .remove("tel")
+                .remove("Street")
+                .remove("City")
+                .remove("codePostale")
+                .remove("siren")
+                .remove("tva")
+                .remove("chauffeur")
+                .remove("plaque")
+                .remove("evtc")
+                .remove("iban")
+                .remove("bic")
+                .remove("bankAddress")
+                .apply();
+        }
     }
 
     private TextInputEditText initItem(View itemView, String key, int iconRes, String label, int inputType) {

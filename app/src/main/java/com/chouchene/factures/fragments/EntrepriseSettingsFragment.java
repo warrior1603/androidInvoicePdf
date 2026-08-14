@@ -69,6 +69,9 @@ public class EntrepriseSettingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         prefs = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
+        // One-time emergency cleanup for corrupted data
+        cleanCorruptedData();
+
         stepperRoot = view.findViewById(R.id.stepper_root);
         
         // Stepper UI Elements
@@ -185,6 +188,31 @@ public class EntrepriseSettingsFragment extends Fragment {
 
         String iban = prefs.getString("iban", "");
         summary3.setText(iban.isEmpty() ? "IBAN, BIC..." : "IBAN: •••• " + (iban.length() > 4 ? iban.substring(iban.length() - 4) : iban));
+    }
+
+    private void cleanCorruptedData() {
+        String userName = prefs.getString("User", "");
+        String email = prefs.getString("email", "");
+        
+        // If multiple distinct fields have the exact same long string, it's corrupted
+        if (!userName.isEmpty() && userName.equals(email) && userName.length() > 20) {
+            prefs.edit()
+                .remove("User")
+                .remove("email")
+                .remove("tel")
+                .remove("Street")
+                .remove("City")
+                .remove("codePostale")
+                .remove("siren")
+                .remove("tva")
+                .remove("chauffeur")
+                .remove("plaque")
+                .remove("evtc")
+                .remove("iban")
+                .remove("bic")
+                .remove("bankAddress")
+                .apply();
+        }
     }
 
     private TextInputEditText initItem(View itemView, String key, int iconRes, String label, int inputType) {
