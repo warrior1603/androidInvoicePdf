@@ -3,110 +3,109 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingBottom="48dp">
+    android:orientation="horizontal"
+    android:background="?attr/colorSurface">
 
-    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        style="@style/App.TextAppearance.TitleLarge"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="24dp"
-        android:text="@string/label_payment_status"
-        android:textSize="22sp"
-        android:textStyle="bold" />
-
-    <TextView
-        style="@style/App.TextAppearance.BodyMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="24dp"
-        android:paddingTop="4dp"
-        android:text="@string/label_update_status"
-        android:alpha="0.6" />
+    <!-- Executive Vertical Accent -->
+    <View
+        android:layout_width="6dp"
+        android:layout_height="match_parent"
+        android:layout_marginVertical="24dp"
+        android:background="@drawable/bg_vertical_bar_primary" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:paddingHorizontal="8dp"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:paddingBottom="48dp">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/status_pending"
-            style="@style/Widget.Material3.Chip.Filter"
-            android:layout_width="0dp"
+        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:text="@string/status_pending"
-            android:textSize="11sp"
-            android:textStyle="bold"
-            app:chipIcon="@drawable/ic_status_clock"
-            app:chipIconTint="@color/status_pending"
-            app:chipIconSize="16dp"
-            app:iconStartPadding="4dp"
-            android:textColor="@color/status_pending"
-            app:chipBackgroundColor="@color/status_pending_bg"
-            app:chipStrokeWidth="0dp"
-            app:chipCornerRadius="24dp"
-            app:chipMinHeight="48dp"
-            android:textAllCaps="false"
-            android:checkable="true"
-            android:gravity="center"
-            android:textAlignment="center" />
+            android:layout_marginStart="-24dp" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/status_paid"
-            style="@style/Widget.Material3.Chip.Filter"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:text="@string/status_paid"
-            android:textSize="11sp"
-            android:textStyle="bold"
-            app:chipIcon="@drawable/ic_status_check"
-            app:chipIconTint="@color/status_paid"
-            app:chipIconSize="16dp"
-            app:iconStartPadding="4dp"
-            android:textColor="@color/status_paid"
-            app:chipBackgroundColor="@color/status_paid_bg"
-            app:chipStrokeWidth="0dp"
-            app:chipCornerRadius="24dp"
-            app:chipMinHeight="48dp"
-            android:textAllCaps="false"
-            android:checkable="true"
-            android:gravity="center"
-            android:textAlignment="center" />
+            android:orientation="vertical"
+            android:paddingHorizontal="24dp">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/status_cancelled"
-            style="@style/Widget.Material3.Chip.Filter"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:text="@string/status_cancelled"
-            android:textSize="11sp"
-            android:textStyle="bold"
-            app:chipIcon="@drawable/ic_status_x"
-            app:chipIconTint="@color/status_cancelled"
-            app:chipIconSize="16dp"
-            app:iconStartPadding="4dp"
-            android:textColor="@color/status_cancelled"
-            app:chipBackgroundColor="@color/status_cancelled_bg"
-            app:chipStrokeWidth="0dp"
-            app:chipCornerRadius="24dp"
-            app:chipMinHeight="48dp"
-            android:textAllCaps="false"
-            android:checkable="true"
-            android:gravity="center"
-            android:textAlignment="center" />
+            <TextView
+                style="@style/App.TextAppearance.LabelSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.3"
+                android:letterSpacing="0.3"
+                android:text="MISE À JOUR DU STATUT" />
 
+            <TextView
+                style="@style/App.TextAppearance.Headline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Paiement"
+                android:textSize="28sp"
+                android:letterSpacing="-0.02" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/status_pending"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="4dp"
+                    android:text="Attente"
+                    app:chipIcon="@drawable/ic_status_clock"
+                    app:chipIconTint="@color/status_pending"
+                    app:chipBackgroundColor="@color/status_pending_bg"
+                    app:chipStrokeWidth="0dp"
+                    app:chipCornerRadius="16dp"
+                    app:chipMinHeight="56dp"
+                    android:textAllCaps="false"
+                    android:checkable="true" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/status_paid"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="4dp"
+                    android:text="Payée"
+                    app:chipIcon="@drawable/ic_status_check"
+                    app:chipIconTint="@color/status_paid"
+                    app:chipBackgroundColor="@color/status_paid_bg"
+                    app:chipStrokeWidth="0dp"
+                    app:chipCornerRadius="16dp"
+                    app:chipMinHeight="56dp"
+                    android:textAllCaps="false"
+                    android:checkable="true" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/status_cancelled"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="4dp"
+                    android:text="Annulée"
+                    app:chipIcon="@drawable/ic_status_x"
+                    app:chipIconTint="@color/status_cancelled"
+                    app:chipBackgroundColor="@color/status_cancelled_bg"
+                    app:chipStrokeWidth="0dp"
+                    app:chipCornerRadius="16dp"
+                    app:chipMinHeight="56dp"
+                    android:textAllCaps="false"
+                    android:checkable="true" />
+
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

@@ -3,140 +3,106 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingBottom="24dp">
+    android:orientation="horizontal"
+    android:background="?attr/colorSurface">
 
-    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <!-- Executive Vertical Accent -->
+    <View
+        android:layout_width="6dp"
+        android:layout_height="match_parent"
+        android:layout_marginVertical="24dp"
+        android:background="@drawable/bg_vertical_bar_primary" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingHorizontal="24dp"
-        android:paddingVertical="16dp"
-        android:gravity="center_vertical">
+        android:orientation="vertical"
+        android:paddingBottom="48dp">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/menu_profile_img"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:src="@drawable/rounded_person_24"
-            android:background="?attr/colorSurface"
-            android:padding="14dp"
-            android:elevation="2dp"
-            app:shapeAppearanceOverlay="@style/App.ShapeAppearance.Circle"
-            android:scaleType="centerInside" />
-
-        <LinearLayout
-            android:layout_width="0dp"
+        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="16dp"
-            android:orientation="vertical">
+            android:layout_marginStart="-24dp" />
 
-            <TextView
-                android:id="@+id/menu_user_name"
-                style="@style/App.TextAppearance.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Utilisateur" />
+        <!-- User Identity Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="24dp"
+            android:paddingBottom="24dp">
 
-            <TextView
-                android:id="@+id/menu_user_email"
-                style="@style/App.TextAppearance.BodyMedium"
-                android:layout_width="wrap_content"
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="?attr/colorPrimary">
+                <TextView
+                    android:id="@+id/menu_profile_initials"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="U"
+                    android:textColor="@android:color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="email@exemple.com"
-                android:alpha="0.7" />
+                android:layout_weight="1"
+                android:layout_marginStart="20dp"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/menu_user_name"
+                    style="@style/App.TextAppearance.TitleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Utilisateur" />
+                <TextView
+                    android:id="@+id/menu_user_email"
+                    style="@style/App.TextAppearance.LabelSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="email@exemple.com"
+                    android:alpha="0.4" />
+            </LinearLayout>
         </LinearLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:alpha="0.08" />
+
+        <!-- Menu Actions (Integrated List Style) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp">
+
+            <include layout="@layout/view_settings_clickable_item" android:id="@+id/menu_item_profile" />
+            <include layout="@layout/view_settings_clickable_item" android:id="@+id/menu_item_settings" />
+            <include layout="@layout/view_settings_clickable_item" android:id="@+id/menu_item_help" />
+            <include layout="@layout/view_settings_clickable_item" android:id="@+id/menu_item_about" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="24dp"
+                android:alpha="0.08" />
+
+            <include layout="@layout/view_settings_clickable_item" android:id="@+id/menu_item_logout" />
+
+        </LinearLayout>
+
     </LinearLayout>
-
-    <com.google.android.material.divider.MaterialDivider
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp" />
-
-    <!-- Menu Items -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/menu_item_profile"
-        style="@style/Widget.Material3.Button.TextButton.Icon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="24dp"
-        android:paddingVertical="12dp"
-        android:text="@string/pref_title_profile"
-        android:gravity="start|center_vertical"
-        android:textAlignment="viewStart"
-        app:icon="@drawable/rounded_business_24"
-        app:iconPadding="16dp"
-        app:iconTint="?attr/colorOnSurfaceVariant"
-        android:textColor="?attr/colorOnSurface" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/menu_item_settings"
-        style="@style/Widget.Material3.Button.TextButton.Icon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="24dp"
-        android:paddingVertical="12dp"
-        android:text="@string/title_settings"
-        android:gravity="start|center_vertical"
-        android:textAlignment="viewStart"
-        app:icon="@drawable/rounded_settings_24"
-        app:iconPadding="16dp"
-        app:iconTint="?attr/colorOnSurfaceVariant"
-        android:textColor="?attr/colorOnSurface" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/menu_item_help"
-        style="@style/Widget.Material3.Button.TextButton.Icon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="24dp"
-        android:paddingVertical="12dp"
-        android:text="@string/title_help"
-        android:gravity="start|center_vertical"
-        android:textAlignment="viewStart"
-        app:icon="@drawable/rounded_help_24"
-        app:iconPadding="16dp"
-        app:iconTint="?attr/colorOnSurfaceVariant"
-        android:textColor="?attr/colorOnSurface" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/menu_item_about"
-        style="@style/Widget.Material3.Button.TextButton.Icon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="24dp"
-        android:paddingVertical="12dp"
-        android:text="@string/title_about"
-        android:gravity="start|center_vertical"
-        android:textAlignment="viewStart"
-        app:icon="@drawable/rounded_info_24"
-        app:iconPadding="16dp"
-        app:iconTint="?attr/colorOnSurfaceVariant"
-        android:textColor="?attr/colorOnSurface" />
-
-    <com.google.android.material.divider.MaterialDivider
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/menu_item_logout"
-        style="@style/Widget.Material3.Button.TextButton.Icon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="24dp"
-        android:paddingVertical="12dp"
-        android:text="@string/action_logout"
-        android:gravity="start|center_vertical"
-        android:textAlignment="viewStart"
-        app:icon="@drawable/rounded_logout_24"
-        app:iconPadding="16dp"
-        app:iconTint="?attr/colorError"
-        android:textColor="?attr/colorError" />
 
 </LinearLayout>

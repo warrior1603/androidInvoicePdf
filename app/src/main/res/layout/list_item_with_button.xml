@@ -16,11 +16,13 @@
         android:paddingVertical="18dp"
         android:paddingHorizontal="28dp">
 
-        <FrameLayout
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/avatarContainer"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="@drawable/bg_circle_soft">
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp">
 
             <TextView
                 android:id="@+id/textViewInitials"
@@ -31,7 +33,7 @@
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 android:textSize="18sp" />
-        </FrameLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout
             android:layout_width="0dp"

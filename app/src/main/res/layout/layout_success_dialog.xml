@@ -4,24 +4,37 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="24dp"
+    android:padding="32dp"
     android:gravity="center"
-    android:background="@drawable/dialog_background_square">
+    android:background="@drawable/bg_dashboard_sheet"
+    android:backgroundTint="?attr/colorSurface">
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lottie_success"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="false" />
+    <FrameLayout
+        android:layout_width="100dp"
+        android:layout_height="100dp">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.1"
+            android:background="@drawable/bg_circle_soft"
+            android:backgroundTint="@color/status_paid" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_success"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="24dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="false" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/txt_success_title"
         style="@style/App.TextAppearance.TitleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Succès !"
+        android:layout_marginTop="24dp"
+        android:text="Opération réussie"
         android:textStyle="bold" />
 
     <TextView
@@ -31,15 +44,16 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="Le document a été généré."
-        android:alpha="0.7" />
+        android:text="Le document a été généré avec succès."
+        android:alpha="0.6" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_done"
         style="@style/App.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Continuer" />
+        android:layout_marginTop="32dp"
+        android:text="Continuer"
+        app:backgroundTint="@color/status_paid" />
 
 </LinearLayout>

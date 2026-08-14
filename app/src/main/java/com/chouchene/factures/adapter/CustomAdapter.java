@@ -58,7 +58,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         holder.textViewCity.setText(client.getVille());
 
         holder.textViewInitials.setText(AvatarHelper.getInitials(client.getClientName()));
-        holder.avatarContainer.setBackgroundTintList(android.content.res.ColorStateList.valueOf(AvatarHelper.getColorForName(client.getClientName())));
+        holder.avatarContainer.setCardBackgroundColor(AvatarHelper.getColorForName(client.getClientName()));
 
         holder.cardview.setTransitionName("client_card_" + client.getId());
 
@@ -126,7 +126,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         TextView textView, textViewCity, textViewInitials;
         MaterialButton buttonCall;
         View cardview;
-        View avatarContainer;
+        MaterialCardView avatarContainer;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

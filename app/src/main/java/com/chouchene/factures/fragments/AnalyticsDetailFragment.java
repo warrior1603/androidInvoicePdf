@@ -436,7 +436,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
         View view = getLayoutInflater().inflate(R.layout.layout_analytics_invoices_bottom_sheet, null);
         
         TextView title = view.findViewById(R.id.txt_bottom_sheet_title);
-        title.setText("Documents pour " + (filter.label != null ? filter.label : ""));
+        title.setText(filter.label != null ? filter.label : "Détails");
         
         RecyclerView rv = view.findViewById(R.id.rv_analytics_invoices);
         HistoryAdapter adapter = new HistoryAdapter(this);

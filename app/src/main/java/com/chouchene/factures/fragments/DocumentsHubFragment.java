@@ -125,6 +125,11 @@ public class DocumentsHubFragment extends Fragment {
         updateChipsCounts();
     }
 
+    public int getSelectedTab() {
+        if (viewPager != null) return viewPager.getCurrentItem();
+        return 0;
+    }
+
     private static class DocumentsPagerAdapter extends FragmentStateAdapter {
         public DocumentsPagerAdapter(@NonNull Fragment fragment) { super(fragment); }
         @NonNull @Override public Fragment createFragment(int position) {

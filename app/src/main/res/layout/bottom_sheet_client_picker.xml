@@ -3,37 +3,66 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="16dp"
-    android:minHeight="500dp">
+    android:orientation="horizontal"
+    android:background="?attr/colorSurface">
 
-    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+    <!-- Executive Vertical Accent (Green for Client Selection) -->
+    <View
+        android:layout_width="6dp"
+        android:layout_height="match_parent"
+        android:layout_marginVertical="24dp"
+        android:background="@drawable/bg_vertical_bar_green" />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        style="@style/App.TextAppearance.TitleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sélectionner un client"
-        android:paddingHorizontal="24dp"
-        android:layout_marginBottom="16dp" />
+        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    <include layout="@layout/view_settings_input_item" android:id="@+id/item_search" />
+        <!-- Header Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="24dp"
+            android:paddingBottom="24dp">
 
-    <com.google.android.material.divider.MaterialDivider
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
-        android:alpha="0.3" />
+            <TextView
+                style="@style/App.TextAppearance.LabelSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.3"
+                android:letterSpacing="0.3"
+                android:text="SÉLECTION" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvClients"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:paddingTop="8dp"
-        android:clipToPadding="false"
-        android:layoutAnimation="@anim/layout_animation_fall_down" />
+            <TextView
+                style="@style/App.TextAppearance.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Choisir un Client"
+                android:textSize="28sp"
+                android:letterSpacing="-0.02" />
+
+            <include layout="@layout/view_settings_input_item"
+                android:id="@+id/item_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
+        </LinearLayout>
+
+        <!-- Content Area -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvClients"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="40dp"
+            android:layoutAnimation="@anim/layout_animation_fall_down" />
+
+    </LinearLayout>
 
 </LinearLayout>

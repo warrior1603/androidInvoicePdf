@@ -164,6 +164,9 @@ public class ClientPickerBottomSheet extends BottomSheetDialogFragment {
                 ItemViewHolder h = (ItemViewHolder) holder;
                 h.txtName.setText(client.clientName != null ? client.clientName : "Inconnu");
                 h.txtPhone.setText(client.phone != null ? client.phone : "");
+
+                com.chouchene.factures.utils.UIUtils.applyClickScale(h.itemView);
+
                 h.itemView.setOnClickListener(v -> {
                     if (listener != null) listener.onClientSelected(client);
                     dismiss();

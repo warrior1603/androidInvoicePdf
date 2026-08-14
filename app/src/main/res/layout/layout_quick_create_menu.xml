@@ -17,97 +17,160 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="28dp">
+        android:paddingBottom="24dp">
 
-        <TextView
-            style="@style/App.TextAppearance.LabelSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:alpha="0.3"
-            android:letterSpacing="0.3"
-            android:text="STUDIO DE CRÉATION" />
-
-        <LinearLayout
-            android:id="@+id/btn_create_invoice"
+        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:gravity="center_vertical"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:paddingVertical="12dp">
-
-            <ImageView
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:padding="11dp"
-                android:background="@drawable/bg_circle_soft"
-                android:backgroundTint="?attr/colorPrimaryContainer"
-                android:src="@drawable/ic_typcn_document"
-                app:tint="?attr/colorPrimary" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="20dp"
-                android:orientation="vertical">
-                <TextView
-                    style="@style/App.TextAppearance.TitleMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Facture"
-                    android:textSize="16sp" />
-                <TextView
-                    style="@style/App.TextAppearance.LabelSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha="0.4"
-                    android:text="Nouveau document fiscal" />
-            </LinearLayout>
-        </LinearLayout>
+            android:layout_marginStart="-24dp" />
 
         <LinearLayout
-            android:id="@+id/btn_create_bon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center_vertical"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:paddingVertical="12dp">
+            android:orientation="vertical"
+            android:paddingHorizontal="24dp">
 
-            <ImageView
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:padding="11dp"
-                android:background="@drawable/bg_circle_soft"
-                android:backgroundTint="@color/icon_dashboard_bg"
-                android:src="@drawable/ic_typcn_cart"
-                app:tint="@color/icon_dashboard" />
-
-            <LinearLayout
-                android:layout_width="0dp"
+            <TextView
+                style="@style/App.TextAppearance.LabelSmall"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="20dp"
-                android:orientation="vertical">
-                <TextView
-                    style="@style/App.TextAppearance.TitleMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Bon de commande"
-                    android:textSize="16sp" />
-                <TextView
-                    style="@style/App.TextAppearance.LabelSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha="0.4"
-                    android:text="Générer un bon de transport" />
-            </LinearLayout>
-        </LinearLayout>
+                android:alpha="0.3"
+                android:letterSpacing="0.3"
+                android:text="STUDIO DE CRÉATION" />
 
+            <TextView
+                style="@style/App.TextAppearance.Headline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Action Rapide"
+                android:textSize="24sp"
+                android:letterSpacing="-0.02" />
+
+            <!-- Grid of Actions (Compact & Vibrant) -->
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:columnCount="2">
+
+                <!-- New Invoice -->
+                <LinearLayout
+                    android:id="@+id/btn_create_invoice"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingVertical="16dp">
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:padding="14dp"
+                        android:background="@drawable/bg_circle_soft"
+                        android:backgroundTint="@color/icon_documents_bg"
+                        android:src="@drawable/ic_typcn_document"
+                        app:tint="@color/icon_documents" />
+                    <TextView
+                        style="@style/App.TextAppearance.LabelSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Facture"
+                        android:alpha="0.8" />
+                </LinearLayout>
+
+                <!-- New Bon -->
+                <LinearLayout
+                    android:id="@+id/btn_create_bon"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingVertical="16dp">
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:padding="14dp"
+                        android:background="@drawable/bg_circle_soft"
+                        android:backgroundTint="@color/icon_dashboard_bg"
+                        android:src="@drawable/ic_typcn_cart"
+                        app:tint="@color/icon_dashboard" />
+                    <TextView
+                        style="@style/App.TextAppearance.LabelSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Bon"
+                        android:alpha="0.8" />
+                </LinearLayout>
+
+                <!-- New Booking -->
+                <LinearLayout
+                    android:id="@+id/btn_quick_add_booking"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingVertical="16dp">
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:padding="14dp"
+                        android:background="@drawable/bg_circle_soft"
+                        android:backgroundTint="@color/icon_agenda_bg"
+                        android:src="@drawable/ic_typcn_agenda"
+                        app:tint="@color/icon_agenda" />
+                    <TextView
+                        style="@style/App.TextAppearance.LabelSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Course"
+                        android:alpha="0.8" />
+                </LinearLayout>
+
+                <!-- New Client -->
+                <LinearLayout
+                    android:id="@+id/btn_quick_add_client"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingVertical="16dp">
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:padding="14dp"
+                        android:background="@drawable/bg_circle_soft"
+                        android:backgroundTint="@color/icon_clients_bg"
+                        android:src="@drawable/ic_typcn_group_outline"
+                        app:tint="@color/icon_clients" />
+                    <TextView
+                        style="@style/App.TextAppearance.LabelSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Client"
+                        android:alpha="0.8" />
+                </LinearLayout>
+
+            </GridLayout>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

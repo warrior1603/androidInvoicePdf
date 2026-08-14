@@ -756,7 +756,21 @@ public class MainActivity extends AppCompatActivity {
     private void handleContextualCreate() {
         int destinationId = navController.getCurrentDestination() != null ? navController.getCurrentDestination().getId() : -1;
 
-        if (destinationId == R.id.homeFragment || destinationId == R.id.documentsHubFragment) {
+        if (destinationId == R.id.documentsHubFragment) {
+            // Bypass menu and go direct to active tab type
+            androidx.fragment.app.Fragment navHost = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+            if (navHost != null && !navHost.getChildFragmentManager().getFragments().isEmpty()) {
+                androidx.fragment.app.Fragment current = navHost.getChildFragmentManager().getFragments().get(0);
+                if (current instanceof com.chouchene.factures.fragments.DocumentsHubFragment) {
+                    int tab = ((com.chouchene.factures.fragments.DocumentsHubFragment) current).getSelectedTab();
+                    Intent intent = new Intent(this, DocumentStudioActivity.class);
+                    intent.putExtra(DocumentStudioActivity.EXTRA_MODE, DocumentStudioActivity.MODE_CREATE);
+                    intent.putExtra(DocumentStudioActivity.EXTRA_TYPE, tab == 0 ? 
+                            DocumentStudioActivity.TYPE_INVOICE : DocumentStudioActivity.TYPE_BON);
+                    startActivity(intent);
+                    return;
+                }
+            }
             showQuickCreateMenu();
         } else if (destinationId == R.id.clientsHubFragment) {
             // Trigger Add Client
@@ -794,6 +808,18 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra(DocumentStudioActivity.EXTRA_MODE, DocumentStudioActivity.MODE_CREATE);
             intent.putExtra(DocumentStudioActivity.EXTRA_TYPE, DocumentStudioActivity.TYPE_BON);
             startActivity(intent);
+        });
+
+        view.findViewById(R.id.btn_quick_add_booking).setOnClickListener(v -> {
+            dialog.dismiss();
+            com.chouchene.factures.fragments.AddBookingBottomSheet sheet = com.chouchene.factures.fragments.AddBookingBottomSheet.newInstance(null);
+            sheet.show(getSupportFragmentManager(), "QUICK_ADD_BOOKING");
+        });
+
+        view.findViewById(R.id.btn_quick_add_client).setOnClickListener(v -> {
+            dialog.dismiss();
+            com.chouchene.factures.fragments.AddClientBottomSheet sheet = com.chouchene.factures.fragments.AddClientBottomSheet.newInstance(null);
+            sheet.show(getSupportFragmentManager(), "QUICK_ADD_CLIENT");
         });
 
         dialog.setContentView(view);
