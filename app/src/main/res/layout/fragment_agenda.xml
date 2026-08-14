@@ -15,7 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="28dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="16dp"
             android:paddingTop="20dp"
             android:paddingBottom="16dp">
 
@@ -53,8 +54,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingStart="22dp"
-                android:paddingEnd="28dp">
+                android:paddingStart="12dp"
+                android:paddingEnd="16dp">
 
                 <!-- Sub Navigation / Tabs (Now inside content area) -->
                 <com.google.android.material.tabs.TabLayout

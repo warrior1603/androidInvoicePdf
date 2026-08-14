@@ -144,7 +144,7 @@
     </style>
 
     <style name="App.TextAppearance.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">17sp</item>
         <item name="android:fontFamily">@font/inter</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
@@ -159,7 +159,7 @@
     </style>
 
     <style name="App.TextAppearance.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">13sp</item>
         <item name="android:fontFamily">@font/inter</item>
         <item name="android:textStyle">bold</item>
         <item name="android:letterSpacing">0.08</item>
@@ -168,7 +168,7 @@
     </style>
 
     <style name="App.TextAppearance.LabelSmall" parent="TextAppearance.Material3.LabelSmall">
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:fontFamily">@font/inter</item>
         <item name="android:letterSpacing">0.1</item>
         <item name="android:textAllCaps">true</item>
@@ -176,13 +176,13 @@
     </style>
 
     <style name="App.TextAppearance.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:fontFamily">@font/inter</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
     </style>
 
     <style name="App.TextAppearance.BodySmall" parent="TextAppearance.Material3.BodySmall">
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">@font/inter</item>
         <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
     </style>

@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:paddingVertical="18dp"
-    android:paddingHorizontal="28dp"
+    android:paddingHorizontal="16dp"
     android:gravity="center_vertical">
 
     <View

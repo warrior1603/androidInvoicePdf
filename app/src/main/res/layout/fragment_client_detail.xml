@@ -23,7 +23,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingHorizontal="28dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="16dp"
                 android:paddingTop="24dp"
                 android:paddingBottom="32dp">
 
@@ -85,7 +86,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingHorizontal="28dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="16dp"
                 android:paddingVertical="20dp"
                 android:gravity="center_vertical">
 
@@ -145,8 +147,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingStart="22dp"
-                    android:paddingEnd="28dp">
+                    android:paddingStart="12dp"
+                    android:paddingEnd="16dp">
 
                     <TextView
                         style="@style/App.TextAppearance.LabelSmall"
@@ -250,8 +252,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingStart="22dp"
-                    android:paddingEnd="28dp">
+                    android:paddingStart="12dp"
+                    android:paddingEnd="16dp">
 
                     <TextView
                         style="@style/App.TextAppearance.LabelSmall"
@@ -302,8 +304,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingStart="22dp"
-                    android:paddingEnd="28dp">
+                    android:paddingStart="12dp"
+                    android:paddingEnd="16dp">
 
                     <TextView
                         style="@style/App.TextAppearance.LabelSmall"

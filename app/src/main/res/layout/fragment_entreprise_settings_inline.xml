@@ -134,8 +134,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingStart="14dp"
-                    android:paddingEnd="20dp">
+                    android:paddingStart="12dp"
+                    android:paddingEnd="16dp">
 
                     <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="COORDONNÉES" android:alpha="0.5" android:letterSpacing="0.2" />
 
@@ -191,8 +191,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingStart="14dp"
-                    android:paddingEnd="20dp">
+                    android:paddingStart="12dp"
+                    android:paddingEnd="16dp">
 
                     <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="VÉHICULE" android:alpha="0.5" android:letterSpacing="0.2" />
 
@@ -230,8 +230,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingStart="14dp"
-                    android:paddingEnd="20dp">
+                    android:paddingStart="12dp"
+                    android:paddingEnd="16dp">
 
                     <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="BANQUE" android:alpha="0.5" android:letterSpacing="0.2" />
 
