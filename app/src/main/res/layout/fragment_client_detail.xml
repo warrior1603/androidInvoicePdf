@@ -75,7 +75,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:alpha="0.3"
+                        android:alpha="0.5"
                         android:text="DOSSIER CLIENT" />
                 </LinearLayout>
             </LinearLayout>
@@ -112,7 +112,7 @@
                         style="@style/App.TextAppearance.LabelSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:alpha="0.3"
+                        android:alpha="0.5"
                         android:text="Valeur Totale" />
                 </LinearLayout>
 
@@ -152,7 +152,7 @@
                         style="@style/App.TextAppearance.LabelSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:alpha="0.3"
+                        android:alpha="0.5"
                         android:letterSpacing="0.3"
                         android:text="COORDONNÉES" />
 
@@ -257,7 +257,7 @@
                         style="@style/App.TextAppearance.LabelSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:alpha="0.3"
+                        android:alpha="0.5"
                         android:letterSpacing="0.3"
                         android:text="INFORMATIONS LÉGALES" />
 
@@ -309,7 +309,7 @@
                         style="@style/App.TextAppearance.LabelSmall"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:alpha="0.3"
+                        android:alpha="0.5"
                         android:letterSpacing="0.3"
                         android:text="HISTORIQUE DES DOCUMENTS" />
 

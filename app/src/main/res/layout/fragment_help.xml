@@ -54,7 +54,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:alpha="0.3"
+                        android:alpha="0.5"
                         android:text="SUPPORT &amp; DOCUMENTATION" />
                 </LinearLayout>
             </LinearLayout>
@@ -79,7 +79,7 @@
                     android:paddingStart="22dp"
                     android:paddingEnd="28dp">
 
-                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="CONTACTER LE SUPPORT" android:alpha="0.3" android:letterSpacing="0.2" />
+                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="CONTACTER LE SUPPORT" android:alpha="0.5" android:letterSpacing="0.2" />
 
                     <TextView
                         style="@style/App.TextAppearance.BodyMedium"

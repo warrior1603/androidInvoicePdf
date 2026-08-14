@@ -64,7 +64,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:alpha="0.3"
+                        android:alpha="0.5"
                         android:text="14 AOÛT" />
                 </LinearLayout>
             </LinearLayout>
@@ -100,7 +100,7 @@
                             style="@style/App.TextAppearance.LabelSmall"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:alpha="0.4"
+                            android:alpha="0.6"
                             android:letterSpacing="0.3"
                             android:text="BILAN FINANCIER" />
 
@@ -128,7 +128,7 @@
                                     style="@style/App.TextAppearance.LabelSmall"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:alpha="0.3"
+                                    android:alpha="0.5"
                                     android:letterSpacing="0.1"
                                     android:text="ENTRÉES" />
                                 <TextView
@@ -150,7 +150,7 @@
                                     style="@style/App.TextAppearance.LabelSmall"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:alpha="0.3"
+                                    android:alpha="0.5"
                                     android:letterSpacing="0.1"
                                     android:text="SORTIES" />
                                 <TextView
@@ -235,7 +235,7 @@
                         android:orientation="vertical">
                         <View android:layout_width="6dp" android:layout_height="6dp" android:background="@drawable/bg_solid_circle" android:backgroundTint="@color/icon_documents" android:alpha="0.8" />
                         <TextView android:id="@+id/txt_home_invoice_count" style="@style/App.TextAppearance.TitleMedium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:text="0" android:textSize="20sp" />
-                        <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:alpha="0.3" android:text="FACTURES" android:textSize="8sp" />
+                        <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:alpha="0.5" android:text="FACTURES" android:textSize="8sp" />
                     </LinearLayout>
 
                     <!-- Stat Bons -->
@@ -250,7 +250,7 @@
                         android:orientation="vertical">
                         <View android:layout_width="6dp" android:layout_height="6dp" android:background="@drawable/bg_solid_circle" android:backgroundTint="@color/icon_dashboard" android:alpha="0.8" />
                         <TextView android:id="@+id/txt_home_bon_count" style="@style/App.TextAppearance.TitleMedium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:text="0" android:textSize="20sp" />
-                        <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:alpha="0.3" android:text="BONS" android:textSize="8sp" />
+                        <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:alpha="0.5" android:text="BONS" android:textSize="8sp" />
                     </LinearLayout>
 
                     <!-- Stat Courses -->
@@ -265,7 +265,7 @@
                         android:orientation="vertical">
                         <View android:layout_width="6dp" android:layout_height="6dp" android:background="@drawable/bg_solid_circle" android:backgroundTint="@color/icon_agenda" android:alpha="0.8" />
                         <TextView android:id="@+id/txt_home_booking_count" style="@style/App.TextAppearance.TitleMedium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:text="0" android:textSize="20sp" />
-                        <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:alpha="0.3" android:text="COURSES" android:textSize="8sp" />
+                        <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:alpha="0.5" android:text="COURSES" android:textSize="8sp" />
                     </LinearLayout>
                 </LinearLayout>
             </FrameLayout>
@@ -300,7 +300,7 @@
                         style="@style/App.TextAppearance.LabelSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:alpha="0.3"
+                        android:alpha="0.5"
                         android:letterSpacing="0.3"
                         android:text="SERVICES" />
 
@@ -470,7 +470,7 @@
                     android:paddingStart="14dp"
                     android:paddingEnd="20dp">
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
-                        <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:alpha="0.3" android:letterSpacing="0.3" android:text="ACTIVITÉ RÉCENTE" />
+                        <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:alpha="0.5" android:letterSpacing="0.3" android:text="ACTIVITÉ RÉCENTE" />
                         <TextView android:id="@+id/btn_view_all_recent" style="@style/App.TextAppearance.LabelSmall" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="VOIR TOUT" android:textColor="?attr/colorPrimary" />
                     </LinearLayout>
                     <com.facebook.shimmer.ShimmerFrameLayout android:id="@+id/shimmer_view_container" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" app:shimmer_auto_start="true">

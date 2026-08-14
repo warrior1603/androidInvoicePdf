@@ -54,7 +54,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:alpha="0.3"
+                        android:alpha="0.5"
                         android:text="HISTORIQUE COMPLET" />
                 </LinearLayout>
             </LinearLayout>
@@ -172,7 +172,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
                             android:text="AUCUNE ACTIVITÉ TROUVÉE"
-                            android:alpha="0.3"
+                            android:alpha="0.5"
                             android:letterSpacing="0.2" />
                     </LinearLayout>
                 </LinearLayout>
