@@ -14,12 +14,13 @@
         android:textStyle="bold" />
 
     <TextView
-        style="@style/App.TextAppearance.LabelLarge"
+        style="@style/App.TextAppearance.LabelSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="Par Période"
-        android:textColor="?attr/colorPrimary" />
+        android:textColor="?attr/colorPrimary"
+        android:alpha="0.6" />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/filter_date_group"
@@ -45,12 +46,13 @@
     </com.google.android.material.chip.ChipGroup>
 
     <TextView
-        style="@style/App.TextAppearance.LabelLarge"
+        style="@style/App.TextAppearance.LabelSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="Par Statut"
-        android:textColor="?attr/colorPrimary" />
+        android:textColor="?attr/colorPrimary"
+        android:alpha="0.6" />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/filter_status_group"
@@ -76,12 +78,13 @@
     </com.google.android.material.chip.ChipGroup>
 
     <TextView
-        style="@style/App.TextAppearance.LabelLarge"
+        style="@style/App.TextAppearance.LabelSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="Par Type"
-        android:textColor="?attr/colorPrimary" />
+        android:textColor="?attr/colorPrimary"
+        android:alpha="0.6" />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/filter_type_group"

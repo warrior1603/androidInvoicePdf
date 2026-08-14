@@ -4,18 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:paddingBottom="24dp">
 
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-10dp" />
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:paddingHorizontal="24dp"
         android:layout_marginBottom="16dp">
 
         <TextView
@@ -28,14 +28,12 @@
 
         <TextView
             android:id="@+id/btn_clear_all"
+            style="@style/App.TextAppearance.Action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tout effacer"
-            android:textColor="?attr/colorError"
-            android:textStyle="bold"
             android:textSize="12sp"
             android:padding="8dp"
-            android:textAllCaps="false"
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackground" />
@@ -53,20 +51,33 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="40dp"
+        android:paddingVertical="60dp"
         android:visibility="gone">
 
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_bell_outline"
-            app:tint="?attr/colorOutline"
-            android:alpha="0.2" />
+        <FrameLayout
+            android:layout_width="120dp"
+            android:layout_height="120dp">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.05"
+                android:background="@drawable/bg_circle_soft"
+                android:backgroundTint="?attr/colorOnSurface" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="32dp"
+                android:src="@drawable/ic_typcn_bell"
+                android:alpha="0.2"
+                app:tint="?attr/colorOnSurface"
+                android:contentDescription="@null" />
+        </FrameLayout>
 
         <TextView
+            style="@style/App.TextAppearance.TitleMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:text="Aucune notification"
             android:alpha="0.4"
             android:textStyle="bold" />

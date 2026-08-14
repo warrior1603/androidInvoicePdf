@@ -106,8 +106,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="0.00 €"
-                        android:textSize="58sp"
-                        android:letterSpacing="-0.04" />
+                        android:textSize="42sp"
+                        android:letterSpacing="-0.03" />
 
                     <ImageView
                         android:id="@+id/img_revenue_trend"

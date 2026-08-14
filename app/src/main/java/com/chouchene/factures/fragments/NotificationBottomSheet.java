@@ -137,7 +137,10 @@ public class NotificationBottomSheet extends BottomSheetDialogFragment {
             int alphaColor = androidx.core.graphics.ColorUtils.setAlphaComponent(baseColor, 38); // 38 is ~15% of 255
             holder.iconContainer.setCardBackgroundColor(alphaColor);
 
+            com.chouchene.factures.utils.UIUtils.applyClickScale(holder.itemView);
+
             holder.itemView.setOnClickListener(v -> {
+                v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
                 item.isRead = true;
                 notifyItemChanged(position);
                 
