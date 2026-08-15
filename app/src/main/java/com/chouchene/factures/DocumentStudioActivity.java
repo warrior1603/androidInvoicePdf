@@ -47,6 +47,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 
+import android.net.Uri;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -88,6 +89,12 @@ public class DocumentStudioActivity extends AppCompatActivity {
     private com.chouchene.factures.utils.SignatureView signatureView;
     private MaterialButton btnClearSignature;
     
+    // Success Overlay Views
+    private View successOverlay;
+    private com.airbnb.lottie.LottieAnimationView lottieSuccess;
+    private MaterialButton btnView, btnShare, btnDone;
+    private nl.dionsegijn.konfetti.xml.KonfettiView konfettiStudio;
+
     private View containerInvoiceClient, containerInvoiceDetails, containerInvoicePrices;
     private View containerBonClient, containerBonDetails, containerBonPrices;
 
@@ -154,6 +161,14 @@ public class DocumentStudioActivity extends AppCompatActivity {
         containerBonClient = findViewById(R.id.container_bon_client);
         containerBonDetails = findViewById(R.id.container_bon_details);
         containerBonPrices = findViewById(R.id.container_bon_prices);
+
+        // Success Overlay Init
+        successOverlay = findViewById(R.id.studio_success_root);
+        lottieSuccess = findViewById(R.id.lottie_studio_success);
+        btnView = findViewById(R.id.btn_studio_view);
+        btnShare = findViewById(R.id.btn_studio_share);
+        btnDone = findViewById(R.id.btn_studio_done);
+        konfettiStudio = findViewById(R.id.konfetti_studio);
 
         signatureView = findViewById(R.id.signature_view_studio);
         btnClearSignature = findViewById(R.id.btn_clear_signature_studio);
@@ -530,8 +545,70 @@ public class DocumentStudioActivity extends AppCompatActivity {
             }
             if (mode.equals(MODE_EDIT) && existingInvoice != null) db.invoiceDao().updateInvoice(invoice);
             else db.invoiceDao().insertInvoice(invoice);
-            runOnUiThread(() -> UIUtils.showSuccessDialog(this, type + " Généré", "Enregistré avec succès.", this::finish));
+            runOnUiThread(() -> showSuccessOverlay(path));
         });
+    }
+
+    private void showSuccessOverlay(String path) {
+        if (successOverlay == null) {
+            finish();
+            return;
+        }
+
+        successOverlay.post(() -> {
+            // Circular Reveal Animation
+            int cx = successOverlay.getWidth() / 2;
+            int cy = successOverlay.getHeight() / 2;
+            float finalRadius = (float) Math.hypot(cx, cy);
+
+            successOverlay.setVisibility(View.VISIBLE);
+            android.view.ViewAnimationUtils.createCircularReveal(successOverlay, cx, cy, 0f, finalRadius)
+                    .setDuration(800)
+                    .start();
+        });
+
+        if (lottieSuccess != null) {
+            com.chouchene.factures.utils.LottieUtils.loadLottieWithFallback(lottieSuccess, new ImageView(this), "anim_onboarding_1.json");
+        }
+
+        // Trigger Konfetti
+        if (konfettiStudio != null) {
+            konfettiStudio.postDelayed(() -> {
+                nl.dionsegijn.konfetti.core.emitter.EmitterConfig emitterConfig = new nl.dionsegijn.konfetti.core.emitter.Emitter(1, java.util.concurrent.TimeUnit.SECONDS).perSecond(100);
+                konfettiStudio.start(
+                        new nl.dionsegijn.konfetti.core.PartyFactory(emitterConfig)
+                                .angle(nl.dionsegijn.konfetti.core.Angle.BOTTOM)
+                                .spread(nl.dionsegijn.konfetti.core.Spread.ROUND)
+                                .shapes(nl.dionsegijn.konfetti.core.models.Shape.Circle.INSTANCE, nl.dionsegijn.konfetti.core.models.Shape.Square.INSTANCE)
+                                .position(0.0, 0.0, 1.0, 0.0)
+                                .sizes(new nl.dionsegijn.konfetti.core.models.Size(8, 50, 10))
+                                .colors(java.util.Arrays.asList(0x3F51B5, 0x2E7D32, 0x81C784, 0x7986CB))
+                                .build()
+                );
+            }, 300L);
+        }
+
+        btnView.setOnClickListener(v -> {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("navigate_to_pdf", path);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        });
+
+        btnShare.setOnClickListener(v -> {
+            File file = new File(path);
+            Uri fileUri = androidx.core.content.FileProvider.getUriForFile(
+                    this, "com.chouchene.factures.provider", file
+            );
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("application/pdf");
+            shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(Intent.createChooser(shareIntent, "Partager le document"));
+        });
+
+        btnDone.setOnClickListener(v -> finish());
     }
 
     private void loadExistingDocument() {

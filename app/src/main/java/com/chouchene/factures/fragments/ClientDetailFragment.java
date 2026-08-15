@@ -124,14 +124,17 @@ public class ClientDetailFragment extends Fragment implements HistoryAdapter.OnH
             }
         });
 
-        view.findViewById(R.id.fab_edit_client).setOnClickListener(v -> {
-            AddClientBottomSheet bottomSheet = AddClientBottomSheet.newInstance(client);
-            bottomSheet.setOnClientSavedListener(() -> {
-                client = db.clientDao().getClientById(client.getId());
-                onViewCreated(view, null); // Refresh
+        View btnEdit = view.findViewById(R.id.btn_edit_client_top);
+        if (btnEdit != null) {
+            btnEdit.setOnClickListener(v -> {
+                AddClientBottomSheet bottomSheet = AddClientBottomSheet.newInstance(client);
+                bottomSheet.setOnClientSavedListener(() -> {
+                    client = db.clientDao().getClientById(client.getId());
+                    onViewCreated(view, null); // Refresh
+                });
+                bottomSheet.show(getChildFragmentManager(), "EDIT_CLIENT");
             });
-            bottomSheet.show(getChildFragmentManager(), "EDIT_CLIENT");
-        });
+        }
 
         View.OnClickListener createInvoiceAction = v -> {
             CreateInvoiceBottomSheet bottomSheet = CreateInvoiceBottomSheet.newInstance(client.getId());

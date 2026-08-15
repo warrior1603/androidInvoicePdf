@@ -1,6 +1,5 @@
 package com.chouchene.factures.utils;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,15 +13,10 @@ public class UIUtils {
 
     public static void showSuccessDialog(Context context, String title, String message, Runnable onDone) {
         if (context == null) return;
-        Dialog dialog = new Dialog(context);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        
+        com.google.android.material.bottomsheet.BottomSheetDialog dialog = new com.google.android.material.bottomsheet.BottomSheetDialog(context);
         View view = LayoutInflater.from(context).inflate(R.layout.layout_success_dialog, null);
         dialog.setContentView(view);
-        
-        if (dialog.getWindow() != null) {
-            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-            GlassUtils.applyGlassEffect(dialog.getWindow(), 50f);
-        }
 
         com.airbnb.lottie.LottieAnimationView lottie = view.findViewById(R.id.lottie_success);
         TextView txtTitle = view.findViewById(R.id.txt_success_title);

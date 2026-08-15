@@ -61,6 +61,9 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
     private PieChart distributionChart;
     private View badgeOverdue, cardOverdue;
     private com.facebook.shimmer.ShimmerFrameLayout shimmerContainer;
+    private androidx.core.widget.NestedScrollView scrollView;
+    private View sparklineBackground;
+    private View statInvoices, statOrders, statBookings;
     private RecyclerView rvRecent;
     private HistoryAdapter adapter;
     private AppDatabase db;
@@ -93,6 +96,11 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         cardOverdue = view.findViewById(R.id.card_overdue_alert);
         txtOverdueAlert = view.findViewById(R.id.txt_overdue_count);
         shimmerContainer = view.findViewById(R.id.shimmer_view_container);
+        scrollView = view.findViewById(R.id.home_scroll_view);
+        sparklineBackground = view.findViewById(R.id.sparkline_image);
+        statInvoices = view.findViewById(R.id.stat_invoices);
+        statOrders = view.findViewById(R.id.stat_orders);
+        statBookings = view.findViewById(R.id.stat_bookings);
         
         // Set dynamic date
         String dateStr = new SimpleDateFormat("EEEE d MMMM", Locale.getDefault()).format(new java.util.Date());
@@ -128,10 +136,12 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         // Entrance cascade for services
         android.view.ViewGroup servicesGrid = view.findViewById(R.id.services_grid);
         if (servicesGrid != null) {
-            servicesGrid.setLayoutAnimation(android.view.animation.AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_animation_fall_down));
+            servicesGrid.setLayoutAnimation(android.view.animation.AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_animation_liquid));
             servicesGrid.scheduleLayoutAnimation();
         }
 
+        setupScrollParallax();
+        
         view.findViewById(R.id.stat_invoices).setOnClickListener(v -> {
             Bundle b = new Bundle();
             b.putInt("start_tab", 0);
@@ -176,10 +186,44 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         view.findViewById(R.id.btn_view_trip).setOnClickListener(v -> card.performClick());
     }
 
+    private void setupScrollParallax() {
+        if (scrollView == null) return;
+        
+        scrollView.setOnScrollChangeListener((androidx.core.widget.NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            // Parallax factor for sparkline
+            if (sparklineBackground != null) {
+                sparklineBackground.setTranslationY(scrollY * 0.15f);
+            }
+            
+            // Subtle "Magnetic" floating for stats cards
+            float statsParallax = scrollY * 0.05f;
+            if (statInvoices != null) statInvoices.setTranslationY(-statsParallax);
+            if (statOrders != null) statOrders.setTranslationY(-statsParallax * 0.8f);
+            if (statBookings != null) statBookings.setTranslationY(-statsParallax * 1.2f);
+        });
+    }
+
+    private void pulseView(View view) {
+        if (view == null) return;
+        view.animate()
+            .scaleX(1.1f)
+            .scaleY(1.1f)
+            .setDuration(200)
+            .setInterpolator(new android.view.animation.DecelerateInterpolator())
+            .withEndAction(() -> view.animate()
+                .scaleX(1.0f)
+                .scaleY(1.0f)
+                .setDuration(400)
+                .setInterpolator(new android.view.animation.OvershootInterpolator())
+                .start())
+            .start();
+    }
+
     private void setupRecyclerView() {
         adapter = new HistoryAdapter(this);
         rvRecent.setLayoutManager(new LinearLayoutManager(requireContext()));
         rvRecent.setAdapter(adapter);
+        rvRecent.setLayoutAnimation(android.view.animation.AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_animation_liquid));
 
         new ItemTouchHelper(new SwipeHistoryCallback(requireContext()) {
             @Override
@@ -301,9 +345,21 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                     txtBonCount.setText(String.valueOf(bonCount));
                     txtBookingCount.setText(String.valueOf(bookingCount));
 
+                    // Pulse if counts changed
+                    if (invoiceCount > 0) pulseView(statInvoices);
+                    if (bonCount > 0) pulseView(statOrders);
+                    if (bookingCount > 0) pulseView(statBookings);
+
                     updateDistributionChart(invoiceCount, bonCount, bookingCount);
 
                     adapter.setData(finalActivity);
+                    
+                    if (shimmerContainer != null) {
+                        shimmerContainer.stopShimmer();
+                        shimmerContainer.setVisibility(View.GONE);
+                    }
+                    
+                    rvRecent.setVisibility(View.VISIBLE);
                     rvRecent.scheduleLayoutAnimation();
 
                     setupNextTripCard(v, nextBooking);
@@ -319,18 +375,11 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                             cardOverdue.setOnClickListener(v_overdue -> {
                                 Bundle b = new Bundle();
                                 b.putInt("start_tab", 0);
-                                // We could also set a status filter here if we wanted
                                 Navigation.findNavController(v_overdue).navigate(R.id.documentsHubFragment, b);
                             });
                         } else {
                             cardOverdue.setVisibility(View.GONE);
                         }
-                    }
-
-                    if (shimmerContainer != null) {
-                        shimmerContainer.stopShimmer();
-                        shimmerContainer.setVisibility(View.GONE);
-                        rvRecent.setVisibility(View.VISIBLE);
                     }
                 });
             }
@@ -482,12 +531,20 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
     }
 
     private void animateNumber(TextView textView, float target) {
+        textView.setAlpha(0f);
+        textView.setTranslationY(20f);
+        
         android.animation.ValueAnimator animator = android.animation.ValueAnimator.ofFloat(0, target);
-        animator.setDuration(1000);
+        animator.setDuration(1200);
         animator.setInterpolator(new android.view.animation.DecelerateInterpolator());
         animator.addUpdateListener(animation -> {
             float value = (float) animation.getAnimatedValue();
             textView.setText(String.format(Locale.getDefault(), "%.2f €", value));
+            
+            // Reveal effect
+            float progress = animation.getAnimatedFraction();
+            textView.setAlpha(progress);
+            textView.setTranslationY(20f * (1 - progress));
         });
         animator.start();
     }

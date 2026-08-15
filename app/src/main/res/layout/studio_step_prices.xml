@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout android:id="@+id/container_invoice_prices" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+        <include layout="@layout/view_settings_input_item" android:id="@+id/item_inv_qty" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.1" />
+
+        <include layout="@layout/view_settings_input_item" android:id="@+id/item_inv_price_ttc" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.1" />
+
+        <include layout="@layout/view_settings_input_item" android:id="@+id/item_inv_tva_rate" android:layout_width="match_parent" android:layout_height="wrap_content" />
+
+        <TextView style="@style/App.TextAppearance.LabelLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="16dp" android:text="Signature (Optionnel)" android:alpha="0.4" />
+        <FrameLayout android:layout_width="match_parent" android:layout_height="120dp" android:layout_marginHorizontal="24dp" android:background="@drawable/bg_section_flat" android:backgroundTint="?attr/colorSurfaceVariant">
+            <com.chouchene.factures.utils.SignatureView android:id="@+id/signature_view_studio" android:layout_width="match_parent" android:layout_height="match_parent" />
+        </FrameLayout>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_clear_signature_studio" style="@style/Widget.Material3.Button.TextButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="end" android:layout_marginEnd="16dp" android:text="Effacer" android:textColor="?attr/colorError" />
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/container_bon_prices" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
+        <include layout="@layout/view_settings_input_item" android:id="@+id/item_bon_via" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.1" />
+
+        <include layout="@layout/view_settings_input_item" android:id="@+id/item_bon_tarif" android:layout_width="match_parent" android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>

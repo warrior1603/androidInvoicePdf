@@ -573,9 +573,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onNewIntent(@NonNull Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        handleIntent(intent);
+    }
+
     private void handleIntent(Intent intent) {
-        if (intent != null && "agenda".equals(intent.getStringExtra("navigate_to"))) {
+        if (intent == null) return;
+
+        if ("agenda".equals(intent.getStringExtra("navigate_to"))) {
             if (bottomNavigationView != null) bottomNavigationView.setSelectedItemId(R.id.agendaFragment);
+        } else if (intent.hasExtra("navigate_to_pdf")) {
+            String path = intent.getStringExtra("navigate_to_pdf");
+            Bundle args = new Bundle();
+            args.putString("file_path", path);
+            if (navController != null) navController.navigate(R.id.webViewPdfFragment, args);
         }
     }
 

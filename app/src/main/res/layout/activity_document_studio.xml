@@ -1,271 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="?attr/colorSurface">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar_studio"
-        style="@style/App.Toolbar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:navigationIcon="@drawable/rounded_arrow_back_24"
-        app:title="Studio de Création"
-        app:titleCentered="false" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <!-- Live Preview Canvas (Minimalist Flat) -->
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.4"
-        android:background="?attr/colorSurfaceVariant"
-        android:padding="16dp">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar_studio"
+            style="@style/App.Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/rounded_arrow_back_24"
+            app:title="Studio de Création"
+            app:titleCentered="false" />
 
+        <!-- Live Preview Canvas -->
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/white">
+            android:layout_height="0dp"
+            android:layout_weight="0.4"
+            android:background="?attr/colorSurfaceVariant"
+            android:padding="16dp">
 
-            <WebView
-                android:id="@+id/webview_preview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <View
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/bg_dashboard_sheet"
-                android:alpha="0.05"
-                tools:ignore="ViewConstructor" />
+                android:background="@android:color/white">
 
-            <ProgressBar
-                android:id="@+id/preview_loader"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_gravity="center"
-                android:visibility="gone" />
+                <WebView
+                    android:id="@+id/webview_preview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_dashboard_sheet"
+                    android:alpha="0.05" />
+
+                <ProgressBar
+                    android:id="@+id/preview_loader"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+            </FrameLayout>
         </FrameLayout>
-    </FrameLayout>
 
-    <!-- Stepper Indicator (Ultra Minimal) -->
-    <LinearLayout
-        android:id="@+id/stepper_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:paddingTop="24dp"
-        android:paddingBottom="16dp"
-        android:paddingHorizontal="60dp">
-
-        <View
-            android:id="@+id/step_indicator_1"
-            android:layout_width="0dp"
-            android:layout_height="3dp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_vertical_bar_primary" />
-
-        <View
-            android:layout_width="8dp"
-            android:layout_height="match_parent" />
-
-        <View
-            android:id="@+id/step_indicator_2"
-            android:layout_width="0dp"
-            android:layout_height="3dp"
-            android:layout_weight="1"
-            android:background="?attr/colorOutlineVariant"
-            android:alpha="0.5" />
-
-        <View
-            android:layout_width="8dp"
-            android:layout_height="match_parent" />
-
-        <View
-            android:id="@+id/step_indicator_3"
-            android:layout_width="0dp"
-            android:layout_height="3dp"
-            android:layout_weight="1"
-            android:background="?attr/colorOutlineVariant"
-            android:alpha="0.5" />
-    </LinearLayout>
-
-    <!-- Form Steps with Vertical Accent -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.6"
-        android:orientation="horizontal">
-
-        <View
-            android:id="@+id/studio_accent_bar"
-            android:layout_width="6dp"
-            android:layout_height="match_parent"
-            android:layout_marginVertical="12dp"
-            android:background="@drawable/bg_vertical_bar_primary" />
-
-        <androidx.core.widget.NestedScrollView
+        <!-- Stepper Indicator -->
+        <LinearLayout
+            android:id="@+id/stepper_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingTop="24dp"
+            android:paddingBottom="16dp"
+            android:paddingHorizontal="60dp">
 
-            <ViewFlipper
-                android:id="@+id/view_flipper_studio"
+            <View
+                android:id="@+id/step_indicator_1"
+                android:layout_width="0dp"
+                android:layout_height="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_vertical_bar_primary" />
+
+            <View android:layout_width="8dp" android:layout_height="match_parent" />
+
+            <View
+                android:id="@+id/step_indicator_2"
+                android:layout_width="0dp"
+                android:layout_height="3dp"
+                android:layout_weight="1"
+                android:background="?attr/colorOutlineVariant"
+                android:alpha="0.5" />
+
+            <View android:layout_width="8dp" android:layout_height="match_parent" />
+
+            <View
+                android:id="@+id/step_indicator_3"
+                android:layout_width="0dp"
+                android:layout_height="3dp"
+                android:layout_weight="1"
+                android:background="?attr/colorOutlineVariant"
+                android:alpha="0.5" />
+        </LinearLayout>
+
+        <!-- Form Steps -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.6"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/studio_accent_bar"
+                android:layout_width="6dp"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="12dp"
+                android:background="@drawable/bg_vertical_bar_primary" />
+
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <ViewFlipper
+                    android:id="@+id/view_flipper_studio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="12dp"
+                    android:paddingBottom="24dp">
+
+                    <include layout="@layout/studio_step_client" />
+                    <include layout="@layout/studio_step_details" />
+                    <include layout="@layout/studio_step_prices" />
+
+                </ViewFlipper>
+            </androidx.core.widget.NestedScrollView>
+        </LinearLayout>
+
+        <!-- Bottom Actions -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="20dp"
+            android:background="?attr/colorSurface">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_back_studio"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="12dp"
-                android:paddingBottom="24dp">
+                android:text="Retour"
+                android:visibility="gone" />
 
-                <!-- Step 1: Client / Passenger -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_next_studio"
+                style="@style/App.Button"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:text="Suivant" />
 
-                    <!-- Invoice Specific Fields -->
-                    <LinearLayout android:id="@+id/container_invoice_client" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
-                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_inv_name" android:layout_width="match_parent" android:layout_height="wrap_content" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.1" />
-
-                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_inv_email" android:layout_width="match_parent" android:layout_height="wrap_content" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.1" />
-
-                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_inv_tel" android:layout_width="match_parent" android:layout_height="wrap_content" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.1" />
-
-                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_inv_street" android:layout_width="match_parent" android:layout_height="wrap_content" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.1" />
-
-                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:baselineAligned="false">
-                            <include layout="@layout/view_settings_input_item" android:id="@+id/item_inv_zip" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
-                            <include layout="@layout/view_settings_input_item" android:id="@+id/item_inv_city" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1.2" />
-                        </LinearLayout>
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.1" />
-
-                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_inv_country" android:layout_width="match_parent" android:layout_height="wrap_content" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.1" />
-
-                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_inv_siren" android:layout_width="match_parent" android:layout_height="wrap_content" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.1" />
-
-                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_inv_tva" android:layout_width="match_parent" android:layout_height="wrap_content" />
-                    </LinearLayout>
-
-                    <!-- Bon Specific Fields -->
-                    <LinearLayout android:id="@+id/container_bon_client" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
-                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_bon_passenger" android:layout_width="match_parent" android:layout_height="wrap_content" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.1" />
-
-                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_bon_tel" android:layout_width="match_parent" android:layout_height="wrap_content" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.1" />
-
-                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:baselineAligned="false">
-                            <include layout="@layout/view_settings_input_item" android:id="@+id/item_bon_order_date" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
-                            <include layout="@layout/view_settings_input_item" android:id="@+id/item_bon_order_time" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <!-- Step 2: Details -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <LinearLayout android:id="@+id/container_invoice_details" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
-                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_inv_date" android:layout_width="match_parent" android:layout_height="wrap_content" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.1" />
-
-                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_inv_desc" android:layout_width="match_parent" android:layout_height="wrap_content" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.1" />
-
-                        <include layout="@layout/view_settings_dropdown_item" android:id="@+id/item_inv_payment" android:layout_width="match_parent" android:layout_height="wrap_content" />
-                    </LinearLayout>
-
-                    <LinearLayout android:id="@+id/container_bon_details" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
-                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:baselineAligned="false">
-                            <include layout="@layout/view_settings_input_item" android:id="@+id/item_bon_pickup_date" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
-                            <include layout="@layout/view_settings_input_item" android:id="@+id/item_bon_pickup_time" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
-                        </LinearLayout>
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.1" />
-
-                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_bon_pec" android:layout_width="match_parent" android:layout_height="wrap_content" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.1" />
-
-                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_bon_dest" android:layout_width="match_parent" android:layout_height="wrap_content" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <!-- Step 3: Prices -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <LinearLayout android:id="@+id/container_invoice_prices" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
-                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_inv_qty" android:layout_width="match_parent" android:layout_height="wrap_content" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.1" />
-
-                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_inv_price_ttc" android:layout_width="match_parent" android:layout_height="wrap_content" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.1" />
-
-                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_inv_tva_rate" android:layout_width="match_parent" android:layout_height="wrap_content" />
-
-                        <TextView style="@style/App.TextAppearance.LabelLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="16dp" android:text="Signature (Optionnel)" android:alpha="0.4" />
-                        <FrameLayout android:layout_width="match_parent" android:layout_height="120dp" android:layout_marginHorizontal="24dp" android:background="@drawable/bg_section_flat" android:backgroundTint="?attr/colorSurfaceVariant">
-                            <com.chouchene.factures.utils.SignatureView android:id="@+id/signature_view_studio" android:layout_width="match_parent" android:layout_height="match_parent" />
-                        </FrameLayout>
-                        <com.google.android.material.button.MaterialButton android:id="@+id/btn_clear_signature_studio" style="@style/Widget.Material3.Button.TextButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="end" android:layout_marginEnd="16dp" android:text="Effacer" android:textColor="?attr/colorError" />
-                    </LinearLayout>
-
-                    <LinearLayout android:id="@+id/container_bon_prices" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
-                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_bon_via" android:layout_width="match_parent" android:layout_height="wrap_content" />
-                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.1" />
-
-                        <include layout="@layout/view_settings_input_item" android:id="@+id/item_bon_tarif" android:layout_width="match_parent" android:layout_height="wrap_content" />
-                    </LinearLayout>
-                </LinearLayout>
-
-            </ViewFlipper>
-        </androidx.core.widget.NestedScrollView>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_generate_studio"
+                style="@style/App.Button"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:text="Générer PDF"
+                android:visibility="gone" />
+        </LinearLayout>
     </LinearLayout>
 
-    <!-- Bottom Actions -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="20dp"
-        android:background="?attr/colorSurface">
+    <!-- Success Overlay -->
+    <include layout="@layout/layout_studio_success_overlay" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_back_studio"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Retour"
-            android:visibility="gone" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_next_studio"
-            style="@style/App.Button"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:text="Suivant" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_generate_studio"
-            style="@style/App.Button"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:text="Générer PDF"
-            android:visibility="gone" />
-    </LinearLayout>
-
-</LinearLayout>
+</FrameLayout>

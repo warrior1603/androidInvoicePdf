@@ -79,6 +79,15 @@
                         android:alpha="0.5"
                         android:text="DOSSIER CLIENT" />
                 </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_edit_client_top"
+                    style="?attr/materialIconButtonStyle"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    app:icon="@drawable/ic_typcn_pen"
+                    app:iconTint="?attr/colorOnSurface"
+                    android:alpha="0.5" />
             </LinearLayout>
 
             <!-- Section 2: Structural Metrics (Client Value) -->
@@ -140,7 +149,8 @@
                 <View
                     android:layout_width="6dp"
                     android:layout_height="match_parent"
-                    android:layout_marginVertical="12dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@drawable/bg_vertical_bar_primary" />
 
                 <LinearLayout
@@ -245,7 +255,8 @@
                 <View
                     android:layout_width="6dp"
                     android:layout_height="match_parent"
-                    android:layout_marginVertical="12dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@drawable/bg_vertical_bar_green" />
 
                 <LinearLayout
@@ -297,7 +308,8 @@
                 <View
                     android:layout_width="6dp"
                     android:layout_height="match_parent"
-                    android:layout_marginVertical="12dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@drawable/bg_vertical_bar_history" />
 
                 <LinearLayout
@@ -343,18 +355,5 @@
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_edit_client"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="28dp"
-        android:layout_gravity="bottom|end"
-        android:src="@drawable/ic_typcn_pen"
-        app:tint="?attr/colorOnPrimary"
-        android:backgroundTint="?attr/colorPrimary"
-        app:elevation="0dp"
-        app:pressedTranslationZ="0dp"
-        app:maxImageSize="28dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
