@@ -6,9 +6,9 @@
     android:viewportWidth="400"
     android:viewportHeight="140">
 
-    <!-- Base Surface with Architectural Curve -->
+    <!-- Minimalist Blueprint Surface (Very Light) -->
     <path
-        android:pathData="M0,0 H400 V120 C300,135 100,135 0,120 Z">
+        android:pathData="M0,0 H400 V140 H0 Z">
         <aapt:attr name="android:fillColor">
             <gradient
                 android:angle="270"
@@ -17,71 +17,38 @@
         </aapt:attr>
     </path>
 
-    <!-- Enhanced Aurora Prism (Dual Glow) -->
-    <!-- Primary Glow (Top Right) -->
-    <path
-        android:pathData="M200,0 Q400,0 400,120 V0 Z"
-        android:alpha="0.1">
-        <aapt:attr name="android:fillColor">
-            <gradient
-                android:centerX="400"
-                android:centerY="0"
-                android:gradientRadius="180"
-                android:type="radial"
-                android:startColor="?attr/colorPrimary"
-                android:endColor="@android:color/transparent" />
-        </aapt:attr>
-    </path>
-    <!-- Secondary Ghost Glow (Top Left - Prism effect) -->
-    <path
-        android:pathData="M0,0 H150 V100 Q0,100 0,0 Z"
-        android:alpha="0.04">
-        <aapt:attr name="android:fillColor">
-            <gradient
-                android:centerX="0"
-                android:centerY="0"
-                android:gradientRadius="120"
-                android:type="radial"
-                android:startColor="#6366F1"
-                android:endColor="@android:color/transparent" />
-        </aapt:attr>
-    </path>
-
-    <!-- Refined Architectural Trace Lines -->
-    <path
-        android:strokeWidth="0.4"
-        android:pathData="M-20,35 L420,15"
-        android:strokeColor="?attr/colorPrimary"
-        android:alpha="0.12" />
-    <path
-        android:strokeWidth="0.4"
-        android:pathData="M310,-10 L370,150"
-        android:strokeColor="?attr/colorPrimary"
-        android:alpha="0.08" />
-    <path
-        android:strokeWidth="0.6"
-        android:pathData="M-50,115 L450,118"
+    <!-- Discreet Technical Grid (Spaced out to 40dp) -->
+    <path android:pathData="M0,40 H400 M0,80 H400 M0,120 H400"
+        android:strokeWidth="0.3"
         android:strokeColor="?attr/colorPrimary"
         android:alpha="0.04" />
 
-    <!-- Structural Node with Focus Ring -->
-    <!-- Outer Ghost Ring -->
+    <path android:pathData="M40,0 V140 M80,0 V140 M120,0 V140 M160,0 V140 M200,0 V140 M240,0 V140 M280,0 V140 M320,0 V140 M360,0 V140"
+        android:strokeWidth="0.3"
+        android:strokeColor="?attr/colorPrimary"
+        android:alpha="0.04" />
+
+    <!-- Ghost Technical Marks (Very Low Opacity) -->
+    <path android:pathData="M15,15 H25 M15,15 V25" android:strokeWidth="0.6" android:strokeColor="?attr/colorPrimary" android:alpha="0.08" />
+    <path android:pathData="M385,15 H375 M385,15 V25" android:strokeWidth="0.6" android:strokeColor="?attr/colorPrimary" android:alpha="0.08" />
+
+    <!-- Minimalist Technical Crosshair -->
     <path
         android:strokeWidth="0.5"
         android:strokeColor="?attr/colorPrimary"
         android:alpha="0.1"
-        android:pathData="M336,65 m-5,0 a5,5 0,1 1,10 0 a5,5 0,1 1,-10 0" />
-    <!-- Inner Dot -->
+        android:pathData="M350,70 m-8,0 a8,8 0,1 1,16 0 a8,8 0,1 1,-16 0" />
+    <path android:pathData="M344,70 H356 M350,64 V76" android:strokeWidth="0.5" android:strokeColor="?attr/colorPrimary" android:alpha="0.1" />
     <path
         android:fillColor="?attr/colorPrimary"
-        android:alpha="0.25"
-        android:pathData="M336,65 m-2.2,0 a2.2,2.2 0,1 1,4.4 0 a2.2,2.2 0,1 1,-4.4 0" />
+        android:alpha="0.15"
+        android:pathData="M350,70 m-1.5,0 a1.5,1.5 0,1 1,3 0 a1.5,1.5 0,1 1,-3 0" />
 
-    <!-- Hairline Edge Definition (Subtle sharp border) -->
+    <!-- Hairline Bottom Edge -->
     <path
-        android:strokeWidth="0.5"
-        android:pathData="M400,120 C300,135 100,135 0,120"
-        android:strokeColor="?attr/colorPrimary"
-        android:alpha="0.03" />
+        android:pathData="M0,139 H400"
+        android:strokeWidth="1"
+        android:strokeColor="?attr/colorOutlineVariant"
+        android:alpha="0.2" />
 
 </vector>
