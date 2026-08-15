@@ -132,10 +132,9 @@ public class NotificationBottomSheet extends BottomSheetDialogFragment {
             holder.icon.setImageResource(item.iconRes != 0 ? item.iconRes : R.drawable.rounded_info_24);
             holder.icon.setColorFilter(ContextCompat.getColor(requireContext(), colorRes));
             
-            // Set background color with 15% alpha without affecting the icon visibility
+            // Set background color for the circle bg view
             int baseColor = ContextCompat.getColor(requireContext(), colorRes);
-            int alphaColor = androidx.core.graphics.ColorUtils.setAlphaComponent(baseColor, 38); // 38 is ~15% of 255
-            holder.iconContainer.setBackgroundTintList(android.content.res.ColorStateList.valueOf(alphaColor));
+            holder.iconBg.setBackgroundTintList(android.content.res.ColorStateList.valueOf(baseColor));
 
             com.chouchene.factures.utils.UIUtils.applyClickScale(holder.itemView);
 
@@ -162,14 +161,14 @@ public class NotificationBottomSheet extends BottomSheetDialogFragment {
             TextView title, desc;
             ImageView icon;
             View dot;
-            View iconContainer;
+            View iconBg;
             ViewHolder(View v) {
                 super(v);
                 title = v.findViewById(R.id.notif_title);
                 desc = v.findViewById(R.id.notif_desc);
                 icon = v.findViewById(R.id.notif_icon);
                 dot = v.findViewById(R.id.notif_unread_dot);
-                iconContainer = v.findViewById(R.id.notif_icon_container);
+                iconBg = v.findViewById(R.id.notif_icon_bg);
             }
         }
     }

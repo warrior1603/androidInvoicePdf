@@ -3,85 +3,116 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingBottom="24dp">
+    android:orientation="horizontal"
+    android:background="?attr/colorSurface">
 
-    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="24dp"
-        android:paddingBottom="12dp"
-        android:layout_marginBottom="16dp">
-
-        <TextView
-            style="@style/App.TextAppearance.TitleLarge"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Notifications"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/btn_clear_all"
-            style="@style/App.TextAppearance.Action"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tout effacer"
-            android:textSize="12sp"
-            android:padding="8dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackground" />
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_notifications"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="100dp" />
+    <!-- Executive Vertical Accent -->
+    <View
+        android:layout_width="6dp"
+        android:layout_height="match_parent"
+        android:layout_marginVertical="24dp"
+        android:background="@drawable/bg_vertical_bar_primary" />
 
     <LinearLayout
-        android:id="@+id/empty_notifications"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:orientation="vertical"
-        android:paddingVertical="60dp"
-        android:visibility="gone">
+        android:paddingBottom="32dp">
 
-        <FrameLayout
-            android:layout_width="120dp"
-            android:layout_height="120dp">
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="0.05"
-                android:background="@drawable/bg_circle_soft"
-                android:backgroundTint="?attr/colorOnSurface" />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="32dp"
-                android:src="@drawable/ic_typcn_bell"
-                android:alpha="0.2"
-                app:tint="?attr/colorOnSurface"
-                android:contentDescription="@null" />
-        </FrameLayout>
+        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-        <TextView
-            style="@style/App.TextAppearance.TitleMedium"
-            android:layout_width="wrap_content"
+        <!-- Header Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Aucune notification"
-            android:alpha="0.4"
-            android:textStyle="bold" />
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="24dp"
+            android:paddingBottom="16dp">
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/App.TextAppearance.LabelSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.3"
+                    android:letterSpacing="0.3"
+                    android:text="CENTRE D'ALERTES" />
+
+                <TextView
+                    style="@style/App.TextAppearance.Headline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Notifications"
+                    android:textSize="28sp"
+                    android:letterSpacing="-0.02" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/btn_clear_all"
+                style="@style/App.TextAppearance.LabelSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TOUT EFFACER"
+                android:textColor="?attr/colorPrimary"
+                android:padding="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_notifications"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="100dp"
+            android:clipToPadding="false"
+            android:layoutAnimation="@anim/layout_animation_fall_down" />
+
+        <LinearLayout
+            android:id="@+id/empty_notifications"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingVertical="60dp"
+            android:visibility="gone">
+
+            <FrameLayout
+                android:layout_width="120dp"
+                android:layout_height="120dp">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.05"
+                    android:background="@drawable/bg_circle_soft"
+                    android:backgroundTint="?attr/colorOnSurface" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="32dp"
+                    android:src="@drawable/ic_typcn_bell"
+                    android:alpha="0.2"
+                    app:tint="?attr/colorOnSurface"
+                    android:contentDescription="@null" />
+            </FrameLayout>
+
+            <TextView
+                style="@style/App.TextAppearance.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Aucune notification"
+                android:alpha="0.4"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
