@@ -1,6 +1,5 @@
 package com.chouchene.factures.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,7 +20,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.preference.PreferenceManager;
 
 import com.chouchene.factures.MainActivity;
@@ -39,7 +37,7 @@ import java.util.Locale;
 
 public class SettingsFragment extends Fragment {
 
-    private SharedPreferences prefs;
+    private SharedPreferences prefs, businessPrefs, appPrefs;
     private ActivityResultLauncher<String> exportLauncher;
     private ActivityResultLauncher<String[]> importLauncher;
     private ActivityResultLauncher<Uri> dirPickerLauncher;
@@ -47,6 +45,10 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        businessPrefs = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        appPrefs = requireContext().getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
         
         exportLauncher = registerForActivityResult(new ActivityResultContracts.CreateDocument("application/zip"), uri -> {
             if (uri != null) performExport(uri);
@@ -70,7 +72,6 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
 
         view.findViewById(R.id.btn_back_header).setOnClickListener(v -> {
             if (isAdded()) {
@@ -78,41 +79,106 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        // --- SECTION: PREFERENCES ---
-        setupSwitch(view.findViewById(R.id.item_theme), "theme", R.drawable.ic_typcn_weather_night, 
-                "Mode Sombre", "Activer l'interface sombre", (v, checked) -> {
-            AppCompatDelegate.setDefaultNightMode(checked ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+        // --- SECTION: ACCOUNT ---
+        setupClickable(view.findViewById(R.id.item_profile), R.drawable.ic_typcn_entreprise,
+                "Profil Entreprise", "Gérer vos coordonnées et logo", v -> {
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+                    .replace(R.id.settings, new EntrepriseSettingsFragment())
+                    .addToBackStack(null)
+                    .commit();
         });
 
-        setupSwitch(view.findViewById(R.id.item_dynamic_colors), "dynamic_colors", R.drawable.ic_typcn_brush, 
-                "Couleurs Dynamiques", "Utiliser les couleurs du système", (v, checked) -> {
-            prefs.edit().putBoolean("refresh_theme", true).apply();
-            requireActivity().recreate();
+        // --- SECTION: GENERATION PREFERENCES ---
+        setupClickable(view.findViewById(R.id.item_default_tva), R.drawable.ic_outline_adjustments, 
+                "TVA par défaut", businessPrefs.getString("default_tva", "10") + "%", v -> {
+            final android.widget.EditText input = new android.widget.EditText(requireContext());
+            input.setInputType(android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            input.setText(businessPrefs.getString("default_tva", "10"));
+            
+            new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                    .setTitle("TVA par défaut (%)")
+                    .setView(input)
+                    .setPositiveButton("Enregistrer", (dialog, which) -> {
+                        String val = input.getText().toString();
+                        businessPrefs.edit().putString("default_tva", val).apply();
+                        setupClickable(view.findViewById(R.id.item_default_tva), R.drawable.ic_outline_adjustments, 
+                                "TVA par défaut", val + "%", null);
+                    })
+                    .setNegativeButton("Annuler", null)
+                    .show();
+        });
+
+        setupClickable(view.findViewById(R.id.item_default_payment), R.drawable.ic_outline_cash, 
+                "Paiement par défaut", businessPrefs.getString("default_payment", "Virement"), v -> {
+            String[] modes = {"Virement", "Carte", "Espèce", "Chèque"};
+            new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                    .setTitle("Mode de paiement par défaut")
+                    .setItems(modes, (dialog, which) -> {
+                        businessPrefs.edit().putString("default_payment", modes[which]).apply();
+                        setupClickable(view.findViewById(R.id.item_default_payment), R.drawable.ic_outline_cash, 
+                                "Paiement par défaut", modes[which], null);
+                    })
+                    .show();
         });
 
         setupClickable(view.findViewById(R.id.item_language), R.drawable.ic_typcn_world, 
-                "Langue", LocaleHelper.getLanguage(requireContext()).toUpperCase(), v -> {
-            String current = LocaleHelper.getLanguage(requireContext());
-            String next = "fr".equals(current) ? "en" : "fr";
-            LocaleHelper.setLocale(requireContext(), next);
-            requireActivity().recreate();
+                "Langue de l'app", LocaleHelper.getLanguage(requireContext()).equals("fr") ? "Français" : "English", v -> {
+            String[] langs = {"Français", "English"};
+            new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                    .setTitle("Choisir la langue")
+                    .setItems(langs, (dialog, which) -> {
+                        String next = which == 0 ? "fr" : "en";
+                        LocaleHelper.setLocale(requireContext(), next);
+                        requireActivity().recreate();
+                    })
+                    .show();
         });
 
         setupClickable(view.findViewById(R.id.item_currency), R.drawable.ic_typcn_cart, 
-                "Devise", prefs.getString("default_currency", "EUR"), v -> {
-            Toast.makeText(getContext(), "Fonctionnalité bientôt disponible", Toast.LENGTH_SHORT).show();
+                "Devise par défaut", businessPrefs.getString("default_currency", "EUR (€)"), v -> {
+            String[] currencies = {"EUR (€)", "USD ($)", "GBP (£)", "CHF (CHF)", "TND (DT)"};
+            new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                    .setTitle("Choisir la devise")
+                    .setItems(currencies, (dialog, which) -> {
+                        String selected = currencies[which];
+                        businessPrefs.edit().putString("default_currency", selected).apply();
+                        
+                        // Update UI immediately
+                        TextView summary = view.findViewById(R.id.item_currency).findViewById(R.id.item_summary);
+                        if (summary != null) summary.setText(selected);
+                        
+                        Toast.makeText(getContext(), "Devise mise à jour", Toast.LENGTH_SHORT).show();
+                    })
+                    .show();
         });
 
-        // --- SECTION: SECURITY ---
-        setupSwitch(view.findViewById(R.id.item_biometric), "biometric_lock", R.drawable.ic_typcn_key_outline, 
-                "Sécurité Biométrique", "Verrouiller l'accès à l'application", null);
+        // --- SECTION: SECURITY & ALERTS ---
+        boolean isBioAvailable = isBiometricAvailable();
+        View bioItem = view.findViewById(R.id.item_biometric);
+        setupSwitch(bioItem, "biometric_lock", appPrefs, R.drawable.ic_typcn_key_outline, 
+                "Sécurité Biométrique", isBioAvailable ? "Verrouiller l'accès à l'application" : "Non disponible sur cet appareil", (v, checked) -> {
+                    if (!isBioAvailable && checked) {
+                        Toast.makeText(getContext(), "Biométrie non disponible", Toast.LENGTH_SHORT).show();
+                        v.setChecked(false);
+                    }
+                });
+        
+        if (!isBioAvailable && bioItem != null) {
+            bioItem.setEnabled(false);
+            bioItem.setAlpha(0.5f);
+        }
+
+        setupSwitch(view.findViewById(R.id.item_notifications), "notifications_enabled", appPrefs, R.drawable.ic_typcn_bell,
+                "Alertes Intelligentes", "Notifications de rappels et factures", null);
 
         // --- SECTION: DATA ---
-        String currentDir = prefs.getString("directory", BackupUtils.getDefaultPdfDir(requireContext()));
+        String currentDir = businessPrefs.getString("directory", BackupUtils.getDefaultPdfDir(requireContext()));
+        String displayDir = simplifyPath(currentDir);
         setupClickable(view.findViewById(R.id.item_directory), R.drawable.ic_typcn_folder_open, 
-                "Dossier de stockage", currentDir, v -> {
-            Uri initialUri = Uri.parse("content://com.android.externalstorage.documents/document/primary%3ADownload");
-            dirPickerLauncher.launch(initialUri);
+                "Dossier de stockage", displayDir, v -> {
+            dirPickerLauncher.launch(null);
         });
 
         setupClickable(view.findViewById(R.id.item_templates), R.drawable.ic_typcn_document, 
@@ -156,38 +222,96 @@ public class SettingsFragment extends Fragment {
                     .addToBackStack(null)
                     .commit();
         });
+
+        applyEntranceAnimations(view);
     }
 
-    private void setupSwitch(View view, String key, int iconRes, String title, String summary, MaterialSwitch.OnCheckedChangeListener customListener) {
+    private void applyEntranceAnimations(View view) {
+        View content = view.findViewById(R.id.settings_content_scroll);
+        if (content instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) content;
+            for (int i = 0; i < group.getChildCount(); i++) {
+                View child = group.getChildAt(i);
+                if (child == null) continue;
+                child.setAlpha(0f);
+                child.setTranslationY(40f);
+                child.animate()
+                        .alpha(1f)
+                        .translationY(0f)
+                        .setDuration(500)
+                        .setStartDelay(100 + (i * 60L))
+                        .setInterpolator(new android.view.animation.DecelerateInterpolator())
+                        .start();
+            }
+        }
+    }
+
+    private void setupSwitch(View view, String key, SharedPreferences sharedPrefs, int iconRes, String title, String summary, MaterialSwitch.OnCheckedChangeListener customListener) {
+        if (view == null) return;
         ImageView icon = view.findViewById(R.id.item_icon);
         TextView txtTitle = view.findViewById(R.id.item_title);
         TextView txtSummary = view.findViewById(R.id.item_summary);
         MaterialSwitch mSwitch = view.findViewById(R.id.item_switch);
 
-        icon.setImageResource(iconRes);
-        txtTitle.setText(title);
-        txtSummary.setText(summary);
+        if (icon != null) icon.setImageResource(iconRes);
+        if (txtTitle != null) txtTitle.setText(title);
+        if (txtSummary != null) txtSummary.setText(summary);
         
-        boolean currentVal = prefs.getBoolean(key, false);
-        mSwitch.setChecked(currentVal);
+        if (mSwitch != null) {
+            mSwitch.setOnCheckedChangeListener(null);
+            mSwitch.setChecked(sharedPrefs.getBoolean(key, false));
 
-        view.setOnClickListener(v -> mSwitch.toggle());
+            // Unified click on both container and switch
+            View.OnClickListener toggle = v -> {
+                if (mSwitch.isEnabled()) {
+                    mSwitch.setChecked(!mSwitch.isChecked());
+                }
+            };
+            
+            view.setOnClickListener(toggle);
+            mSwitch.setClickable(true);
+            mSwitch.setOnClickListener(toggle);
 
-        mSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            prefs.edit().putBoolean(key, isChecked).apply();
-            if (customListener != null) customListener.onCheckedChanged(buttonView, isChecked);
-        });
+            mSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                sharedPrefs.edit().putBoolean(key, isChecked).commit();
+                view.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
+                if (customListener != null) customListener.onCheckedChanged(buttonView, isChecked);
+            });
+        }
+    }
+
+    private void setupSwitch(View view, String key, int iconRes, String title, String summary, MaterialSwitch.OnCheckedChangeListener customListener) {
+        setupSwitch(view, key, prefs, iconRes, title, summary, customListener);
     }
 
     private void setupClickable(View view, int iconRes, String title, String summary, View.OnClickListener listener) {
+        if (view == null) return;
         ImageView icon = view.findViewById(R.id.item_icon);
         TextView txtTitle = view.findViewById(R.id.item_title);
         TextView txtSummary = view.findViewById(R.id.item_summary);
 
-        icon.setImageResource(iconRes);
-        txtTitle.setText(title);
-        txtSummary.setText(summary);
+        if (icon != null) icon.setImageResource(iconRes);
+        if (txtTitle != null) txtTitle.setText(title);
+        if (txtSummary != null) txtSummary.setText(summary);
         view.setOnClickListener(listener);
+    }
+
+    private String simplifyPath(String path) {
+        if (path == null) return "Défaut";
+        if (path.contains("/0/")) {
+            return "..." + path.substring(path.lastIndexOf("/0/") + 2);
+        }
+        return path;
+    }
+
+    private boolean isBiometricAvailable() {
+        try {
+            androidx.biometric.BiometricManager biometricManager = androidx.biometric.BiometricManager.from(requireContext());
+            int result = biometricManager.canAuthenticate(androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG | androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL);
+            return result == androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private void saveDirectory(Uri uri) {
@@ -197,38 +321,40 @@ public class SettingsFragment extends Fragment {
             
             String path = null;
             if (uri.getPath() != null) {
-                String treeId = uri.getPath();
-                if (treeId.contains("primary:")) {
-                    String subPath = treeId.split("primary:")[1];
-                    path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + subPath;
+                String uriPath = uri.getPath();
+                if (uriPath.contains(":")) {
+                    String[] split = uriPath.split(":");
+                    if (split.length > 1) {
+                        path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + split[1];
+                    }
                 }
             }
 
             if (path == null) {
                 path = BackupUtils.getDefaultPdfDir(requireContext());
-                Toast.makeText(requireContext(), "Dossier non compatible", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "Dossier externe non accessible, utilisation du dossier par défaut", Toast.LENGTH_SHORT).show();
             }
 
-            prefs.edit().putString("directory", path).apply();
-            // Refresh UI
+            businessPrefs.edit().putString("directory", path).apply();
+            
             View directoryItem = getView() != null ? getView().findViewById(R.id.item_directory) : null;
             if (directoryItem != null) {
-                setupClickable(directoryItem, R.drawable.ic_typcn_folder_open, "Dossier de stockage", path, v -> {
-                    Uri initialUri = Uri.parse("content://com.android.externalstorage.documents/document/primary%3ADownload");
-                    dirPickerLauncher.launch(initialUri);
+                setupClickable(directoryItem, R.drawable.ic_typcn_folder_open, "Dossier de stockage", simplifyPath(path), v -> {
+                    dirPickerLauncher.launch(null);
                 });
             }
             Toast.makeText(requireContext(), "Dossier mis à jour", Toast.LENGTH_SHORT).show();
             
         } catch (Exception e) {
             Log.e("Settings", "Permission failed", e);
+            Toast.makeText(requireContext(), "Erreur de permission", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void performExport(Uri uri) {
         new Thread(() -> {
             try (OutputStream os = requireContext().getContentResolver().openOutputStream(uri)) {
-                String pdfDir = prefs.getString("directory", BackupUtils.getDefaultPdfDir(requireContext()));
+                String pdfDir = businessPrefs.getString("directory", BackupUtils.getDefaultPdfDir(requireContext()));
                 boolean success = BackupUtils.exportData(requireContext(), os, pdfDir);
                 requireActivity().runOnUiThread(() -> Toast.makeText(requireContext(), success ? "Export réussi" : "Erreur d'export", Toast.LENGTH_SHORT).show());
             } catch (Exception e) {
@@ -249,7 +375,7 @@ public class SettingsFragment extends Fragment {
     private void performImport(Uri uri) {
         new Thread(() -> {
             try (InputStream is = requireContext().getContentResolver().openInputStream(uri)) {
-                String pdfDir = prefs.getString("directory", BackupUtils.getDefaultPdfDir(requireContext()));
+                String pdfDir = businessPrefs.getString("directory", BackupUtils.getDefaultPdfDir(requireContext()));
                 DatabaseClient.getInstance(requireContext().getApplicationContext()).getAppDatabase().close();
                 boolean success = BackupUtils.importData(requireContext(), is, pdfDir);
 

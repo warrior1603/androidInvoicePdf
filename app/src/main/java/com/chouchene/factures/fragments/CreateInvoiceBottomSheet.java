@@ -321,7 +321,13 @@ public class CreateInvoiceBottomSheet extends BottomSheetDialogFragment {
         view.findViewById(R.id.btn_clear_signature).setOnClickListener(v -> signatureView.clear());
 
         txtQuantite.setText("1");
-        txtTva.setText("10");
+        
+        String defaultTva = settingsSharedPreferences.getString("default_tva", "10");
+        txtTva.setText(defaultTva);
+
+        String defaultPayment = settingsSharedPreferences.getString("default_payment", "Virement");
+        autoCompletePaymentMode.setText(defaultPayment, false);
+
         SimpleDateFormat fmt = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         editDateFactureForm.setText(fmt.format(new Date()));
         editDateFactureForm.setOnClickListener(v -> showDatePickerDialog());

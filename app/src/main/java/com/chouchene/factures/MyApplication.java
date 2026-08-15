@@ -21,23 +21,10 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        
-        // 1. Handle Light/Dark mode globally
-        boolean isDarkMode = sharedPreferences.getBoolean("theme", false);
-        AppCompatDelegate.setDefaultNightMode(
-                isDarkMode ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO
-        );
+        // Force Light Mode as requested to preserve the specific executive design
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
-        // 2. Apply dynamic colors globally
-        DynamicColors.applyToActivitiesIfAvailable(this, new DynamicColorsOptions.Builder()
-                .setPrecondition((activity, themeResId) -> {
-                    return PreferenceManager.getDefaultSharedPreferences(activity)
-                            .getBoolean("dynamic_colors", false);
-                })
-                .build());
-
-        // 3. Create Notification Channel
+        // 2. Create Notification Channel
         NotificationHelper.createNotificationChannel(this);
     }
 }

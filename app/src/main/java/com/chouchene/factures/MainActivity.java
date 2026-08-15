@@ -414,6 +414,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupNotifications() {
         View badge = findViewById(R.id.notification_badge);
+        
+        SharedPreferences appPrefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        if (!appPrefs.getBoolean("notifications_enabled", true)) {
+            if (badge != null) badge.setVisibility(View.GONE);
+            return;
+        }
 
         Executors.newSingleThreadExecutor().execute(() -> {
             List<AppNotification> notifs = new ArrayList<>();

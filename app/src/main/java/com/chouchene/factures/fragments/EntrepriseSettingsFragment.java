@@ -111,6 +111,26 @@ public class EntrepriseSettingsFragment extends Fragment {
         });
 
         setupZipCodeLookup();
+        applyEntranceAnimations(view);
+    }
+
+    private void applyEntranceAnimations(View view) {
+        View content = view.findViewById(R.id.entreprise_content_scroll);
+        if (content instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) content;
+            for (int i = 0; i < group.getChildCount(); i++) {
+                View child = group.getChildAt(i);
+                child.setAlpha(0f);
+                child.setTranslationY(40f);
+                child.animate()
+                        .alpha(1f)
+                        .translationY(0f)
+                        .setDuration(500)
+                        .setStartDelay(100 + (i * 60L))
+                        .setInterpolator(new android.view.animation.DecelerateInterpolator())
+                        .start();
+            }
+        }
     }
 
     private void cleanCorruptedData() {

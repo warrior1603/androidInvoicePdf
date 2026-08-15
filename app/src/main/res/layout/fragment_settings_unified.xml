@@ -12,6 +12,7 @@
         android:scrollbars="none">
 
         <LinearLayout
+            android:id="@+id/settings_content_scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -80,7 +81,7 @@
                     android:paddingStart="12dp"
                     android:paddingEnd="16dp">
 
-                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="PRÉFÉRENCES" android:alpha="0.3" android:letterSpacing="0.02" />
+                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="COMPTE" android:alpha="0.3" android:letterSpacing="0.02" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -88,10 +89,42 @@
                         android:orientation="vertical"
                         android:layout_marginTop="16dp">
 
-                        <include layout="@layout/view_settings_switch_item" android:id="@+id/item_theme" />
+                        <include layout="@layout/view_settings_clickable_item" android:id="@+id/item_profile" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="32dp">
+
+                <View
+                    android:layout_width="6dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="12dp"
+                    android:background="@drawable/bg_vertical_bar_primary" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="16dp">
+
+                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="PRÉFÉRENCES DE GÉNÉRATION" android:alpha="0.3" android:letterSpacing="0.02" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="16dp">
+
+                        <include layout="@layout/view_settings_clickable_item" android:id="@+id/item_default_tva" />
                         <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.12" />
 
-                        <include layout="@layout/view_settings_switch_item" android:id="@+id/item_dynamic_colors" />
+                        <include layout="@layout/view_settings_clickable_item" android:id="@+id/item_default_payment" />
                         <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.12" />
 
                         <include layout="@layout/view_settings_clickable_item" android:id="@+id/item_language" />
@@ -122,7 +155,7 @@
                     android:paddingStart="12dp"
                     android:paddingEnd="16dp">
 
-                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="SÉCURITÉ" android:alpha="0.3" android:letterSpacing="0.02" />
+                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="SÉCURITÉ &amp; ALERTES" android:alpha="0.3" android:letterSpacing="0.02" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -130,6 +163,8 @@
                         android:orientation="vertical"
                         android:layout_marginTop="16dp">
                         <include layout="@layout/view_settings_switch_item" android:id="@+id/item_biometric" />
+                        <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.12" />
+                        <include layout="@layout/view_settings_switch_item" android:id="@+id/item_notifications" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

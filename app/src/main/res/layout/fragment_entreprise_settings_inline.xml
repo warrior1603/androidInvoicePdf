@@ -12,6 +12,7 @@
         android:scrollbars="none">
 
         <LinearLayout
+            android:id="@+id/entreprise_content_scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">

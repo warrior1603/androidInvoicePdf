@@ -36,6 +36,7 @@
         <item name="android:navigationBarColor">?attr/colorSurface</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="29">false</item>
 
         <!-- Preference handling -->
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>

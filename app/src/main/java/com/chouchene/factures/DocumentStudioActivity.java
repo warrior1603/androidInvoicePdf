@@ -642,7 +642,17 @@ public class DocumentStudioActivity extends AppCompatActivity {
         String d = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(new Date());
         String t = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
         if (type.equals(TYPE_INVOICE)) {
-            editInvDate.setText(d); editInvQty.setText("1"); editInvTvaRate.setText("10"); editInvPayment.setText("Virement", false); editInvCountry.setText("France");
+            editInvDate.setText(d); 
+            editInvQty.setText("1"); 
+            
+            // Use preferences for VAT and Payment mode
+            String defaultTva = settingsPrefs.getString("default_tva", "10");
+            editInvTvaRate.setText(defaultTva); 
+            
+            String defaultPayment = settingsPrefs.getString("default_payment", "Virement");
+            editInvPayment.setText(defaultPayment, false); 
+            
+            editInvCountry.setText("France");
         } else {
             editBonOrderDate.setText(d); editBonOrderTime.setText(t); editBonPickupDate.setText(d); editBonPickupTime.setText(t);
         }
