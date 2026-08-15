@@ -326,14 +326,18 @@ public class MainActivity extends AppCompatActivity {
 
             NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-            // Hide/Show BottomNav based on destination
+            // Hide/Show TopBar and BottomNav based on destination
             navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
                 int id = destination.getId();
                 View dock = findViewById(R.id.floating_dock);
-                if (id == R.id.webViewPdfFragment) {
+                View topBar = findViewById(R.id.main_app_bar);
+
+                if (id == R.id.webViewPdfFragment || id == R.id.templatePreviewFragment) {
                     if (dock != null) dock.setVisibility(View.GONE);
+                    if (topBar != null) topBar.setVisibility(View.GONE);
                 } else {
                     if (dock != null) dock.setVisibility(View.VISIBLE);
+                    if (topBar != null) topBar.setVisibility(View.VISIBLE);
                 }
                 updateDockIndicators(id);
             });

@@ -6,135 +6,126 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
+    android:fitsSystemWindows="false"
     tools:context=".MainActivity">
 
-    <!-- Top Bar with Search -->
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/main_app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:fitsSystemWindows="true"
-        app:elevation="0dp">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:background="?attr/colorSurface">
-
-            <!-- Technical Seamless Search Bar -->
-            <!-- marginStart 12dp + internal icon padding (16dp) = 28dp align -->
-            <com.google.android.material.search.SearchBar
-                android:id="@+id/search_bar"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="12dp"
-                android:hint="@string/hint_search_app"
-                app:backgroundTint="@android:color/transparent"
-                app:elevation="0dp"
-                app:navigationIcon="@drawable/ic_typcn_zoom_outline"
-                app:navigationIconTint="?attr/colorOnSurface"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/layout_top_actions" />
-
-            <!-- Action Group -->
-            <LinearLayout
-                android:id="@+id/layout_top_actions"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:paddingEnd="12dp"
-                android:gravity="center_vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_notifications_top"
-                    style="?attr/materialIconButtonStyle"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    app:icon="@drawable/ic_typcn_bell"
-                    app:iconSize="22dp"
-                    app:iconTint="?attr/colorOnSurface"
-                    android:alpha="0.8" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_settings_top"
-                    style="?attr/materialIconButtonStyle"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    app:icon="@drawable/ic_typcn_cog_outline"
-                    app:iconSize="22dp"
-                    app:iconTint="?attr/colorOnSurface"
-                    android:alpha="0.8" />
-
-            </LinearLayout>
-
-            <!-- Technical Hairline Border -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="#1A000000"
-                app:layout_constraintBottom_toBottomOf="parent" />
-
-            <View
-                android:id="@+id/notification_badge"
-                android:layout_width="6dp"
-                android:layout_height="6dp"
-                android:background="@drawable/circle_red_badge"
-                android:visibility="gone"
-                app:layout_constraintTop_toTopOf="@id/layout_top_actions"
-                app:layout_constraintEnd_toEndOf="@id/layout_top_actions"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="66dp" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <!-- Main Content Area with Bottom Nav -->
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:orientation="vertical">
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/nav_host_fragment"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_graph"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <include
-            layout="@layout/layout_floating_dock"
-            android:id="@+id/floating_dock"
-            android:layout_width="wrap_content"
+        <!-- Top Bar with Search -->
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/main_app_bar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:background="@android:color/transparent"
+            android:fitsSystemWindows="true"
+            app:elevation="0dp">
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNavigationView"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:background="?attr/colorSurface">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.search.SearchBar
+                    android:id="@+id/search_bar"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="12dp"
+                    android:hint="@string/hint_search_app"
+                    app:backgroundTint="@android:color/transparent"
+                    app:elevation="0dp"
+                    app:navigationIcon="@drawable/ic_typcn_zoom_outline"
+                    app:navigationIconTint="?attr/colorOnSurface"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/layout_top_actions" />
 
-    <!-- Search View (Overlay) -->
+                <LinearLayout
+                    android:id="@+id/layout_top_actions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingEnd="12dp"
+                    android:gravity="center_vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_notifications_top"
+                        style="?attr/materialIconButtonStyle"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        app:icon="@drawable/ic_typcn_bell"
+                        app:iconSize="22dp"
+                        app:iconTint="?attr/colorOnSurface"
+                        android:alpha="0.8" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_settings_top"
+                        style="?attr/materialIconButtonStyle"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        app:icon="@drawable/ic_typcn_cog_outline"
+                        app:iconSize="22dp"
+                        app:iconTint="?attr/colorOnSurface"
+                        android:alpha="0.8" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#1A000000"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <View
+                    android:id="@+id/notification_badge"
+                    android:layout_width="6dp"
+                    android:layout_height="6dp"
+                    android:background="@drawable/circle_red_badge"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toTopOf="@id/layout_top_actions"
+                    app:layout_constraintEnd_toEndOf="@id/layout_top_actions"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="66dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <!-- Main Content Area -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/nav_host_fragment"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/nav_graph" />
+
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- Floating UI Elements -->
+    <include
+        layout="@layout/layout_floating_dock"
+        android:id="@+id/floating_dock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="32dp" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="bottom"
+        android:visibility="gone" />
+
     <com.google.android.material.search.SearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
@@ -161,7 +152,6 @@
                 android:paddingStart="12dp"
                 android:paddingEnd="16dp">
 
-                <!-- Smart Filter Chips Bar -->
                 <HorizontalScrollView
                     android:id="@+id/filter_scroll_view"
                     android:layout_width="match_parent"
@@ -184,10 +174,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Factures"
-                            app:chipIcon="@drawable/ic_typcn_document"
-                            app:chipBackgroundColor="@android:color/transparent"
-                            app:chipStrokeColor="?attr/colorOutline"
-                            app:chipStrokeWidth="1dp" />
+                            app:chipIcon="@drawable/ic_typcn_document" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip_type_order"
@@ -195,10 +182,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Bons"
-                            app:chipIcon="@drawable/ic_typcn_cart"
-                            app:chipBackgroundColor="@android:color/transparent"
-                            app:chipStrokeColor="?attr/colorOutline"
-                            app:chipStrokeWidth="1dp" />
+                            app:chipIcon="@drawable/ic_typcn_cart" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip_type_booking"
@@ -206,10 +190,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Courses"
-                            app:chipIcon="@drawable/ic_typcn_agenda"
-                            app:chipBackgroundColor="@android:color/transparent"
-                            app:chipStrokeColor="?attr/colorOutline"
-                            app:chipStrokeWidth="1dp" />
+                            app:chipIcon="@drawable/ic_typcn_agenda" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip_status_paid"
@@ -217,10 +198,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Payées"
-                            app:chipIcon="@drawable/ic_typcn_tick"
-                            app:chipBackgroundColor="@android:color/transparent"
-                            app:chipStrokeColor="?attr/colorOutline"
-                            app:chipStrokeWidth="1dp" />
+                            app:chipIcon="@drawable/ic_typcn_tick" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip_status_pending"
@@ -228,10 +206,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Attente"
-                            app:chipIcon="@drawable/ic_typcn_time"
-                            app:chipBackgroundColor="@android:color/transparent"
-                            app:chipStrokeColor="?attr/colorOutline"
-                            app:chipStrokeWidth="1dp" />
+                            app:chipIcon="@drawable/ic_typcn_time" />
+
 
                     </com.google.android.material.chip.ChipGroup>
                 </HorizontalScrollView>
@@ -242,8 +218,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:paddingTop="8dp"
-                    android:clipToPadding="false"
-                    android:layoutAnimation="@anim/layout_animation_fall_down" />
+                    android:clipToPadding="false" />
 
                 <LinearLayout
                     android:id="@+id/search_empty_state"
@@ -251,48 +226,22 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:visibility="gone"
-                    android:paddingBottom="80dp">
-
-                    <FrameLayout
-                        android:layout_width="120dp"
-                        android:layout_height="120dp">
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:alpha="0.05"
-                            android:background="@drawable/bg_circle_soft"
-                            android:backgroundTint="?attr/colorOnSurface" />
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="32dp"
-                            android:src="@drawable/ic_typcn_zoom_outline"
-                            android:alpha="0.1"
-                            app:tint="?attr/colorOnSurface" />
-                    </FrameLayout>
+                    android:visibility="gone">
 
                     <TextView
                         style="@style/App.TextAppearance.LabelSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
-                        android:text="AUCUN RÉSULTAT TROUVÉ"
-                        android:alpha="0.3"
-                        android:letterSpacing="0.02" />
+                        android:text="AUCUN RÉSULTAT"
+                        android:alpha="0.3" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-
     </com.google.android.material.search.SearchView>
 
     <nl.dionsegijn.konfetti.xml.KonfettiView
         android:id="@+id/konfettiView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_height="match_parent" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

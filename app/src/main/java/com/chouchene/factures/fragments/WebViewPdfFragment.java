@@ -133,9 +133,27 @@ public class WebViewPdfFragment extends Fragment {
         com.airbnb.lottie.LottieAnimationView lottieLoading = view.findViewById(R.id.lottie_loading_pdf);
         View cardZoom = view.findViewById(R.id.card_zoom_indicator);
         TextView txtZoom = view.findViewById(R.id.txt_zoom_level);
+        View floatingDock = view.findViewById(R.id.card_actions);
 
         if (btnBack != null) {
-            btnBack.setOnClickListener(v -> Navigation.findNavController(v).navigateUp());
+            btnBack.setOnClickListener(v -> {
+                v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
+                Navigation.findNavController(v).navigateUp();
+            });
+        }
+
+        // Set Descriptive Title
+        TextView txtTitle = view.findViewById(R.id.txt_preview_title);
+        if (txtTitle != null && !clientName.isEmpty()) {
+            txtTitle.setText("Document • " + clientName);
+        }
+
+        // Entrance Animation for the Header
+        View appBar = view.findViewById(R.id.app_bar);
+        if (appBar != null) {
+            appBar.setAlpha(0f);
+            appBar.setTranslationY(-20f);
+            appBar.animate().alpha(1f).translationY(0f).setDuration(600).setStartDelay(100).start();
         }
 
         // Load Lottie if available
@@ -143,26 +161,36 @@ public class WebViewPdfFragment extends Fragment {
             com.chouchene.factures.utils.LottieUtils.loadLottieWithFallback(lottieLoading, new android.widget.ImageView(context), "anim_onboarding_1.json");
         }
 
-        // Wire up containers
+        // Wire up containers with haptic feedback
         View emailContainer = view.findViewById(R.id.btn_email_container);
         if (emailContainer != null && emailButton != null) {
-            emailContainer.setOnClickListener(v -> emailButton.performClick());
+            emailContainer.setOnClickListener(v -> {
+                v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
+                emailButton.performClick();
+            });
         }
         
         View shareContainer = view.findViewById(R.id.btn_share_container);
         if (shareContainer != null && shareButton != null) {
-            shareContainer.setOnClickListener(v -> shareButton.performClick());
+            shareContainer.setOnClickListener(v -> {
+                v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
+                shareButton.performClick();
+            });
         }
         
         View printContainer = view.findViewById(R.id.btn_print_container);
         if (printContainer != null && printButton != null) {
-            printContainer.setOnClickListener(v -> printButton.performClick());
+            printContainer.setOnClickListener(v -> {
+                v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
+                printButton.performClick();
+            });
         }
 
         View btnEdit = view.findViewById(R.id.editButton);
         if (btnEdit != null) {
             btnEdit.setOnClickListener(v -> {
                 if (bundle != null && bundle.containsKey("EXTRA_DOC_ID")) {
+                    v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
                     Intent intent = new Intent(requireContext(), com.chouchene.factures.DocumentStudioActivity.class);
                     intent.putExtra("EXTRA_MODE", "EDIT");
                     intent.putExtra("EXTRA_TYPE", bundle.getString("doc_type", "INVOICE"));
@@ -247,6 +275,15 @@ public class WebViewPdfFragment extends Fragment {
                     .onRender(nbPages -> {
                         if (lottieLoading != null) {
                             lottieLoading.setVisibility(View.GONE);
+                        }
+                        // Animate dock in when PDF is ready
+                        if (floatingDock != null) {
+                            floatingDock.animate()
+                                    .alpha(1f)
+                                    .translationY(0f)
+                                    .setDuration(800)
+                                    .setInterpolator(new android.view.animation.OvershootInterpolator(1.2f))
+                                    .start();
                         }
                     })
                     .onPageChange((page, pageCount) -> {

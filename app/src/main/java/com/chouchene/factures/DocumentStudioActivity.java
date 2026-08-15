@@ -456,6 +456,7 @@ public class DocumentStudioActivity extends AppCompatActivity {
                         .replace("{{qty}}", String.valueOf((int)qty))
                         .replace("{{priceHt}}", String.format(Locale.getDefault(), "%.2f €", totalHt / qty))
                         .replace("{{tvaPercent}}", String.format(Locale.getDefault(), "%.0f%%", tvaRate))
+                        .replace("{{tvaEuro}}", String.format(Locale.getDefault(), "%.2f €", totalTva))
                         .replace("{{totalHt}}", String.format(Locale.getDefault(), "%.2f €", totalHt))
                         .replace("{{totalTva}}", String.format(Locale.getDefault(), "%.2f €", totalTva))
                         .replace("{{totalTtc}}", String.format(Locale.getDefault(), "%.2f €", totalTtc))
