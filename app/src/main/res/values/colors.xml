@@ -4,67 +4,69 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
 
-    <!-- ── Material 3 Baseline Palette (Light - Modern Premium Indigo) ───────── -->
-    <color name="primary">#4F46E5</color>
+    <!-- ── Material 3 Baseline Palette (Light - Executive Slate & Indigo) ───────── -->
+    <color name="primary">#4338CA</color> <!-- Slightly deeper Slate Indigo -->
     <color name="on_primary">#FFFFFF</color>
     <color name="primary_container">#EEF2FF</color>
     <color name="on_primary_container">#312E81</color>
 
-    <color name="secondary">#6366F1</color>
+    <color name="secondary">#4F46E5</color>
     <color name="on_secondary">#FFFFFF</color>
-    <color name="secondary_container">#E0E7FF</color>
-    <color name="on_secondary_container">#1E1B4B</color>
+    <color name="secondary_container">#F0F2FF</color>
+    <color name="on_secondary_container">#312E81</color>
 
-    <color name="tertiary">#818CF8</color>
+    <color name="tertiary">#64748B</color>
     <color name="on_tertiary">#FFFFFF</color>
-    <color name="tertiary_container">#EEF2FF</color>
-    <color name="on_tertiary_container">#3730A3</color>
+    <color name="tertiary_container">#F1F5F9</color>
+    <color name="on_tertiary_container">#1E293B</color>
 
-    <color name="error">#DC2626</color>
+    <color name="error">#E11D48</color>
     <color name="on_error">#FFFFFF</color>
-    <color name="error_container">#FEF2F2</color>
-    <color name="on_error_container">#7F1D1D</color>
+    <color name="error_container">#FFF1F2</color>
+    <color name="on_error_container">#4C0519</color>
 
-    <color name="background">#FFFFFF</color> <!-- Pure white for Flat look -->
-    <color name="on_background">#111827</color>
+    <!-- Executive Text Palette (Slate Blue - More Visible) -->
+    <color name="on_background">#1E293B</color> <!-- Slate 900 -->
+    <color name="on_surface">#334155</color>    <!-- Slate 700 - Clearly Blue-ish -->
+    <color name="on_surface_variant">#64748B</color> <!-- Slate 500 -->
+
+    <color name="background">#FFFFFF</color>
     <color name="surface">#FFFFFF</color>
-    <color name="on_surface">#111827</color>
     <color name="surface_variant">#F1F5F9</color>
-    <color name="on_surface_variant">#4B5563</color> <!-- Darker grey for better visibility -->
-    <color name="outline">#E5E7EB</color>
-    <color name="outline_variant">#F3F4F6</color>
+    <color name="outline">#E2E8F0</color>
+    <color name="outline_variant">#F1F5F9</color>
 
-    <!-- Generic Icon Colors -->
-    <color name="icon_documents">#2196F3</color>
-    <color name="icon_documents_bg">#E3F2FD</color>
+    <!-- Premium Muted Icon Colors -->
+    <color name="icon_documents">#3B82F6</color>
+    <color name="icon_documents_bg">#EFF6FF</color>
 
-    <color name="icon_clients">#4CAF50</color>
-    <color name="icon_clients_bg">#E8F5E9</color>
+    <color name="icon_clients">#10B981</color>
+    <color name="icon_clients_bg">#ECFDF5</color>
 
-    <color name="icon_agenda">#9C27B0</color>
-    <color name="icon_agenda_bg">#F3E5F5</color>
+    <color name="icon_agenda">#8B5CF6</color>
+    <color name="icon_agenda_bg">#F5F3FF</color>
 
-    <color name="icon_dashboard">#FF9800</color>
-    <color name="icon_dashboard_bg">#FFF3E0</color>
+    <color name="icon_dashboard">#F59E0B</color>
+    <color name="icon_dashboard_bg">#FFFBEB</color>
 
-    <color name="icon_profile">#009688</color>
-    <color name="icon_profile_bg">#E0F2F1</color>
+    <color name="icon_profile">#0D9488</color>
+    <color name="icon_profile_bg">#F0FDFA</color>
 
-    <color name="icon_settings">#607D8B</color>
-    <color name="icon_settings_bg">#ECEFF1</color>
+    <color name="icon_settings">#475569</color>
+    <color name="icon_settings_bg">#F8FAFC</color>
 
-    <color name="icon_expenses">#F44336</color>
-    <color name="icon_expenses_bg">#FFEBEE</color>
+    <color name="icon_expenses">#E11D48</color>
+    <color name="icon_expenses_bg">#FFF1F2</color>
 
-    <!-- Status Colors (Refined for Soft Badges) -->
-    <color name="status_paid">#2E7D32</color>
-    <color name="status_paid_bg">#E8F5E9</color>
+    <!-- Status Colors (Executive Muted) -->
+    <color name="status_paid">#059669</color>
+    <color name="status_paid_bg">#D1FAE5</color>
 
-    <color name="status_pending">#ED6C02</color>
-    <color name="status_pending_bg">#FFF3E0</color>
+    <color name="status_pending">#D97706</color>
+    <color name="status_pending_bg">#FEF3C7</color>
 
-    <color name="status_cancelled">#D32F2F</color>
-    <color name="status_cancelled_bg">#FFEBEE</color>
+    <color name="status_cancelled">#BE123C</color>
+    <color name="status_cancelled_bg">#FFE4E6</color>
 
     <!-- Legacy / System -->
     <color name="ic_launcher_background">#6750A4</color>

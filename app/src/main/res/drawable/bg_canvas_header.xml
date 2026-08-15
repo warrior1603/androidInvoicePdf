@@ -5,21 +5,21 @@
     android:viewportWidth="400"
     android:viewportHeight="120">
 
-    <!-- Background Gradient (Base) -->
+    <!-- Background Gradient (Base - Executive Slate White) -->
     <path
         android:pathData="M0,0 h400 v120 h-400 z">
         <aapt:attr xmlns:aapt="http://schemas.android.com/aapt" name="android:fillColor">
             <gradient
                 android:angle="270"
                 android:endColor="#FFFFFF"
-                android:startColor="#F8FAFC" />
+                android:startColor="#F1F5F9" />
         </aapt:attr>
     </path>
 
-    <!-- Professional Tiny Dot Grid (Dense & Sharp) -->
+    <!-- Professional Tiny Dot Grid (Dense & Sharp - Slate Blue) -->
     <path
-        android:fillColor="?attr/colorPrimary"
-        android:alpha="0.08"
+        android:fillColor="#1E293B"
+        android:alpha="0.04"
         android:pathData="
             M10,10h1v1h-1z M25,10h1v1h-1z M40,10h1v1h-1z M55,10h1v1h-1z M70,10h1v1h-1z M85,10h1v1h-1z M100,10h1v1h-1z M115,10h1v1h-1z M130,10h1v1h-1z M145,10h1v1h-1z M160,10h1v1h-1z M175,10h1v1h-1z M190,10h1v1h-1z M205,10h1v1h-1z M220,10h1v1h-1z M235,10h1v1h-1z M250,10h1v1h-1z M265,10h1v1h-1z M280,10h1v1h-1z M295,10h1v1h-1z M310,10h1v1h-1z M325,10h1v1h-1z M340,10h1v1h-1z M355,10h1v1h-1z M370,10h1v1h-1z M385,10h1v1h-1z
             M10,25h1v1h-1z M25,25h1v1h-1z M40,25h1v1h-1z M55,25h1v1h-1z M70,25h1v1h-1z M85,25h1v1h-1z M100,25h1v1h-1z M115,25h1v1h-1z M130,25h1v1h-1z M145,25h1v1h-1z M160,25h1v1h-1z M175,25h1v1h-1z M190,25h1v1h-1z M205,25h1v1h-1z M220,25h1v1h-1z M235,25h1v1h-1z M250,25h1v1h-1z M265,25h1v1h-1z M280,25h1v1h-1z M295,25h1v1h-1z M310,25h1v1h-1z M325,25h1v1h-1z M340,25h1v1h-1z M355,25h1v1h-1z M370,25h1v1h-1z M385,25h1v1h-1z
