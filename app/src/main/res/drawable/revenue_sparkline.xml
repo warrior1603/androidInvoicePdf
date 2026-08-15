@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="400dp"
-    android:height="40dp"
+    android:height="60dp"
     android:viewportWidth="400"
-    android:viewportHeight="40">
+    android:viewportHeight="60">
+
+    <!-- Thick Wave (More Pronounced) -->
     <path
-        android:strokeWidth="3.5"
-        android:pathData="M0,20 C100,20 100,5 200,20 S300,35 400,20"
+        android:strokeWidth="4"
+        android:pathData="M0,30 C80,0 120,60 200,30 S320,0 400,30"
         android:strokeColor="#4F46E5"
         android:strokeLineCap="round"
-        android:strokeLineJoin="round" />
+        android:strokeLineJoin="round"
+        android:alpha="0.8" />
+
+    <!-- Fine Wave (Secondary) -->
+    <path
+        android:strokeWidth="1.5"
+        android:pathData="M0,20 C100,60 150,-10 250,30 S350,60 400,20"
+        android:strokeColor="#4F46E5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:alpha="0.4" />
 </vector>
