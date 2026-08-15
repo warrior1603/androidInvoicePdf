@@ -53,8 +53,7 @@ import com.github.mikephil.charting.data.PieEntry;
 
 public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryActionListener {
 
-    private TextView txtGreeting, txtRevenue, txtRevenueDaily, txtInvoiceCount, txtBonCount, txtBookingCount, txtCurrentDate;
-    private TextView txtIncome, txtExpenses;
+    private TextView txtGreeting, txtRevenue, txtRevenueDaily, txtIncome, txtExpenses, txtInvoiceCount, txtBonCount, txtBookingCount, txtCurrentDate, txtBriefingLine;
     private ImageView imgRevenueTrend;
     private com.google.android.material.progressindicator.LinearProgressIndicator progressExpenseRatio;
     private TextView txtOverdueAlert;
@@ -90,6 +89,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         txtInvoiceCount = view.findViewById(R.id.txt_home_invoice_count);
         txtBonCount = view.findViewById(R.id.txt_home_bon_count);
         txtBookingCount = view.findViewById(R.id.txt_home_booking_count);
+        txtBriefingLine = view.findViewById(R.id.txt_briefing_line);
         distributionChart = view.findViewById(R.id.chart_distribution);
         rvRecent = view.findViewById(R.id.rv_home_recent);
         badgeOverdue = view.findViewById(R.id.badge_overdue);
@@ -195,7 +195,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                 sparklineBackground.setTranslationY(scrollY * 0.15f);
             }
             
-            // Subtle "Magnetic" floating for stats cards
+            // Subtle floating for stats cards
             float statsParallax = scrollY * 0.05f;
             if (statInvoices != null) statInvoices.setTranslationY(-statsParallax);
             if (statOrders != null) statOrders.setTranslationY(-statsParallax * 0.8f);
@@ -240,9 +240,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
     }
 
     @Override
-    public void onShareClick(RecentActivity activity) {
-        // ... existing code ...
-    }
+    public void onShareClick(RecentActivity activity) {}
 
     @Override
     public void onEditClick(RecentActivity activity) {
@@ -284,7 +282,13 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         SharedPreferences userPrefs = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String name = userPrefs.getString("User", "");
         if (!name.isEmpty()) {
-            txtGreeting.setText("Bonjour, " + name);
+            int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+            String greeting;
+            if (hour >= 5 && hour < 12) greeting = "Bonjour,";
+            else if (hour >= 12 && hour < 18) greeting = "Bon après-midi,";
+            else greeting = "Bonsoir,";
+
+            txtGreeting.setText(greeting + " " + name);
             TextView txtInitials = getView().findViewById(R.id.txt_home_user_initials);
             if (txtInitials != null) {
                 txtInitials.setText(com.chouchene.factures.utils.AvatarHelper.getInitials(name));
@@ -308,6 +312,14 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
             int bonCount = db.invoiceDao().getMonthlyBonsCount(new java.util.Date());
             int bookingCount = db.bookingDao().getMonthlyBookingsCount(new java.util.Date());
 
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.HOUR_OF_DAY, 0); cal.set(Calendar.MINUTE, 0); cal.set(Calendar.SECOND, 0);
+            Date start = cal.getTime();
+            cal.set(Calendar.HOUR_OF_DAY, 23); cal.set(Calendar.MINUTE, 59); cal.set(Calendar.SECOND, 59);
+            Date end = cal.getTime();
+            int todayBookingsCount = db.bookingDao().getBookingsBetweenDates(start, end).size();
+            int overdueCount = db.invoiceDao().getOverdueInvoicesCount();
+
             Booking nextBooking = db.bookingDao().getNextUpcomingBooking(new Date());
 
             List<Invoice> latestInvoices = db.invoiceDao().getLatestInvoices();
@@ -317,13 +329,8 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
             for (Invoice i : latestInvoices) allActivity.add(new RecentActivity(i));
             for (Booking b : latestBookings) allActivity.add(new RecentActivity(b));
             
-            // Sort by date descending
             Collections.sort(allActivity, (a1, a2) -> a2.date.compareTo(a1.date));
-            
-            // Keep only latest 8 if needed, or all
             if (allActivity.size() > 8) allActivity = allActivity.subList(0, 8);
-
-            int overdueCount = db.invoiceDao().getOverdueInvoicesCount();
 
             List<RecentActivity> finalActivity = allActivity;
             if (getActivity() != null) {
@@ -345,11 +352,22 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                     txtBonCount.setText(String.valueOf(bonCount));
                     txtBookingCount.setText(String.valueOf(bookingCount));
 
-                    // Pulse if counts changed
+                    // Briefing Line
+                    String briefing = "";
+                    if (todayBookingsCount > 0) briefing += todayBookingsCount + " COURSE" + (todayBookingsCount > 1 ? "S" : "") + " AUJOURD'HUI";
+                    if (overdueCount > 0) {
+                        if (!briefing.isEmpty()) briefing += " • ";
+                        briefing += overdueCount + " FACTURE" + (overdueCount > 1 ? "S" : "") + " EN RETARD";
+                    }
+                    if (briefing.isEmpty()) briefing = "AUCUNE URGENCE • BONNE JOURNÉE";
+                    if (txtBriefingLine != null) txtBriefingLine.setText(briefing);
+
                     if (invoiceCount > 0) pulseView(statInvoices);
                     if (bonCount > 0) pulseView(statOrders);
                     if (bookingCount > 0) pulseView(statBookings);
 
+                    float margin = 0;
+                    if (income > 0) margin = (profit / income) * 100;
                     updateDistributionChart(invoiceCount, bonCount, bookingCount);
 
                     adapter.setData(finalActivity);
@@ -403,22 +421,21 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
 
         PieDataSet dataSet = new PieDataSet(entries, "");
         ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(ContextCompat.getColor(requireContext(), R.color.icon_documents)); // Blue
-        colors.add(ContextCompat.getColor(requireContext(), R.color.icon_dashboard)); // Orange
-        colors.add(ContextCompat.getColor(requireContext(), R.color.icon_agenda));    // Purple
+        colors.add(ContextCompat.getColor(requireContext(), R.color.icon_documents));
+        colors.add(ContextCompat.getColor(requireContext(), R.color.icon_dashboard));
+        colors.add(ContextCompat.getColor(requireContext(), R.color.icon_agenda));
         
         dataSet.setColors(colors);
         dataSet.setDrawValues(false);
-        dataSet.setSliceSpace(4f); // Slightly more space for "Flat" definition
+        dataSet.setSliceSpace(4f);
 
         PieData data = new PieData(dataSet);
         distributionChart.setData(data);
         
-        // Styling the "Technical" Donut
         distributionChart.setDrawHoleEnabled(true);
         distributionChart.setHoleColor(Color.TRANSPARENT);
         distributionChart.setTransparentCircleRadius(0f);
-        distributionChart.setHoleRadius(88f); // Even thinner ring for premium look
+        distributionChart.setHoleRadius(88f); // Classic thin donut
         
         // Total count in the center
         int total = invoices + bons + bookings;
@@ -486,7 +503,6 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                             db.bookingDao().deleteBooking((Booking) activity.originalObject);
                         } else {
                             Invoice invoice = (Invoice) activity.originalObject;
-                            // Delete physical file
                             if (invoice.filePath != null) {
                                 File file = new File(invoice.filePath);
                                 if (file.exists()) file.delete();
@@ -527,7 +543,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
     @Override
     public void onResume() {
         super.onResume();
-        loadHomeData(false); // Refresh without shimmer for better UX
+        loadHomeData(false);
     }
 
     private void animateNumber(TextView textView, float target) {
@@ -540,8 +556,6 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         animator.addUpdateListener(animation -> {
             float value = (float) animation.getAnimatedValue();
             textView.setText(String.format(Locale.getDefault(), "%.2f €", value));
-            
-            // Reveal effect
             float progress = animation.getAnimatedFraction();
             textView.setAlpha(progress);
             textView.setTranslationY(20f * (1 - progress));
@@ -565,7 +579,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                         }
                         break;
                 }
-                return true; // Consume touch to handle animations and click together
+                return true;
             });
         }
     }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+
+    <path
+        android:fillColor="?attr/colorOnSurface"
+        android:alpha="0.03"
+        android:pathData="
+            M20,20h1v1h-1z M50,20h1v1h-1z M80,20h1v1h-1z M110,20h1v1h-1z M140,20h1v1h-1z M170,20h1v1h-1z M200,20h1v1h-1z
+            M20,50h1v1h-1z M50,50h1v1h-1z M80,50h1v1h-1z M110,50h1v1h-1z M140,50h1v1h-1z M170,50h1v1h-1z M200,50h1v1h-1z
+            M20,80h1v1h-1z M50,80h1v1h-1z M80,80h1v1h-1z M110,80h1v1h-1z M140,80h1v1h-1z M170,80h1v1h-1z M200,80h1v1h-1z
+            M20,110h1v1h-1z M50,110h1v1h-1z M80,110h1v1h-1z M110,110h1v1h-1z M140,110h1v1h-1z M170,110h1v1h-1z M200,110h1v1h-1z
+            M20,140h1v1h-1z M50,140h1v1h-1z M80,140h1v1h-1z M110,140h1v1h-1z M140,140h1v1h-1z M170,140h1v1h-1z M200,140h1v1h-1z
+            M20,170h1v1h-1z M50,170h1v1h-1z M80,170h1v1h-1z M110,170h1v1h-1z M140,170h1v1h-1z M170,170h1v1h-1z M200,170h1v1h-1z" />
+</vector>

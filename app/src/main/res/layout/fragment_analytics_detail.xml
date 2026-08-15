@@ -36,12 +36,14 @@
             android:paddingTop="24dp"
             android:paddingBottom="120dp">
 
-            <!-- Summary Section -->
+            <!-- Summary Section with Executive Glow (Full Bleed) -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingHorizontal="28dp">
+                android:background="@drawable/bg_financial_pulse_gradient"
+                android:paddingHorizontal="12dp"
+                android:paddingBottom="24dp">
 
                 <TextView
                     android:id="@+id/revenueLabel"
@@ -134,7 +136,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginTop="24dp"
-                android:paddingHorizontal="24dp">
+                android:paddingHorizontal="12dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"

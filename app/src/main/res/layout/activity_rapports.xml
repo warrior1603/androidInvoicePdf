@@ -51,17 +51,16 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingStart="12dp"
-            android:paddingEnd="16dp">
+            android:orientation="vertical">
 
-            <!-- Compact Tab Selection -->
+            <!-- Compact Tab Selection (with its own padding for alignment) -->
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/rapportsTabLayout"
                 style="@style/App.TabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:paddingHorizontal="12dp"
                 android:background="@android:color/transparent"
                 app:tabIndicatorHeight="2dp"
                 app:tabSelectedTextColor="?attr/colorPrimary"
