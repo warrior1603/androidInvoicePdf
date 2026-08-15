@@ -41,13 +41,18 @@ import com.chouchene.factures.database.DatabaseClient;
 import com.chouchene.factures.entity.Invoice;
 import com.chouchene.factures.adapter.HistoryAdapter;
 import com.chouchene.factures.model.RecentActivity;
+import com.chouchene.factures.fragments.DocumentsViewModel;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
@@ -84,6 +89,8 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
     private View mainContent;
     private com.google.android.material.progressindicator.LinearProgressIndicator progressMargin;
     private TextView txtMarginLabel;
+    private LineChart lineChart;
+    private BarChart barChart;
 
     public static AnalyticsDetailFragment newInstance(Timeframe timeframe) {
         AnalyticsDetailFragment fragment = new AnalyticsDetailFragment();
@@ -116,6 +123,8 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
         mainContent = view.findViewById(R.id.main_content);
         progressMargin = view.findViewById(R.id.progress_margin);
         txtMarginLabel = view.findViewById(R.id.txt_margin_label);
+        lineChart = view.findViewById(R.id.lineChart);
+        barChart = view.findViewById(R.id.barChart);
         
         View cardExpenses = view.findViewById(R.id.cardExpenses);
         View btnExportCsv = view.findViewById(R.id.btnExportCsv);
@@ -147,9 +156,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
         TextView totalRevenueTxt = getView().findViewById(R.id.totalRevenue);
         TextView documentCountTxt = getView().findViewById(R.id.documentCount);
         TextView totalClientsTxt = getView().findViewById(R.id.txt_total_clients_val);
-        TextView chartTitle = getView().findViewById(R.id.chartTitle);
         TextView growthValTxt = getView().findViewById(R.id.txt_growth_val);
-        BarChart barChart = getView().findViewById(R.id.barChart);
         View chartEmptyState = getView().findViewById(R.id.chart_empty_state);
         View btnExportCsv = getView().findViewById(R.id.btnExportCsv);
 
@@ -173,7 +180,6 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
             List<BarEntry> chartEntries = new ArrayList<>();
             List<String> labels = new ArrayList<>();
             String labelTop = "";
-            String labelChart = "";
 
             Calendar cal = Calendar.getInstance();
 
@@ -184,7 +190,6 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                     revenue = dailyIncome - dailyExpenses;
                     count = db.getDailyCount(today);
                     labelTop = "Bénéfice du jour";
-                    labelChart = "Derniers 7 jours (Profit)";
 
                     cal.setTime(today);
                     cal.add(Calendar.DAY_OF_YEAR, -1);
@@ -211,7 +216,6 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                     revenue = monthlyIncome - monthlyExpenses;
                     count = db.getMonthlyCount(today);
                     labelTop = "Bénéfice du mois";
-                    labelChart = "Derniers 6 mois (Bénéfice)";
 
                     cal.setTime(today);
                     cal.add(Calendar.MONTH, -1);
@@ -238,7 +242,6 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                     revenue = yearlyIncome - yearlyExpenses;
                     count = db.getYearlyCount(today);
                     labelTop = "Bénéfice de l'année";
-                    labelChart = "Évolution du bénéfice";
 
                     cal.setTime(today);
                     cal.add(Calendar.YEAR, -1);
@@ -265,7 +268,6 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                     revenue = db.getTotalRevenue();
                     count = db.getTotalCount();
                     labelTop = "Revenu total";
-                    labelChart = "Évolution par année";
 
                     for (int i = 4; i >= 0; i--) {
                         cal.setTime(new Date());
@@ -286,7 +288,6 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
             final float finalPrevRev = prevRevenue;
             final int finalCount = count;
             final String finalLabelTop = labelTop;
-            final String finalLabelChart = labelChart;
             final int finalClientCount = clientCount;
             final List<BarEntry> finalChartEntries = chartEntries;
             final List<String> finalLabels = labels;
@@ -312,7 +313,6 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                 animateNumber(totalRevenueTxt, finalRev);
                 documentCountTxt.setText(String.valueOf(finalCount));
                 totalClientsTxt.setText(String.valueOf(finalClientCount));
-                chartTitle.setText(finalLabelChart);
 
                 // Update Growth
                 if (finalPrevRev > 0) {
@@ -329,102 +329,149 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                     growthValTxt.setTextColor(ContextCompat.getColor(context, R.color.status_paid));
                 }
 
-                setupChart(barChart, finalChartEntries, finalLabels, chartEmptyState);
+                setupChart(finalChartEntries, finalLabels, chartEmptyState);
 
                 // Update Margin
                 if (incomeForMargin > 0) {
                     int marginPercent = (int) ((finalRev / incomeForMargin) * 100);
                     if (marginPercent < 0) marginPercent = 0;
                     progressMargin.setProgress(marginPercent, true);
-                    txtMarginLabel.setText("MARGE RÉELLE: " + marginPercent + "%");
+                    txtMarginLabel.setText(marginPercent + "%");
                 } else {
                     progressMargin.setProgress(0, true);
-                    txtMarginLabel.setText("MARGE RÉELLE: 0%");
+                    txtMarginLabel.setText("0%");
                 }
             });
         });
     }
 
-    private void setupChart(BarChart barChart, List<BarEntry> entries, List<String> labels, View emptyState) {
+    private void setupChart(List<BarEntry> entries, List<String> labels, View emptyState) {
         boolean hasData = false;
         for (BarEntry e : entries) {
-            if (e.getY() > 0) {
-                hasData = true;
-                break;
-            }
+            if (e.getY() > 0) { hasData = true; break; }
         }
 
         if (!hasData) {
-            barChart.setVisibility(View.INVISIBLE);
+            lineChart.setVisibility(View.GONE);
+            barChart.setVisibility(View.GONE);
             emptyState.setVisibility(View.VISIBLE);
             return;
         }
 
         emptyState.setVisibility(View.GONE);
-        barChart.setVisibility(View.VISIBLE);
-
-        Context context = barChart.getContext();
-        @ColorInt int primaryColor = resolveColor(context, androidx.appcompat.R.attr.colorPrimary);
-        @ColorInt int onSurfaceVariant = resolveColor(context, com.google.android.material.R.attr.colorOnSurfaceVariant);
-
-        barChart.getDescription().setEnabled(false);
-        barChart.getLegend().setEnabled(false);
-        barChart.setDrawGridBackground(false);
-        barChart.setDrawBorders(false);
-        barChart.setTouchEnabled(true);
-        barChart.setPinchZoom(false);
-        barChart.setScaleEnabled(false);
-        barChart.setFitBars(true);
-        barChart.setExtraOffsets(10f, 10f, 10f, 10f);
-
-        XAxis xAxis = barChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setDrawGridLines(false);
-        xAxis.setDrawAxisLine(false);
-        xAxis.setGranularity(1f);
-        xAxis.setTextColor(onSurfaceVariant);
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
-        xAxis.setYOffset(10f);
-
-        YAxis leftAxis = barChart.getAxisLeft();
-        leftAxis.setDrawGridLines(true);
-        leftAxis.setGridColor(Color.argb(30, 128, 128, 128));
-        leftAxis.setDrawAxisLine(false);
-        leftAxis.setTextColor(onSurfaceVariant);
-        leftAxis.setXOffset(10f);
-        leftAxis.setLabelCount(4, false);
-        leftAxis.setAxisMinimum(0f);
         
-        barChart.getAxisRight().setEnabled(false);
+        if (timeframe == Timeframe.YEARLY || timeframe == Timeframe.ALL_TIME) {
+            lineChart.setVisibility(View.VISIBLE);
+            barChart.setVisibility(View.GONE);
+            setupLineChart(entries, labels);
+        } else {
+            lineChart.setVisibility(View.GONE);
+            barChart.setVisibility(View.VISIBLE);
+            setupBarChart(entries, labels);
+        }
+    }
 
+    private void setupLineChart(List<BarEntry> barEntries, List<String> labels) {
+        ArrayList<Entry> entries = new ArrayList<>();
+        for (BarEntry be : barEntries) {
+            entries.add(new Entry(be.getX(), be.getY(), be.getData()));
+        }
+
+        LineDataSet dataSet = new LineDataSet(entries, "Performance");
+        int primaryColor = resolveColor(getContext(), androidx.appcompat.R.attr.colorPrimary);
+
+        dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        dataSet.setDrawFilled(true);
+        dataSet.setDrawCircles(true);
+        dataSet.setCircleRadius(4f);
+        dataSet.setCircleColor(primaryColor);
+        dataSet.setDrawCircleHole(false);
+        dataSet.setLineWidth(3f);
+        dataSet.setColor(primaryColor);
+        dataSet.setHighlightEnabled(true);
+        dataSet.setHighLightColor(primaryColor);
+        
+        android.graphics.drawable.Drawable drawable = ContextCompat.getDrawable(requireContext(), R.drawable.revenue_gradient);
+        if (drawable != null) dataSet.setFillDrawable(drawable);
+        else dataSet.setFillColor(primaryColor);
+
+        LineData data = new LineData(dataSet);
+        data.setDrawValues(false);
+        
+        lineChart.setData(data);
+        styleChartBase(lineChart, labels);
+        lineChart.animateY(1000);
+
+        lineChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, Highlight h) {
+                if (e.getData() instanceof DocumentsViewModel.Filter) {
+                    showInvoicesBottomSheet((DocumentsViewModel.Filter) e.getData());
+                }
+            }
+            @Override public void onNothingSelected() {}
+        });
+
+        lineChart.invalidate();
+    }
+
+    private void setupBarChart(List<BarEntry> entries, List<String> labels) {
+        int primaryColor = resolveColor(getContext(), androidx.appcompat.R.attr.colorPrimary);
         BarDataSet dataSet = new BarDataSet(entries, "Revenu");
         dataSet.setColor(primaryColor);
         dataSet.setDrawValues(false);
         dataSet.setHighlightEnabled(true);
         dataSet.setHighLightColor(primaryColor);
-        
-        // Add subtle gradient to bars if supported
-        dataSet.setGradientColor(primaryColor, Color.argb(100, Color.red(primaryColor), Color.green(primaryColor), Color.blue(primaryColor)));
 
-        BarData barData = new BarData(dataSet);
-        barData.setBarWidth(0.4f);
-        barChart.setData(barData);
-        barChart.animateY(800, com.github.mikephil.charting.animation.Easing.EaseOutCubic);
+        BarData data = new BarData(dataSet);
+        data.setBarWidth(0.5f);
+
+        barChart.setData(data);
+        styleChartBase(barChart, labels);
+        barChart.animateY(1000);
 
         barChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
-                if (e.getData() instanceof DocumentsViewModel.Filter && getActivity() != null) {
-                    DocumentsViewModel.Filter filter = (DocumentsViewModel.Filter) e.getData();
-                    showInvoicesBottomSheet(filter);
+                if (e.getData() instanceof DocumentsViewModel.Filter) {
+                    showInvoicesBottomSheet((DocumentsViewModel.Filter) e.getData());
                 }
             }
-
-            @Override
-            public void onNothingSelected() {}
+            @Override public void onNothingSelected() {}
         });
 
         barChart.invalidate();
+    }
+
+    private void styleChartBase(BarLineChartBase<?> chart, List<String> labels) {
+        chart.getDescription().setEnabled(false);
+        chart.getLegend().setEnabled(false);
+        chart.setTouchEnabled(true);
+        chart.setDragEnabled(true);
+        chart.setScaleEnabled(false);
+        chart.setPinchZoom(false);
+
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setDrawAxisLine(false);
+        xAxis.setLabelCount(labels.size());
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setTextColor(resolveColor(getContext(), com.google.android.material.R.attr.colorOnSurfaceVariant));
+        xAxis.setTextSize(10f);
+        xAxis.setYOffset(10f);
+
+        YAxis leftAxis = chart.getAxisLeft();
+        leftAxis.setDrawGridLines(true);
+        leftAxis.setGridColor(Color.argb(30, 128, 128, 128));
+        leftAxis.setDrawAxisLine(false);
+        leftAxis.setLabelCount(4, false);
+        leftAxis.setTextColor(resolveColor(getContext(), com.google.android.material.R.attr.colorOnSurfaceVariant));
+        leftAxis.setTextSize(10f);
+        leftAxis.setXOffset(10f);
+        leftAxis.setAxisMinimum(0f);
+
+        chart.getAxisRight().setEnabled(false);
     }
 
     private void showInvoicesBottomSheet(DocumentsViewModel.Filter filter) {
@@ -552,7 +599,6 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
             }
 
             try {
-                // 1. Create the temporary file for sharing
                 File cachePath = new File(context.getCacheDir(), "exports");
                 if (!cachePath.exists()) cachePath.mkdirs();
                 String fileName = "export_invoices_" + System.currentTimeMillis() + ".csv";
@@ -564,20 +610,24 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                 activity.runOnUiThread(() -> {
                     if (!isAdded()) return;
                     
-                    // 2. Show choice dialog
-                    String[] options = {getString(R.string.option_download), getString(R.string.option_share)};
-                    new com.google.android.material.dialog.MaterialAlertDialogBuilder(context)
-                            .setTitle(R.string.action_export_csv)
-                            .setItems(options, (dialog, which) -> {
-                                if (which == 0) {
-                                    saveToDownloads(csv.toString(), fileName);
-                                } else {
-                                    shareFile(tempFile);
-                                }
-                            })
-                            .show();
+                    BottomSheetDialog dialog = new BottomSheetDialog(context);
+                    View sheetView = getLayoutInflater().inflate(R.layout.layout_export_options_sheet, null);
+                    
+                    ((TextView) sheetView.findViewById(R.id.txt_sheet_title)).setText("Exporter en CSV");
+                    
+                    sheetView.findViewById(R.id.btn_download).setOnClickListener(v -> {
+                        dialog.dismiss();
+                        saveToDownloads(csv.toString(), fileName);
+                    });
+                    
+                    sheetView.findViewById(R.id.btn_share).setOnClickListener(v -> {
+                        dialog.dismiss();
+                        shareFile(tempFile);
+                    });
+                    
+                    dialog.setContentView(sheetView);
+                    dialog.show();
                 });
-
             } catch (IOException e) {
                 e.printStackTrace();
                 activity.runOnUiThread(() -> {
@@ -591,20 +641,16 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
     private void saveToDownloads(String content, String fileName) {
         Context context = getContext();
         if (context == null) return;
-
         try {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
                 android.content.ContentValues values = new android.content.ContentValues();
                 values.put(android.provider.MediaStore.MediaColumns.DISPLAY_NAME, fileName);
                 values.put(android.provider.MediaStore.MediaColumns.MIME_TYPE, "text/csv");
                 values.put(android.provider.MediaStore.MediaColumns.RELATIVE_PATH, android.os.Environment.DIRECTORY_DOWNLOADS);
-
                 Uri uri = context.getContentResolver().insert(android.provider.MediaStore.Downloads.EXTERNAL_CONTENT_URI, values);
                 if (uri != null) {
                     try (java.io.OutputStream os = context.getContentResolver().openOutputStream(uri)) {
-                        if (os != null) {
-                            os.write(content.getBytes());
-                        }
+                        if (os != null) os.write(content.getBytes());
                     }
                     Toast.makeText(context, R.string.msg_csv_saved, Toast.LENGTH_SHORT).show();
                 }
@@ -624,7 +670,6 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
     private void shareFile(File file) {
         Context context = getContext();
         if (context == null) return;
-        
         Uri contentUri = FileProvider.getUriForFile(context, "com.chouchene.factures.provider", file);
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/csv");
@@ -637,18 +682,15 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
         final Context context = getContext();
         final Activity activity = getActivity();
         if (context == null || activity == null) return;
-
         Executors.newSingleThreadExecutor().execute(() -> {
             List<Invoice> invoices = db.getAllInvoices();
             Date now = new Date();
             String currentMonthYear = new SimpleDateFormat("MM-yyyy", Locale.getDefault()).format(now);
             String displayMonth = new SimpleDateFormat("MMMM yyyy", Locale.getDefault()).format(now);
-
             float totalIncome = 0;
             float totalExpenses = expenseDb.getMonthlyExpenses(now);
             StringBuilder tableRows = new StringBuilder();
             SimpleDateFormat tableSdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-
             for (Invoice i : invoices) {
                 String iMonth = new SimpleDateFormat("MM-yyyy", Locale.getDefault()).format(i.date);
                 if (currentMonthYear.equals(iMonth)) {
@@ -662,45 +704,43 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                             .append("</tr>");
                 }
             }
-
             float netProfit = totalIncome - totalExpenses;
-            
             try {
                 String html = loadHtmlFromAssets("monthly_report_template.html");
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                 String userName = prefs.getString("User", "Utilisateur");
-
                 html = html.replace("{{reportMonth}}", displayMonth)
                            .replace("{{totalIncome}}", String.format(Locale.getDefault(), "%.2f", totalIncome))
                            .replace("{{totalExpenses}}", String.format(Locale.getDefault(), "%.2f", totalExpenses))
                            .replace("{{netProfit}}", String.format(Locale.getDefault(), "%.2f", netProfit))
                            .replace("{{tableContent}}", tableRows.toString())
                            .replace("{{nomEmetteur}}", userName);
-
                 File cachePath = new File(context.getCacheDir(), "reports");
                 if (!cachePath.exists()) cachePath.mkdirs();
                 File reportFile = new File(cachePath, "Bilan_" + currentMonthYear + ".pdf");
                 final String finalHtml = html;
-
                 activity.runOnUiThread(() -> {
                     if (!isAdded()) return;
                     
-                    String[] options = {getString(R.string.option_download), getString(R.string.option_share)};
-                    new com.google.android.material.dialog.MaterialAlertDialogBuilder(context)
-                            .setTitle("Bilan Mensuel")
-                            .setItems(options, (dialog, which) -> {
-                                if (which == 0) {
-                                    savePdfToDownloads(finalHtml, reportFile.getName());
-                                } else {
-                                    createPdfFromHtml(finalHtml, reportFile);
-                                }
-                            })
-                            .show();
+                    BottomSheetDialog dialog = new BottomSheetDialog(context);
+                    View sheetView = getLayoutInflater().inflate(R.layout.layout_export_options_sheet, null);
+                    
+                    ((TextView) sheetView.findViewById(R.id.txt_sheet_title)).setText("Bilan Mensuel");
+                    
+                    sheetView.findViewById(R.id.btn_download).setOnClickListener(v -> {
+                        dialog.dismiss();
+                        savePdfToDownloads(finalHtml, reportFile.getName());
+                    });
+                    
+                    sheetView.findViewById(R.id.btn_share).setOnClickListener(v -> {
+                        dialog.dismiss();
+                        createPdfFromHtml(finalHtml, reportFile);
+                    });
+                    
+                    dialog.setContentView(sheetView);
+                    dialog.show();
                 });
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            } catch (IOException e) { e.printStackTrace(); }
         });
     }
 
@@ -727,7 +767,6 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                             .setResolution(new PrintAttributes.Resolution("pdf", "pdf", 600, 600))
                             .setMinMargins(PrintAttributes.Margins.NO_MARGINS)
                             .build();
-
                     PrintDocumentAdapter adapter = webView.createPrintDocumentAdapter("BilanMensuel");
                     adapter.onLayout(null, attributes, null, new PrintResultCallbackShim.LayoutResultCallbackShim() {
                         @Override
@@ -740,22 +779,13 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                                         try {
                                             pfd.close();
                                             if (isSilentDownload) {
-                                                if (getActivity() != null) {
-                                                    getActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Bilan enregistré dans Téléchargements", Toast.LENGTH_SHORT).show());
-                                                }
-                                            } else {
-                                                shareReport(outFile);
-                                            }
-                                        } catch (IOException e) {
-                                            Log.e("PDF", "Error closing PFD", e);
-                                        }
+                                                if (getActivity() != null) getActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Bilan enregistré dans Téléchargements", Toast.LENGTH_SHORT).show());
+                                            } else shareReport(outFile);
+                                        } catch (IOException e) { Log.e("PDF", "Error closing PFD", e); }
                                     }
-                                    @Override
-                                    public void onWriteFailed(CharSequence error) {}
+                                    @Override public void onWriteFailed(CharSequence error) {}
                                 });
-                            } catch (Exception e) {
-                                Log.e("PDF", "Error", e);
-                            }
+                            } catch (Exception e) { Log.e("PDF", "Error", e); }
                         }
                     }, null);
                 }, 1000);

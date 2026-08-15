@@ -3,59 +3,72 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="32dp"
-    android:gravity="center"
-    android:background="@drawable/bg_dashboard_sheet"
-    android:backgroundTint="?attr/colorSurface">
+    android:orientation="horizontal"
+    android:background="?attr/colorSurface">
 
-    <FrameLayout
-        android:layout_width="120dp"
-        android:layout_height="120dp">
+    <!-- Executive Vertical Accent -->
+    <View
+        android:layout_width="6dp"
+        android:layout_height="match_parent"
+        android:layout_marginVertical="24dp"
+        android:background="@drawable/bg_vertical_bar_primary"
+        android:backgroundTint="@color/status_paid" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_circle_soft"
-            android:backgroundTint="@color/status_paid"
-            android:alpha="0.1" />
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lottie_success"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="24dp"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="false" />
-    </FrameLayout>
-
-    <TextView
-        android:id="@+id/txt_success_title"
-        style="@style/App.TextAppearance.TitleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Document Prêt !"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/txt_success_message"
-        style="@style/App.TextAppearance.BodyMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="Le document a été généré avec succès."
-        android:alpha="0.6" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_done"
-        style="@style/App.Button"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Continuer"
-        app:backgroundTint="@color/status_paid" />
+        android:orientation="vertical"
+        android:padding="32dp"
+        android:gravity="center">
 
+        <FrameLayout
+            android:layout_width="120dp"
+            android:layout_height="120dp">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_circle_soft"
+                android:backgroundTint="@color/status_paid"
+                android:alpha="0.1" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottie_success"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="24dp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="false" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/txt_success_title"
+            style="@style/App.TextAppearance.TitleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Document Prêt !"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_success_message"
+            style="@style/App.TextAppearance.BodyMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="Le document a été généré avec succès."
+            android:alpha="0.6" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_done"
+            style="@style/App.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Continuer"
+            app:backgroundTint="@color/status_paid" />
+
+    </LinearLayout>
 </LinearLayout>

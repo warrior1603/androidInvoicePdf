@@ -34,214 +34,83 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingTop="24dp"
-            android:paddingBottom="48dp">
+            android:paddingBottom="120dp">
 
-            <TextView
-                android:id="@+id/revenueLabel"
-                style="@style/App.TextAppearance.LabelSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.4"
-                android:letterSpacing="0.02"
-                android:textSize="14sp"
-                android:text="RÉSULTAT NET"
-                android:textAllCaps="true" />
-
-            <TextView
-                android:id="@+id/totalRevenue"
-                style="@style/App.TextAppearance.Headline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="0.00 €"
-                android:textSize="44sp"
-                android:letterSpacing="-0.03"
-                android:textColor="?attr/colorPrimary" />
-
+            <!-- Summary Section -->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:paddingHorizontal="28dp">
 
                 <TextView
-                    android:id="@+id/txt_growth_val"
-                    style="@style/App.TextAppearance.LabelLarge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="+0%"
-                    android:textColor="@color/status_paid"
-                    android:textStyle="bold" />
-
-                <TextView
+                    android:id="@+id/revenueLabel"
                     style="@style/App.TextAppearance.LabelSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:alpha="0.5"
-                    android:text="vs période précédente" />
-            </LinearLayout>
-
-            <!-- Key Metrics (Flat Row) -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/documentCount"
-                        style="@style/App.TextAppearance.TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0" />
-                    <TextView
-                        style="@style/App.TextAppearance.LabelSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha="0.5"
-                        android:text="DOCUMENTS"
-                        android:textSize="9sp"
-                        android:letterSpacing="0.02" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/txt_total_clients_val"
-                        style="@style/App.TextAppearance.TitleMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0" />
-                    <TextView
-                        style="@style/App.TextAppearance.LabelSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha="0.5"
-                        android:text="CLIENTS"
-                        android:textSize="9sp"
-                        android:letterSpacing="0.02" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Margin Progress (Studio Style) -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/txt_margin_label"
-                    style="@style/App.TextAppearance.LabelSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha="0.5"
-                    android:text="MARGE RÉELLE: 0%" />
-                <com.google.android.material.progressindicator.LinearProgressIndicator
-                    android:id="@+id/progress_margin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    app:indicatorColor="?attr/colorPrimary"
-                    app:trackColor="?attr/colorSurfaceVariant"
-                    app:trackThickness="2dp"
-                    android:progress="0" />
-            </LinearLayout>
-
-            <!-- Expense Shortcut (Subtle Flat Button) -->
-            <LinearLayout
-                android:id="@+id/cardExpenses"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:gravity="center_vertical"
-                android:background="?attr/selectableItemBackground"
-                android:paddingVertical="12dp"
-                android:clickable="true"
-                android:focusable="true">
-
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/ic_outline_cash"
-                    app:tint="@color/status_cancelled"
-                    android:alpha="0.8" />
-
-                <TextView
-                    style="@style/App.TextAppearance.TitleMedium"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="16dp"
-                    android:text="Gérer les dépenses"
-                    android:textSize="15sp" />
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_typcn_chevron_right"
-                    app:tint="?attr/colorOutline"
-                    android:alpha="0.4" />
-            </LinearLayout>
-
-            <!-- Chart Section (Studio Layout) -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/chartTitle"
-                    style="@style/App.TextAppearance.LabelSmall"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="TENDANCE"
                     android:alpha="0.4"
-                    android:textSize="14sp"
-                    android:letterSpacing="0.02" />
+                    android:letterSpacing="0.2"
+                    android:text="RÉSULTAT NET"
+                    android:textAllCaps="true" />
 
                 <TextView
-                    android:id="@+id/btnExportCsv"
-                    style="@style/App.TextAppearance.LabelSmall"
+                    android:id="@+id/totalRevenue"
+                    style="@style/App.TextAppearance.Headline"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="CSV"
-                    android:textColor="?attr/colorPrimary"
-                    android:background="?attr/selectableItemBackground"
-                    android:padding="8dp" />
+                    android:layout_marginTop="4dp"
+                    android:text="0.00 €"
+                    android:textSize="48sp"
+                    android:letterSpacing="-0.04"
+                    android:textColor="?attr/colorPrimary" />
 
-                <TextView
-                    android:id="@+id/btnGenerateReportPdf"
-                    style="@style/App.TextAppearance.LabelSmall"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="BILAN"
-                    android:textColor="?attr/colorPrimary"
-                    android:background="?attr/selectableItemBackground"
-                    android:padding="8dp" />
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:background="@drawable/bg_pill_soft"
+                    android:backgroundTint="#0D4CAF50"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="4dp">
+
+                    <TextView
+                        android:id="@+id/txt_growth_val"
+                        style="@style/App.TextAppearance.LabelSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+0%"
+                        android:textColor="@color/status_paid"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        style="@style/App.TextAppearance.LabelSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:alpha="0.5"
+                        android:textSize="10sp"
+                        android:text="vs période préc." />
+                </LinearLayout>
             </LinearLayout>
 
-            <!-- The Chart (Pure Canvas) -->
+            <!-- Chart Section (Line Style) -->
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="280dp"
-                android:layout_marginTop="16dp">
+                android:layout_height="220dp"
+                android:layout_marginTop="32dp">
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/lineChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
                 <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/barChart"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/chart_empty_state"
@@ -259,6 +128,179 @@
                 </LinearLayout>
             </FrameLayout>
 
+            <!-- Bento Metrics Grid -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="24dp"
+                android:paddingHorizontal="24dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:baselineAligned="false">
+
+                    <!-- Marge Card -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="6dp"
+                        android:padding="16dp"
+                        android:background="@drawable/bg_section_flat"
+                        android:backgroundTint="#054F46E5"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/App.TextAppearance.LabelSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="0.4"
+                            android:text="MARGE" />
+
+                        <TextView
+                            android:id="@+id/txt_margin_label"
+                            style="@style/App.TextAppearance.TitleLarge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="0%" />
+
+                        <com.google.android.material.progressindicator.LinearProgressIndicator
+                            android:id="@+id/progress_margin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            app:trackThickness="2dp"
+                            app:indicatorColor="?attr/colorPrimary"
+                            app:trackColor="?attr/colorSurfaceVariant"
+                            android:progress="0" />
+                    </LinearLayout>
+
+                    <!-- Volume Card -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginHorizontal="6dp"
+                        android:padding="16dp"
+                        android:background="@drawable/bg_section_flat"
+                        android:backgroundTint="#05000000"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/App.TextAppearance.LabelSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="0.4"
+                            android:text="DOCUMENTS" />
+
+                        <TextView
+                            android:id="@+id/documentCount"
+                            style="@style/App.TextAppearance.TitleLarge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="0" />
+                    </LinearLayout>
+
+                    <!-- Clients Card -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginStart="6dp"
+                        android:padding="16dp"
+                        android:background="@drawable/bg_section_flat"
+                        android:backgroundTint="#054CAF50"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/App.TextAppearance.LabelSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="0.4"
+                            android:text="CLIENTS" />
+
+                        <TextView
+                            android:id="@+id/txt_total_clients_val"
+                            style="@style/App.TextAppearance.TitleLarge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="0" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Actions & Shortcuts -->
+                <LinearLayout
+                    android:id="@+id/cardExpenses"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:padding="16dp"
+                    android:background="@drawable/bg_section_flat"
+                    android:backgroundTint="#05F44336"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_outline_cash"
+                        app:tint="@color/status_cancelled"
+                        android:alpha="0.6" />
+
+                    <TextView
+                        style="@style/App.TextAppearance.TitleMedium"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="16dp"
+                        android:text="Gérer les dépenses"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_typcn_chevron_right"
+                        app:tint="?attr/colorOutline"
+                        android:alpha="0.3" />
+                </LinearLayout>
+
+                <!-- Bottom Export Actions -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnExportCsv"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Exporter CSV"
+                        app:icon="@drawable/ic_typcn_export_outline"
+                        app:iconSize="16dp" />
+
+                    <View android:layout_width="24dp" android:layout_height="1dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnGenerateReportPdf"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bilan PDF"
+                        app:icon="@drawable/ic_pdf_outline"
+                        app:iconSize="16dp" />
+                </LinearLayout>
+
+            </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
