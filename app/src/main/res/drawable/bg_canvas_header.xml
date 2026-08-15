@@ -1,33 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
     android:width="400dp"
-    android:height="120dp"
+    android:height="140dp"
     android:viewportWidth="400"
-    android:viewportHeight="120">
+    android:viewportHeight="140">
 
-    <!-- Background Gradient (Base - Executive Slate White) -->
+    <!-- Base Surface with Architectural Curve -->
     <path
-        android:pathData="M0,0 h400 v120 h-400 z">
-        <aapt:attr xmlns:aapt="http://schemas.android.com/aapt" name="android:fillColor">
+        android:pathData="M0,0 H400 V120 C300,135 100,135 0,120 Z">
+        <aapt:attr name="android:fillColor">
             <gradient
                 android:angle="270"
                 android:endColor="#FFFFFF"
-                android:startColor="#F1F5F9" />
+                android:startColor="#F8FAFC" />
         </aapt:attr>
     </path>
 
-    <!-- Professional Tiny Dot Grid (Dense & Sharp - Slate Blue) -->
+    <!-- Enhanced Aurora Prism (Dual Glow) -->
+    <!-- Primary Glow (Top Right) -->
     <path
-        android:fillColor="#1E293B"
-        android:alpha="0.04"
-        android:pathData="
-            M10,10h1v1h-1z M25,10h1v1h-1z M40,10h1v1h-1z M55,10h1v1h-1z M70,10h1v1h-1z M85,10h1v1h-1z M100,10h1v1h-1z M115,10h1v1h-1z M130,10h1v1h-1z M145,10h1v1h-1z M160,10h1v1h-1z M175,10h1v1h-1z M190,10h1v1h-1z M205,10h1v1h-1z M220,10h1v1h-1z M235,10h1v1h-1z M250,10h1v1h-1z M265,10h1v1h-1z M280,10h1v1h-1z M295,10h1v1h-1z M310,10h1v1h-1z M325,10h1v1h-1z M340,10h1v1h-1z M355,10h1v1h-1z M370,10h1v1h-1z M385,10h1v1h-1z
-            M10,25h1v1h-1z M25,25h1v1h-1z M40,25h1v1h-1z M55,25h1v1h-1z M70,25h1v1h-1z M85,25h1v1h-1z M100,25h1v1h-1z M115,25h1v1h-1z M130,25h1v1h-1z M145,25h1v1h-1z M160,25h1v1h-1z M175,25h1v1h-1z M190,25h1v1h-1z M205,25h1v1h-1z M220,25h1v1h-1z M235,25h1v1h-1z M250,25h1v1h-1z M265,25h1v1h-1z M280,25h1v1h-1z M295,25h1v1h-1z M310,25h1v1h-1z M325,25h1v1h-1z M340,25h1v1h-1z M355,25h1v1h-1z M370,25h1v1h-1z M385,25h1v1h-1z
-            M10,40h1v1h-1z M25,40h1v1h-1z M40,40h1v1h-1z M55,40h1v1h-1z M70,40h1v1h-1z M85,40h1v1h-1z M100,40h1v1h-1z M115,40h1v1h-1z M130,40h1v1h-1z M145,40h1v1h-1z M160,40h1v1h-1z M175,40h1v1h-1z M190,40h1v1h-1z M205,40h1v1h-1z M220,40h1v1h-1z M235,40h1v1h-1z M250,40h1v1h-1z M265,40h1v1h-1z M280,40h1v1h-1z M295,40h1v1h-1z M310,40h1v1h-1z M325,40h1v1h-1z M340,40h1v1h-1z M355,40h1v1h-1z M370,40h1v1h-1z M385,40h1v1h-1z
-            M10,55h1v1h-1z M25,55h1v1h-1z M40,55h1v1h-1z M55,55h1v1h-1z M70,55h1v1h-1z M85,55h1v1h-1z M100,55h1v1h-1z M115,55h1v1h-1z M130,55h1v1h-1z M145,55h1v1h-1z M160,55h1v1h-1z M175,55h1v1h-1z M190,55h1v1h-1z M205,55h1v1h-1z M220,55h1v1h-1z M235,55h1v1h-1z M250,55h1v1h-1z M265,55h1v1h-1z M280,55h1v1h-1z M295,55h1v1h-1z M310,55h1v1h-1z M325,55h1v1h-1z M340,55h1v1h-1z M355,55h1v1h-1z M370,55h1v1h-1z M385,55h1v1h-1z
-            M10,70h1v1h-1z M25,70h1v1h-1z M40,70h1v1h-1z M55,70h1v1h-1z M70,70h1v1h-1z M85,70h1v1h-1z M100,70h1v1h-1z M115,70h1v1h-1z M130,70h1v1h-1z M145,70h1v1h-1z M160,70h1v1h-1z M175,70h1v1h-1z M190,70h1v1h-1z M205,70h1v1h-1z M220,70h1v1h-1z M235,70h1v1h-1z M250,70h1v1h-1z M265,70h1v1h-1z M280,70h1v1h-1z M295,70h1v1h-1z M310,70h1v1h-1z M325,70h1v1h-1z M340,70h1v1h-1z M355,70h1v1h-1z M370,70h1v1h-1z M385,70h1v1h-1z
-            M10,85h1v1h-1z M25,85h1v1h-1z M40,85h1v1h-1z M55,85h1v1h-1z M70,85h1v1h-1z M85,85h1v1h-1z M100,85h1v1h-1z M115,85h1v1h-1z M130,85h1v1h-1z M145,85h1v1h-1z M160,85h1v1h-1z M175,85h1v1h-1z M190,85h1v1h-1z M205,85h1v1h-1z M220,85h1v1h-1z M235,85h1v1h-1z M250,85h1v1h-1z M265,85h1v1h-1z M280,85h1v1h-1z M295,85h1v1h-1z M310,85h1v1h-1z M325,85h1v1h-1z M340,85h1v1h-1z M355,85h1v1h-1z M370,85h1v1h-1z M385,85h1v1h-1z
-            M10,100h1v1h-1z M25,100h1v1h-1z M40,100h1v1h-1z M55,100h1v1h-1z M70,100h1v1h-1z M85,100h1v1h-1z M100,100h1v1h-1z M115,100h1v1h-1z M130,100h1v1h-1z M145,100h1v1h-1z M160,100h1v1h-1z M175,100h1v1h-1z M190,100h1v1h-1z M205,100h1v1h-1z M220,100h1v1h-1z M235,100h1v1h-1z M250,100h1v1h-1z M265,100h1v1h-1z M280,100h1v1h-1z M295,100h1v1h-1z M310,100h1v1h-1z M325,100h1v1h-1z M340,100h1v1h-1z M355,100h1v1h-1z M370,100h1v1h-1z M385,100h1v1h-1z
-            M10,115h1v1h-1z M25,115h1v1h-1z M40,115h1v1h-1z M55,115h1v1h-1z M70,115h1v1h-1z M85,115h1v1h-1z M100,115h1v1h-1z M115,115h1v1h-1z M130,115h1v1h-1z M145,115h1v1h-1z M160,115h1v1h-1z M175,115h1v1h-1z M190,115h1v1h-1z M205,115h1v1h-1z M220,115h1v1h-1z M235,115h1v1h-1z M250,115h1v1h-1z M265,115h1v1h-1z M280,115h1v1h-1z M295,115h1v1h-1z M310,115h1v1h-1z M325,115h1v1h-1z M340,115h1v1h-1z M355,115h1v1h-1z M370,115h1v1h-1z M385,115h1v1h-1z" />
+        android:pathData="M200,0 Q400,0 400,120 V0 Z"
+        android:alpha="0.1">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:centerX="400"
+                android:centerY="0"
+                android:gradientRadius="180"
+                android:type="radial"
+                android:startColor="?attr/colorPrimary"
+                android:endColor="@android:color/transparent" />
+        </aapt:attr>
+    </path>
+    <!-- Secondary Ghost Glow (Top Left - Prism effect) -->
+    <path
+        android:pathData="M0,0 H150 V100 Q0,100 0,0 Z"
+        android:alpha="0.04">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:centerX="0"
+                android:centerY="0"
+                android:gradientRadius="120"
+                android:type="radial"
+                android:startColor="#6366F1"
+                android:endColor="@android:color/transparent" />
+        </aapt:attr>
+    </path>
+
+    <!-- Refined Architectural Trace Lines -->
+    <path
+        android:strokeWidth="0.4"
+        android:pathData="M-20,35 L420,15"
+        android:strokeColor="?attr/colorPrimary"
+        android:alpha="0.12" />
+    <path
+        android:strokeWidth="0.4"
+        android:pathData="M310,-10 L370,150"
+        android:strokeColor="?attr/colorPrimary"
+        android:alpha="0.08" />
+    <path
+        android:strokeWidth="0.6"
+        android:pathData="M-50,115 L450,118"
+        android:strokeColor="?attr/colorPrimary"
+        android:alpha="0.04" />
+
+    <!-- Structural Node with Focus Ring -->
+    <!-- Outer Ghost Ring -->
+    <path
+        android:strokeWidth="0.5"
+        android:strokeColor="?attr/colorPrimary"
+        android:alpha="0.1"
+        android:pathData="M336,65 m-5,0 a5,5 0,1 1,10 0 a5,5 0,1 1,-10 0" />
+    <!-- Inner Dot -->
+    <path
+        android:fillColor="?attr/colorPrimary"
+        android:alpha="0.25"
+        android:pathData="M336,65 m-2.2,0 a2.2,2.2 0,1 1,4.4 0 a2.2,2.2 0,1 1,-4.4 0" />
+
+    <!-- Hairline Edge Definition (Subtle sharp border) -->
+    <path
+        android:strokeWidth="0.5"
+        android:pathData="M400,120 C300,135 100,135 0,120"
+        android:strokeColor="?attr/colorPrimary"
+        android:alpha="0.03" />
 
 </vector>

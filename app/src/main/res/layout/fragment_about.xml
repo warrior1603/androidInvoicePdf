@@ -26,7 +26,7 @@
                 android:paddingStart="12dp"
                 android:paddingEnd="16dp"
                 android:paddingTop="20dp"
-                android:paddingBottom="16dp">
+                android:paddingBottom="36dp">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_back_header"
@@ -38,18 +38,59 @@
                     android:rotation="180"
                     app:iconTint="?attr/colorOnSurface" />
 
+                <FrameLayout
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="12dp">
+
+                    <!-- Soft Underglow Aura -->
+                    <View
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/bg_circle_soft"
+                        android:backgroundTint="?attr/colorPrimary"
+                        android:alpha="0.08" />
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_typcn_news"
+                        app:tint="?attr/colorPrimary"
+                        android:alpha="0.9" />
+
+                    <!-- Technical Precision Corner (Single) -->
+                    <View
+                        android:layout_width="8dp"
+                        android:layout_height="1dp"
+                        android:layout_gravity="top|start"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginStart="8dp"
+                        android:background="?attr/colorPrimary"
+                        android:alpha="0.2" />
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="8dp"
+                        android:layout_gravity="top|start"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginStart="8dp"
+                        android:background="?attr/colorPrimary"
+                        android:alpha="0.2" />
+                </FrameLayout>
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="8dp"
                     android:orientation="vertical">
                     <TextView
                         style="@style/App.TextAppearance.Headline"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="À Propos"
-                        android:textSize="32sp"
+                        android:textSize="30sp"
                         android:letterSpacing="-0.02" />
                     <TextView
                         style="@style/App.TextAppearance.LabelSmall"

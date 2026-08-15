@@ -10,29 +10,77 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:background="@drawable/bg_canvas_header"
         android:paddingStart="12dp"
         android:paddingEnd="16dp"
         android:paddingTop="20dp"
-        android:paddingBottom="16dp">
+        android:paddingBottom="36dp">
 
-        <TextView
-            style="@style/App.TextAppearance.LabelSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:alpha="0.5"
-            android:letterSpacing="0.02"
-            android:text="ANALYSE &amp; RAPPORTS" />
+        <FrameLayout
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginEnd="12dp">
 
-        <TextView
-            style="@style/App.TextAppearance.Headline"
-            android:layout_width="wrap_content"
+            <!-- Soft Underglow Aura -->
+            <View
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_circle_soft"
+                android:backgroundTint="?attr/colorPrimary"
+                android:alpha="0.08" />
+
+            <ImageView
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_typcn_chart_pie_outline"
+                app:tint="?attr/colorPrimary"
+                android:alpha="0.9" />
+
+            <!-- Technical Precision Corner (Single) -->
+            <View
+                android:layout_width="8dp"
+                android:layout_height="1dp"
+                android:layout_gravity="top|start"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:background="?attr/colorPrimary"
+                android:alpha="0.2" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="8dp"
+                android:layout_gravity="top|start"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:background="?attr/colorPrimary"
+                android:alpha="0.2" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Dashboard"
-            android:textSize="32sp"
-            android:letterSpacing="-0.02" />
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView
+                style="@style/App.TextAppearance.LabelSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.5"
+                android:letterSpacing="0.02"
+                android:text="ANALYSE &amp; RAPPORTS" />
+
+            <TextView
+                style="@style/App.TextAppearance.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Dashboard"
+                android:textSize="30sp"
+                android:letterSpacing="-0.02" />
+        </LinearLayout>
     </LinearLayout>
 
     <!-- Content Area -->

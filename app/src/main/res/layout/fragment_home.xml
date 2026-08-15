@@ -26,8 +26,8 @@
                 android:background="@drawable/bg_canvas_header"
                 android:paddingStart="12dp"
                 android:paddingEnd="16dp"
-                android:paddingTop="16dp"
-                android:paddingBottom="20dp">
+                android:paddingTop="20dp"
+                android:paddingBottom="36dp">
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_home_user_avatar"
