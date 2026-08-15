@@ -54,6 +54,8 @@ import com.github.mikephil.charting.data.PieEntry;
 public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryActionListener {
 
     private TextView txtGreeting, txtRevenue, txtRevenueDaily, txtIncome, txtExpenses, txtInvoiceCount, txtBonCount, txtBookingCount, txtCurrentDate, txtBriefingLine;
+    private boolean showingMonthly = true;
+    private float monthlyProfitValue = 0f, dailyProfitValue = 0f;
     private ImageView imgRevenueTrend;
     private com.google.android.material.progressindicator.LinearProgressIndicator progressExpenseRatio;
     private TextView txtOverdueAlert;
@@ -102,6 +104,16 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         statOrders = view.findViewById(R.id.stat_orders);
         statBookings = view.findViewById(R.id.stat_bookings);
         
+        // Revenue Toggle Logic
+        txtRevenue.setOnClickListener(v -> {
+            showingMonthly = !showingMonthly;
+            if (txtBriefingLine != null) {
+                txtBriefingLine.setText(showingMonthly ? "RÉSUMÉ DU MOIS" : "RÉSUMÉ DU JOUR");
+            }
+            animateNumber(txtRevenue, showingMonthly ? monthlyProfitValue : dailyProfitValue);
+            v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
+        });
+
         // Set dynamic date
         String dateStr = new SimpleDateFormat("EEEE d MMMM", Locale.getDefault()).format(new java.util.Date());
         txtCurrentDate.setText(dateStr);
@@ -313,6 +325,8 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
 
             float expenses = db.expenseDao().getMonthlyExpenses(new java.util.Date());
             float profit = income - expenses;
+            this.monthlyProfitValue = profit;
+            this.dailyProfitValue = dailyProfit;
             
             int invoiceCount = db.invoiceDao().getMonthlyInvoicesCount(new java.util.Date());
             int bonCount = db.invoiceDao().getMonthlyBonsCount(new java.util.Date());
@@ -344,7 +358,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                     View v = getView();
                     if (v == null) return;
 
-                    animateNumber(txtRevenue, profit);
+                    animateNumber(txtRevenue, showingMonthly ? monthlyProfitValue : dailyProfitValue);
                     txtIncome.setText(String.format(Locale.getDefault(), "%.2f €", income));
                     txtExpenses.setText(String.format(Locale.getDefault(), "%.2f €", expenses));
 
@@ -358,22 +372,18 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                     txtBonCount.setText(String.valueOf(bonCount));
                     txtBookingCount.setText(String.valueOf(bookingCount));
 
-                    // Briefing Line
-                    String briefing = "";
-                    if (todayBookingsCount > 0) briefing += todayBookingsCount + " COURSE" + (todayBookingsCount > 1 ? "S" : "") + " AUJOURD'HUI";
-                    if (overdueCount > 0) {
-                        if (!briefing.isEmpty()) briefing += " • ";
-                        briefing += overdueCount + " FACTURE" + (overdueCount > 1 ? "S" : "") + " EN RETARD";
+                    // Dynamic Briefing based on context
+                    if (txtBriefingLine != null) {
+                        String briefing = showingMonthly ? "RÉSUMÉ DU MOIS" : "RÉSUMÉ DU JOUR";
+                        if (todayBookingsCount > 0) briefing = todayBookingsCount + " COURSE" + (todayBookingsCount > 1 ? "S" : "") + " AUJOURD'HUI";
+                        else if (overdueCount > 0) briefing = overdueCount + " FACTURE" + (overdueCount > 1 ? "S" : "") + " EN RETARD";
+                        txtBriefingLine.setText(briefing);
                     }
-                    if (briefing.isEmpty()) briefing = "AUCUNE URGENCE • BONNE JOURNÉE";
-                    if (txtBriefingLine != null) txtBriefingLine.setText(briefing);
 
                     if (invoiceCount > 0) pulseView(statInvoices);
                     if (bonCount > 0) pulseView(statOrders);
                     if (bookingCount > 0) pulseView(statBookings);
 
-                    float margin = 0;
-                    if (income > 0) margin = (profit / income) * 100;
                     updateDistributionChart(invoiceCount, bonCount, bookingCount);
 
                     adapter.setData(finalActivity);
@@ -401,6 +411,10 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                                 b.putInt("start_tab", 0);
                                 Navigation.findNavController(v_overdue).navigate(R.id.documentsHubFragment, b);
                             });
+                            // Subtle attention pulse for the alert
+                            cardOverdue.postDelayed(() -> {
+                                if (isAdded()) pulseView(cardOverdue);
+                            }, 1000);
                         } else {
                             cardOverdue.setVisibility(View.GONE);
                         }
@@ -411,7 +425,8 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
     }
 
     private void updateDistributionChart(int invoices, int bons, int bookings) {
-        if (distributionChart == null) return;
+        Context context = getContext();
+        if (distributionChart == null || context == null) return;
 
         ArrayList<PieEntry> entries = new ArrayList<>();
         if (invoices > 0) entries.add(new PieEntry(invoices, ""));
@@ -427,9 +442,9 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
 
         PieDataSet dataSet = new PieDataSet(entries, "");
         ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(ContextCompat.getColor(requireContext(), R.color.icon_documents));
-        colors.add(ContextCompat.getColor(requireContext(), R.color.icon_dashboard));
-        colors.add(ContextCompat.getColor(requireContext(), R.color.icon_agenda));
+        colors.add(ContextCompat.getColor(context, R.color.icon_documents));
+        colors.add(ContextCompat.getColor(context, R.color.icon_dashboard));
+        colors.add(ContextCompat.getColor(context, R.color.icon_agenda));
         
         dataSet.setColors(colors);
         dataSet.setDrawValues(false);

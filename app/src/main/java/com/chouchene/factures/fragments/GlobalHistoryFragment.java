@@ -112,14 +112,17 @@ public class GlobalHistoryFragment extends Fragment implements HistoryAdapter.On
             List<Invoice> invoices = db.invoiceDao().getAllInvoices();
             List<Booking> bookings = db.bookingDao().getBookingsBetweenDates(new java.util.Date(0), new java.util.Date(Long.MAX_VALUE));
             
-            allActivities.clear();
-            for (Invoice i : invoices) allActivities.add(new RecentActivity(i));
-            for (Booking b : bookings) allActivities.add(new RecentActivity(b));
+            List<RecentActivity> tempList = new ArrayList<>();
+            for (Invoice i : invoices) tempList.add(new RecentActivity(i));
+            for (Booking b : bookings) tempList.add(new RecentActivity(b));
 
-            Collections.sort(allActivities, (a1, a2) -> a2.date.compareTo(a1.date));
+            Collections.sort(tempList, (a1, a2) -> a2.date.compareTo(a1.date));
 
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
+                    allActivities.clear();
+                    allActivities.addAll(tempList);
+                    
                     if (shimmerContainer != null) {
                         shimmerContainer.stopShimmer();
                         shimmerContainer.setVisibility(View.GONE);
