@@ -38,6 +38,18 @@
                 android:text="Agenda"
                 android:textSize="32sp"
                 android:letterSpacing="-0.02" />
+
+            <TextView
+                android:id="@+id/txt_agenda_briefing"
+                style="@style/App.TextAppearance.LabelSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:alpha="0.3"
+                android:letterSpacing="0.05"
+                android:text="SYNCHRONISATION DU PLANNING..."
+                android:textAllCaps="true"
+                android:textSize="10sp" />
         </LinearLayout>
 
         <!-- Main Content Area with Vertical Accent -->

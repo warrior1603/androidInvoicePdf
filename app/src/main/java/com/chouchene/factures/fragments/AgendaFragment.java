@@ -38,6 +38,7 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
     private com.facebook.shimmer.ShimmerFrameLayout shimmerContainer;
     private TabLayout tabLayout;
     private ChipGroup statusChipGroup;
+    private android.widget.TextView txtBriefing;
     private Date selectedDate;
     private boolean isMonthlyView = false;
     private String currentStatusFilter = null;
@@ -65,6 +66,7 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
         shimmerContainer = view.findViewById(R.id.shimmer_view_container);
         tabLayout = view.findViewById(R.id.tabLayout);
         statusChipGroup = view.findViewById(R.id.statusChipGroup);
+        txtBriefing = view.findViewById(R.id.txt_agenda_briefing);
         ExtendedFloatingActionButton fab = view.findViewById(R.id.fabAddBooking);
         
         adapter = new AgendaAdapter(this);
@@ -185,11 +187,14 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
         final int finalCompleted = completedCount;
         final int finalCancelled = cancelledCount;
 
+        String briefing = allCount + " COURSES AU TOTAL • " + upcomingCount + " À VENIR";
+
         if (getActivity() != null) {
             getActivity().runOnUiThread(() -> {
                 View fragmentView = getView();
                 if (fragmentView == null) return;
 
+                if (txtBriefing != null) txtBriefing.setText(briefing);
                 adapter.setData(filtered, isMonthlyView, selectedDate);
                 
                 // Update Chip Texts with Counts

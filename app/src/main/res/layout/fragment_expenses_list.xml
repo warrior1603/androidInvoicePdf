@@ -55,6 +55,18 @@
                     android:text="Dépenses"
                     android:textSize="32sp"
                     android:letterSpacing="-0.02" />
+
+                <TextView
+                    android:id="@+id/txt_expenses_briefing"
+                    style="@style/App.TextAppearance.LabelSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:alpha="0.3"
+                    android:letterSpacing="0.05"
+                    android:text="ANALYSE DES FLUX DE SORTIE..."
+                    android:textAllCaps="true"
+                    android:textSize="10sp" />
             </LinearLayout>
         </LinearLayout>
 

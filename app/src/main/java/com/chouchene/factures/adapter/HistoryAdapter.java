@@ -86,7 +86,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
         holder.icon.setImageResource(iconRes);
         holder.icon.setImageTintList(ColorStateList.valueOf(ContextCompat.getColor(holder.itemView.getContext(), iconColor)));
-        holder.icon.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(holder.itemView.getContext(), iconBgColor)));
+        
+        View iconBg = holder.itemView.findViewById(R.id.icon_bg);
+        if (iconBg != null) {
+            iconBg.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(holder.itemView.getContext(), iconColor)));
+        }
 
         // Unique transition name for each icon
         androidx.core.view.ViewCompat.setTransitionName(holder.icon, "icon_" + activity.type + "_" + activity.id);
@@ -111,29 +115,24 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         
         holder.txtStatus.setText(displayStatus != null ? displayStatus : "En attente");
         int statusColor;
-        int statusBgTint;
         
         if ("Payée".equals(activity.status) || "Completed".equals(activity.status) || "Terminée".equals(activity.status)) {
-            statusBgTint = R.color.status_paid_bg;
             statusColor = ContextCompat.getColor(holder.itemView.getContext(), R.color.status_paid);
         } else if ("Annulée".equals(activity.status) || "Cancelled".equals(activity.status)) {
-            statusBgTint = R.color.status_cancelled_bg;
             statusColor = ContextCompat.getColor(holder.itemView.getContext(), R.color.status_cancelled);
         } else {
-            statusBgTint = R.color.status_pending_bg;
             statusColor = ContextCompat.getColor(holder.itemView.getContext(), R.color.status_pending);
         }
         
-        holder.txtStatus.setBackgroundResource(R.drawable.bg_pill_soft);
-        holder.txtStatus.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(holder.itemView.getContext(), statusBgTint)));
+        holder.txtStatus.setBackground(null);
         holder.txtStatus.setTextColor(statusColor);
 
-        // Add Icon to Badge
+        // Add Icon Dot (Studio Precision Suggestion 1)
         int statusIcon = ("Payée".equals(activity.status) || "Completed".equals(activity.status) || "Terminée".equals(activity.status)) ? R.drawable.ic_status_check :
                         ("Annulée".equals(activity.status) || "Cancelled".equals(activity.status)) ? R.drawable.ic_status_x : R.drawable.ic_status_clock;
         
         holder.txtStatus.setCompoundDrawablesWithIntrinsicBounds(statusIcon, 0, 0, 0);
-        holder.txtStatus.setCompoundDrawablePadding(8);
+        holder.txtStatus.setCompoundDrawablePadding(12);
         androidx.core.widget.TextViewCompat.setCompoundDrawableTintList(holder.txtStatus, ColorStateList.valueOf(statusColor));
 
         holder.txtStatus.setOnClickListener(v -> {

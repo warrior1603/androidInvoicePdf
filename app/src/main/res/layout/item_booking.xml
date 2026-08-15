@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -11,13 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingVertical="18dp"
+        android:paddingVertical="14dp"
         android:paddingHorizontal="16dp"
         android:gravity="center_vertical">
 
-        <!-- Left: Time & Date -->
+        <!-- Left: Time & Color Indicator -->
         <LinearLayout
-            android:layout_width="60dp"
+            android:layout_width="64dp"
             android:layout_height="wrap_content"
             android:gravity="start"
             android:orientation="vertical">
@@ -27,8 +28,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="14:30"
-                android:textSize="16sp"
-                android:textColor="@color/icon_agenda" />
+                android:textSize="17sp"
+                android:letterSpacing="-0.02"
+                android:textColor="@color/icon_agenda"
+                android:fontFamily="sans-serif-medium" />
             <TextView
                 android:id="@+id/txtDate"
                 style="@style/App.TextAppearance.LabelSmall"
@@ -37,7 +40,9 @@
                 android:layout_marginTop="2dp"
                 android:text="12 AOÛT"
                 android:alpha="0.4"
-                android:textSize="9sp" />
+                android:textSize="9sp"
+                android:textAllCaps="true"
+                android:letterSpacing="0.05" />
         </LinearLayout>
 
         <!-- Center: Name & Route -->
@@ -62,14 +67,14 @@
                 style="@style/App.TextAppearance.BodySmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="3dp"
                 android:text="Pickup → Destination"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:alpha="0.5" />
+                android:alpha="0.4" />
         </LinearLayout>
 
-        <!-- Right: Status & Amount -->
+        <!-- Right: Price & Minimal Status -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -84,26 +89,22 @@
                 android:layout_height="wrap_content"
                 android:text="45.00 €"
                 android:textSize="16sp"
-                android:textColor="?attr/colorOnSurface" />
+                android:textColor="#1E293B"
+                android:fontFamily="sans-serif-medium" />
 
             <TextView
                 android:id="@+id/txtStatus"
+                style="@style/App.TextAppearance.LabelSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="2dp"
-                android:gravity="center"
+                android:layout_marginTop="4dp"
+                android:alpha="0.8"
                 android:text="À VENIR"
                 android:textSize="9sp"
                 android:textColor="@color/status_pending"
-                android:background="@drawable/bg_pill_soft"
-                android:backgroundTint="@color/status_pending_bg"
-                android:fontFamily="@font/inter"
                 android:textAllCaps="true"
-                android:letterSpacing="0.02"
-                android:textStyle="bold"
-                android:maxLines="1" />
+                android:letterSpacing="0.05"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 
@@ -112,8 +113,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_gravity="bottom"
-        android:layout_marginStart="92dp"
+        android:layout_marginStart="80dp"
         android:background="?attr/colorOutline"
-        android:alpha="0.12" />
+        android:alpha="0.06" />
 
 </FrameLayout>

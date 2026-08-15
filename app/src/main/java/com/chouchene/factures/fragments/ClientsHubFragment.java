@@ -47,19 +47,28 @@ public class ClientsHubFragment extends Fragment {
             }
         }).attach();
 
-        updateClientCount(tabLayout);
+        updateClientCount(view);
         handleNewArguments(viewPager);
     }
 
-    private void updateClientCount(TabLayout tabLayout) {
+    private void updateClientCount(View view) {
+        TabLayout tabLayout = view.findViewById(R.id.clientsTabLayout);
+        android.widget.TextView txtBriefing = view.findViewById(R.id.txt_clients_briefing);
+
         java.util.concurrent.Executors.newSingleThreadExecutor().execute(() -> {
             int count = com.chouchene.factures.database.DatabaseClient.getInstance(requireContext())
                     .getAppDatabase().clientDao().getAllClients().size();
+            
+            String briefing = count + " CLIENTS RÉFÉRENCÉS • CARNET À JOUR";
+
             if (getActivity() != null) {
                 getActivity().runOnUiThread(() -> {
                     TabLayout.Tab tab = tabLayout.getTabAt(0);
                     if (tab != null) {
                         tab.setText(getString(R.string.label_all_clients) + " (" + count + ")");
+                    }
+                    if (txtBriefing != null) {
+                        txtBriefing.setText(briefing);
                     }
                 });
             }
@@ -74,10 +83,7 @@ public class ClientsHubFragment extends Fragment {
             if (viewPager != null) {
                 handleNewArguments(viewPager);
             }
-            TabLayout tabLayout = getView().findViewById(R.id.clientsTabLayout);
-            if (tabLayout != null) {
-                updateClientCount(tabLayout);
-            }
+            updateClientCount(getView());
         }
     }
 

@@ -38,13 +38,13 @@
                     app:cardElevation="0dp"
                     app:strokeWidth="1.5dp"
                     app:strokeColor="#0D000000"
-                    app:cardBackgroundColor="#F8FAFC">
+                    app:cardBackgroundColor="?attr/colorPrimary">
                     <TextView
                         android:id="@+id/txt_home_user_initials"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:textColor="?attr/colorPrimary"
+                        android:textColor="@android:color/white"
                         android:textSize="18sp"
                         android:fontFamily="sans-serif-medium" />
                 </com.google.android.material.card.MaterialCardView>
@@ -93,7 +93,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_financial_pulse_gradient"
                 android:orientation="horizontal">
 
                 <View
@@ -204,9 +203,12 @@
 
                     <!-- Right Column: Distribution Chart -->
                     <FrameLayout
+                        android:id="@+id/container_chart"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:clickable="true"
+                        android:focusable="true"
                         android:layout_gravity="center_vertical">
 
                         <!-- The "Soft Charter" Glow (Restored) -->
@@ -362,7 +364,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_services_aura"
                 android:orientation="horizontal"
                 android:layout_marginTop="24dp">
 
@@ -393,7 +394,7 @@
                         android:id="@+id/services_grid"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="4dp"
                         android:columnCount="3">
 
                         <!-- Documents -->
@@ -407,7 +408,7 @@
                             android:focusable="true"
                             android:gravity="center"
                             android:orientation="vertical"
-                            android:paddingVertical="20dp">
+                            android:paddingVertical="12dp">
                             <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
                                 <View android:layout_width="64dp" android:layout_height="64dp" android:background="@drawable/bg_circle_soft" android:backgroundTint="@color/icon_documents" android:alpha="0.04" />
                                 <ImageView android:layout_width="42dp" android:layout_height="42dp" android:layout_gravity="center" android:src="@drawable/ic_typcn_folder_open" app:tint="@color/icon_documents" />
@@ -434,7 +435,7 @@
                             android:focusable="true"
                             android:gravity="center"
                             android:orientation="vertical"
-                            android:paddingVertical="20dp">
+                            android:paddingVertical="12dp">
                             <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
                                 <View android:layout_width="64dp" android:layout_height="64dp" android:background="@drawable/bg_circle_soft" android:backgroundTint="@color/icon_clients" android:alpha="0.04" />
                                 <ImageView android:layout_width="42dp" android:layout_height="42dp" android:layout_gravity="center" android:src="@drawable/ic_typcn_group_outline" app:tint="@color/icon_clients" />
@@ -460,7 +461,7 @@
                             android:focusable="true"
                             android:gravity="center"
                             android:orientation="vertical"
-                            android:paddingVertical="20dp">
+                            android:paddingVertical="12dp">
                             <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
                                 <View android:layout_width="64dp" android:layout_height="64dp" android:background="@drawable/bg_circle_soft" android:backgroundTint="@color/icon_agenda" android:alpha="0.04" />
                                 <ImageView android:layout_width="42dp" android:layout_height="42dp" android:layout_gravity="center" android:src="@drawable/ic_typcn_calendar_outline" app:tint="@color/icon_agenda" />
@@ -486,7 +487,7 @@
                             android:focusable="true"
                             android:gravity="center"
                             android:orientation="vertical"
-                            android:paddingVertical="20dp">
+                            android:paddingVertical="12dp">
                             <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
                                 <View android:layout_width="64dp" android:layout_height="64dp" android:background="@drawable/bg_circle_soft" android:backgroundTint="@color/icon_dashboard" android:alpha="0.04" />
                                 <ImageView android:layout_width="42dp" android:layout_height="42dp" android:layout_gravity="center" android:src="@drawable/ic_typcn_chart_pie_outline" app:tint="@color/icon_dashboard" />
@@ -512,7 +513,7 @@
                             android:focusable="true"
                             android:gravity="center"
                             android:orientation="vertical"
-                            android:paddingVertical="20dp">
+                            android:paddingVertical="12dp">
                             <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
                                 <View android:layout_width="64dp" android:layout_height="64dp" android:background="@drawable/bg_circle_soft" android:backgroundTint="@color/icon_profile" android:alpha="0.04" />
                                 <ImageView android:layout_width="42dp" android:layout_height="42dp" android:layout_gravity="center" android:src="@drawable/ic_typcn_entreprise" app:tint="@color/icon_profile" />
@@ -538,7 +539,7 @@
                             android:focusable="true"
                             android:gravity="center"
                             android:orientation="vertical"
-                            android:paddingVertical="20dp">
+                            android:paddingVertical="12dp">
                             <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
                                 <View android:layout_width="64dp" android:layout_height="64dp" android:background="@drawable/bg_circle_soft" android:backgroundTint="@color/icon_settings" android:alpha="0.04" />
                                 <ImageView android:layout_width="32dp" android:layout_height="32dp" android:layout_gravity="center" android:src="@drawable/ic_typcn_spanner_outline" app:tint="@color/icon_settings" />
@@ -599,10 +600,9 @@
             </LinearLayout>
 
             <!-- Section 5: Activity -->
-            <LinearLayout
+                <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_activity_aura"
                 android:orientation="horizontal"
                 android:layout_marginTop="40dp"
                 android:paddingBottom="48dp">

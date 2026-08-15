@@ -4,10 +4,9 @@ import android.graphics.Color;
 
 public class AvatarHelper {
     private static final String[] COLORS = {
-            "#F44336", "#E91E63", "#9C27B0", "#673AB7", "#3F51B5",
-            "#2196F3", "#03A9F4", "#00BCD4", "#009688", "#4CAF50",
-            "#8BC34A", "#CDDC39", "#FFEB3B", "#FFC107", "#FF9800",
-            "#FF5722", "#795548", "#9E9E9E", "#607D8B"
+            "#475569", "#4f46e5", "#059669", "#e11d48", "#d97706",
+            "#0891b2", "#7c3aed", "#2563eb", "#db2777", "#16a34a",
+            "#ca8a04", "#0284c7", "#9333ea", "#0d9488", "#ea580c"
     };
 
     public static int getColorForName(String name) {

@@ -91,6 +91,12 @@ public class ExpensesFragment extends Fragment implements ExpenseAdapter.OnExpen
                     if (txtTotal != null) animateNumber(txtTotal, finalTotal);
 
                     adapter.setData(expenses);
+                    
+                    android.widget.TextView txtBriefing = getView().findViewById(R.id.txt_expenses_briefing);
+                    if (txtBriefing != null) {
+                        txtBriefing.setText(expenses.size() + " DÉPENSES RÉPERTORIÉES • TOTAL CE MOIS");
+                    }
+
                     recyclerView.scheduleLayoutAnimation();
                     checkEmptyState();
                 });

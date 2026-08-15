@@ -104,35 +104,30 @@ public class AgendaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         Date now = new Date();
         
         int tintColor;
-        int bgColor;
         String label;
 
         if ("Cancelled".equals(status)) {
             tintColor = ContextCompat.getColor(holder.itemView.getContext(), R.color.status_cancelled);
-            bgColor = ContextCompat.getColor(holder.itemView.getContext(), R.color.status_cancelled_bg);
             label = "ANNULÉE";
         } else if (booking.dateTime.before(now)) {
             tintColor = ContextCompat.getColor(holder.itemView.getContext(), R.color.status_paid);
-            bgColor = ContextCompat.getColor(holder.itemView.getContext(), R.color.status_paid_bg);
             label = "TERMINÉE";
         } else {
             tintColor = ContextCompat.getColor(holder.itemView.getContext(), R.color.status_pending);
-            bgColor = ContextCompat.getColor(holder.itemView.getContext(), R.color.status_pending_bg);
             label = "À VENIR";
         }
 
         TextView txtStatus = (TextView) holder.txtStatus;
         txtStatus.setText(label);
-        txtStatus.setBackgroundResource(R.drawable.bg_pill_soft);
-        txtStatus.setBackgroundTintList(android.content.res.ColorStateList.valueOf(bgColor));
+        txtStatus.setBackground(null);
         txtStatus.setTextColor(tintColor);
 
-        // Add Icon to Badge
+        // Add Icon Dot
         int iconRes = "Cancelled".equals(status) ? R.drawable.ic_status_x :
                      booking.dateTime.before(now) ? R.drawable.ic_status_check : R.drawable.ic_status_clock;
         
         txtStatus.setCompoundDrawablesWithIntrinsicBounds(iconRes, 0, 0, 0);
-        txtStatus.setCompoundDrawablePadding(8);
+        txtStatus.setCompoundDrawablePadding(12);
         androidx.core.widget.TextViewCompat.setCompoundDrawableTintList(txtStatus, android.content.res.ColorStateList.valueOf(tintColor));
     }
 

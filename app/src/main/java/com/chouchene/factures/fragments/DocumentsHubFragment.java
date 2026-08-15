@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.widget.TextView;
 import com.chouchene.factures.R;
 import com.chouchene.factures.database.DatabaseClient;
 import com.google.android.material.chip.Chip;
@@ -28,6 +29,7 @@ public class DocumentsHubFragment extends Fragment {
     private Chip filterChip;
     private ChipGroup statusChipGroup;
     private DocumentsViewModel viewModel;
+    private TextView txtBriefing;
 
     public DocumentsHubFragment() {}
 
@@ -46,6 +48,7 @@ public class DocumentsHubFragment extends Fragment {
         viewPager = view.findViewById(R.id.viewPager);
         filterChip = view.findViewById(R.id.filterChip);
         statusChipGroup = view.findViewById(R.id.statusChipGroup);
+        txtBriefing = view.findViewById(R.id.txt_documents_briefing);
 
         viewPager.setAdapter(new DocumentsPagerAdapter(this));
 
@@ -116,9 +119,12 @@ public class DocumentsHubFragment extends Fragment {
             int pending = dao.getCountByStatus("En attente");
             int cancelled = dao.getCountByStatus("Annulée");
 
+            String briefing = all + " DOCUMENTS AU TOTAL • " + pending + " EN ATTENTE";
+
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
                     if (getView() != null) {
+                        if (txtBriefing != null) txtBriefing.setText(briefing);
                         ((Chip) getView().findViewById(R.id.chipAll)).setText("Tous (" + all + ")");
                         ((Chip) getView().findViewById(R.id.chipPaid)).setText("Payée (" + paid + ")");
                         ((Chip) getView().findViewById(R.id.chipPending)).setText("Attente (" + pending + ")");

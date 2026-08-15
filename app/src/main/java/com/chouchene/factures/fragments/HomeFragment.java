@@ -112,6 +112,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         View cardDashboard = view.findViewById(R.id.card_dashboard);
         View cardProfile = view.findViewById(R.id.card_profile);
         View cardSettings = view.findViewById(R.id.card_settings);
+        View chartContainer = view.findViewById(R.id.container_chart);
 
         MaterialCardView cardAvatar = view.findViewById(R.id.card_home_user_avatar);
         if (cardAvatar != null) {
@@ -124,13 +125,18 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         cardDashboard.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.parametresFragment));
         cardProfile.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.entrepriseSettingsFragment));
         cardSettings.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.settingsActivity));
+        
+        if (chartContainer != null) {
+            chartContainer.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.parametresFragment));
+        }
 
         // Apply touch animations
         setupClickAnimations(
                 cardDocuments, cardClients, cardAgenda, cardDashboard, cardProfile, cardSettings,
                 view.findViewById(R.id.stat_invoices),
                 view.findViewById(R.id.stat_orders),
-                view.findViewById(R.id.stat_bookings)
+                view.findViewById(R.id.stat_bookings),
+                chartContainer
         );
 
         // Entrance cascade for services
