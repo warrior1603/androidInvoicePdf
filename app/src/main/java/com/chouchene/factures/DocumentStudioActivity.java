@@ -75,7 +75,7 @@ public class DocumentStudioActivity extends AppCompatActivity {
     private ViewFlipper viewFlipper;
     private MaterialButton btnBack, btnNext, btnGenerate;
 
-    private View stepIndicator1, stepIndicator2, stepIndicator3;
+    private View stepNode1, stepNode2, stepNode3;
     private View studioAccentBar;
 
     // Facture Fields
@@ -138,10 +138,13 @@ public class DocumentStudioActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        toolbar = findViewById(R.id.toolbar_studio);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(v -> finish());
-        toolbar.setTitle(mode.equals(MODE_EDIT) ? "Modifier " + type : "Nouveau " + type);
+        View btnBackHeader = findViewById(R.id.btn_back_header);
+        if (btnBackHeader != null) btnBackHeader.setOnClickListener(v -> finish());
+
+        TextView txtTitle = findViewById(R.id.txt_studio_title);
+        if (txtTitle != null) {
+            txtTitle.setText(mode.equals(MODE_EDIT) ? "Modifier " + type : "Nouveau " + type);
+        }
 
         webViewPreview = findViewById(R.id.webview_preview);
         previewLoader = findViewById(R.id.preview_loader);
@@ -150,9 +153,9 @@ public class DocumentStudioActivity extends AppCompatActivity {
         btnNext = findViewById(R.id.btn_next_studio);
         btnGenerate = findViewById(R.id.btn_generate_studio);
 
-        stepIndicator1 = findViewById(R.id.step_indicator_1);
-        stepIndicator2 = findViewById(R.id.step_indicator_2);
-        stepIndicator3 = findViewById(R.id.step_indicator_3);
+        stepNode1 = findViewById(R.id.step_node_1);
+        stepNode2 = findViewById(R.id.step_node_2);
+        stepNode3 = findViewById(R.id.step_node_3);
         studioAccentBar = findViewById(R.id.studio_accent_bar);
 
         containerInvoiceClient = findViewById(R.id.container_invoice_client);
@@ -189,6 +192,11 @@ public class DocumentStudioActivity extends AppCompatActivity {
         }
 
         webViewPreview.getSettings().setJavaScriptEnabled(true);
+        webViewPreview.getSettings().setLoadWithOverviewMode(true);
+        webViewPreview.getSettings().setUseWideViewPort(true);
+        webViewPreview.getSettings().setBuiltInZoomControls(true);
+        webViewPreview.getSettings().setDisplayZoomControls(false);
+        
         webViewPreview.setWebViewClient(new WebViewClient() {
             @Override public void onPageStarted(WebView view, String url, android.graphics.Bitmap favicon) { previewLoader.setVisibility(View.VISIBLE); }
             @Override public void onPageFinished(WebView view, String url) { previewLoader.setVisibility(View.GONE); }
@@ -335,30 +343,40 @@ public class DocumentStudioActivity extends AppCompatActivity {
         });
         btnGenerate.setOnClickListener(v -> handleGenerate());
 
-        stepIndicator1.setOnClickListener(v -> goToStep(0));
-        stepIndicator2.setOnClickListener(v -> goToStep(1));
-        stepIndicator3.setOnClickListener(v -> goToStep(2));
+        stepNode1.setOnClickListener(v -> goToStep(0));
+        stepNode2.setOnClickListener(v -> goToStep(1));
+        stepNode3.setOnClickListener(v -> goToStep(2));
 
         goToStep(0);
     }
 
     private void goToStep(int step) {
+        int current = viewFlipper.getDisplayedChild();
+        if (step > current) {
+            viewFlipper.setInAnimation(this, R.anim.slide_in_right);
+            viewFlipper.setOutAnimation(this, R.anim.slide_out_left);
+        } else if (step < current) {
+            viewFlipper.setInAnimation(this, R.anim.slide_in_left);
+            viewFlipper.setOutAnimation(this, R.anim.slide_out_right);
+        }
+
         viewFlipper.setDisplayedChild(step);
         btnBack.setVisibility(step == 0 ? View.GONE : View.VISIBLE);
         btnNext.setVisibility(step == 2 ? View.GONE : View.VISIBLE);
         btnGenerate.setVisibility(step == 2 ? View.VISIBLE : View.GONE);
 
-        int activeColor = type.equals(TYPE_INVOICE) ? getThemeColor(androidx.appcompat.R.attr.colorPrimary) : ContextCompat.getColor(this, R.color.icon_dashboard);
-        int inactiveColor = getThemeColor(com.google.android.material.R.attr.colorOutlineVariant);
+        stepNode1.setActivated(step >= 0);
+        stepNode2.setActivated(step >= 1);
+        stepNode3.setActivated(step >= 2);
 
-        stepIndicator1.setBackgroundTintList(android.content.res.ColorStateList.valueOf(step >= 0 ? activeColor : inactiveColor));
-        stepIndicator1.setAlpha(step == 0 ? 1.0f : 0.4f);
-
-        stepIndicator2.setBackgroundTintList(android.content.res.ColorStateList.valueOf(step >= 1 ? activeColor : inactiveColor));
-        stepIndicator2.setAlpha(step == 1 ? 1.0f : 0.4f);
-
-        stepIndicator3.setBackgroundTintList(android.content.res.ColorStateList.valueOf(step >= 2 ? activeColor : inactiveColor));
-        stepIndicator3.setAlpha(step == 2 ? 1.0f : 0.4f);
+        // Update accent bar color based on step if needed
+        if (studioAccentBar != null) {
+            int color;
+            if (step == 0) color = getThemeColor(androidx.appcompat.R.attr.colorPrimary);
+            else if (step == 1) color = ContextCompat.getColor(this, R.color.icon_clients);
+            else color = ContextCompat.getColor(this, R.color.icon_dashboard);
+            studioAccentBar.setBackgroundTintList(android.content.res.ColorStateList.valueOf(color));
+        }
     }
 
     private int getThemeColor(int attr) {

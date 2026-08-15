@@ -4,8 +4,14 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <!-- Invoice Specific Fields -->
-    <LinearLayout android:id="@+id/container_invoice_client" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/container_invoice_client"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="CLIENT_INFO [REG_01]" android:alpha="0.1" android:textSize="8sp" android:layout_marginBottom="-12dp" />
+
         <include layout="@layout/view_settings_input_item" android:id="@+id/item_inv_name" android:layout_width="match_parent" android:layout_height="wrap_content" />
         <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.1" />
 
@@ -33,8 +39,15 @@
         <include layout="@layout/view_settings_input_item" android:id="@+id/item_inv_tva" android:layout_width="match_parent" android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <!-- Bon Specific Fields -->
-    <LinearLayout android:id="@+id/container_bon_client" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
+    <LinearLayout
+        android:id="@+id/container_bon_client"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="PASSENGER_DATA [P_0x24]" android:alpha="0.1" android:textSize="8sp" android:layout_marginBottom="-12dp" />
+
         <include layout="@layout/view_settings_input_item" android:id="@+id/item_bon_passenger" android:layout_width="match_parent" android:layout_height="wrap_content" />
         <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="56dp" android:alpha="0.1" />
 

@@ -11,38 +11,121 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar_studio"
-            style="@style/App.Toolbar"
+        <!-- Section 1: Page Header (Consistent with App Design) -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="@drawable/rounded_arrow_back_24"
-            app:title="Studio de Création"
-            app:titleCentered="false" />
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_canvas_header"
+            android:paddingStart="12dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="36dp">
 
-        <!-- Live Preview Canvas -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_back_header"
+                style="?attr/materialIconButtonStyle"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="-12dp"
+                app:icon="@drawable/ic_typcn_chevron_right"
+                android:rotation="180"
+                app:iconTint="?attr/colorOnSurface" />
+
+            <FrameLayout
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="12dp">
+                <View
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bg_circle_soft"
+                    android:backgroundTint="?attr/colorPrimary"
+                    android:alpha="0.08" />
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_typcn_pen"
+                    app:tint="?attr/colorPrimary"
+                    android:alpha="0.9" />
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="top|start"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:background="?attr/colorPrimary"
+                    android:alpha="0.2" />
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="8dp"
+                    android:layout_gravity="top|start"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:background="?attr/colorPrimary"
+                    android:alpha="0.2" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/txt_studio_title"
+                    style="@style/App.TextAppearance.Headline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Studio"
+                    android:textSize="30sp"
+                    android:letterSpacing="-0.02" />
+                <TextView
+                    style="@style/App.TextAppearance.LabelSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:alpha="0.5"
+                    android:text="CONCEPTION DE DOCUMENT" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Live Preview Canvas (Blueprint Mode) -->
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.4"
-            android:background="?attr/colorSurfaceVariant"
-            android:padding="16dp">
+            android:background="?attr/colorSurfaceVariant">
+
+            <!-- Technical Grid Background -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_studio_grid" />
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@android:color/white">
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="8dp"
+                android:background="@android:color/white"
+                android:elevation="4dp">
+
+                <!-- Corner Viewfinders -->
+                <View android:layout_width="12dp" android:layout_height="1dp" android:layout_gravity="top|start" android:background="?attr/colorOutline" />
+                <View android:layout_width="1dp" android:layout_height="12dp" android:layout_gravity="top|start" android:background="?attr/colorOutline" />
+
+                <View android:layout_width="12dp" android:layout_height="1dp" android:layout_gravity="top|end" android:background="?attr/colorOutline" />
+                <View android:layout_width="1dp" android:layout_height="12dp" android:layout_gravity="top|end" android:background="?attr/colorOutline" />
 
                 <WebView
                     android:id="@+id/webview_preview"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <View
-                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/bg_dashboard_sheet"
-                    android:alpha="0.05" />
+                    android:layout_margin="1dp" />
 
                 <ProgressBar
                     android:id="@+id/preview_loader"
@@ -53,43 +136,22 @@
             </FrameLayout>
         </FrameLayout>
 
-        <!-- Stepper Indicator -->
+        <!-- Stepper Indicator (Terminal Flow) -->
         <LinearLayout
             android:id="@+id/stepper_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center"
-            android:paddingTop="24dp"
-            android:paddingBottom="16dp"
-            android:paddingHorizontal="60dp">
+            android:gravity="center_vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="12dp"
+            android:paddingHorizontal="48dp">
 
-            <View
-                android:id="@+id/step_indicator_1"
-                android:layout_width="0dp"
-                android:layout_height="3dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_vertical_bar_primary" />
-
-            <View android:layout_width="8dp" android:layout_height="match_parent" />
-
-            <View
-                android:id="@+id/step_indicator_2"
-                android:layout_width="0dp"
-                android:layout_height="3dp"
-                android:layout_weight="1"
-                android:background="?attr/colorOutlineVariant"
-                android:alpha="0.5" />
-
-            <View android:layout_width="8dp" android:layout_height="match_parent" />
-
-            <View
-                android:id="@+id/step_indicator_3"
-                android:layout_width="0dp"
-                android:layout_height="3dp"
-                android:layout_weight="1"
-                android:background="?attr/colorOutlineVariant"
-                android:alpha="0.5" />
+            <View android:id="@+id/step_node_1" android:layout_width="12dp" android:layout_height="12dp" android:background="@drawable/bg_stepper_node" android:tag="activated" />
+            <View android:layout_width="0dp" android:layout_height="0.5dp" android:layout_weight="1" android:background="?attr/colorOutline" />
+            <View android:id="@+id/step_node_2" android:layout_width="12dp" android:layout_height="12dp" android:background="@drawable/bg_stepper_node" />
+            <View android:layout_width="0dp" android:layout_height="0.5dp" android:layout_weight="1" android:background="?attr/colorOutline" />
+            <View android:id="@+id/step_node_3" android:layout_width="12dp" android:layout_height="12dp" android:background="@drawable/bg_stepper_node" />
         </LinearLayout>
 
         <!-- Form Steps -->

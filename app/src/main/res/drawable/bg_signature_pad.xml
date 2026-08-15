@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Fine hairline border -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="?attr/colorSurface" />
+            <stroke android:width="0.5dp" android:color="?attr/colorOutline" />
+            <corners android:radius="12dp" />
+        </shape>
+    </item>
+    <!-- Dot matrix background -->
+    <item android:bottom="4dp" android:left="4dp" android:right="4dp" android:top="4dp"
+        android:drawable="@drawable/bg_dot_matrix" />
+</layer-list>

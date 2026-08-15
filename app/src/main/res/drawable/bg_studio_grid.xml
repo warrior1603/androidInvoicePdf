@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    <!-- Fine technical grid for Studio background -->
+    <path
+        android:pathData="M0,20 H100 M0,40 H100 M0,60 H100 M0,80 H100"
+        android:strokeWidth="0.2"
+        android:strokeColor="?attr/colorPrimary"
+        android:alpha="0.08" />
+    <path
+        android:pathData="M20,0 V100 M40,0 V100 M60,0 V100 M80,0 V100"
+        android:strokeWidth="0.2"
+        android:strokeColor="?attr/colorPrimary"
+        android:alpha="0.08" />
+</vector>
