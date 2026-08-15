@@ -177,4 +177,14 @@
     <string name="label_required">Required</string>
     <string name="msg_name_required">Name is required</string>
     <string name="title_preview_doc">Preview</string>
+    <string name="label_default_tva">Default VAT</string>
+    <string name="label_default_payment">Default Payment</string>
+    <string name="label_smart_alerts">Smart Alerts</string>
+    <string name="label_smart_alerts_desc">Reminder and invoice notifications</string>
+    <string name="title_generation_prefs">Generation Preferences</string>
+    <string name="title_security_alerts">Security &amp; Alerts</string>
+    <string name="title_data_backup">Data &amp; Backup</string>
+    <string name="title_support_info">Support &amp; Info</string>
+    <string name="label_help_desc">View documentation</string>
+    <string name="label_about_desc">App version and information</string>
 </resources>

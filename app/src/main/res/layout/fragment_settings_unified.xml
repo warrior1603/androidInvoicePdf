@@ -81,7 +81,7 @@
                     android:paddingStart="12dp"
                     android:paddingEnd="16dp">
 
-                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="COMPTE" android:alpha="0.3" android:letterSpacing="0.02" />
+                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/title_account" android:alpha="0.3" android:letterSpacing="0.02" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -113,7 +113,7 @@
                     android:paddingStart="12dp"
                     android:paddingEnd="16dp">
 
-                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="PRÉFÉRENCES DE GÉNÉRATION" android:alpha="0.3" android:letterSpacing="0.02" />
+                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/title_generation_prefs" android:alpha="0.3" android:letterSpacing="0.02" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -155,7 +155,7 @@
                     android:paddingStart="12dp"
                     android:paddingEnd="16dp">
 
-                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="SÉCURITÉ &amp; ALERTES" android:alpha="0.3" android:letterSpacing="0.02" />
+                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/title_security_alerts" android:alpha="0.3" android:letterSpacing="0.02" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -189,7 +189,7 @@
                     android:paddingStart="12dp"
                     android:paddingEnd="16dp">
 
-                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="DONNÉES &amp; SAUVEGARDE" android:alpha="0.3" android:letterSpacing="0.02" />
+                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/title_data_backup" android:alpha="0.3" android:letterSpacing="0.02" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -232,7 +232,7 @@
                     android:paddingStart="12dp"
                     android:paddingEnd="16dp">
 
-                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="SUPPORT &amp; INFOS" android:alpha="0.3" android:letterSpacing="0.02" />
+                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/title_support_info" android:alpha="0.3" android:letterSpacing="0.02" />
 
                     <LinearLayout
                         android:layout_width="match_parent"

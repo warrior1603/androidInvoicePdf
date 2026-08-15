@@ -47,7 +47,7 @@ public class LocaleHelper {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(SELECTED_LANGUAGE, language);
-        editor.apply();
+        editor.commit(); // Use commit for immediate write before activity restart
     }
 
     @TargetApi(Build.VERSION_CODES.N)
@@ -57,6 +57,11 @@ public class LocaleHelper {
 
         Configuration configuration = context.getResources().getConfiguration();
         configuration.setLocale(locale);
+        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            configuration.setLocales(new android.os.LocaleList(locale));
+        }
+        
         configuration.setLayoutDirection(locale);
 
         return context.createConfigurationContext(configuration);

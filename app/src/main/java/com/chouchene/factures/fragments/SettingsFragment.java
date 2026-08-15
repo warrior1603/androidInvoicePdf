@@ -92,55 +92,60 @@ public class SettingsFragment extends Fragment {
 
         // --- SECTION: GENERATION PREFERENCES ---
         setupClickable(view.findViewById(R.id.item_default_tva), R.drawable.ic_outline_adjustments, 
-                "TVA par défaut", businessPrefs.getString("default_tva", "10") + "%", v -> {
+                getString(R.string.label_default_tva), businessPrefs.getString("default_tva", "10") + "%", v -> {
             final android.widget.EditText input = new android.widget.EditText(requireContext());
             input.setInputType(android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
             input.setText(businessPrefs.getString("default_tva", "10"));
             
             new androidx.appcompat.app.AlertDialog.Builder(requireContext())
-                    .setTitle("TVA par défaut (%)")
+                    .setTitle(R.string.label_default_tva)
                     .setView(input)
-                    .setPositiveButton("Enregistrer", (dialog, which) -> {
+                    .setPositiveButton(R.string.action_save, (dialog, which) -> {
                         String val = input.getText().toString();
                         businessPrefs.edit().putString("default_tva", val).apply();
                         setupClickable(view.findViewById(R.id.item_default_tva), R.drawable.ic_outline_adjustments, 
-                                "TVA par défaut", val + "%", null);
+                                getString(R.string.label_default_tva), val + "%", null);
                     })
-                    .setNegativeButton("Annuler", null)
+                    .setNegativeButton(R.string.action_cancel, null)
                     .show();
         });
 
         setupClickable(view.findViewById(R.id.item_default_payment), R.drawable.ic_outline_cash, 
-                "Paiement par défaut", businessPrefs.getString("default_payment", "Virement"), v -> {
+                getString(R.string.label_default_payment), businessPrefs.getString("default_payment", "Virement"), v -> {
             String[] modes = {"Virement", "Carte", "Espèce", "Chèque"};
             new androidx.appcompat.app.AlertDialog.Builder(requireContext())
-                    .setTitle("Mode de paiement par défaut")
+                    .setTitle(R.string.label_default_payment)
                     .setItems(modes, (dialog, which) -> {
                         businessPrefs.edit().putString("default_payment", modes[which]).apply();
                         setupClickable(view.findViewById(R.id.item_default_payment), R.drawable.ic_outline_cash, 
-                                "Paiement par défaut", modes[which], null);
+                                getString(R.string.label_default_payment), modes[which], null);
                     })
                     .show();
         });
 
         setupClickable(view.findViewById(R.id.item_language), R.drawable.ic_typcn_world, 
-                "Langue de l'app", LocaleHelper.getLanguage(requireContext()).equals("fr") ? "Français" : "English", v -> {
+                getString(R.string.pref_title_language), LocaleHelper.getLanguage(requireContext()).equals("fr") ? "Français" : "English", v -> {
             String[] langs = {"Français", "English"};
             new androidx.appcompat.app.AlertDialog.Builder(requireContext())
-                    .setTitle("Choisir la langue")
+                    .setTitle(R.string.pref_title_language)
                     .setItems(langs, (dialog, which) -> {
                         String next = which == 0 ? "fr" : "en";
                         LocaleHelper.setLocale(requireContext(), next);
-                        requireActivity().recreate();
+                        
+                        // Force a full app restart to apply language everywhere reliably
+                        Intent intent = new Intent(requireContext(), MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        if (getActivity() != null) getActivity().finish();
                     })
                     .show();
         });
 
         setupClickable(view.findViewById(R.id.item_currency), R.drawable.ic_typcn_cart, 
-                "Devise par défaut", businessPrefs.getString("default_currency", "EUR (€)"), v -> {
+                getString(R.string.pref_title_currency), businessPrefs.getString("default_currency", "EUR (€)"), v -> {
             String[] currencies = {"EUR (€)", "USD ($)", "GBP (£)", "CHF (CHF)", "TND (DT)"};
             new androidx.appcompat.app.AlertDialog.Builder(requireContext())
-                    .setTitle("Choisir la devise")
+                    .setTitle(R.string.pref_title_currency)
                     .setItems(currencies, (dialog, which) -> {
                         String selected = currencies[which];
                         businessPrefs.edit().putString("default_currency", selected).apply();
@@ -171,18 +176,18 @@ public class SettingsFragment extends Fragment {
         }
 
         setupSwitch(view.findViewById(R.id.item_notifications), "notifications_enabled", appPrefs, R.drawable.ic_typcn_bell,
-                "Alertes Intelligentes", "Notifications de rappels et factures", null);
+                getString(R.string.label_smart_alerts), getString(R.string.label_smart_alerts_desc), null);
 
         // --- SECTION: DATA ---
         String currentDir = businessPrefs.getString("directory", BackupUtils.getDefaultPdfDir(requireContext()));
         String displayDir = simplifyPath(currentDir);
         setupClickable(view.findViewById(R.id.item_directory), R.drawable.ic_typcn_folder_open, 
-                "Dossier de stockage", displayDir, v -> {
+                getString(R.string.pref_title_directory), displayDir, v -> {
             dirPickerLauncher.launch(null);
         });
 
         setupClickable(view.findViewById(R.id.item_templates), R.drawable.ic_typcn_document, 
-                "Modèles PDF", "Gérer les templates de factures", v -> {
+                getString(R.string.pref_title_template), getString(R.string.pref_summary_template), v -> {
             getParentFragmentManager()
                     .beginTransaction()
                     .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
@@ -192,19 +197,19 @@ public class SettingsFragment extends Fragment {
         });
 
         setupClickable(view.findViewById(R.id.item_export), R.drawable.ic_typcn_export_outline, 
-                "Exporter les données", "Sauvegarder base de données et PDF", v -> {
+                getString(R.string.pref_title_export), getString(R.string.pref_summary_export), v -> {
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
             exportLauncher.launch("Backup_Factures_" + timeStamp + ".zip");
         });
 
         setupClickable(view.findViewById(R.id.item_import), R.drawable.ic_typcn_arrow_sync_outline, 
-                "Importer les données", "Restaurer depuis une sauvegarde", v -> {
+                getString(R.string.pref_title_import), getString(R.string.pref_summary_import), v -> {
             importLauncher.launch(new String[]{"application/zip", "application/x-zip-compressed", "application/octet-stream"});
         });
 
         // --- SECTION: SUPPORT & INFO ---
         setupClickable(view.findViewById(R.id.item_help), R.drawable.ic_typcn_info_large, 
-                "Aide & Support", "Consulter la documentation", v -> {
+                getString(R.string.title_help), getString(R.string.label_help_desc), v -> {
             getParentFragmentManager()
                     .beginTransaction()
                     .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
@@ -214,7 +219,7 @@ public class SettingsFragment extends Fragment {
         });
 
         setupClickable(view.findViewById(R.id.item_about), R.drawable.ic_typcn_news, 
-                "À Propos", "Version de l'application et infos", v -> {
+                getString(R.string.title_about), getString(R.string.label_about_desc), v -> {
             getParentFragmentManager()
                     .beginTransaction()
                     .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)

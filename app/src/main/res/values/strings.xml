@@ -196,4 +196,14 @@
     <string name="label_required">Requis</string>
     <string name="msg_name_required">Le nom est obligatoire</string>
     <string name="title_preview_doc">Aperçu</string>
+    <string name="label_default_tva">TVA par défaut</string>
+    <string name="label_default_payment">Paiement par défaut</string>
+    <string name="label_smart_alerts">Alertes Intelligentes</string>
+    <string name="label_smart_alerts_desc">Notifications de rappels et factures</string>
+    <string name="title_generation_prefs">Préférences de génération</string>
+    <string name="title_security_alerts">Sécurité &amp; Alertes</string>
+    <string name="title_data_backup">Données &amp; Sauvegarde</string>
+    <string name="title_support_info">Support &amp; Infos</string>
+    <string name="label_help_desc">Consulter la documentation</string>
+    <string name="label_about_desc">Version de l\'application et infos</string>
 </resources>
