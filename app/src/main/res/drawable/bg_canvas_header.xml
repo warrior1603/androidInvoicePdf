@@ -17,7 +17,7 @@
         </aapt:attr>
     </path>
 
-    <!-- Discreet Technical Grid (Spaced out to 40dp) -->
+    <!-- Discreet Technical Grid -->
     <path android:pathData="M0,40 H400 M0,80 H400 M0,120 H400"
         android:strokeWidth="0.3"
         android:strokeColor="?attr/colorPrimary"
@@ -28,27 +28,39 @@
         android:strokeColor="?attr/colorPrimary"
         android:alpha="0.04" />
 
-    <!-- Ghost Technical Marks (Very Low Opacity) -->
+    <!-- Ghost Technical Marks (Corner Viewfinders) -->
     <path android:pathData="M15,15 H25 M15,15 V25" android:strokeWidth="0.6" android:strokeColor="?attr/colorPrimary" android:alpha="0.08" />
     <path android:pathData="M385,15 H375 M385,15 V25" android:strokeWidth="0.6" android:strokeColor="?attr/colorPrimary" android:alpha="0.08" />
 
-    <!-- Minimalist Technical Crosshair -->
+    <!-- The Active Node (Enhanced Technical Crosshair) -->
+    <!-- Outer Focus Ring -->
     <path
         android:strokeWidth="0.5"
         android:strokeColor="?attr/colorPrimary"
-        android:alpha="0.1"
-        android:pathData="M350,70 m-8,0 a8,8 0,1 1,16 0 a8,8 0,1 1,-16 0" />
-    <path android:pathData="M344,70 H356 M350,64 V76" android:strokeWidth="0.5" android:strokeColor="?attr/colorPrimary" android:alpha="0.1" />
+        android:alpha="0.06"
+        android:pathData="M350,70 m-12,0 a12,12 0,1 1,24 0 a12,12 0,1 1,-24 0" />
+
+    <!-- Secondary Precision Ring (Partial) -->
+    <path
+        android:strokeWidth="0.8"
+        android:strokeColor="?attr/colorPrimary"
+        android:alpha="0.12"
+        android:pathData="M342,70 A8,8 0 0,1 358,70" />
+
+    <!-- Center Terminal Dot -->
     <path
         android:fillColor="?attr/colorPrimary"
-        android:alpha="0.15"
-        android:pathData="M350,70 m-1.5,0 a1.5,1.5 0,1 1,3 0 a1.5,1.5 0,1 1,-3 0" />
+        android:alpha="0.25"
+        android:pathData="M350,70 m-2.5,0 a2.2,2.2 0,1 1,5 0 a2.2,2.2 0,1 1,-5 0" />
+
+    <!-- Technical Axis Lines (Ghost) -->
+    <path android:pathData="M335,70 H365 M350,55 V85" android:strokeWidth="0.3" android:strokeColor="?attr/colorPrimary" android:alpha="0.05" />
 
     <!-- Hairline Bottom Edge -->
     <path
-        android:pathData="M0,139 H400"
-        android:strokeWidth="1"
-        android:strokeColor="?attr/colorOutlineVariant"
-        android:alpha="0.2" />
+        android:pathData="M0,139.5 H400"
+        android:strokeWidth="0.5"
+        android:strokeColor="?attr/colorPrimary"
+        android:alpha="0.1" />
 
 </vector>
