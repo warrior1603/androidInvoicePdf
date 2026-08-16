@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="20dp"
+    android:height="100dp"
+    android:viewportWidth="20"
+    android:viewportHeight="100">
+    <!-- Main Rail -->
+    <path
+        android:pathData="M10,0 V100"
+        android:strokeWidth="1.5"
+        android:strokeColor="?attr/colorPrimary"
+        android:alpha="0.1" />
+
+    <!-- Active Node Dot -->
+    <path
+        android:pathData="M10,50 m-4,0 a4,4 0,1 1,8 0 a4,4 0,1 1,-8 0"
+        android:fillColor="?attr/colorPrimary"
+        android:alpha="0.6" />
+
+    <!-- Precision Crosshair -->
+    <path
+        android:pathData="M4,50 H16 M10,44 V56"
+        android:strokeWidth="0.5"
+        android:strokeColor="?attr/colorPrimary"
+        android:alpha="0.2" />
+</vector>

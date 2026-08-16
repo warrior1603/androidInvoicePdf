@@ -27,12 +27,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.concurrent.Executors;
 
 public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingActionListener {
 
-    private RecyclerView rvBookings;
+    private RecyclerView rvBookings, rvDateRail;
     private AgendaAdapter adapter;
+    private com.chouchene.factures.adapter.DateRailAdapter dateAdapter;
     private AppDatabase db;
     private LinearLayout emptyState;
     private com.facebook.shimmer.ShimmerFrameLayout shimmerContainer;
@@ -62,6 +65,7 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
         }
 
         rvBookings = view.findViewById(R.id.rvBookings);
+        rvDateRail = view.findViewById(R.id.rvDateRail);
         emptyState = view.findViewById(R.id.emptyState);
         shimmerContainer = view.findViewById(R.id.shimmer_view_container);
         tabLayout = view.findViewById(R.id.tabLayout);
@@ -73,6 +77,7 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
         rvBookings.setLayoutManager(new LinearLayoutManager(requireContext()));
         rvBookings.setAdapter(adapter);
 
+        setupDateRail();
         setupTabs();
         setupChips();
 
@@ -83,6 +88,19 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
         });
 
         loadBookings();
+    }
+
+    private void setupDateRail() {
+        dateAdapter = new com.chouchene.factures.adapter.DateRailAdapter(date -> {
+            this.selectedDate = date;
+            loadBookings();
+        });
+        rvDateRail.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        rvDateRail.setAdapter(dateAdapter);
+        
+        // Initial scroll to today (middle)
+        int pos = dateAdapter.getPositionForDate(selectedDate);
+        if (pos != -1) rvDateRail.scrollToPosition(pos);
     }
 
     private void setupTabs() {
@@ -117,8 +135,11 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
 
     private void loadBookings() {
         if (isMonthlyView) {
+            rvDateRail.setVisibility(View.GONE);
             loadBookingsForMonth(selectedDate);
         } else {
+            rvDateRail.setVisibility(View.VISIBLE);
+            dateAdapter.setSelectedDate(selectedDate);
             loadBookingsForDate(selectedDate);
         }
     }
@@ -187,7 +208,23 @@ public class AgendaFragment extends Fragment implements AgendaAdapter.OnBookingA
         final int finalCompleted = completedCount;
         final int finalCancelled = cancelledCount;
 
-        String briefing = allCount + " COURSES AU TOTAL • " + upcomingCount + " À VENIR";
+        String briefing;
+        if (allCount == 0) {
+            briefing = "AUCUNE COURSE PRÉVUE [PLAN_EMPTY]";
+        } else {
+            Booking next = null;
+            for (Booking b : bookings) {
+                if (b.dateTime.after(now) && !"Cancelled".equals(b.status)) {
+                    if (next == null || b.dateTime.before(next.dateTime)) next = b;
+                }
+            }
+            if (next != null) {
+                SimpleDateFormat timeFmt = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                briefing = upcomingCount + " COURSES • PROCHAINE À " + timeFmt.format(next.dateTime) + " [NODE_ACTIVE]";
+            } else {
+                briefing = allCount + " COURSES AU TOTAL • JOURNÉE TERMINÉE";
+            }
+        }
 
         if (getActivity() != null) {
             getActivity().runOnUiThread(() -> {

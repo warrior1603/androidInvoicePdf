@@ -20,14 +20,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AgendaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-    private static final int TYPE_HEADER_CALENDAR = 0;
-    private static final int TYPE_ITEM = 2;
+public class AgendaAdapter extends RecyclerView.Adapter<AgendaAdapter.ItemViewHolder> {
 
     private List<Booking> bookings = new ArrayList<>();
     private final OnBookingActionListener listener;
-    private boolean isMonthlyView = false;
     private Date selectedDate = new Date();
 
     public interface OnBookingActionListener {
@@ -43,60 +39,53 @@ public class AgendaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public void setData(List<Booking> data, boolean isMonthlyView, Date selectedDate) {
         this.bookings = data;
-        this.isMonthlyView = isMonthlyView;
         this.selectedDate = selectedDate;
         notifyDataSetChanged();
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        if (!isMonthlyView && position == 0) return TYPE_HEADER_CALENDAR;
-        return TYPE_ITEM;
-    }
-
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        if (viewType == TYPE_HEADER_CALENDAR) {
-            return new CalendarHeaderViewHolder(inflater.inflate(R.layout.header_agenda_calendar, parent, false));
-        }
-        return new ItemViewHolder(inflater.inflate(R.layout.item_booking, parent, false));
+    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_booking, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof CalendarHeaderViewHolder) {
-            CalendarHeaderViewHolder h = (CalendarHeaderViewHolder) holder;
-            h.calendarView.setDate(selectedDate.getTime(), false, true);
-            h.calendarView.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
-                java.util.Calendar cal = java.util.Calendar.getInstance();
-                cal.set(year, month, dayOfMonth, 0, 0, 0);
-                listener.onDateChanged(cal.getTime());
-            });
-        } else if (holder instanceof ItemViewHolder) {
-            int bookingPos = isMonthlyView ? position : position - 1;
-            Booking booking = bookings.get(bookingPos);
-            ItemViewHolder h = (ItemViewHolder) holder;
-            
-            SimpleDateFormat timeFmt = new SimpleDateFormat("HH:mm", Locale.getDefault());
-            SimpleDateFormat dateFmt = new SimpleDateFormat("dd MMM", Locale.getDefault());
-            
-            ((TextView) h.txtTime).setText(timeFmt.format(booking.dateTime));
-            ((TextView) h.txtDate).setText(dateFmt.format(booking.dateTime));
-            ((TextView) h.txtClientName).setText(booking.clientName);
-            ((TextView) h.txtRoute).setText(booking.pickupLocation + " → " + booking.destinationLocation);
-            ((TextView) h.txtAmount).setText(String.format(Locale.getDefault(), "%.2f €", booking.estimatedPrice));
-            
-            setupStatusBadge(h, booking);
+    public void onBindViewHolder(@NonNull ItemViewHolder h, int position) {
+        Booking booking = bookings.get(position);
+        
+        SimpleDateFormat timeFmt = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        SimpleDateFormat dateFmt = new SimpleDateFormat("dd MMM", Locale.getDefault());
+        
+        ((TextView) h.txtTime).setText(timeFmt.format(booking.dateTime));
+        ((TextView) h.txtDate).setText(dateFmt.format(booking.dateTime));
+        ((TextView) h.txtClientName).setText(booking.clientName);
+        ((TextView) h.txtRoute).setText(booking.pickupLocation + " → " + booking.destinationLocation);
+        ((TextView) h.txtAmount).setText(String.format(Locale.getDefault(), "%.2f €", booking.estimatedPrice));
+        
+        setupStatusBadge(h, booking);
 
-            // Unique transition name for booking
-            androidx.core.view.ViewCompat.setTransitionName(h.itemView, "booking_container_" + booking.id);
+        // Unique transition name for booking
+        androidx.core.view.ViewCompat.setTransitionName(h.itemView, "booking_container_" + booking.id);
 
-            h.itemView.setOnClickListener(view -> listener.onBookingClick(booking, h.itemView));
+        h.itemView.setOnClickListener(view -> listener.onBookingClick(booking, h.itemView));
 
-            com.chouchene.factures.utils.UIUtils.applyClickScale(h.itemView);
+        View btnGps = h.itemView.findViewById(R.id.btn_list_gps);
+        if (btnGps != null) {
+            btnGps.setVisibility(!"Cancelled".equals(booking.status) ? View.VISIBLE : View.GONE);
+            btnGps.setOnClickListener(v -> listener.onOpenGps(booking.destinationLocation));
         }
+
+        com.chouchene.factures.utils.UIUtils.applyClickScale(h.itemView);
+        if (btnGps != null) com.chouchene.factures.utils.UIUtils.applyClickScale(btnGps);
+        
+        // Highlight logic for current/next booking
+        Date now = new Date();
+        boolean isActive = !booking.status.equals("Cancelled") && 
+                          booking.dateTime.after(new Date(now.getTime() - 1800000)) && // Within last 30 mins
+                          booking.dateTime.before(new Date(now.getTime() + 1800000)); // or next 30 mins
+        
+        if (h.nodeDot != null) h.nodeDot.setAlpha(isActive ? 1.0f : 0.6f);
+        h.itemView.setBackgroundColor(isActive ? ContextCompat.getColor(h.itemView.getContext(), R.color.icon_agenda_bg) : android.graphics.Color.TRANSPARENT);
     }
 
     private void setupStatusBadge(ItemViewHolder holder, Booking booking) {
@@ -133,19 +122,11 @@ public class AgendaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        return isMonthlyView ? bookings.size() : bookings.size() + 1;
+        return bookings.size();
     }
 
-    static class CalendarHeaderViewHolder extends RecyclerView.ViewHolder {
-        CalendarView calendarView;
-        CalendarHeaderViewHolder(View v) {
-            super(v);
-            calendarView = v.findViewById(R.id.calendarView);
-        }
-    }
-
-    static class ItemViewHolder extends RecyclerView.ViewHolder {
-        View txtTime, txtDate, txtClientName, txtRoute, txtAmount, txtStatus;
+    public static class ItemViewHolder extends RecyclerView.ViewHolder {
+        public View txtTime, txtDate, txtClientName, txtRoute, txtAmount, txtStatus, nodeDot;
         ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             txtTime = itemView.findViewById(R.id.txtTime);
@@ -154,6 +135,7 @@ public class AgendaAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             txtRoute = itemView.findViewById(R.id.txtRoute);
             txtAmount = itemView.findViewById(R.id.txtAmount);
             txtStatus = itemView.findViewById(R.id.txtStatus);
+            nodeDot = itemView.findViewById(R.id.nodeDot);
         }
     }
 }

@@ -120,7 +120,7 @@
                 android:paddingStart="12dp"
                 android:paddingEnd="16dp">
 
-                <!-- Sub Navigation / Tabs (Now inside content area) -->
+                <!-- Sub Navigation / Tabs -->
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayout"
                     style="@style/App.TabLayout"
@@ -130,6 +130,16 @@
                     android:background="@android:color/transparent"
                     app:tabIndicatorHeight="2dp"
                     app:tabSelectedTextColor="@color/icon_agenda" />
+
+                <!-- Date Ribbon (Timeline Rail) -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvDateRail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:paddingHorizontal="8dp"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never" />
 
                 <!-- Filters (Minimal Chips) -->
                 <HorizontalScrollView

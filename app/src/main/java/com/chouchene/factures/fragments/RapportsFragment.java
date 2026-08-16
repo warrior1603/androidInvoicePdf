@@ -26,6 +26,7 @@ public class RapportsFragment extends Fragment {
         ViewPager2 viewPager = view.findViewById(R.id.rapportsViewPager);
 
         viewPager.setAdapter(new RapportsPagerAdapter(this));
+        viewPager.setPageTransformer(new com.chouchene.factures.utils.StudioPageTransformer());
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             switch (position) {

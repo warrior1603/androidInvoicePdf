@@ -12,99 +12,141 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingVertical="14dp"
-        android:paddingHorizontal="16dp"
         android:gravity="center_vertical">
 
-        <!-- Left: Time & Color Indicator -->
-        <LinearLayout
-            android:layout_width="64dp"
-            android:layout_height="wrap_content"
-            android:gravity="start"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/txtTime"
-                style="@style/App.TextAppearance.TitleMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="14:30"
-                android:textSize="17sp"
-                android:letterSpacing="-0.02"
-                android:textColor="@color/icon_agenda"
-                android:fontFamily="sans-serif-medium" />
-            <TextView
-                android:id="@+id/txtDate"
-                style="@style/App.TextAppearance.LabelSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="12 AOÛT"
-                android:alpha="0.4"
-                android:textSize="9sp"
-                android:textAllCaps="true"
-                android:letterSpacing="0.05" />
-        </LinearLayout>
+        <!-- Left: Technical Timeline Rail -->
+        <FrameLayout
+            android:layout_width="32dp"
+            android:layout_height="match_parent">
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:background="?attr/colorPrimary"
+                android:alpha="0.06" />
+            <FrameLayout
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_circle_soft"
+                    android:backgroundTint="?attr/colorPrimary"
+                    android:alpha="0.08" />
+                <View
+                    android:id="@+id/nodeDot"
+                    android:layout_width="4dp"
+                    android:layout_height="4dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bg_terminal_dot"
+                    android:backgroundTint="?attr/colorPrimary" />
+            </FrameLayout>
+        </FrameLayout>
 
-        <!-- Center: Name & Route -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginStart="16dp"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:paddingVertical="14dp"
+            android:paddingEnd="16dp"
+            android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/txtClientName"
-                style="@style/App.TextAppearance.TitleMedium"
-                android:layout_width="match_parent"
+            <!-- Time Column -->
+            <LinearLayout
+                android:layout_width="64dp"
                 android:layout_height="wrap_content"
-                android:text="Client Name"
-                android:textSize="16sp"
-                android:letterSpacing="-0.01" />
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/txtTime"
+                    style="@style/App.TextAppearance.TitleMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="14:30"
+                    android:textSize="17sp"
+                    android:textColor="@color/icon_agenda"
+                    android:fontFamily="sans-serif-medium" />
+                <TextView
+                    android:id="@+id/txtDate"
+                    style="@style/App.TextAppearance.LabelSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.4"
+                    android:textSize="9sp"
+                    android:text="12 AOÛT" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/txtRoute"
-                style="@style/App.TextAppearance.BodySmall"
-                android:layout_width="match_parent"
+            <!-- Info Column -->
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text="Pickup → Destination"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:alpha="0.4" />
-        </LinearLayout>
+                android:layout_weight="1"
+                android:layout_marginStart="16dp"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/txtClientName"
+                    style="@style/App.TextAppearance.TitleMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Client Name"
+                    android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/txtRoute"
+                    style="@style/App.TextAppearance.BodySmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.4"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="Pickup → Destination" />
+            </LinearLayout>
 
-        <!-- Right: Price & Minimal Status -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="end"
-            android:layout_marginStart="12dp">
-
-            <TextView
-                android:id="@+id/txtAmount"
-                style="@style/App.TextAppearance.TitleMedium"
+            <!-- Action/Status Column -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="45.00 €"
-                android:textSize="16sp"
-                android:textColor="#1E293B"
-                android:fontFamily="sans-serif-medium" />
+                android:gravity="end"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/txtStatus"
-                style="@style/App.TextAppearance.LabelSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:alpha="0.8"
-                android:text="À VENIR"
-                android:textSize="9sp"
-                android:textColor="@color/status_pending"
-                android:textAllCaps="true"
-                android:letterSpacing="0.05"
-                android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_list_gps"
+                        style="?attr/materialIconButtonStyle"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginEnd="2dp"
+                        android:padding="0dp"
+                        app:icon="@drawable/ic_studio_radar"
+                        app:iconSize="16dp"
+                        app:iconTint="@color/icon_agenda"
+                        app:iconPadding="0dp" />
+
+                    <TextView
+                        android:id="@+id/txtAmount"
+                        style="@style/App.TextAppearance.TitleMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="45.00 €"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txtStatus"
+                    style="@style/App.TextAppearance.LabelSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:text="À VENIR"
+                    android:textSize="9sp"
+                    android:textColor="@color/status_pending"
+                    android:fontFamily="sans-serif-black" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

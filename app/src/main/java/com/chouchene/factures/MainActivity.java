@@ -357,7 +357,24 @@ public class MainActivity extends AppCompatActivity {
                 if (itemId == R.id.homeFragment) {
                     navController.popBackStack(R.id.homeFragment, false);
                 }
-                return NavigationUI.onNavDestinationSelected(item, navController);
+                
+                // Studio Layer Animations
+                androidx.navigation.NavOptions options = new androidx.navigation.NavOptions.Builder()
+                        .setLaunchSingleTop(true)
+                        .setRestoreState(true)
+                        .setPopUpTo(navController.getGraph().getStartDestinationId(), false, true)
+                        .setEnterAnim(R.anim.studio_enter)
+                        .setExitAnim(R.anim.studio_exit)
+                        .setPopEnterAnim(R.anim.studio_pop_enter)
+                        .setPopExitAnim(R.anim.studio_pop_exit)
+                        .build();
+                
+                try {
+                    navController.navigate(itemId, null, options);
+                    return true;
+                } catch (IllegalArgumentException e) {
+                    return NavigationUI.onNavDestinationSelected(item, navController);
+                }
             });
 
             // 2. Handle Reselection: Clicking the ALREADY active tab

@@ -36,6 +36,7 @@ public class ClientsHubFragment extends Fragment {
 
         ClientsPagerAdapter adapter = new ClientsPagerAdapter(this);
         viewPager.setAdapter(adapter);
+        viewPager.setPageTransformer(new com.chouchene.factures.utils.StudioPageTransformer());
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             if (position == 0) {

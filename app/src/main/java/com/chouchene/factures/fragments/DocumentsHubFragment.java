@@ -51,6 +51,7 @@ public class DocumentsHubFragment extends Fragment {
         txtBriefing = view.findViewById(R.id.txt_documents_briefing);
 
         viewPager.setAdapter(new DocumentsPagerAdapter(this));
+        viewPager.setPageTransformer(new com.chouchene.factures.utils.StudioPageTransformer());
 
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override

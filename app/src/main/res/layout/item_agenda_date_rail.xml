@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container_date"
+    android:layout_width="60dp"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingVertical="12dp">
+
+    <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <!-- Selected Indicator Aura -->
+        <View
+            android:id="@+id/date_aura"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_circle_soft"
+            android:backgroundTint="?attr/colorPrimary"
+            android:alpha="0" />
+
+        <TextView
+            android:id="@+id/txt_day_num"
+            style="@style/App.TextAppearance.TitleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="15"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-black" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/txt_day_name"
+        style="@style/App.TextAppearance.LabelSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="VEN"
+        android:alpha="0.4"
+        android:textSize="9sp"
+        android:letterSpacing="0.1" />
+
+    <!-- Indicator Dot for courses -->
+    <View
+        android:id="@+id/dot_has_events"
+        android:layout_width="4dp"
+        android:layout_height="4dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/bg_terminal_dot"
+        android:backgroundTint="?attr/colorPrimary"
+        android:alpha="0" />
+
+</LinearLayout>
