@@ -533,30 +533,28 @@ public class MainActivity extends AppCompatActivity {
             holder.type.setText(result.type);
             
             int iconRes = R.drawable.ic_typcn_document;
-            int typeColor;
-            int typeBg;
+            int accentColor;
 
             if ("Client".equals(result.type)) {
                 iconRes = R.drawable.ic_typcn_user;
-                typeColor = ContextCompat.getColor(MainActivity.this, R.color.white);
-                typeBg = R.drawable.bg_badge_green;
+                accentColor = ContextCompat.getColor(MainActivity.this, R.color.status_paid);
             } else if ("Bon".equals(result.type)) {
                 iconRes = R.drawable.ic_typcn_cart;
-                typeColor = ContextCompat.getColor(MainActivity.this, R.color.white);
-                typeBg = R.drawable.bg_badge_orange;
+                accentColor = ContextCompat.getColor(MainActivity.this, R.color.icon_dashboard);
             } else if ("Course".equals(result.type)) {
                 iconRes = R.drawable.ic_typcn_agenda;
-                typeColor = ContextCompat.getColor(MainActivity.this, R.color.white);
-                typeBg = R.drawable.bg_badge_purple;
+                accentColor = ContextCompat.getColor(MainActivity.this, R.color.icon_agenda);
             } else {
                 iconRes = R.drawable.ic_typcn_document;
-                typeColor = ContextCompat.getColor(MainActivity.this, R.color.white);
-                typeBg = R.drawable.bg_badge_blue;
+                accentColor = ContextCompat.getColor(MainActivity.this, R.color.primary);
             }
 
             holder.icon.setImageResource(iconRes);
-            holder.type.setTextColor(typeColor);
-            holder.type.setBackgroundResource(typeBg);
+            holder.icon.setColorFilter(accentColor);
+            holder.iconBg.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accentColor));
+            
+            holder.type.setTextColor(ContextCompat.getColor(MainActivity.this, R.color.white));
+            holder.type.setBackgroundTintList(android.content.res.ColorStateList.valueOf(accentColor));
 
             holder.itemView.setOnClickListener(v -> {
                 searchView.hide();
@@ -574,11 +572,12 @@ public class MainActivity extends AppCompatActivity {
         }
         @Override public int getItemCount() { return results.size(); }
         class ViewHolder extends RecyclerView.ViewHolder {
-            TextView title, subtitle, type; ImageView icon;
+            TextView title, subtitle, type; ImageView icon; View iconBg;
             ViewHolder(View itemView) {
                 super(itemView);
                 title = itemView.findViewById(R.id.result_title); subtitle = itemView.findViewById(R.id.result_subtitle);
                 type = itemView.findViewById(R.id.result_type); icon = itemView.findViewById(R.id.result_icon);
+                iconBg = itemView.findViewById(R.id.result_icon_bg);
             }
         }
     }
