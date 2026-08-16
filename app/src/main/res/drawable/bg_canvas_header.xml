@@ -2,13 +2,13 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:aapt="http://schemas.android.com/aapt"
     android:width="400dp"
-    android:height="140dp"
+    android:height="110dp"
     android:viewportWidth="400"
-    android:viewportHeight="140">
+    android:viewportHeight="110">
 
     <!-- Minimalist Blueprint Surface (Very Light) -->
     <path
-        android:pathData="M0,0 H400 V140 H0 Z">
+        android:pathData="M0,0 H400 V110 H0 Z">
         <aapt:attr name="android:fillColor">
             <gradient
                 android:angle="270"
@@ -17,48 +17,44 @@
         </aapt:attr>
     </path>
 
-    <!-- Discreet Technical Grid -->
-    <path android:pathData="M0,40 H400 M0,80 H400 M0,120 H400"
+    <!-- Discreet Technical Grid (Recalibrated for Slim) -->
+    <path android:pathData="M0,35 H400 M0,70 H400 M0,105 H400"
         android:strokeWidth="0.3"
         android:strokeColor="?attr/colorPrimary"
         android:alpha="0.04" />
 
-    <path android:pathData="M40,0 V140 M80,0 V140 M120,0 V140 M160,0 V140 M200,0 V140 M240,0 V140 M280,0 V140 M320,0 V140 M360,0 V140"
+    <path android:pathData="M40,0 V110 M80,0 V110 M120,0 V110 M160,0 V110 M200,0 V110 M240,0 V110 M280,0 V110 M320,0 V110 M360,0 V110"
         android:strokeWidth="0.3"
         android:strokeColor="?attr/colorPrimary"
         android:alpha="0.04" />
 
     <!-- Ghost Technical Marks (Corner Viewfinders) -->
-    <path android:pathData="M15,15 H25 M15,15 V25" android:strokeWidth="0.6" android:strokeColor="?attr/colorPrimary" android:alpha="0.08" />
-    <path android:pathData="M385,15 H375 M385,15 V25" android:strokeWidth="0.6" android:strokeColor="?attr/colorPrimary" android:alpha="0.08" />
+    <path android:pathData="M15,10 H25 M15,10 V20" android:strokeWidth="0.6" android:strokeColor="?attr/colorPrimary" android:alpha="0.08" />
+    <path android:pathData="M385,10 H375 M385,10 V20" android:strokeWidth="0.6" android:strokeColor="?attr/colorPrimary" android:alpha="0.08" />
 
     <!-- The Active Node (Enhanced Technical Crosshair) -->
-    <!-- Outer Focus Ring -->
     <path
         android:strokeWidth="0.5"
         android:strokeColor="?attr/colorPrimary"
         android:alpha="0.06"
-        android:pathData="M350,70 m-12,0 a12,12 0,1 1,24 0 a12,12 0,1 1,-24 0" />
+        android:pathData="M350,55 m-10,0 a10,10 0,1 1,20 0 a10,10 0,1 1,-20 0" />
 
-    <!-- Secondary Precision Ring (Partial) -->
     <path
         android:strokeWidth="0.8"
         android:strokeColor="?attr/colorPrimary"
         android:alpha="0.12"
-        android:pathData="M342,70 A8,8 0 0,1 358,70" />
+        android:pathData="M343,55 A7,7 0 0,1 357,55" />
 
-    <!-- Center Terminal Dot -->
     <path
         android:fillColor="?attr/colorPrimary"
         android:alpha="0.25"
-        android:pathData="M350,70 m-2.5,0 a2.2,2.2 0,1 1,5 0 a2.2,2.2 0,1 1,-5 0" />
+        android:pathData="M350,55 m-2,0 a2,2 0,1 1,4 0 a2,2 0,1 1,-4 0" />
 
-    <!-- Technical Axis Lines (Ghost) -->
-    <path android:pathData="M335,70 H365 M350,55 V85" android:strokeWidth="0.3" android:strokeColor="?attr/colorPrimary" android:alpha="0.05" />
+    <path android:pathData="M338,55 H362 M350,43 V67" android:strokeWidth="0.3" android:strokeColor="?attr/colorPrimary" android:alpha="0.05" />
 
     <!-- Hairline Bottom Edge -->
     <path
-        android:pathData="M0,139.5 H400"
+        android:pathData="M0,109.5 H400"
         android:strokeWidth="0.5"
         android:strokeColor="?attr/colorPrimary"
         android:alpha="0.1" />

@@ -26,37 +26,37 @@
                 android:background="@drawable/bg_canvas_header"
                 android:paddingStart="12dp"
                 android:paddingEnd="16dp"
-                android:paddingTop="20dp"
-                android:paddingBottom="36dp">
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_back_header"
                     style="?attr/materialIconButtonStyle"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="-12dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="-8dp"
                     app:icon="@drawable/ic_typcn_chevron_right"
                     android:rotation="180"
                     app:iconTint="?attr/colorOnSurface" />
 
                 <FrameLayout
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="12dp">
 
                     <!-- Soft Underglow Aura -->
                     <View
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_gravity="center"
                         android:background="@drawable/bg_circle_soft"
                         android:backgroundTint="?attr/colorPrimary"
                         android:alpha="0.08" />
 
                     <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_typcn_spanner_outline"
                         app:tint="?attr/colorPrimary"
@@ -64,19 +64,19 @@
 
                     <!-- Technical Precision Corner (Single) -->
                     <View
-                        android:layout_width="8dp"
+                        android:layout_width="6dp"
                         android:layout_height="1dp"
                         android:layout_gravity="top|start"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginStart="6dp"
                         android:background="?attr/colorPrimary"
                         android:alpha="0.2" />
                     <View
                         android:layout_width="1dp"
-                        android:layout_height="8dp"
+                        android:layout_height="6dp"
                         android:layout_gravity="top|start"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginStart="6dp"
                         android:background="?attr/colorPrimary"
                         android:alpha="0.2" />
                 </FrameLayout>
@@ -91,14 +91,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Réglages"
-                        android:textSize="30sp"
+                        android:textSize="26sp"
                         android:letterSpacing="-0.02" />
                     <TextView
                         style="@style/App.TextAppearance.LabelSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:alpha="0.5"
+                        android:layout_marginTop="0dp"
+                        android:alpha="0.4"
                         android:text="CONFIGURATION DE L'APP" />
                 </LinearLayout>
             </LinearLayout>
