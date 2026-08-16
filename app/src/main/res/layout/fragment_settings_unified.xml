@@ -122,7 +122,7 @@
                     android:paddingStart="12dp"
                     android:paddingEnd="16dp">
 
-                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/title_account" android:alpha="0.3" android:letterSpacing="0.02" />
+                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/title_account" android:alpha="0.25" android:letterSpacing="0.05" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -154,7 +154,7 @@
                     android:paddingStart="12dp"
                     android:paddingEnd="16dp">
 
-                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/title_generation_prefs" android:alpha="0.3" android:letterSpacing="0.02" />
+                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/title_generation_prefs" android:alpha="0.25" android:letterSpacing="0.05" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -196,7 +196,7 @@
                     android:paddingStart="12dp"
                     android:paddingEnd="16dp">
 
-                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/title_security_alerts" android:alpha="0.3" android:letterSpacing="0.02" />
+                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/title_security_alerts" android:alpha="0.25" android:letterSpacing="0.05" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -230,7 +230,7 @@
                     android:paddingStart="12dp"
                     android:paddingEnd="16dp">
 
-                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/title_data_backup" android:alpha="0.3" android:letterSpacing="0.02" />
+                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/title_data_backup" android:alpha="0.25" android:letterSpacing="0.05" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -273,7 +273,7 @@
                     android:paddingStart="12dp"
                     android:paddingEnd="16dp">
 
-                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/title_support_info" android:alpha="0.3" android:letterSpacing="0.02" />
+                    <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/title_support_info" android:alpha="0.25" android:letterSpacing="0.05" />
 
                     <LinearLayout
                         android:layout_width="match_parent"

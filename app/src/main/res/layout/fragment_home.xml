@@ -37,7 +37,7 @@
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp"
                     app:strokeWidth="1dp"
-                    app:strokeColor="#0D000000"
+                    app:strokeColor="?attr/colorOutlineVariant"
                     app:cardBackgroundColor="?attr/colorPrimary">
                     <TextView
                         android:id="@+id/txt_home_user_initials"
@@ -61,9 +61,7 @@
                         android:layout_height="wrap_content"
                         android:text="Bonjour,"
                         android:textSize="24sp"
-                        android:textColor="?attr/colorOnSurface"
-                        android:letterSpacing="-0.02"
-                        android:fontFamily="sans-serif-light" />
+                        android:textColor="?attr/colorOnSurface" />
                     <TextView
                         android:id="@+id/txt_current_date"
                         style="@style/App.TextAppearance.LabelSmall"
@@ -136,8 +134,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
                                 android:letterSpacing="0.25"
-                                android:textSize="11sp"
-                                android:fontFamily="sans-serif-black"
+                                android:textSize="12sp"
                                 android:textColor="?attr/colorPrimary"
                                 android:text="FLUX DE TRÉSORERIE" />
                         </LinearLayout>
@@ -148,17 +145,16 @@
                             android:layout_marginTop="8dp"
                             android:background="@drawable/bg_separator_fading" />
 
-                        <TextView
-                            android:id="@+id/txt_home_revenue"
-                            style="@style/App.TextAppearance.Headline"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:text="0.00 €"
-                            android:textSize="44sp"
-                            android:fontFamily="sans-serif-thin"
-                            android:textColor="?attr/colorOnSurface"
-                            android:letterSpacing="-0.04" />
+                    <TextView
+                        android:id="@+id/txt_home_revenue"
+                        style="@style/App.TextAppearance.Headline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="0.00 €"
+                        android:textSize="44sp"
+                        android:textColor="?attr/colorOnSurface"
+                        android:letterSpacing="-0.04" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -184,7 +180,6 @@
                                     android:layout_height="wrap_content"
                                     android:text="0 €"
                                     android:textSize="13sp"
-                                    android:fontFamily="sans-serif-medium"
                                     android:textColor="@color/status_paid" />
                             </LinearLayout>
 
@@ -207,7 +202,6 @@
                                     android:layout_height="wrap_content"
                                     android:text="0 €"
                                     android:textSize="13sp"
-                                    android:fontFamily="sans-serif-medium"
                                     android:textColor="@color/status_cancelled" />
                             </LinearLayout>
                         </LinearLayout>
@@ -316,12 +310,11 @@
 
                         <TextView
                             android:id="@+id/txt_home_invoice_count"
-                            style="@style/App.TextAppearance.Headline"
+                            style="@style/App.TextAppearance.NumberBig"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
                             android:textSize="26sp"
-                            android:fontFamily="sans-serif-black"
                             android:textColor="@color/icon_documents" />
 
                         <TextView
@@ -367,12 +360,11 @@
 
                         <TextView
                             android:id="@+id/txt_home_bon_count"
-                            style="@style/App.TextAppearance.Headline"
+                            style="@style/App.TextAppearance.NumberBig"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
                             android:textSize="26sp"
-                            android:fontFamily="sans-serif-black"
                             android:textColor="@color/icon_dashboard" />
 
                         <TextView
@@ -418,12 +410,11 @@
 
                         <TextView
                             android:id="@+id/txt_home_booking_count"
-                            style="@style/App.TextAppearance.Headline"
+                            style="@style/App.TextAppearance.NumberBig"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
                             android:textSize="26sp"
-                            android:fontFamily="sans-serif-black"
                             android:textColor="@color/icon_agenda" />
 
                         <TextView
@@ -478,8 +469,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:letterSpacing="0.25"
-                            android:textSize="14sp"
-                            android:fontFamily="sans-serif-black"
+                            android:textSize="12sp"
                             android:textColor="@color/status_paid"
                             android:text="SERVICES" />
                     </LinearLayout>
@@ -741,8 +731,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
                                 android:letterSpacing="0.25"
-                                android:textSize="14sp"
-                                android:fontFamily="sans-serif-black"
+                                android:textSize="12sp"
                                 android:textColor="@color/icon_agenda"
                                 android:text="ACTIVITÉ RÉCENTE" />
                         </LinearLayout>

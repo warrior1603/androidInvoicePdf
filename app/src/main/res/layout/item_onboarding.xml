@@ -29,17 +29,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textAppearance="?attr/textAppearanceHeadlineMedium"
-        android:textColor="?attr/colorOnSurface"
-        android:textStyle="bold" />
+        style="@style/App.TextAppearance.TitleLarge"
+        android:textColor="?attr/colorOnSurface" />
 
     <TextView
         android:id="@+id/txt_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:gravity="center"
-        android:textAppearance="?attr/textAppearanceBodyLarge"
-        android:textColor="?attr/colorOnSurfaceVariant" />
+        style="@style/App.TextAppearance.BodyMedium"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        android:alpha="0.8" />
 
 </LinearLayout>

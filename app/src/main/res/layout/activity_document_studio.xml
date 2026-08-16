@@ -145,13 +145,13 @@
             android:gravity="center_vertical"
             android:paddingTop="20dp"
             android:paddingBottom="12dp"
-            android:paddingHorizontal="48dp">
+            android:paddingHorizontal="64dp">
 
-            <View android:id="@+id/step_node_1" android:layout_width="12dp" android:layout_height="12dp" android:background="@drawable/bg_stepper_node" android:tag="activated" />
-            <View android:layout_width="0dp" android:layout_height="0.5dp" android:layout_weight="1" android:background="?attr/colorOutline" />
-            <View android:id="@+id/step_node_2" android:layout_width="12dp" android:layout_height="12dp" android:background="@drawable/bg_stepper_node" />
-            <View android:layout_width="0dp" android:layout_height="0.5dp" android:layout_weight="1" android:background="?attr/colorOutline" />
-            <View android:id="@+id/step_node_3" android:layout_width="12dp" android:layout_height="12dp" android:background="@drawable/bg_stepper_node" />
+            <View android:id="@+id/step_node_1" android:layout_width="10dp" android:layout_height="10dp" android:background="@drawable/bg_stepper_node" android:tag="activated" />
+            <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1" android:background="?attr/colorOutline" android:alpha="0.3" />
+            <View android:id="@+id/step_node_2" android:layout_width="10dp" android:layout_height="10dp" android:background="@drawable/bg_stepper_node" />
+            <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1" android:background="?attr/colorOutline" android:alpha="0.3" />
+            <View android:id="@+id/step_node_3" android:layout_width="10dp" android:layout_height="10dp" android:background="@drawable/bg_stepper_node" />
         </LinearLayout>
 
         <!-- Form Steps -->
