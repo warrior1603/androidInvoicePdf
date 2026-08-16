@@ -36,76 +36,137 @@
             android:paddingTop="16dp"
             android:paddingBottom="120dp">
 
-            <!-- Summary Section (Pure White Studio) -->
+            <!-- Summary Section (Pure & Clean) -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingHorizontal="28dp"
-                android:paddingBottom="24dp">
+                android:orientation="horizontal"
+                android:paddingHorizontal="24dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="24dp"
+                android:baselineAligned="false">
 
-                <TextView
-                    android:id="@+id/txt_dashboard_briefing"
-                    style="@style/App.TextAppearance.LabelSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha="0.25"
-                    android:letterSpacing="0.1"
-                    android:text="ANALYSE DE PERFORMANCE"
-                    android:textAllCaps="true"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:id="@+id/revenueLabel"
-                    style="@style/App.TextAppearance.LabelSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:alpha="0.4"
-                    android:letterSpacing="0.2"
-                    android:text="RÉSULTAT NET"
-                    android:textAllCaps="true" />
-
-                <TextView
-                    android:id="@+id/totalRevenue"
-                    style="@style/App.TextAppearance.Headline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="0.00 €"
-                    android:textSize="48sp"
-                    android:fontFamily="sans-serif-thin"
-                    android:letterSpacing="-0.04"
-                    android:textColor="#1E293B" />
-
+                <!-- Left: Financial Result -->
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_weight="1.2"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txt_dashboard_briefing"
+                        style="@style/App.TextAppearance.LabelSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.25"
+                        android:letterSpacing="0.1"
+                        android:text="ANALYSE DE PERFORMANCE"
+                        android:textAllCaps="true"
+                        android:textSize="9sp" />
+
+                    <TextView
+                        android:id="@+id/revenueLabel"
+                        style="@style/App.TextAppearance.LabelSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:alpha="0.4"
+                        android:letterSpacing="0.2"
+                        android:text="RÉSULTAT NET"
+                        android:textAllCaps="true"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:id="@+id/totalRevenue"
+                        style="@style/App.TextAppearance.Headline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="0.00 €"
+                        android:textSize="36sp"
+                        android:fontFamily="sans-serif-thin"
+                        android:letterSpacing="-0.04"
+                        android:textColor="#1E293B" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:background="@drawable/bg_pill_soft"
+                        android:backgroundTint="#0D4CAF50"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="3dp">
+
+                        <TextView
+                            android:id="@+id/txt_growth_val"
+                            style="@style/App.TextAppearance.LabelSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="+0%"
+                            android:textSize="10sp"
+                            android:textColor="@color/status_paid"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/App.TextAppearance.LabelSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:alpha="0.5"
+                            android:textSize="9sp"
+                            android:text="vs préc." />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Right: Quick Actions -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.8"
+                    android:orientation="vertical"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:background="@drawable/bg_pill_soft"
-                    android:backgroundTint="#0D4CAF50"
-                    android:paddingHorizontal="10dp"
-                    android:paddingVertical="4dp">
+                    android:layout_gravity="center_vertical">
 
-                    <TextView
-                        android:id="@+id/txt_growth_val"
-                        style="@style/App.TextAppearance.LabelSmall"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/cardExpenses"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="+0%"
-                        android:textColor="@color/status_paid"
-                        android:textStyle="bold" />
+                        android:text="Dépenses"
+                        android:textSize="11sp"
+                        app:icon="@drawable/ic_outline_cash"
+                        app:iconSize="14dp"
+                        app:iconPadding="4dp"
+                        app:cornerRadius="10dp" />
 
-                    <TextView
-                        style="@style/App.TextAppearance.LabelSmall"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:alpha="0.5"
-                        android:textSize="10sp"
-                        android:text="vs période préc." />
+                        android:layout_marginTop="4dp"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnExportCsv"
+                            style="@style/Widget.Material3.Button.IconButton"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            app:icon="@drawable/ic_typcn_export_outline"
+                            app:iconTint="?attr/colorPrimary"
+                            app:iconSize="18dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnGenerateReportPdf"
+                            style="@style/Widget.Material3.Button.IconButton"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            app:icon="@drawable/ic_pdf_outline"
+                            app:iconTint="?attr/colorPrimary"
+                            app:iconSize="18dp" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
@@ -171,8 +232,16 @@
                         android:layout_marginEnd="6dp"
                         android:padding="16dp"
                         android:background="@drawable/bg_section_flat"
-                        android:backgroundTint="#054F46E5"
+                        android:backgroundTint="#0A4F46E5"
                         android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_typcn_chart_line"
+                            app:tint="?attr/colorPrimary"
+                            android:alpha="0.6"
+                            android:layout_marginBottom="8dp"/>
 
                         <TextView
                             style="@style/App.TextAppearance.LabelSmall"
@@ -186,7 +255,7 @@
                             style="@style/App.TextAppearance.TitleLarge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="4dp"
                             android:text="0%" />
 
                         <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -208,15 +277,30 @@
                         android:layout_marginHorizontal="6dp"
                         android:padding="16dp"
                         android:background="@drawable/bg_section_flat"
-                        android:backgroundTint="#05000000"
+                        android:backgroundTint="#0A000000"
                         android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_typcn_document"
+                            app:tint="?attr/colorOnSurface"
+                            android:alpha="0.6"
+                            android:layout_marginBottom="8dp"/>
+
+                        <TextView
+                            style="@style/App.TextAppearance.LabelSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="0.4"
+                            android:text="VOLUME" />
 
                         <TextView
                             android:id="@+id/documentCount"
                             style="@style/App.TextAppearance.TitleLarge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="4dp"
                             android:text="0" />
 
                         <TextView
@@ -237,8 +321,16 @@
                         android:layout_marginStart="6dp"
                         android:padding="16dp"
                         android:background="@drawable/bg_section_flat"
-                        android:backgroundTint="#054CAF50"
+                        android:backgroundTint="#0A4CAF50"
                         android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_typcn_group_outline"
+                            app:tint="@color/status_paid"
+                            android:alpha="0.6"
+                            android:layout_marginBottom="8dp"/>
 
                         <TextView
                             style="@style/App.TextAppearance.LabelSmall"
@@ -252,7 +344,7 @@
                             style="@style/App.TextAppearance.TitleLarge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="4dp"
                             android:text="0" />
 
                         <TextView
@@ -266,71 +358,8 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- Actions & Shortcuts -->
-                <LinearLayout
-                    android:id="@+id/cardExpenses"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:padding="16dp"
-                    android:background="@drawable/bg_section_flat"
-                    android:backgroundTint="#05F44336"
-                    android:gravity="center_vertical"
-                    android:clickable="true"
-                    android:focusable="true">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_outline_cash"
-                        app:tint="@color/status_cancelled"
-                        android:alpha="0.6" />
-
-                    <TextView
-                        style="@style/App.TextAppearance.TitleMedium"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="16dp"
-                        android:text="Gérer les dépenses"
-                        android:textSize="15sp" />
-
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_typcn_chevron_right"
-                        app:tint="?attr/colorOutline"
-                        android:alpha="0.3" />
-                </LinearLayout>
-
-                <!-- Bottom Export Actions -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnExportCsv"
-                        style="@style/Widget.Material3.Button.TextButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Exporter CSV"
-                        app:icon="@drawable/ic_typcn_export_outline"
-                        app:iconSize="16dp" />
-
-                    <View android:layout_width="24dp" android:layout_height="1dp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnGenerateReportPdf"
-                        style="@style/Widget.Material3.Button.TextButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Bilan PDF"
-                        app:icon="@drawable/ic_pdf_outline"
-                        app:iconSize="16dp" />
-                </LinearLayout>
+                <!-- Space for Bottom padding -->
+                <View android:layout_width="match_parent" android:layout_height="48dp" />
 
             </LinearLayout>
         </LinearLayout>
