@@ -84,9 +84,8 @@
                         android:layout_marginTop="2dp"
                         android:text="0.00 €"
                         android:textSize="36sp"
-                        android:fontFamily="sans-serif-thin"
                         android:letterSpacing="-0.04"
-                        android:textColor="#1E293B" />
+                        android:textColor="?attr/colorOnSurface" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -248,12 +247,11 @@
                     android:orientation="horizontal">
                     <TextView
                         android:id="@+id/txt_goal_current"
-                        style="@style/App.TextAppearance.TitleLarge"
+                        style="@style/App.TextAppearance.NumberBig"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0 €"
-                        android:textSize="20sp"
-                        android:fontFamily="sans-serif-black" />
+                        android:textSize="20sp" />
                     <TextView
                         android:id="@+id/txt_goal_target"
                         style="@style/App.TextAppearance.LabelSmall"
@@ -317,11 +315,12 @@
 
                         <TextView
                             android:id="@+id/txt_margin_label"
-                            style="@style/App.TextAppearance.TitleLarge"
+                            style="@style/App.TextAppearance.NumberBig"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="0%" />
+                            android:text="0%"
+                            android:textSize="20sp" />
 
                         <com.google.android.material.progressindicator.LinearProgressIndicator
                             android:id="@+id/progress_margin"
@@ -362,11 +361,12 @@
 
                         <TextView
                             android:id="@+id/documentCount"
-                            style="@style/App.TextAppearance.TitleLarge"
+                            style="@style/App.TextAppearance.NumberBig"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="0" />
+                            android:text="0"
+                            android:textSize="20sp" />
 
                         <TextView
                             android:id="@+id/txt_doc_count_trend"
@@ -406,11 +406,12 @@
 
                         <TextView
                             android:id="@+id/txt_total_clients_val"
-                            style="@style/App.TextAppearance.TitleLarge"
+                            style="@style/App.TextAppearance.NumberBig"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="0" />
+                            android:text="0"
+                            android:textSize="20sp" />
 
                         <TextView
                             android:id="@+id/txt_client_count_trend"

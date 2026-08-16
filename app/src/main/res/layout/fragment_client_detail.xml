@@ -48,7 +48,7 @@
                     app:cardCornerRadius="14dp"
                     app:cardElevation="0dp"
                     app:strokeWidth="1dp"
-                    app:strokeColor="#1A000000"
+                    app:strokeColor="?attr/colorOutlineVariant"
                     app:cardBackgroundColor="?attr/colorPrimary">
                     <TextView
                         android:id="@+id/detail_initials"
@@ -73,8 +73,7 @@
                         android:layout_height="wrap_content"
                         android:text="Client Name"
                         android:textSize="24sp"
-                        android:letterSpacing="-0.02"
-                        android:fontFamily="sans-serif-light" />
+                        android:textColor="?attr/colorOnSurface" />
                     <TextView
                         style="@style/App.TextAppearance.LabelSmall"
                         android:layout_width="wrap_content"
@@ -125,7 +124,6 @@
                         android:layout_marginTop="2dp"
                         android:text="0.00 €"
                         android:textSize="28sp"
-                        android:fontFamily="sans-serif-thin"
                         android:textColor="?attr/colorPrimary" />
                 </LinearLayout>
 

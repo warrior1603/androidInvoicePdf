@@ -73,8 +73,8 @@
                     style="@style/App.TextAppearance.LabelSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:alpha="0.5"
-                    android:letterSpacing="0.02"
+                    android:alpha="0.25"
+                    android:letterSpacing="0.1"
                     android:text="GESTION DU TEMPS" />
 
                 <TextView
@@ -93,10 +93,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:alpha="0.3"
-                    android:letterSpacing="0.05"
+                    android:letterSpacing="0.1"
                     android:text="SYNCHRONISATION DU PLANNING..."
                     android:textAllCaps="true"
-                    android:textSize="10sp" />
+                    android:textSize="9sp" />
             </LinearLayout>
         </LinearLayout>
 

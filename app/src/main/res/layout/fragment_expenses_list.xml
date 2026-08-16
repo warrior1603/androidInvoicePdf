@@ -134,7 +134,7 @@
                 <!-- Large Total Display -->
                 <TextView
                     android:id="@+id/txt_total_expenses_header"
-                    style="@style/App.TextAppearance.Headline"
+                    style="@style/App.TextAppearance.NumberBig"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
