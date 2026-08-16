@@ -337,6 +337,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
             Date start = cal.getTime();
             cal.set(Calendar.HOUR_OF_DAY, 23); cal.set(Calendar.MINUTE, 59); cal.set(Calendar.SECOND, 59);
             Date end = cal.getTime();
+            
             int todayBookingsCount = db.bookingDao().getBookingsBetweenDates(start, end).size();
             int overdueCount = db.invoiceDao().getOverdueInvoicesCount();
 
@@ -353,6 +354,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
             if (allActivity.size() > 8) allActivity = allActivity.subList(0, 8);
 
             List<RecentActivity> finalActivity = allActivity;
+
             if (getActivity() != null) {
                 requireActivity().runOnUiThread(() -> {
                     View v = getView();

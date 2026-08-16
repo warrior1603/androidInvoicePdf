@@ -91,6 +91,8 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
     private TextView txtMarginLabel;
     private LineChart lineChart;
     private BarChart barChart;
+    private TextView txtGoalCurrent, txtGoalTarget;
+    private com.google.android.material.progressindicator.LinearProgressIndicator progressRevenueGoal;
 
     public static AnalyticsDetailFragment newInstance(Timeframe timeframe) {
         AnalyticsDetailFragment fragment = new AnalyticsDetailFragment();
@@ -125,6 +127,9 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
         txtMarginLabel = view.findViewById(R.id.txt_margin_label);
         lineChart = view.findViewById(R.id.lineChart);
         barChart = view.findViewById(R.id.barChart);
+        txtGoalCurrent = view.findViewById(R.id.txt_goal_current);
+        txtGoalTarget = view.findViewById(R.id.txt_goal_target);
+        progressRevenueGoal = view.findViewById(R.id.progress_revenue_goal);
         
         View cardExpenses = view.findViewById(R.id.cardExpenses);
         View btnExportCsv = view.findViewById(R.id.btnExportCsv);
@@ -319,6 +324,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
             else totalIncome = db.getTotalRevenue();
 
             final float incomeForMargin = totalIncome;
+            final float monthlyProfitGoal = db.getMonthlyIncome(today) - expenseDb.getMonthlyExpenses(today);
 
             activity.runOnUiThread(() -> {
                 if (!isAdded() || getView() == null) return;
@@ -333,6 +339,14 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                 briefingTxt.setText(finalBriefing);
                 animateNumber(totalRevenueTxt, finalRev);
                 documentCountTxt.setText(String.valueOf(finalCount));
+
+                if (txtGoalCurrent != null) txtGoalCurrent.setText(String.format(Locale.getDefault(), "%.2f €", monthlyProfitGoal));
+                if (progressRevenueGoal != null) {
+                    float target = 5000f; // Default monthly target
+                    int progress = (int) ((monthlyProfitGoal / target) * 100);
+                    progressRevenueGoal.setProgress(Math.min(100, Math.max(0, progress)));
+                }
+
                 totalClientsTxt.setText(String.valueOf(finalClientCount));
 
                 // Trends in Bento

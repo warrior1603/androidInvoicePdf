@@ -90,6 +90,9 @@ public class EntrepriseSettingsFragment extends Fragment {
         initItem(view.findViewById(R.id.item_plaque), "plaque", R.drawable.ic_outline_hash, getString(R.string.label_plate_number), InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
         initItem(view.findViewById(R.id.item_evtc), "evtc", R.drawable.ic_typcn_document, getString(R.string.label_evtc_number), InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
         
+        initItem(view.findViewById(R.id.item_revision), "maintenance_revision", R.drawable.ic_typcn_spanner_outline, "Prochaine Révision", InputType.TYPE_CLASS_DATETIME);
+        initItem(view.findViewById(R.id.item_assurance), "maintenance_assurance", R.drawable.ic_typcn_bell, "Échéance Assurance", InputType.TYPE_CLASS_DATETIME);
+
         initItem(view.findViewById(R.id.item_iban), "iban", R.drawable.ic_outline_cash, "IBAN", InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
         initItem(view.findViewById(R.id.item_bic), "bic", R.drawable.ic_outline_building, "BIC", InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
         initItem(view.findViewById(R.id.item_bank_address), "bankAddress", R.drawable.ic_outline_adjustments, getString(R.string.label_bank_address), InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
