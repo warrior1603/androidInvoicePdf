@@ -1,6 +1,6 @@
 # Mes Factures - Architectural Driver Studio
 
-A professional, high-end Material 3 Android application designed for private drivers and small businesses. Featuring a unique **"Architectural Studio"** design language, it offers precision tools to manage clients, track finances, schedule trips, and generate premium PDF documents.
+A professional, high-end Material 3 Android application tailored for private drivers and small businesses. Featuring a unique **"Architectural Studio"** design language, it offers precision tools to manage clients, track finances, schedule trips, and generate premium PDF documents.
 
 ## 📸 Screenshots
 
@@ -19,13 +19,14 @@ A professional, high-end Material 3 Android application designed for private dri
 ## 🎨 Design Language: "Architectural Studio"
 The app features a custom-engineered UI/UX based on structural precision:
 - **Blueprint Headers**: Every section is anchored by a technical blueprint-style header with "Aurora" prism glows and ghost technical grids.
+- **Underglow Aura & Precision Corner**: Icons in the header float freely with a soft color aura and technical framing marks.
 - **Terminal Flow**: Status indicators and steppers use a "Technical Node" aesthetic with precision dots and fading connection rails.
 - **Minimalist Hierarchy**: Separation is achieved through typography (`sans-serif-black`) and structural lines rather than heavy cards, providing a light, premium feel.
 
 ## 🚀 Key Features
 
 ### 📄 Premium Document Generation
-- **Creation Studio**: A "Drafting Table" interface for generating PDF Invoices & Order Forms with live blueprint preview.
+- **Creation Studio**: A "Drafting Table" interface for generating PDF Invoices & Order Forms with live blueprint preview and dot-matrix signature pad.
 - **Instant Sharing**: Share documents instantly via WhatsApp, Email, or Print.
 - **Precision Templates**: Professional layouts with high-quality typography.
 
