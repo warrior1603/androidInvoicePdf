@@ -61,6 +61,8 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
     private TextView txtOverdueAlert;
     private PieChart distributionChart;
     private View badgeOverdue, cardOverdue;
+    private View badgeDocuments, badgeClients, badgeAgenda;
+    private ImageView imgServiceDocs, imgServiceClients, imgServiceAgenda;
     private com.facebook.shimmer.ShimmerFrameLayout shimmerContainer;
     private androidx.core.widget.NestedScrollView scrollView;
     private View sparklineBackground;
@@ -94,7 +96,13 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         txtBriefingLine = view.findViewById(R.id.txt_briefing_line);
         distributionChart = view.findViewById(R.id.chart_distribution);
         rvRecent = view.findViewById(R.id.rv_home_recent);
-        badgeOverdue = view.findViewById(R.id.badge_overdue);
+        badgeOverdue = view.findViewById(R.id.badge_documents);
+        badgeDocuments = view.findViewById(R.id.badge_documents);
+        badgeClients = view.findViewById(R.id.badge_clients);
+        badgeAgenda = view.findViewById(R.id.badge_agenda);
+        imgServiceDocs = view.findViewById(R.id.img_service_docs);
+        imgServiceClients = view.findViewById(R.id.img_service_clients);
+        imgServiceAgenda = view.findViewById(R.id.img_service_agenda);
         cardOverdue = view.findViewById(R.id.card_overdue_alert);
         txtOverdueAlert = view.findViewById(R.id.txt_overdue_count);
         shimmerContainer = view.findViewById(R.id.shimmer_view_container);
@@ -131,12 +139,30 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
             cardAvatar.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.entrepriseSettingsFragment));
         }
 
-        cardDocuments.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.documentsHubFragment));
-        cardClients.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.clientsHubFragment));
-        cardAgenda.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.agendaFragment));
-        cardDashboard.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.parametresFragment));
-        cardProfile.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.entrepriseSettingsFragment));
-        cardSettings.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.settingsActivity));
+        cardDocuments.setOnClickListener(v -> {
+            v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
+            Navigation.findNavController(v).navigate(R.id.documentsHubFragment);
+        });
+        cardClients.setOnClickListener(v -> {
+            v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
+            Navigation.findNavController(v).navigate(R.id.clientsHubFragment);
+        });
+        cardAgenda.setOnClickListener(v -> {
+            v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
+            Navigation.findNavController(v).navigate(R.id.agendaFragment);
+        });
+        cardDashboard.setOnClickListener(v -> {
+            v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
+            Navigation.findNavController(v).navigate(R.id.parametresFragment);
+        });
+        cardProfile.setOnClickListener(v -> {
+            v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
+            Navigation.findNavController(v).navigate(R.id.entrepriseSettingsFragment);
+        });
+        cardSettings.setOnClickListener(v -> {
+            v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
+            Navigation.findNavController(v).navigate(R.id.settingsActivity);
+        });
         
         if (chartContainer != null) {
             chartContainer.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.parametresFragment));
@@ -178,6 +204,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
 
         setupRecyclerView();
         loadHomeData(true);
+        startPulseAnimations();
     }
 
     private void setupNextTripCard(View view, Booking booking) {
@@ -340,6 +367,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
             
             int todayBookingsCount = db.bookingDao().getBookingsBetweenDates(start, end).size();
             int overdueCount = db.invoiceDao().getOverdueInvoicesCount();
+            int clientsCount = db.clientDao().getAllClients().size();
 
             Booking nextBooking = db.bookingDao().getNextUpcomingBooking(new Date());
 
@@ -402,6 +430,16 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                     
                     if (badgeOverdue != null) {
                         badgeOverdue.setVisibility(overdueCount > 0 ? View.VISIBLE : View.GONE);
+                    }
+
+                    if (badgeDocuments != null) {
+                        badgeDocuments.setVisibility(overdueCount > 0 ? View.VISIBLE : View.GONE);
+                    }
+                    if (badgeAgenda != null) {
+                        badgeAgenda.setVisibility(todayBookingsCount > 0 ? View.VISIBLE : View.GONE);
+                    }
+                    if (badgeClients != null) {
+                        badgeClients.setVisibility(clientsCount == 0 ? View.VISIBLE : View.GONE);
                     }
 
                     if (cardOverdue != null) {
@@ -605,6 +643,34 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                 return true;
             });
         }
+    }
+
+    private void startPulseAnimations() {
+        if (imgServiceDocs != null) pulseViewRepeating(imgServiceDocs, 0);
+        if (imgServiceAgenda != null) pulseViewRepeating(imgServiceAgenda, 1500);
+        if (imgServiceClients != null) pulseViewRepeating(imgServiceClients, 3000);
+    }
+
+    private void pulseViewRepeating(View view, long delay) {
+        if (view == null) return;
+        view.postDelayed(() -> {
+            view.animate()
+                .scaleX(1.15f)
+                .scaleY(1.15f)
+                .setDuration(800)
+                .setInterpolator(new android.view.animation.AccelerateDecelerateInterpolator())
+                .withEndAction(() -> {
+                    if (view.getContext() == null) return;
+                    view.animate()
+                        .scaleX(1.0f)
+                        .scaleY(1.0f)
+                        .setDuration(1200)
+                        .setInterpolator(new android.view.animation.AccelerateDecelerateInterpolator())
+                        .withEndAction(() -> pulseViewRepeating(view, 5000))
+                        .start();
+                })
+                .start();
+        }, delay);
     }
 
     private void updateStatus(RecentActivity activity, String status, BottomSheetDialog dialog) {

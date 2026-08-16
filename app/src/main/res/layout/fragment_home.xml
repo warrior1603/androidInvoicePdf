@@ -501,9 +501,9 @@
                             android:orientation="vertical"
                             android:paddingVertical="12dp">
                             <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
-                                <View android:layout_width="64dp" android:layout_height="64dp" android:background="@drawable/bg_circle_soft" android:backgroundTint="@color/icon_documents" android:alpha="0.04" />
-                                <ImageView android:layout_width="42dp" android:layout_height="42dp" android:layout_gravity="center" android:src="@drawable/ic_typcn_folder_open" app:tint="@color/icon_documents" />
-                                <View android:id="@+id/badge_overdue" android:layout_width="8dp" android:layout_height="8dp" android:layout_gravity="top|end" android:layout_marginTop="4dp" android:layout_marginEnd="4dp" android:background="@drawable/circle_red_badge" android:visibility="gone" />
+                                <View android:layout_width="64dp" android:layout_height="64dp" android:background="@drawable/bg_circle_soft" android:backgroundTint="@color/icon_documents" android:alpha="0.08" />
+                                <ImageView android:id="@+id/img_service_docs" android:layout_width="42dp" android:layout_height="42dp" android:layout_gravity="center" android:src="@drawable/ic_typcn_folder_open" app:tint="@color/icon_documents" />
+                                <View android:id="@+id/badge_documents" android:layout_width="10dp" android:layout_height="10dp" android:layout_gravity="top|end" android:layout_marginTop="4dp" android:layout_marginEnd="4dp" android:background="@drawable/circle_red_badge" android:visibility="gone" />
                             </FrameLayout>
                             <TextView
                                 style="@style/App.TextAppearance.LabelSmall"
@@ -511,7 +511,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:text="DOCUMENTS"
-                                android:alpha="0.5"
+                                android:alpha="0.8"
                                 android:textSize="10sp" />
                         </LinearLayout>
 
@@ -528,8 +528,9 @@
                             android:orientation="vertical"
                             android:paddingVertical="12dp">
                             <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
-                                <View android:layout_width="64dp" android:layout_height="64dp" android:background="@drawable/bg_circle_soft" android:backgroundTint="@color/icon_clients" android:alpha="0.04" />
-                                <ImageView android:layout_width="42dp" android:layout_height="42dp" android:layout_gravity="center" android:src="@drawable/ic_typcn_group_outline" app:tint="@color/icon_clients" />
+                                <View android:layout_width="64dp" android:layout_height="64dp" android:background="@drawable/bg_circle_soft" android:backgroundTint="@color/icon_clients" android:alpha="0.08" />
+                                <ImageView android:id="@+id/img_service_clients" android:layout_width="42dp" android:layout_height="42dp" android:layout_gravity="center" android:src="@drawable/ic_typcn_group_outline" app:tint="@color/icon_clients" />
+                                <View android:id="@+id/badge_clients" android:layout_width="10dp" android:layout_height="10dp" android:layout_gravity="top|end" android:layout_marginTop="4dp" android:layout_marginEnd="4dp" android:background="@drawable/circle_red_badge" android:visibility="gone" />
                             </FrameLayout>
                             <TextView
                                 style="@style/App.TextAppearance.LabelSmall"
@@ -537,7 +538,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:text="CLIENTS"
-                                android:alpha="0.5"
+                                android:alpha="0.8"
                                 android:textSize="10sp" />
                         </LinearLayout>
 
@@ -554,8 +555,9 @@
                             android:orientation="vertical"
                             android:paddingVertical="12dp">
                             <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
-                                <View android:layout_width="64dp" android:layout_height="64dp" android:background="@drawable/bg_circle_soft" android:backgroundTint="@color/icon_agenda" android:alpha="0.04" />
-                                <ImageView android:layout_width="42dp" android:layout_height="42dp" android:layout_gravity="center" android:src="@drawable/ic_typcn_calendar_outline" app:tint="@color/icon_agenda" />
+                                <View android:layout_width="64dp" android:layout_height="64dp" android:background="@drawable/bg_circle_soft" android:backgroundTint="@color/icon_agenda" android:alpha="0.08" />
+                                <ImageView android:id="@+id/img_service_agenda" android:layout_width="42dp" android:layout_height="42dp" android:layout_gravity="center" android:src="@drawable/ic_typcn_calendar_outline" app:tint="@color/icon_agenda" />
+                                <View android:id="@+id/badge_agenda" android:layout_width="10dp" android:layout_height="10dp" android:layout_gravity="top|end" android:layout_marginTop="4dp" android:layout_marginEnd="4dp" android:background="@drawable/circle_red_badge" android:visibility="gone" />
                             </FrameLayout>
                             <TextView
                                 style="@style/App.TextAppearance.LabelSmall"
@@ -563,7 +565,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:text="AGENDA"
-                                android:alpha="0.5"
+                                android:alpha="0.8"
                                 android:textSize="10sp" />
                         </LinearLayout>
 
