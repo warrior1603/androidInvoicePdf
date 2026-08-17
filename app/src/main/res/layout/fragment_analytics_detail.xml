@@ -147,9 +147,10 @@
                         app:iconSize="14dp"
                         app:iconPadding="6dp"
                         app:cornerRadius="12dp"
-                        android:textColor="?attr/colorPrimary"
-                        app:iconTint="?attr/colorPrimary"
-                        app:backgroundTint="#0D4F46E5" />
+                        android:textColor="@color/status_cancelled"
+                        app:iconTint="@color/status_cancelled"
+                        app:backgroundTint="#12BE123C"
+                        app:elevation="0dp" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnExportCsv"
