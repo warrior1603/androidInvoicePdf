@@ -79,7 +79,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:letterSpacing="0.15"
+                        android:letterSpacing="0.1"
                         android:text="RÉSUMÉ DU JOUR"
                         android:textAllCaps="true"
                         android:textColor="?attr/colorPrimary"
@@ -93,12 +93,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="16dp">
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="24dp">
 
                 <View
                     android:layout_width="6dp"
                     android:layout_height="match_parent"
-                    android:layout_marginVertical="12dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@drawable/bg_vertical_bar_primary" />
 
                 <LinearLayout
@@ -109,7 +111,7 @@
                     android:paddingStart="12dp"
                     android:paddingEnd="16dp"
                     android:paddingTop="4dp"
-                    android:paddingBottom="36dp">
+                    android:paddingBottom="12dp">
 
                     <!-- Title Full Width -->
                     <LinearLayout
@@ -157,14 +159,14 @@
                         android:baselineAligned="false"
                         android:layout_marginTop="12dp">
 
-                        <!-- Main Column: Revenue & Breakdown -->
+                        <!-- Left Column: Metrics -->
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1.2"
+                            android:layout_weight="1.3"
                             android:orientation="vertical">
 
-                            <!-- Revenue & Trend Inline -->
+                            <!-- Revenue & Trend -->
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -176,7 +178,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="0.00 €"
-                                    android:textSize="40sp"
+                                    android:textSize="36sp"
                                     android:textColor="?attr/colorOnSurface"
                                     android:letterSpacing="-0.04" />
 
@@ -185,8 +187,8 @@
                                     style="@style/App.TextAppearance.LabelSmall"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="12dp"
-                                    android:layout_marginBottom="8dp"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginBottom="6dp"
                                     android:background="@drawable/bg_pill_soft"
                                     android:backgroundTint="#0D4CAF50"
                                     android:paddingHorizontal="6dp"
@@ -197,126 +199,156 @@
                                     android:textStyle="bold" />
                             </LinearLayout>
 
-                            <!-- Compact Distribution Rail -->
-                            <LinearLayout
-                                android:id="@+id/container_distribution_rail"
-                                android:layout_width="match_parent"
-                                android:layout_height="3dp"
-                                android:layout_marginTop="16dp"
-                                android:orientation="horizontal"
-                                android:alpha="0.8">
-                                <View android:id="@+id/segment_invoices" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="@color/icon_documents" />
-                                <View android:layout_width="1dp" android:layout_height="match_parent" android:background="?attr/colorSurface" />
-                                <View android:id="@+id/segment_orders" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="@color/icon_dashboard" />
-                                <View android:layout_width="1dp" android:layout_height="match_parent" android:background="?attr/colorSurface" />
-                                <View android:id="@+id/segment_bookings" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="@color/icon_agenda" />
-                            </LinearLayout>
-
-                            <!-- Rail Labels -->
+                            <!-- Dual Data Cells (In/Out) -->
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
+                                android:layout_marginTop="28dp"
                                 android:orientation="horizontal">
-                                <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="FAC" android:alpha="0.3" android:textSize="7sp" />
-                                <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="BON" android:alpha="0.3" android:textSize="7sp" android:gravity="center" />
-                                <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="CRSE" android:alpha="0.3" android:textSize="7sp" android:gravity="end" />
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+                                    <TextView
+                                        style="@style/App.TextAppearance.LabelSmall"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:alpha="0.25"
+                                        android:letterSpacing="0.1"
+                                        android:text="▲ ENTRÉES"
+                                        android:textSize="9sp" />
+                                    <TextView
+                                        android:id="@+id/txt_home_income"
+                                        style="@style/App.TextAppearance.TitleMedium"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="0 €"
+                                        android:textSize="13sp"
+                                        android:textColor="@color/status_paid" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+                                    <TextView
+                                        style="@style/App.TextAppearance.LabelSmall"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:alpha="0.25"
+                                        android:letterSpacing="0.1"
+                                        android:text="▼ SORTIES"
+                                        android:textSize="9sp" />
+                                    <TextView
+                                        android:id="@+id/txt_home_expenses"
+                                        style="@style/App.TextAppearance.TitleMedium"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="0 €"
+                                        android:textSize="13sp"
+                                        android:textColor="@color/status_cancelled" />
+                                </LinearLayout>
                             </LinearLayout>
 
+                            <!-- Expense Ratio Rail (Re-positioned Below) -->
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="32dp"
+                                android:layout_marginEnd="16dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="6dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:orientation="horizontal"
+                                    android:paddingHorizontal="2dp"
+                                    android:alpha="0.1">
+                                    <View android:layout_width="1dp" android:layout_height="match_parent" android:background="?attr/colorOutline" />
+                                    <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" />
+                                    <View android:layout_width="1dp" android:layout_height="4dp" android:layout_gravity="center_vertical" android:background="?attr/colorOutline" />
+                                    <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" />
+                                    <View android:layout_width="1dp" android:layout_height="6dp" android:background="?attr/colorOutline" />
+                                    <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" />
+                                    <View android:layout_width="1dp" android:layout_height="4dp" android:layout_gravity="center_vertical" android:background="?attr/colorOutline" />
+                                    <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" />
+                                    <View android:layout_width="1dp" android:layout_height="match_parent" android:background="?attr/colorOutline" />
+                                </LinearLayout>
+
+                                <com.google.android.material.progressindicator.LinearProgressIndicator
+                                    android:id="@+id/progress_expense_ratio"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    app:trackThickness="1.5dp"
+                                    app:trackColor="?attr/colorOutline"
+                                    app:indicatorColor="@color/status_cancelled"
+                                    android:progress="30" />
+                            </FrameLayout>
                         </LinearLayout>
 
-                        <!-- Secondary Column: In/Out Metrics -->
+                        <!-- Right Column: Visual Activity DNA [Calibration Mode] -->
                         <LinearLayout
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="150dp"
                             android:layout_weight="0.8"
-                            android:paddingStart="24dp"
-                            android:gravity="center_vertical"
                             android:layout_gravity="center_vertical"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:paddingHorizontal="4dp">
 
+                            <com.github.mikephil.charting.charts.BarChart
+                                android:id="@+id/chart_distribution_bars"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1" />
+
+                            <!-- Technical Color-Coded Labels -->
                             <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="4dp"
+                                android:gravity="center_vertical">
                                 <TextView
                                     style="@style/App.TextAppearance.LabelSmall"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:alpha="0.25"
-                                    android:letterSpacing="0.1"
-                                    android:text="▲ ENTRÉES"
-                                    android:textSize="9sp" />
-                                <TextView
-                                    android:id="@+id/txt_home_income"
-                                    style="@style/App.TextAppearance.TitleMedium"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="0 €"
-                                    android:textSize="12sp"
-                                    android:textColor="@color/status_paid" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:orientation="vertical">
+                                    android:layout_weight="1"
+                                    android:text="FAC"
+                                    android:textColor="@color/icon_documents"
+                                    android:textSize="9sp"
+                                    android:textStyle="bold"
+                                    android:gravity="center"
+                                    android:rotation="-90" />
                                 <TextView
                                     style="@style/App.TextAppearance.LabelSmall"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:alpha="0.25"
-                                    android:letterSpacing="0.1"
-                                    android:text="▼ SORTIES"
-                                    android:textSize="9sp" />
+                                    android:layout_weight="1"
+                                    android:text="BON"
+                                    android:textColor="@color/icon_dashboard"
+                                    android:textSize="9sp"
+                                    android:textStyle="bold"
+                                    android:gravity="center"
+                                    android:rotation="-90" />
                                 <TextView
-                                    android:id="@+id/txt_home_expenses"
-                                    style="@style/App.TextAppearance.TitleMedium"
-                                    android:layout_width="wrap_content"
+                                    style="@style/App.TextAppearance.LabelSmall"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:text="0 €"
-                                    android:textSize="12sp"
-                                    android:textColor="@color/status_cancelled" />
+                                    android:layout_weight="1"
+                                    android:text="CRSE"
+                                    android:textColor="@color/icon_agenda"
+                                    android:textSize="9sp"
+                                    android:textStyle="bold"
+                                    android:gravity="center"
+                                    android:rotation="-90" />
                             </LinearLayout>
-
                         </LinearLayout>
+
                     </LinearLayout>
-
-                    <!-- Calibrated Progress Rail -->
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="6dp"
-                            android:layout_gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:paddingHorizontal="2dp"
-                            android:alpha="0.1">
-                            <View android:layout_width="1dp" android:layout_height="match_parent" android:background="?attr/colorOutline" />
-                            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" />
-                            <View android:layout_width="1dp" android:layout_height="4dp" android:layout_gravity="center_vertical" android:background="?attr/colorOutline" />
-                            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" />
-                            <View android:layout_width="1dp" android:layout_height="6dp" android:background="?attr/colorOutline" />
-                            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" />
-                            <View android:layout_width="1dp" android:layout_height="4dp" android:layout_gravity="center_vertical" android:background="?attr/colorOutline" />
-                            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" />
-                            <View android:layout_width="1dp" android:layout_height="match_parent" android:background="?attr/colorOutline" />
-                        </LinearLayout>
-
-                        <com.google.android.material.progressindicator.LinearProgressIndicator
-                            android:id="@+id/progress_expense_ratio"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            app:trackThickness="1.5dp"
-                            app:trackColor="?attr/colorOutline"
-                            app:indicatorColor="@color/status_cancelled"
-                            android:progress="30" />
-                    </FrameLayout>
                 </LinearLayout>
             </LinearLayout>
 
@@ -368,7 +400,7 @@
                             <View
                                 android:layout_width="4dp"
                                 android:layout_height="4dp"
-                                android:layout_gravity="center"
+                                android:layout_gravity="top|end"
                                 android:background="@drawable/bg_terminal_dot"
                                 android:backgroundTint="@color/icon_documents" />
                             <ImageView
@@ -394,7 +426,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:alpha="0.6"
-                            android:letterSpacing="0.2"
+                            android:letterSpacing="0.1"
                             android:textSize="9sp"
                             android:fontFamily="sans-serif-black"
                             android:text="FACTURES" />
@@ -418,7 +450,7 @@
                             <View
                                 android:layout_width="4dp"
                                 android:layout_height="4dp"
-                                android:layout_gravity="center"
+                                android:layout_gravity="top|end"
                                 android:background="@drawable/bg_terminal_dot"
                                 android:backgroundTint="@color/icon_dashboard" />
                             <ImageView
@@ -444,7 +476,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:alpha="0.6"
-                            android:letterSpacing="0.2"
+                            android:letterSpacing="0.1"
                             android:textSize="9sp"
                             android:fontFamily="sans-serif-black"
                             android:text="BONS" />
@@ -468,7 +500,7 @@
                             <View
                                 android:layout_width="4dp"
                                 android:layout_height="4dp"
-                                android:layout_gravity="center"
+                                android:layout_gravity="top|end"
                                 android:background="@drawable/bg_terminal_dot"
                                 android:backgroundTint="@color/icon_agenda" />
                             <ImageView
@@ -494,7 +526,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:alpha="0.6"
-                            android:letterSpacing="0.2"
+                            android:letterSpacing="0.1"
                             android:textSize="9sp"
                             android:fontFamily="sans-serif-black"
                             android:text="COURSES" />
@@ -512,7 +544,8 @@
                 <View
                     android:layout_width="6dp"
                     android:layout_height="match_parent"
-                    android:layout_marginVertical="12dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
                     android:background="@drawable/bg_vertical_bar_green" />
 
                 <LinearLayout
@@ -786,7 +819,8 @@
                 <View
                     android:layout_width="6dp"
                     android:layout_height="match_parent"
-                    android:layout_marginVertical="12dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="12dp"
                     android:background="@drawable/bg_vertical_bar_history" />
 
                 <LinearLayout

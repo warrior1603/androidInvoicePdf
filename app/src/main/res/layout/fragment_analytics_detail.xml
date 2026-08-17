@@ -36,67 +36,73 @@
             android:paddingTop="16dp"
             android:paddingBottom="120dp">
 
-            <!-- Summary Section (Pure & Clean) -->
+            <!-- Summary Section (Full Width Hierarchy) -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:paddingHorizontal="24dp"
                 android:paddingTop="16dp"
-                android:paddingBottom="24dp"
-                android:baselineAligned="false">
+                android:paddingBottom="24dp">
 
-                <!-- Left: Financial Result -->
-                <LinearLayout
-                    android:layout_width="0dp"
+                <!-- Performance Briefing -->
+                <TextView
+                    android:id="@+id/txt_dashboard_briefing"
+                    style="@style/App.TextAppearance.LabelSmall"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.2"
-                    android:orientation="vertical">
+                    android:alpha="0.3"
+                    android:letterSpacing="0.1"
+                    android:text="ANALYSE DE PERFORMANCE"
+                    android:textAllCaps="true"
+                    android:textSize="9sp" />
 
-                    <TextView
-                        android:id="@+id/txt_dashboard_briefing"
-                        style="@style/App.TextAppearance.LabelSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha="0.25"
-                        android:letterSpacing="0.1"
-                        android:text="ANALYSE DE PERFORMANCE"
-                        android:textAllCaps="true"
-                        android:textSize="9sp" />
+                <!-- Main Revenue Display -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal"
+                    android:gravity="bottom">
 
-                    <TextView
-                        android:id="@+id/revenueLabel"
-                        style="@style/App.TextAppearance.LabelSmall"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:alpha="0.4"
-                        android:letterSpacing="0.2"
-                        android:text="RÉSULTAT NET"
-                        android:textAllCaps="true"
-                        android:textSize="10sp" />
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/revenueLabel"
+                            style="@style/App.TextAppearance.LabelSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="0.4"
+                            android:letterSpacing="0.2"
+                            android:text="RÉSULTAT NET"
+                            android:textAllCaps="true"
+                            android:textSize="10sp" />
 
-                    <TextView
-                        android:id="@+id/totalRevenue"
-                        style="@style/App.TextAppearance.Headline"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:text="0.00 €"
-                        android:textSize="36sp"
-                        android:letterSpacing="-0.04"
-                        android:textColor="?attr/colorOnSurface" />
+                        <TextView
+                            android:id="@+id/totalRevenue"
+                            style="@style/App.TextAppearance.Headline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="0.00 €"
+                            android:textSize="40sp"
+                            android:letterSpacing="-0.04"
+                            android:textColor="?attr/colorOnSurface" />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="8dp"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:background="@drawable/bg_pill_soft"
                         android:backgroundTint="#0D4CAF50"
-                        android:paddingHorizontal="8dp"
-                        android:paddingVertical="3dp">
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="4dp">
 
                         <TextView
                             android:id="@+id/txt_growth_val"
@@ -104,7 +110,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="+0%"
-                            android:textSize="10sp"
+                            android:textSize="11sp"
                             android:textColor="@color/status_paid"
                             android:textStyle="bold" />
 
@@ -119,53 +125,69 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- Right: Quick Actions -->
+                <!-- Technical Utility Rail (Actions) -->
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.8"
-                    android:orientation="vertical"
-                    android:gravity="center_vertical"
-                    android:layout_gravity="center_vertical">
+                    android:layout_marginTop="24dp"
+                    android:orientation="horizontal"
+                    android:baselineAligned="false">
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/cardExpenses"
                         style="@style/Widget.Material3.Button.TonalButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_weight="1.2"
                         android:text="Dépenses"
                         android:textSize="11sp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
                         app:icon="@drawable/ic_outline_cash"
                         app:iconSize="14dp"
-                        app:iconPadding="4dp"
-                        app:cornerRadius="10dp" />
+                        app:iconPadding="6dp"
+                        app:cornerRadius="12dp"
+                        android:textColor="?attr/colorPrimary"
+                        app:iconTint="?attr/colorPrimary"
+                        app:backgroundTint="#0D4F46E5" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:orientation="horizontal">
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnExportCsv"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_weight="0.9"
+                        android:layout_marginStart="8dp"
+                        android:text="CSV"
+                        android:textSize="11sp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        app:icon="@drawable/ic_typcn_export_outline"
+                        app:iconSize="16dp"
+                        app:iconPadding="6dp"
+                        app:cornerRadius="12dp"
+                        app:iconTint="?attr/colorOnSurfaceVariant"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        app:backgroundTint="#08000000" />
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnExportCsv"
-                            style="@style/Widget.Material3.Button.IconButton"
-                            android:layout_width="0dp"
-                            android:layout_height="40dp"
-                            android:layout_weight="1"
-                            app:icon="@drawable/ic_typcn_export_outline"
-                            app:iconTint="?attr/colorPrimary"
-                            app:iconSize="18dp" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnGenerateReportPdf"
-                            style="@style/Widget.Material3.Button.IconButton"
-                            android:layout_width="0dp"
-                            android:layout_height="40dp"
-                            android:layout_weight="1"
-                            app:icon="@drawable/ic_pdf_outline"
-                            app:iconTint="?attr/colorPrimary"
-                            app:iconSize="18dp" />
-                    </LinearLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnGenerateReportPdf"
+                        style="@style/Widget.Material3.Button.TonalButton"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_weight="0.9"
+                        android:layout_marginStart="8dp"
+                        android:text="PDF"
+                        android:textSize="11sp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        app:icon="@drawable/ic_pdf_outline"
+                        app:iconSize="16dp"
+                        app:iconPadding="6dp"
+                        app:cornerRadius="12dp"
+                        app:iconTint="?attr/colorOnSurfaceVariant"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        app:backgroundTint="#08000000" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -262,15 +284,39 @@
                         android:text="/ 5000 €" />
                 </LinearLayout>
 
-                <com.google.android.material.progressindicator.LinearProgressIndicator
-                    android:id="@+id/progress_revenue_goal"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    app:trackThickness="1.5dp"
-                    app:trackColor="?attr/colorOutline"
-                    app:indicatorColor="?attr/colorPrimary"
-                    android:progress="30" />
+                    android:layout_marginTop="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="6dp"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="2dp"
+                        android:alpha="0.1">
+                        <View android:layout_width="1dp" android:layout_height="match_parent" android:background="?attr/colorOutline" />
+                        <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" />
+                        <View android:layout_width="1dp" android:layout_height="4dp" android:layout_gravity="center_vertical" android:background="?attr/colorOutline" />
+                        <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" />
+                        <View android:layout_width="1dp" android:layout_height="6dp" android:background="?attr/colorOutline" />
+                        <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" />
+                        <View android:layout_width="1dp" android:layout_height="4dp" android:layout_gravity="center_vertical" android:background="?attr/colorOutline" />
+                        <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" />
+                        <View android:layout_width="1dp" android:layout_height="match_parent" android:background="?attr/colorOutline" />
+                    </LinearLayout>
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/progress_revenue_goal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        app:trackThickness="1.5dp"
+                        app:trackColor="?attr/colorOutline"
+                        app:indicatorColor="?attr/colorPrimary"
+                        android:progress="30" />
+                </FrameLayout>
             </LinearLayout>
 
             <!-- Bento Metrics Grid -->
@@ -288,140 +334,164 @@
                     android:baselineAligned="false">
 
                     <!-- Marge Card -->
-                    <LinearLayout
+                    <FrameLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_marginEnd="6dp"
-                        android:padding="16dp"
-                        android:background="@drawable/bg_section_flat"
-                        android:backgroundTint="#0A4F46E5"
-                        android:orientation="vertical">
+                        android:layout_marginEnd="6dp">
 
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/ic_typcn_chart_line"
-                            app:tint="?attr/colorPrimary"
-                            android:alpha="0.6"
-                            android:layout_marginBottom="8dp"/>
+                        <View android:layout_width="8dp" android:layout_height="1dp" android:layout_gravity="top|start" android:layout_marginTop="8dp" android:layout_marginStart="8dp" android:background="?attr/colorPrimary" android:alpha="0.2" />
+                        <View android:layout_width="1dp" android:layout_height="8dp" android:layout_gravity="top|start" android:layout_marginTop="8dp" android:layout_marginStart="8dp" android:background="?attr/colorPrimary" android:alpha="0.2" />
 
-                        <TextView
-                            style="@style/App.TextAppearance.LabelSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:alpha="0.4"
-                            android:text="MARGE" />
-
-                        <TextView
-                            android:id="@+id/txt_margin_label"
-                            style="@style/App.TextAppearance.NumberBig"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="0%"
-                            android:textSize="20sp" />
-
-                        <com.google.android.material.progressindicator.LinearProgressIndicator
-                            android:id="@+id/progress_margin"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            app:trackThickness="2dp"
-                            app:indicatorColor="?attr/colorPrimary"
-                            app:trackColor="?attr/colorSurfaceVariant"
-                            android:progress="0" />
-                    </LinearLayout>
+                            android:padding="16dp"
+                            android:background="@drawable/bg_section_flat"
+                            android:backgroundTint="#0A4F46E5"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/ic_typcn_chart_line"
+                                app:tint="?attr/colorPrimary"
+                                android:alpha="0.6"
+                                android:layout_marginBottom="8dp"/>
+
+                            <TextView
+                                style="@style/App.TextAppearance.LabelSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:alpha="0.4"
+                                android:text="MARGE" />
+
+                            <TextView
+                                android:id="@+id/txt_margin_label"
+                                style="@style/App.TextAppearance.NumberBig"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="0%"
+                                android:textSize="20sp" />
+
+                            <com.google.android.material.progressindicator.LinearProgressIndicator
+                                android:id="@+id/progress_margin"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                app:trackThickness="2dp"
+                                app:indicatorColor="?attr/colorPrimary"
+                                app:trackColor="?attr/colorSurfaceVariant"
+                                android:progress="0" />
+                        </LinearLayout>
+                    </FrameLayout>
 
                     <!-- Volume Card -->
-                    <LinearLayout
+                    <FrameLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:layout_marginHorizontal="6dp"
-                        android:padding="16dp"
-                        android:background="@drawable/bg_section_flat"
-                        android:backgroundTint="#0A000000"
-                        android:orientation="vertical">
+                        android:layout_marginHorizontal="6dp">
 
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/ic_typcn_document"
-                            app:tint="?attr/colorOnSurface"
-                            android:alpha="0.6"
-                            android:layout_marginBottom="8dp"/>
+                        <View android:layout_width="8dp" android:layout_height="1dp" android:layout_gravity="top|start" android:layout_marginTop="8dp" android:layout_marginStart="8dp" android:background="?attr/colorOnSurface" android:alpha="0.1" />
+                        <View android:layout_width="1dp" android:layout_height="8dp" android:layout_gravity="top|start" android:layout_marginTop="8dp" android:layout_marginStart="8dp" android:background="?attr/colorOnSurface" android:alpha="0.1" />
 
-                        <TextView
-                            style="@style/App.TextAppearance.LabelSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:alpha="0.4"
-                            android:text="VOLUME" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="16dp"
+                            android:background="@drawable/bg_section_flat"
+                            android:backgroundTint="#0A000000"
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/documentCount"
-                            style="@style/App.TextAppearance.NumberBig"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="0"
-                            android:textSize="20sp" />
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/ic_typcn_document"
+                                app:tint="?attr/colorOnSurface"
+                                android:alpha="0.6"
+                                android:layout_marginBottom="8dp"/>
 
-                        <TextView
-                            android:id="@+id/txt_doc_count_trend"
-                            style="@style/App.TextAppearance.LabelSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:alpha="0.3"
-                            android:textSize="9sp"
-                            android:text="N/A" />
-                    </LinearLayout>
+                            <TextView
+                                style="@style/App.TextAppearance.LabelSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:alpha="0.4"
+                                android:text="VOLUME" />
+
+                            <TextView
+                                android:id="@+id/documentCount"
+                                style="@style/App.TextAppearance.NumberBig"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="0"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/txt_doc_count_trend"
+                                style="@style/App.TextAppearance.LabelSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:alpha="0.3"
+                                android:textSize="9sp"
+                                android:text="N/A" />
+                        </LinearLayout>
+                    </FrameLayout>
 
                     <!-- Clients Card -->
-                    <LinearLayout
+                    <FrameLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:layout_marginStart="6dp"
-                        android:padding="16dp"
-                        android:background="@drawable/bg_section_flat"
-                        android:backgroundTint="#0A4CAF50"
-                        android:orientation="vertical">
+                        android:layout_marginStart="6dp">
 
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/ic_typcn_group_outline"
-                            app:tint="@color/status_paid"
-                            android:alpha="0.6"
-                            android:layout_marginBottom="8dp"/>
+                        <View android:layout_width="8dp" android:layout_height="1dp" android:layout_gravity="top|start" android:layout_marginTop="8dp" android:layout_marginStart="8dp" android:background="@color/status_paid" android:alpha="0.2" />
+                        <View android:layout_width="1dp" android:layout_height="8dp" android:layout_gravity="top|start" android:layout_marginTop="8dp" android:layout_marginStart="8dp" android:background="@color/status_paid" android:alpha="0.2" />
 
-                        <TextView
-                            style="@style/App.TextAppearance.LabelSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:alpha="0.4"
-                            android:text="CLIENTS" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="16dp"
+                            android:background="@drawable/bg_section_flat"
+                            android:backgroundTint="#0A4CAF50"
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/txt_total_clients_val"
-                            style="@style/App.TextAppearance.NumberBig"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="0"
-                            android:textSize="20sp" />
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/ic_typcn_group_outline"
+                                app:tint="@color/status_paid"
+                                android:alpha="0.6"
+                                android:layout_marginBottom="8dp"/>
 
-                        <TextView
-                            android:id="@+id/txt_client_count_trend"
-                            style="@style/App.TextAppearance.LabelSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:alpha="0.3"
-                            android:textSize="9sp"
-                            android:text="N/A" />
-                    </LinearLayout>
+                            <TextView
+                                style="@style/App.TextAppearance.LabelSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:alpha="0.4"
+                                android:text="CLIENTS" />
+
+                            <TextView
+                                android:id="@+id/txt_total_clients_val"
+                                style="@style/App.TextAppearance.NumberBig"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="0"
+                                android:textSize="20sp" />
+
+                            <TextView
+                                android:id="@+id/txt_client_count_trend"
+                                style="@style/App.TextAppearance.LabelSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:alpha="0.3"
+                                android:textSize="9sp"
+                                android:text="N/A" />
+                        </LinearLayout>
+                    </FrameLayout>
                 </LinearLayout>
 
                 <!-- Space for Bottom padding -->

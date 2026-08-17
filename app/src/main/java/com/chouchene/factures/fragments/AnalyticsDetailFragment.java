@@ -439,7 +439,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
         
         lineChart.setData(data);
         styleChartBase(lineChart, labels);
-        lineChart.animateY(1000);
+        lineChart.animateY(1500, com.github.mikephil.charting.animation.Easing.EaseInOutQuart);
 
         lineChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
@@ -499,7 +499,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
         xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(false);
         xAxis.setLabelCount(labels.size());
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setValueFormatter(new com.github.mikephil.charting.formatter.IndexAxisValueFormatter(labels));
         xAxis.setTextColor(resolveColor(getContext(), com.google.android.material.R.attr.colorOnSurfaceVariant));
         xAxis.setTextSize(10f);
         xAxis.setYOffset(10f);
@@ -516,8 +516,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
 
         float avg = 0;
         if (chart.getData() != null) {
-            avg = chart.getData().getYMax() / 2; // Simple half-way benchmark for demo
-            // Better: calculate real average from entries
+            avg = chart.getData().getYMax() / 2;
         }
         
         com.github.mikephil.charting.components.LimitLine ll = new com.github.mikephil.charting.components.LimitLine(avg, "");

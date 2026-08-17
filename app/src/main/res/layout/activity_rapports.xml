@@ -68,18 +68,18 @@
                 style="@style/App.TextAppearance.LabelSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:alpha="0.5"
-                android:letterSpacing="0.02"
-                android:text="ANALYSE &amp; RAPPORTS" />
+                android:alpha="0.4"
+                android:letterSpacing="0.1"
+                android:text="RAPPORTS SYSTÈME" />
 
             <TextView
                 style="@style/App.TextAppearance.Headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
-                android:text="Dashboard"
-                android:textSize="26sp"
-                android:letterSpacing="-0.02" />
+                android:text="Analyse"
+                android:textSize="24sp"
+                android:letterSpacing="-0.01" />
         </LinearLayout>
     </LinearLayout>
 
@@ -101,16 +101,19 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <!-- Compact Tab Selection (with its own padding for alignment) -->
+            <!-- Compact Tab Selection (Technical Minimalist) -->
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/rapportsTabLayout"
                 style="@style/App.TabLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:paddingHorizontal="12dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:paddingHorizontal="16dp"
                 android:background="@android:color/transparent"
-                app:tabIndicatorHeight="2dp"
+                app:tabIndicatorHeight="1dp"
+                app:tabIndicatorFullWidth="false"
+                app:tabRippleColor="@null"
                 app:tabSelectedTextColor="?attr/colorPrimary"
                 app:tabTextAppearance="@style/App.TextAppearance.LabelSmall" />
 

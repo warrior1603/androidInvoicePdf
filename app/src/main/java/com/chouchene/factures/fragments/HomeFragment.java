@@ -49,6 +49,13 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import android.graphics.drawable.GradientDrawable;
 
 public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryActionListener {
@@ -57,7 +64,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
     private boolean showingMonthly = true;
     private float monthlyProfitValue = 0f, dailyProfitValue = 0f;
     private com.google.android.material.progressindicator.LinearProgressIndicator progressExpenseRatio;
-    private View segmentInvoices, segmentOrders, segmentBookings;
+    private BarChart distributionBars;
     private TextView txtOverdueAlert;
     private View badgeOverdue, cardOverdue;
     private View badgeDocuments, badgeClients, badgeAgenda;
@@ -94,9 +101,8 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         txtBonCount = view.findViewById(R.id.txt_home_bon_count);
         txtBookingCount = view.findViewById(R.id.txt_home_booking_count);
         txtBriefingLine = view.findViewById(R.id.txt_briefing_line);
-        segmentInvoices = view.findViewById(R.id.segment_invoices);
-        segmentOrders = view.findViewById(R.id.segment_orders);
-        segmentBookings = view.findViewById(R.id.segment_bookings);
+        distributionBars = view.findViewById(R.id.chart_distribution_bars);
+        setupDistributionBars();
         rvRecent = view.findViewById(R.id.rv_home_recent);
         badgeOverdue = view.findViewById(R.id.badge_documents);
         badgeDocuments = view.findViewById(R.id.badge_documents);
@@ -138,7 +144,6 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         View cardDashboard = view.findViewById(R.id.card_dashboard);
         View cardProfile = view.findViewById(R.id.card_profile);
         View cardSettings = view.findViewById(R.id.card_settings);
-        View distributionContainer = view.findViewById(R.id.container_distribution_rail);
 
         MaterialCardView cardAvatar = view.findViewById(R.id.card_home_user_avatar);
         if (cardAvatar != null) {
@@ -169,18 +174,13 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
             v.performHapticFeedback(android.view.HapticFeedbackConstants.VIRTUAL_KEY);
             Navigation.findNavController(v).navigate(R.id.settingsActivity);
         });
-        
-        if (distributionContainer != null) {
-            distributionContainer.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.parametresFragment));
-        }
 
         // Apply touch animations
         setupClickAnimations(
                 cardDocuments, cardClients, cardAgenda, cardDashboard, cardProfile, cardSettings,
                 view.findViewById(R.id.stat_invoices),
                 view.findViewById(R.id.stat_orders),
-                view.findViewById(R.id.stat_bookings),
-                distributionContainer
+                view.findViewById(R.id.stat_bookings)
         );
 
         // Entrance cascade for services
@@ -400,10 +400,13 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
 
                     if (income > 0) {
                         int ratio = (int) ((expenses / income) * 100);
-                        progressExpenseRatio.setProgress(Math.min(ratio, 100), true);
-                    } else {
+                        if (progressExpenseRatio != null) {
+                            progressExpenseRatio.setProgress(Math.min(ratio, 100), true);
+                        }
+                    } else if (progressExpenseRatio != null) {
                         progressExpenseRatio.setProgress(0, true);
                     }
+
                     txtInvoiceCount.setText(String.valueOf(invoiceCount));
                     txtBonCount.setText(String.valueOf(bonCount));
                     txtBookingCount.setText(String.valueOf(bookingCount));
@@ -420,7 +423,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                     if (bonCount > 0) pulseView(statOrders);
                     if (bookingCount > 0) pulseView(statBookings);
 
-                    updateDistributionChart(invoiceCount, bonCount, bookingCount);
+                    updateDistributionBars(invoiceCount, bonCount, bookingCount);
 
                     adapter.setData(finalActivity);
                     
@@ -470,6 +473,76 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                 });
             }
         });
+    }
+
+    private void setupDistributionBars() {
+        if (distributionBars == null) return;
+
+        distributionBars.getDescription().setEnabled(false);
+        distributionBars.getLegend().setEnabled(false);
+        distributionBars.setTouchEnabled(false);
+        distributionBars.setDrawGridBackground(false);
+        distributionBars.setDrawBarShadow(false);
+
+        // X-Axis: Hidden (Using external XML labels for perfect coloring)
+        XAxis xAxis = distributionBars.getXAxis();
+        xAxis.setEnabled(true);
+        xAxis.setDrawLabels(false);
+        xAxis.setDrawGridLines(false);
+        xAxis.setDrawAxisLine(false);
+        xAxis.setAxisMinimum(-0.5f);
+        xAxis.setAxisMaximum(2.5f);
+
+        // Y-Axis: Calibration Grid
+        YAxis leftAxis = distributionBars.getAxisLeft();
+        leftAxis.setEnabled(true);
+        leftAxis.setDrawAxisLine(false);
+        leftAxis.setDrawLabels(false);
+        leftAxis.setGridColor(resolveColor(requireContext(), com.google.android.material.R.attr.colorOutlineVariant));
+        leftAxis.setGridLineWidth(0.5f);
+        leftAxis.enableGridDashedLine(10f, 10f, 0f);
+        leftAxis.setAxisMinimum(0f);
+        leftAxis.setSpaceTop(20f);
+
+        distributionBars.getAxisRight().setEnabled(false);
+        
+        // Maximize bar area in the new larger container
+        distributionBars.setViewPortOffsets(0f, 15f, 0f, 0f);
+    }
+
+    private int resolveColor(Context context, int attr) {
+        android.util.TypedValue typedValue = new android.util.TypedValue();
+        context.getTheme().resolveAttribute(attr, typedValue, true);
+        return typedValue.data;
+    }
+
+    private void updateDistributionBars(int invoices, int bons, int bookings) {
+        if (distributionBars == null) return;
+
+        List<BarEntry> entries = new ArrayList<>();
+        // Increased floor value slightly for presence
+        entries.add(new BarEntry(0f, Math.max(0.3f, (float) invoices)));
+        entries.add(new BarEntry(1f, Math.max(0.3f, (float) bons)));
+        entries.add(new BarEntry(2f, Math.max(0.3f, (float) bookings)));
+
+        BarDataSet dataSet = new BarDataSet(entries, "");
+        dataSet.setDrawValues(false);
+
+        int[] colors = {
+                ContextCompat.getColor(requireContext(), R.color.icon_documents),
+                ContextCompat.getColor(requireContext(), R.color.icon_dashboard),
+                ContextCompat.getColor(requireContext(), R.color.icon_agenda)
+        };
+        dataSet.setColors(colors);
+        dataSet.setHighLightAlpha(0);
+
+        BarData data = new BarData(dataSet);
+        // Balanced bar width for better visibility while keeping technical feel
+        data.setBarWidth(0.4f);
+        
+        distributionBars.setData(data);
+        distributionBars.animateY(1500, com.github.mikephil.charting.animation.Easing.EaseInOutQuart);
+        distributionBars.invalidate();
     }
 
     private void setupActivitySparkline() {
@@ -534,26 +607,6 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                 });
             }
         });
-    }
-
-    private void updateDistributionChart(int invoices, int bons, int bookings) {
-        int total = invoices + bons + bookings;
-        
-        setWeight(segmentInvoices, total > 0 ? (float) invoices / total : 1f);
-        setWeight(segmentOrders, total > 0 ? (float) bons / total : 1f);
-        setWeight(segmentBookings, total > 0 ? (float) bookings / total : 1f);
-        
-        // Hide if zero to make the rail look better
-        if (segmentInvoices != null) segmentInvoices.setVisibility(invoices > 0 ? View.VISIBLE : View.GONE);
-        if (segmentOrders != null) segmentOrders.setVisibility(bons > 0 ? View.VISIBLE : View.GONE);
-        if (segmentBookings != null) segmentBookings.setVisibility(bookings > 0 ? View.VISIBLE : View.GONE);
-    }
-
-    private void setWeight(View view, float weight) {
-        if (view == null) return;
-        android.widget.LinearLayout.LayoutParams params = (android.widget.LinearLayout.LayoutParams) view.getLayoutParams();
-        params.weight = Math.max(0.01f, weight); // Avoid 0 weight
-        view.setLayoutParams(params);
     }
 
     @Override
