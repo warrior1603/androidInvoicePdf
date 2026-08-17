@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="24dp">
+                android:layout_marginBottom="20dp">
 
                 <View
                     android:layout_width="6dp"
@@ -203,7 +203,7 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="28dp"
+                                android:layout_marginTop="20dp"
                                 android:orientation="horizontal">
 
                                 <LinearLayout
@@ -257,7 +257,7 @@
                             <FrameLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="32dp"
+                                android:layout_marginTop="24dp"
                                 android:layout_marginEnd="16dp">
 
                                 <LinearLayout
@@ -293,7 +293,7 @@
                         <!-- Right Column: Visual Activity DNA [Calibration Mode] -->
                         <LinearLayout
                             android:layout_width="0dp"
-                            android:layout_height="150dp"
+                            android:layout_height="140dp"
                             android:layout_weight="0.8"
                             android:layout_gravity="center_vertical"
                             android:orientation="vertical"
@@ -308,7 +308,7 @@
                             <!-- Technical Color-Coded Labels -->
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="48dp"
+                                android:layout_height="32dp"
                                 android:orientation="horizontal"
                                 android:layout_marginTop="4dp"
                                 android:gravity="center_vertical">
