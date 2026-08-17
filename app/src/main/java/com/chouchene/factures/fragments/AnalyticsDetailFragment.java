@@ -183,6 +183,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
             Date today = new Date();
             float revenue = 0;
             float prevRevenue = 0;
+            float expenses = 0;
             int count = 0;
             int clientCount = DatabaseClient.getInstance(context).getAppDatabase().clientDao().getAllClients().size();
             List<BarEntry> chartEntries = new ArrayList<>();
@@ -196,6 +197,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                     float dailyIncome = db.getDailyIncome(today);
                     float dailyExpenses = expenseDb.getDailyExpenses(today);
                     revenue = dailyIncome - dailyExpenses;
+                    expenses = dailyExpenses;
                     count = db.getDailyCount(today);
                     labelTop = "Bénéfice du jour";
 
@@ -222,6 +224,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                     float monthlyIncome = db.getMonthlyIncome(today);
                     float monthlyExpenses = expenseDb.getMonthlyExpenses(today);
                     revenue = monthlyIncome - monthlyExpenses;
+                    expenses = monthlyExpenses;
                     count = db.getMonthlyCount(today);
                     labelTop = "Bénéfice du mois";
 
@@ -248,6 +251,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                     float yearlyIncome = db.getYearlyIncome(today);
                     float yearlyExpenses = expenseDb.getYearlyExpenses(today);
                     revenue = yearlyIncome - yearlyExpenses;
+                    expenses = yearlyExpenses;
                     count = db.getYearlyCount(today);
                     labelTop = "Bénéfice de l'année";
 
@@ -274,6 +278,8 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
 
                 case ALL_TIME:
                     revenue = db.getTotalRevenue();
+                    expenses = expenseDb.getTotalExpenses();
+                    revenue -= expenses;
                     count = db.getTotalCount();
                     labelTop = "Revenu total";
 
@@ -294,6 +300,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
 
             final float finalRev = revenue;
             final float finalPrevRev = prevRevenue;
+            final float finalExpenses = expenses;
             final int finalCount = count;
             final String finalLabelTop = labelTop;
             final int finalClientCount = clientCount;
@@ -420,20 +427,16 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
         int primaryColor = resolveColor(getContext(), androidx.appcompat.R.attr.colorPrimary);
 
         dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-        dataSet.setDrawFilled(true);
+        dataSet.setDrawFilled(false);
         dataSet.setDrawCircles(true);
-        dataSet.setCircleRadius(4f);
+        dataSet.setCircleRadius(3f);
         dataSet.setCircleColor(primaryColor);
         dataSet.setDrawCircleHole(false);
-        dataSet.setLineWidth(3f);
+        dataSet.setLineWidth(2f);
         dataSet.setColor(primaryColor);
         dataSet.setHighlightEnabled(true);
         dataSet.setHighLightColor(primaryColor);
         
-        android.graphics.drawable.Drawable drawable = ContextCompat.getDrawable(requireContext(), R.drawable.revenue_gradient);
-        if (drawable != null) dataSet.setFillDrawable(drawable);
-        else dataSet.setFillColor(primaryColor);
-
         LineData data = new LineData(dataSet);
         data.setDrawValues(false);
         
@@ -506,7 +509,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
 
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.setDrawGridLines(true);
-        leftAxis.setGridColor(Color.argb(20, 0, 0, 0));
+        leftAxis.setGridColor(Color.argb(12, 0, 0, 0));
         leftAxis.setDrawAxisLine(false);
         leftAxis.setLabelCount(4, false);
         leftAxis.setTextColor(resolveColor(getContext(), com.google.android.material.R.attr.colorOnSurfaceVariant));
@@ -514,20 +517,7 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
         leftAxis.setXOffset(10f);
         leftAxis.setAxisMinimum(0f);
 
-        float avg = 0;
-        if (chart.getData() != null) {
-            avg = chart.getData().getYMax() / 2;
-        }
-        
-        com.github.mikephil.charting.components.LimitLine ll = new com.github.mikephil.charting.components.LimitLine(avg, "");
-        ll.setLineColor(Color.LTGRAY);
-        ll.setLineWidth(1f);
-        ll.enableDashedLine(10f, 10f, 0f);
-        ll.setLabelPosition(com.github.mikephil.charting.components.LimitLine.LimitLabelPosition.RIGHT_TOP);
-        ll.setTextSize(8f);
-        
         leftAxis.removeAllLimitLines();
-        leftAxis.addLimitLine(ll);
 
         chart.getAxisRight().setEnabled(false);
     }
