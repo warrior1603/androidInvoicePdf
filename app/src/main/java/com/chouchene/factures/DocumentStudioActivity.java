@@ -129,6 +129,8 @@ public class DocumentStudioActivity extends AppCompatActivity {
         setupInputs();
         setupStepper();
 
+        handlePreFilledClientData(getIntent());
+
         if (mode.equals(MODE_EDIT) && docId != -1) {
             loadExistingDocument();
         } else {
@@ -655,6 +657,23 @@ public class DocumentStudioActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    private void handlePreFilledClientData(Intent intent) {
+        String name = intent.getStringExtra("EXTRA_CLIENT_NAME");
+        if (name != null) {
+            if (type.equals(TYPE_INVOICE)) {
+                editInvName.setText(name);
+                editInvEmail.setText(intent.getStringExtra("EXTRA_CLIENT_EMAIL"));
+                editInvTel.setText(intent.getStringExtra("EXTRA_CLIENT_PHONE"));
+                editInvStreet.setText(intent.getStringExtra("EXTRA_CLIENT_STREET"));
+                editInvZip.setText(intent.getStringExtra("EXTRA_CLIENT_ZIP"));
+                editInvCity.setText(intent.getStringExtra("EXTRA_CLIENT_CITY"));
+            } else {
+                editBonPassenger.setText(name);
+                editBonTel.setText(intent.getStringExtra("EXTRA_CLIENT_PHONE"));
+            }
+        }
     }
 
     private void prefillDefaults() {
