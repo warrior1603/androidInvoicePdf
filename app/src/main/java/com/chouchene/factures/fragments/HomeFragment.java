@@ -45,27 +45,26 @@ import androidx.core.content.FileProvider;
 import androidx.core.content.ContextCompat;
 import android.net.Uri;
 import android.content.Intent;
-import android.graphics.Color;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import android.graphics.drawable.GradientDrawable;
 
 public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryActionListener {
 
-    private TextView txtGreeting, txtRevenue, txtRevenueDaily, txtIncome, txtExpenses, txtInvoiceCount, txtBonCount, txtBookingCount, txtCurrentDate, txtBriefingLine;
+    private TextView txtGreeting, txtRevenue, txtRevenueDaily, txtIncome, txtExpenses, txtInvoiceCount, txtBonCount, txtBookingCount, txtCurrentDate, txtBriefingLine, txtRevenueTrend;
     private boolean showingMonthly = true;
     private float monthlyProfitValue = 0f, dailyProfitValue = 0f;
-    private ImageView imgRevenueTrend;
     private com.google.android.material.progressindicator.LinearProgressIndicator progressExpenseRatio;
+    private View segmentInvoices, segmentOrders, segmentBookings;
     private TextView txtOverdueAlert;
-    private PieChart distributionChart;
     private View badgeOverdue, cardOverdue;
     private View badgeDocuments, badgeClients, badgeAgenda;
-    private ImageView imgServiceDocs, imgServiceClients, imgServiceAgenda;
+    private ImageView imgServiceDocs, imgServiceClients, imgServiceAgenda, imgServiceStats, imgServiceProfile, imgServiceSettings;
     private com.facebook.shimmer.ShimmerFrameLayout shimmerContainer;
     private androidx.core.widget.NestedScrollView scrollView;
-    private View sparklineBackground;
+    private LineChart activitySparkline;
     private View statInvoices, statOrders, statBookings;
     private RecyclerView rvRecent;
     private HistoryAdapter adapter;
@@ -87,6 +86,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         txtGreeting = view.findViewById(R.id.txt_greeting);
         txtCurrentDate = view.findViewById(R.id.txt_current_date);
         txtRevenue = view.findViewById(R.id.txt_home_revenue);
+        txtRevenueTrend = view.findViewById(R.id.txt_home_revenue_trend);
         txtIncome = view.findViewById(R.id.txt_home_income);
         txtExpenses = view.findViewById(R.id.txt_home_expenses);
         progressExpenseRatio = view.findViewById(R.id.progress_expense_ratio);
@@ -94,7 +94,9 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         txtBonCount = view.findViewById(R.id.txt_home_bon_count);
         txtBookingCount = view.findViewById(R.id.txt_home_booking_count);
         txtBriefingLine = view.findViewById(R.id.txt_briefing_line);
-        distributionChart = view.findViewById(R.id.chart_distribution);
+        segmentInvoices = view.findViewById(R.id.segment_invoices);
+        segmentOrders = view.findViewById(R.id.segment_orders);
+        segmentBookings = view.findViewById(R.id.segment_bookings);
         rvRecent = view.findViewById(R.id.rv_home_recent);
         badgeOverdue = view.findViewById(R.id.badge_documents);
         badgeDocuments = view.findViewById(R.id.badge_documents);
@@ -103,11 +105,15 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         imgServiceDocs = view.findViewById(R.id.img_service_docs);
         imgServiceClients = view.findViewById(R.id.img_service_clients);
         imgServiceAgenda = view.findViewById(R.id.img_service_agenda);
+        imgServiceStats = view.findViewById(R.id.img_service_stats);
+        imgServiceProfile = view.findViewById(R.id.img_service_profile);
+        imgServiceSettings = view.findViewById(R.id.img_service_settings);
         cardOverdue = view.findViewById(R.id.card_overdue_alert);
         txtOverdueAlert = view.findViewById(R.id.txt_overdue_count);
         shimmerContainer = view.findViewById(R.id.shimmer_view_container);
         scrollView = view.findViewById(R.id.home_scroll_view);
-        sparklineBackground = view.findViewById(R.id.sparkline_image);
+        activitySparkline = view.findViewById(R.id.activity_sparkline);
+        setupActivitySparkline();
         statInvoices = view.findViewById(R.id.stat_invoices);
         statOrders = view.findViewById(R.id.stat_orders);
         statBookings = view.findViewById(R.id.stat_bookings);
@@ -132,7 +138,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         View cardDashboard = view.findViewById(R.id.card_dashboard);
         View cardProfile = view.findViewById(R.id.card_profile);
         View cardSettings = view.findViewById(R.id.card_settings);
-        View chartContainer = view.findViewById(R.id.container_chart);
+        View distributionContainer = view.findViewById(R.id.container_distribution_rail);
 
         MaterialCardView cardAvatar = view.findViewById(R.id.card_home_user_avatar);
         if (cardAvatar != null) {
@@ -164,8 +170,8 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
             Navigation.findNavController(v).navigate(R.id.settingsActivity);
         });
         
-        if (chartContainer != null) {
-            chartContainer.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.parametresFragment));
+        if (distributionContainer != null) {
+            distributionContainer.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.parametresFragment));
         }
 
         // Apply touch animations
@@ -174,7 +180,7 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                 view.findViewById(R.id.stat_invoices),
                 view.findViewById(R.id.stat_orders),
                 view.findViewById(R.id.stat_bookings),
-                chartContainer
+                distributionContainer
         );
 
         // Entrance cascade for services
@@ -236,8 +242,8 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
         
         scrollView.setOnScrollChangeListener((androidx.core.widget.NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             // Parallax factor for sparkline
-            if (sparklineBackground != null) {
-                sparklineBackground.setTranslationY(scrollY * 0.15f);
+            if (activitySparkline != null) {
+                activitySparkline.setTranslationY(scrollY * 0.15f);
             }
             
             // Subtle floating for stats cards
@@ -389,8 +395,8 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                     if (v == null) return;
 
                     animateNumber(txtRevenue, showingMonthly ? monthlyProfitValue : dailyProfitValue);
-                    txtIncome.setText(String.format(Locale.getDefault(), "%.2f €", income));
-                    txtExpenses.setText(String.format(Locale.getDefault(), "%.2f €", expenses));
+                    txtIncome.setText(String.format(Locale.getDefault(), "▲ %.2f €", income));
+                    txtExpenses.setText(String.format(Locale.getDefault(), "▼ %.2f €", expenses));
 
                     if (income > 0) {
                         int ratio = (int) ((expenses / income) * 100);
@@ -459,64 +465,95 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
                             cardOverdue.setVisibility(View.GONE);
                         }
                     }
+
+                    loadActivitySparklineData();
+                });
+            }
+        });
+    }
+
+    private void setupActivitySparkline() {
+        if (activitySparkline == null) return;
+
+        activitySparkline.getDescription().setEnabled(false);
+        activitySparkline.getLegend().setEnabled(false);
+        activitySparkline.setTouchEnabled(false);
+        activitySparkline.setDrawGridBackground(false);
+
+        // Hide Axes
+        activitySparkline.getXAxis().setEnabled(false);
+        activitySparkline.getAxisLeft().setEnabled(false);
+        activitySparkline.getAxisRight().setEnabled(false);
+
+        // Standard offsets to keep it visible
+        activitySparkline.getAxisLeft().setSpaceTop(20f); 
+        activitySparkline.getAxisLeft().setSpaceBottom(20f);
+
+        activitySparkline.setViewPortOffsets(0f, 10f, 0f, 10f);
+    }
+
+    private void loadActivitySparklineData() {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            List<Entry> entries = new ArrayList<>();
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.DAY_OF_YEAR, -9);
+
+            for (int i = 0; i < 10; i++) {
+                int count = db.invoiceDao().getDailyCount(cal.getTime());
+                entries.add(new Entry(i, (float) count));
+                cal.add(Calendar.DAY_OF_YEAR, 1);
+            }
+
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    LineDataSet dataSet = new LineDataSet(entries, "Activity");
+                    dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+                    dataSet.setDrawCircles(false);
+                    dataSet.setDrawValues(false);
+                    dataSet.setLineWidth(2.5f);
+                    
+                    // Slightly more visible color
+                    int color = ContextCompat.getColor(requireContext(), R.color.primary);
+                    dataSet.setColor(android.graphics.Color.argb(120, android.graphics.Color.red(color), android.graphics.Color.green(color), android.graphics.Color.blue(color)));
+                    dataSet.setDrawFilled(true);
+
+                    // Slightly more visible gradient
+                    GradientDrawable gradient = new GradientDrawable(
+                            GradientDrawable.Orientation.TOP_BOTTOM,
+                            new int[]{
+                                    android.graphics.Color.argb(60, android.graphics.Color.red(color), android.graphics.Color.green(color), android.graphics.Color.blue(color)),
+                                    android.graphics.Color.TRANSPARENT
+                            }
+                    );
+                    dataSet.setFillDrawable(gradient);
+
+                    LineData lineData = new LineData(dataSet);
+                    activitySparkline.setData(lineData);
+                    activitySparkline.animateY(1200);
+                    activitySparkline.invalidate();
                 });
             }
         });
     }
 
     private void updateDistributionChart(int invoices, int bons, int bookings) {
-        Context context = getContext();
-        if (distributionChart == null || context == null) return;
-
-        ArrayList<PieEntry> entries = new ArrayList<>();
-        if (invoices > 0) entries.add(new PieEntry(invoices, ""));
-        if (bons > 0) entries.add(new PieEntry(bons, ""));
-        if (bookings > 0) entries.add(new PieEntry(bookings, ""));
-
-        if (entries.isEmpty()) {
-            distributionChart.setVisibility(View.INVISIBLE);
-            return;
-        }
-
-        distributionChart.setVisibility(View.VISIBLE);
-
-        PieDataSet dataSet = new PieDataSet(entries, "");
-        ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(ContextCompat.getColor(context, R.color.icon_documents));
-        colors.add(ContextCompat.getColor(context, R.color.icon_dashboard));
-        colors.add(ContextCompat.getColor(context, R.color.icon_agenda));
-        
-        dataSet.setColors(colors);
-        dataSet.setDrawValues(false);
-        dataSet.setSliceSpace(4f);
-
-        PieData data = new PieData(dataSet);
-        distributionChart.setData(data);
-        
-        distributionChart.setDrawHoleEnabled(true);
-        distributionChart.setHoleColor(Color.TRANSPARENT);
-        distributionChart.setTransparentCircleRadius(0f);
-        distributionChart.setHoleRadius(88f); // Classic thin donut
-        
-        // Total count in the center
         int total = invoices + bons + bookings;
-        distributionChart.setCenterText(String.valueOf(total));
-        distributionChart.setCenterTextSize(14f);
-        distributionChart.setCenterTextColor(getThemeColor(com.google.android.material.R.attr.colorOnSurface));
         
-        distributionChart.getLegend().setEnabled(false);
-        distributionChart.getDescription().setEnabled(false);
-        distributionChart.setRotationEnabled(false);
-        distributionChart.setTouchEnabled(false);
+        setWeight(segmentInvoices, total > 0 ? (float) invoices / total : 1f);
+        setWeight(segmentOrders, total > 0 ? (float) bons / total : 1f);
+        setWeight(segmentBookings, total > 0 ? (float) bookings / total : 1f);
         
-        distributionChart.animateY(1400, com.github.mikephil.charting.animation.Easing.EaseInOutQuart);
-        distributionChart.invalidate();
+        // Hide if zero to make the rail look better
+        if (segmentInvoices != null) segmentInvoices.setVisibility(invoices > 0 ? View.VISIBLE : View.GONE);
+        if (segmentOrders != null) segmentOrders.setVisibility(bons > 0 ? View.VISIBLE : View.GONE);
+        if (segmentBookings != null) segmentBookings.setVisibility(bookings > 0 ? View.VISIBLE : View.GONE);
     }
 
-    private int getThemeColor(int attr) {
-        android.util.TypedValue typedValue = new android.util.TypedValue();
-        requireContext().getTheme().resolveAttribute(attr, typedValue, true);
-        return typedValue.data;
+    private void setWeight(View view, float weight) {
+        if (view == null) return;
+        android.widget.LinearLayout.LayoutParams params = (android.widget.LinearLayout.LayoutParams) view.getLayoutParams();
+        params.weight = Math.max(0.01f, weight); // Avoid 0 weight
+        view.setLayoutParams(params);
     }
 
     @Override
@@ -647,8 +684,21 @@ public class HomeFragment extends Fragment implements HistoryAdapter.OnHistoryAc
 
     private void startPulseAnimations() {
         if (imgServiceDocs != null) pulseViewRepeating(imgServiceDocs, 0);
-        if (imgServiceAgenda != null) pulseViewRepeating(imgServiceAgenda, 1500);
-        if (imgServiceClients != null) pulseViewRepeating(imgServiceClients, 3000);
+        if (imgServiceAgenda != null) pulseViewRepeating(imgServiceAgenda, 1000);
+        if (imgServiceClients != null) pulseViewRepeating(imgServiceClients, 2000);
+        if (imgServiceStats != null) pulseViewRepeating(imgServiceStats, 3000);
+        if (imgServiceProfile != null) pulseViewRepeating(imgServiceProfile, 4000);
+        if (imgServiceSettings != null) pulseViewRepeating(imgServiceSettings, 5000);
+
+        // Pulsating LIVE badge logic
+        View liveBadge = getView() != null ? getView().findViewById(R.id.badge_live_status) : null;
+        if (liveBadge != null) {
+            android.view.animation.AlphaAnimation blink = new android.view.animation.AlphaAnimation(1.0f, 0.3f);
+            blink.setDuration(1200);
+            blink.setRepeatMode(android.view.animation.Animation.REVERSE);
+            blink.setRepeatCount(android.view.animation.Animation.INFINITE);
+            liveBadge.startAnimation(blink);
+        }
     }
 
     private void pulseViewRepeating(View view, long delay) {

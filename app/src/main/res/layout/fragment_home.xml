@@ -105,62 +105,135 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:paddingStart="12dp"
                     android:paddingEnd="16dp"
                     android:paddingTop="4dp"
                     android:paddingBottom="36dp">
 
+                    <!-- Title Full Width -->
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1.3"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <View
+                                android:layout_width="4dp"
+                                android:layout_height="4dp"
+                                android:layout_gravity="top|end"
+                                android:background="@drawable/bg_terminal_dot"
+                                android:backgroundTint="?attr/colorPrimary" />
                             <ImageView
                                 android:layout_width="14dp"
                                 android:layout_height="14dp"
                                 android:src="@drawable/ic_typcn_chart_line"
                                 app:tint="?attr/colorPrimary"
                                 android:alpha="0.8" />
-                            <TextView
-                                style="@style/App.TextAppearance.LabelSmall"
+                        </FrameLayout>
+                        <TextView
+                            style="@style/App.TextAppearance.LabelSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:letterSpacing="0.1"
+                            android:textSize="12sp"
+                            android:textColor="?attr/colorPrimary"
+                            android:text="FLUX DE TRÉSORERIE [NET_VAL]" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/bg_separator_fading" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:baselineAligned="false"
+                        android:layout_marginTop="12dp">
+
+                        <!-- Main Column: Revenue & Breakdown -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.2"
+                            android:orientation="vertical">
+
+                            <!-- Revenue & Trend Inline -->
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:letterSpacing="0.25"
-                                android:textSize="12sp"
-                                android:textColor="?attr/colorPrimary"
-                                android:text="FLUX DE TRÉSORERIE" />
+                                android:gravity="bottom"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:id="@+id/txt_home_revenue"
+                                    style="@style/App.TextAppearance.Headline"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0.00 €"
+                                    android:textSize="40sp"
+                                    android:textColor="?attr/colorOnSurface"
+                                    android:letterSpacing="-0.04" />
+
+                                <TextView
+                                    android:id="@+id/txt_home_revenue_trend"
+                                    style="@style/App.TextAppearance.LabelSmall"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="12dp"
+                                    android:layout_marginBottom="8dp"
+                                    android:background="@drawable/bg_pill_soft"
+                                    android:backgroundTint="#0D4CAF50"
+                                    android:paddingHorizontal="6dp"
+                                    android:paddingVertical="1dp"
+                                    android:text="+0.0%"
+                                    android:textColor="@color/status_paid"
+                                    android:textSize="9sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <!-- Compact Distribution Rail -->
+                            <LinearLayout
+                                android:id="@+id/container_distribution_rail"
+                                android:layout_width="match_parent"
+                                android:layout_height="3dp"
+                                android:layout_marginTop="16dp"
+                                android:orientation="horizontal"
+                                android:alpha="0.8">
+                                <View android:id="@+id/segment_invoices" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="@color/icon_documents" />
+                                <View android:layout_width="1dp" android:layout_height="match_parent" android:background="?attr/colorSurface" />
+                                <View android:id="@+id/segment_orders" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="@color/icon_dashboard" />
+                                <View android:layout_width="1dp" android:layout_height="match_parent" android:background="?attr/colorSurface" />
+                                <View android:id="@+id/segment_bookings" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="@color/icon_agenda" />
+                            </LinearLayout>
+
+                            <!-- Rail Labels -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:orientation="horizontal">
+                                <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="FAC" android:alpha="0.3" android:textSize="7sp" />
+                                <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="BON" android:alpha="0.3" android:textSize="7sp" android:gravity="center" />
+                                <TextView style="@style/App.TextAppearance.LabelSmall" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="CRSE" android:alpha="0.3" android:textSize="7sp" android:gravity="end" />
+                            </LinearLayout>
+
                         </LinearLayout>
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="8dp"
-                            android:background="@drawable/bg_separator_fading" />
-
-                    <TextView
-                        android:id="@+id/txt_home_revenue"
-                        style="@style/App.TextAppearance.Headline"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:text="0.00 €"
-                        android:textSize="44sp"
-                        android:textColor="?attr/colorOnSurface"
-                        android:letterSpacing="-0.04" />
-
+                        <!-- Secondary Column: In/Out Metrics -->
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
-                            android:orientation="horizontal">
+                            android:layout_weight="0.8"
+                            android:paddingStart="24dp"
+                            android:gravity="center_vertical"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="vertical">
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -170,77 +243,79 @@
                                     style="@style/App.TextAppearance.LabelSmall"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:alpha="0.4"
+                                    android:alpha="0.25"
                                     android:letterSpacing="0.1"
-                                    android:text="ENTRÉES" />
+                                    android:text="▲ ENTRÉES"
+                                    android:textSize="9sp" />
                                 <TextView
                                     android:id="@+id/txt_home_income"
                                     style="@style/App.TextAppearance.TitleMedium"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="0 €"
-                                    android:textSize="13sp"
+                                    android:textSize="12sp"
                                     android:textColor="@color/status_paid" />
                             </LinearLayout>
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="32dp"
+                                android:layout_marginTop="12dp"
                                 android:orientation="vertical">
                                 <TextView
                                     style="@style/App.TextAppearance.LabelSmall"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:alpha="0.4"
+                                    android:alpha="0.25"
                                     android:letterSpacing="0.1"
-                                    android:text="SORTIES" />
+                                    android:text="▼ SORTIES"
+                                    android:textSize="9sp" />
                                 <TextView
                                     android:id="@+id/txt_home_expenses"
                                     style="@style/App.TextAppearance.TitleMedium"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="0 €"
-                                    android:textSize="13sp"
+                                    android:textSize="12sp"
                                     android:textColor="@color/status_cancelled" />
                             </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Calibrated Progress Rail -->
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="6dp"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="2dp"
+                            android:alpha="0.1">
+                            <View android:layout_width="1dp" android:layout_height="match_parent" android:background="?attr/colorOutline" />
+                            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" />
+                            <View android:layout_width="1dp" android:layout_height="4dp" android:layout_gravity="center_vertical" android:background="?attr/colorOutline" />
+                            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" />
+                            <View android:layout_width="1dp" android:layout_height="6dp" android:background="?attr/colorOutline" />
+                            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" />
+                            <View android:layout_width="1dp" android:layout_height="4dp" android:layout_gravity="center_vertical" android:background="?attr/colorOutline" />
+                            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" />
+                            <View android:layout_width="1dp" android:layout_height="match_parent" android:background="?attr/colorOutline" />
                         </LinearLayout>
 
                         <com.google.android.material.progressindicator.LinearProgressIndicator
                             android:id="@+id/progress_expense_ratio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="28dp"
+                            android:layout_gravity="center_vertical"
                             app:trackThickness="1.5dp"
                             app:trackColor="?attr/colorOutline"
                             app:indicatorColor="@color/status_cancelled"
                             android:progress="30" />
-                    </LinearLayout>
-
-                    <!-- Right Column: Distribution Chart -->
-                    <FrameLayout
-                        android:id="@+id/container_chart"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:layout_gravity="center_vertical">
-
-                        <!-- The "Soft Charter" Glow (Restored) -->
-                        <View
-                            android:layout_width="160dp"
-                            android:layout_height="160dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/bg_circle_soft"
-                            android:backgroundTint="?attr/colorPrimary"
-                            android:alpha="0.04" />
-
-                        <com.github.mikephil.charting.charts.PieChart
-                            android:id="@+id/chart_distribution"
-                            android:layout_width="120dp"
-                            android:layout_height="120dp"
-                            android:layout_gravity="center" />
                     </FrameLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -250,16 +325,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <!-- The Discret Background Sparkline (Soft Chart) -->
-                <ImageView
-                    android:id="@+id/sparkline_image"
+                <!-- The Dynamic Activity Sparkline (Aura Background) -->
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/activity_sparkline"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_gravity="center"
-                    android:alpha="0.08"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/revenue_sparkline"
-                    app:tint="?attr/colorPrimary" />
+                    android:alpha="0.4" />
 
                 <!-- Technical Connection Rail -->
                 <View
@@ -430,7 +502,7 @@
                 </LinearLayout>
             </FrameLayout>
 
-            <!-- Section 3: Navigation Services -->
+            <!-- Section 3: Navigation Services [Unified Header] -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -452,26 +524,37 @@
                     android:paddingEnd="16dp"
                     android:paddingTop="4dp">
 
+                    <!-- Title Full Width Harmonized -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
-                        <ImageView
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            android:src="@drawable/ic_typcn_th_large_outline"
-                            app:tint="@color/status_paid"
-                            android:alpha="0.8" />
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <View
+                                android:layout_width="4dp"
+                                android:layout_height="4dp"
+                                android:layout_gravity="top|end"
+                                android:background="@drawable/bg_terminal_dot"
+                                android:backgroundTint="@color/status_paid" />
+                            <ImageView
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:src="@drawable/ic_typcn_th_large_outline"
+                                app:tint="@color/status_paid"
+                                android:alpha="0.8" />
+                        </FrameLayout>
                         <TextView
                             style="@style/App.TextAppearance.LabelSmall"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
-                            android:letterSpacing="0.25"
+                            android:letterSpacing="0.1"
                             android:textSize="12sp"
                             android:textColor="@color/status_paid"
-                            android:text="SERVICES" />
+                            android:text="SERVICES [MODULE_GRID]" />
                     </LinearLayout>
 
                     <View
@@ -510,7 +593,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
-                                android:text="DOCUMENTS"
+                                android:text="DOCUMENTS •"
                                 android:alpha="0.8"
                                 android:textSize="10sp" />
                         </LinearLayout>
@@ -537,7 +620,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
-                                android:text="CLIENTS"
+                                android:text="CLIENTS •"
                                 android:alpha="0.8"
                                 android:textSize="10sp" />
                         </LinearLayout>
@@ -564,7 +647,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
-                                android:text="AGENDA"
+                                android:text="AGENDA •"
                                 android:alpha="0.8"
                                 android:textSize="10sp" />
                         </LinearLayout>
@@ -582,15 +665,15 @@
                             android:orientation="vertical"
                             android:paddingVertical="12dp">
                             <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
-                                <View android:layout_width="64dp" android:layout_height="64dp" android:background="@drawable/bg_circle_soft" android:backgroundTint="@color/icon_dashboard" android:alpha="0.04" />
-                                <ImageView android:layout_width="42dp" android:layout_height="42dp" android:layout_gravity="center" android:src="@drawable/ic_typcn_chart_pie_outline" app:tint="@color/icon_dashboard" />
+                                <View android:layout_width="64dp" android:layout_height="64dp" android:background="@drawable/bg_circle_soft" android:backgroundTint="@color/icon_dashboard" android:alpha="0.08" />
+                                <ImageView android:id="@+id/img_service_stats" android:layout_width="42dp" android:layout_height="42dp" android:layout_gravity="center" android:src="@drawable/ic_typcn_chart_pie_outline" app:tint="@color/icon_dashboard" />
                             </FrameLayout>
                             <TextView
                                 style="@style/App.TextAppearance.LabelSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
-                                android:text="STATS"
+                                android:text="STATS •"
                                 android:alpha="0.5"
                                 android:textSize="10sp" />
                         </LinearLayout>
@@ -608,15 +691,15 @@
                             android:orientation="vertical"
                             android:paddingVertical="12dp">
                             <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
-                                <View android:layout_width="64dp" android:layout_height="64dp" android:background="@drawable/bg_circle_soft" android:backgroundTint="@color/icon_profile" android:alpha="0.04" />
-                                <ImageView android:layout_width="42dp" android:layout_height="42dp" android:layout_gravity="center" android:src="@drawable/ic_typcn_entreprise" app:tint="@color/icon_profile" />
+                                <View android:layout_width="64dp" android:layout_height="64dp" android:background="@drawable/bg_circle_soft" android:backgroundTint="@color/icon_profile" android:alpha="0.08" />
+                                <ImageView android:id="@+id/img_service_profile" android:layout_width="42dp" android:layout_height="42dp" android:layout_gravity="center" android:src="@drawable/ic_typcn_entreprise" app:tint="@color/icon_profile" />
                             </FrameLayout>
                             <TextView
                                 style="@style/App.TextAppearance.LabelSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
-                                android:text="PROFIL"
+                                android:text="PROFIL •"
                                 android:alpha="0.5"
                                 android:textSize="10sp" />
                         </LinearLayout>
@@ -634,15 +717,15 @@
                             android:orientation="vertical"
                             android:paddingVertical="12dp">
                             <FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
-                                <View android:layout_width="64dp" android:layout_height="64dp" android:background="@drawable/bg_circle_soft" android:backgroundTint="@color/icon_settings" android:alpha="0.04" />
-                                <ImageView android:layout_width="32dp" android:layout_height="32dp" android:layout_gravity="center" android:src="@drawable/ic_typcn_spanner_outline" app:tint="@color/icon_settings" />
+                                <View android:layout_width="64dp" android:layout_height="64dp" android:background="@drawable/bg_circle_soft" android:backgroundTint="@color/icon_settings" android:alpha="0.08" />
+                                <ImageView android:id="@+id/img_service_settings" android:layout_width="32dp" android:layout_height="32dp" android:layout_gravity="center" android:src="@drawable/ic_typcn_spanner_outline" app:tint="@color/icon_settings" />
                             </FrameLayout>
                             <TextView
                                 style="@style/App.TextAppearance.LabelSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
-                                android:text="RÉGLAGES"
+                                android:text="RÉGLAGES •"
                                 android:alpha="0.5"
                                 android:textSize="10sp" />
                         </LinearLayout>
@@ -721,23 +804,51 @@
                             android:layout_weight="1"
                             android:orientation="horizontal"
                             android:gravity="center_vertical">
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@drawable/ic_typcn_time"
-                                app:tint="@color/icon_agenda"
-                                android:alpha="0.8" />
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+                                <View
+                                    android:layout_width="4dp"
+                                    android:layout_height="4dp"
+                                    android:layout_gravity="top|end"
+                                    android:background="@drawable/bg_terminal_dot"
+                                    android:backgroundTint="@color/icon_agenda" />
+                                <ImageView
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:src="@drawable/ic_typcn_time"
+                                    app:tint="@color/icon_agenda"
+                                    android:alpha="0.8" />
+                            </FrameLayout>
                             <TextView
                                 style="@style/App.TextAppearance.LabelSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
-                                android:letterSpacing="0.25"
+                                android:letterSpacing="0.1"
                                 android:textSize="12sp"
                                 android:textColor="@color/icon_agenda"
-                                android:text="ACTIVITÉ RÉCENTE" />
+                                android:text="ACTIVITÉ RÉCENTE [LOG_STREAM]" />
+
+                            <!-- Pulsating LIVE badge -->
+                            <TextView
+                                android:id="@+id/badge_live_status"
+                                style="@style/App.TextAppearance.LabelSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:background="@drawable/bg_pill_soft"
+                                android:backgroundTint="#1AE11D48"
+                                android:paddingHorizontal="6dp"
+                                android:paddingVertical="1dp"
+                                android:text="LIVE"
+                                android:textColor="@color/error"
+                                android:textSize="8sp"
+                                android:textStyle="bold"
+                                android:includeFontPadding="false"
+                                android:singleLine="true" />
                         </LinearLayout>
-                        <TextView android:id="@+id/btn_view_all_recent" style="@style/App.TextAppearance.LabelSmall" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="VOIR TOUT" android:textColor="?attr/colorPrimary" />
+                        <TextView android:id="@+id/btn_view_all_recent" style="@style/App.TextAppearance.LabelSmall" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="[ >> ]" android:textColor="?attr/colorPrimary" android:alpha="0.4" android:letterSpacing="0.1" />
                     </LinearLayout>
 
                     <View
@@ -746,10 +857,31 @@
                         android:layout_marginTop="8dp"
                         android:background="@drawable/bg_separator_fading"
                         android:backgroundTint="@color/icon_agenda" />
-                    <com.facebook.shimmer.ShimmerFrameLayout android:id="@+id/shimmer_view_container" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" app:shimmer_auto_start="true">
-                        <include layout="@layout/shimmer_home_recent" />
-                    </com.facebook.shimmer.ShimmerFrameLayout>
-                    <androidx.recyclerview.widget.RecyclerView android:id="@+id/rv_home_recent" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:clipToPadding="false" android:layoutAnimation="@anim/layout_animation_fall_down" android:visibility="gone" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="8dp">
+
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            android:id="@+id/shimmer_view_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            app:shimmer_auto_start="true">
+                            <include layout="@layout/shimmer_home_recent" />
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_home_recent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:clipToPadding="false"
+                            android:layoutAnimation="@anim/layout_animation_fall_down"
+                            android:visibility="gone" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
