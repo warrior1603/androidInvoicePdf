@@ -363,12 +363,13 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
                 // Update Growth
                 if (finalPrevRev > 0) {
                     float growth = ((finalRev - finalPrevRev) / finalPrevRev) * 100;
-                    growthValTxt.setText(String.format(Locale.getDefault(), "%+.1f%%", growth));
+                    String arrow = growth >= 0 ? "▲ " : "▼ ";
+                    growthValTxt.setText(String.format(Locale.getDefault(), "%s%.1f%%", arrow, Math.abs(growth)));
                     growthValTxt.setTextColor(growth >= 0 ? 
                         ContextCompat.getColor(context, R.color.status_paid) : 
                         ContextCompat.getColor(context, R.color.status_cancelled));
                 } else if (finalRev > 0) {
-                    growthValTxt.setText("+100%");
+                    growthValTxt.setText("▲ 100%");
                     growthValTxt.setTextColor(ContextCompat.getColor(context, R.color.status_paid));
                 } else {
                     growthValTxt.setText("0%");
@@ -427,15 +428,21 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
         int primaryColor = resolveColor(getContext(), androidx.appcompat.R.attr.colorPrimary);
 
         dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-        dataSet.setDrawFilled(false);
+        dataSet.setDrawFilled(true);
         dataSet.setDrawCircles(true);
-        dataSet.setCircleRadius(3f);
+        dataSet.setCircleRadius(5f);
         dataSet.setCircleColor(primaryColor);
-        dataSet.setDrawCircleHole(false);
-        dataSet.setLineWidth(2f);
+        dataSet.setDrawCircleHole(true);
+        dataSet.setCircleHoleColor(Color.WHITE);
+        dataSet.setLineWidth(3.5f);
         dataSet.setColor(primaryColor);
         dataSet.setHighlightEnabled(true);
         dataSet.setHighLightColor(primaryColor);
+
+        // Add Gradient Fill
+        android.graphics.drawable.Drawable drawable = ContextCompat.getDrawable(requireContext(), R.drawable.revenue_gradient);
+        if (drawable != null) dataSet.setFillDrawable(drawable);
+        else dataSet.setFillColor(primaryColor);
         
         LineData data = new LineData(dataSet);
         data.setDrawValues(false);
@@ -507,17 +514,30 @@ public class AnalyticsDetailFragment extends Fragment implements com.chouchene.f
         xAxis.setTextSize(10f);
         xAxis.setYOffset(10f);
 
+        int primaryColor = resolveColor(getContext(), androidx.appcompat.R.attr.colorPrimary);
+
         YAxis leftAxis = chart.getAxisLeft();
         leftAxis.setDrawGridLines(true);
-        leftAxis.setGridColor(Color.argb(12, 0, 0, 0));
+        leftAxis.setGridColor(Color.argb(15, 0, 0, 0));
         leftAxis.setDrawAxisLine(false);
         leftAxis.setLabelCount(4, false);
         leftAxis.setTextColor(resolveColor(getContext(), com.google.android.material.R.attr.colorOnSurfaceVariant));
-        leftAxis.setTextSize(10f);
+        leftAxis.setTextSize(9f);
         leftAxis.setXOffset(10f);
         leftAxis.setAxisMinimum(0f);
 
+        // Re-add Technical Limit Line
+        float avg = 0;
+        if (chart.getData() != null) {
+            avg = chart.getData().getYMax() / 2;
+        }
+        com.github.mikephil.charting.components.LimitLine ll = new com.github.mikephil.charting.components.LimitLine(avg, "");
+        ll.setLineColor(Color.argb(40, Color.red(primaryColor), Color.green(primaryColor), Color.blue(primaryColor)));
+        ll.setLineWidth(1f);
+        ll.enableDashedLine(12f, 12f, 0f);
+        
         leftAxis.removeAllLimitLines();
+        leftAxis.addLimitLine(ll);
 
         chart.getAxisRight().setEnabled(false);
     }
